@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import com.roacult.kero.oxxy.domain.exception.Failure
+import com.roacult.kero.oxxy.domain.interactors.ObservableCompleteInteractor
 import com.roacult.kero.oxxy.domain.interactors.ObservableInteractor
 import io.reactivex.disposables.CompositeDisposable
 import kotlinx.coroutines.CoroutineScope
@@ -13,7 +14,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 
 
-abstract  class BaseViewModel<S:State>(initialState:S): android.arch.lifecycle.ViewModel() {
+abstract  class BaseViewModel<S:State>(initialState:S): androidx.lifecycle.ViewModel() {
     protected val state:MutableLiveData<S> by lazy {
        var liveData:MutableLiveData<S> = MutableLiveData()
         liveData.value=initialState
@@ -41,20 +42,15 @@ abstract  class BaseViewModel<S:State>(initialState:S): android.arch.lifecycle.V
     fun withState(chenger :(s:S)->Unit){
         chenger(state.value!!)
     }
-    protected fun  <P, Type> launchObservableInteractor(interactor: ObservableInteractor<Type, P>
-                                                        , p:P, errorHandler :(f: Failure)->Unit
-                                                        , dataHandler:(t:Type)->Unit){
-       disposable.add(interactor.observe(p){
-           it.either(
-               {
-                   errorHandler(it)
-               }, {
-                   dataHandler(it)
-               }
-           )
-       })
-    }
 
+    protected fun  <P, Type> launchObservableInteractor(interactor: ObservableInteractor<Type, P>, p:P, errorHandler :(Throwable)->Unit
+                                                        , dataHandler:(Type)->Unit){
+        disposable.add(interactor.observe(p, errorHandler, dataHandler))
+    }
+    protected fun  <P, Type> launchObservableCompletedInteractor(interactor: ObservableCompleteInteractor<Type, P>, p:P, errorHandler :(Throwable)->Unit
+                                                                 , dataHandler:(Type)->Unit, onComplete:()->Unit){
+        disposable.add(interactor.observe(p, errorHandler, dataHandler, onComplete))
+    }
 
 }
 
