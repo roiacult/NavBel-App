@@ -38,7 +38,11 @@ versions.picasso_version = "2.71828"
 versions.circle_image = "3.0.0"
 versions.image_copper='2.7.+'
 versions.ktx_fragment = "1.0.0"
-
+versions.retrofit ='2.5.0'
+versions.retrofit_coroutines='0.9.2'
+versions.gson = "2.3"
+versions.okhttp = "3.12.0"
+versions.scalars_converter= "2.1.0"
 
 
 
@@ -77,7 +81,16 @@ test.junit = "org.junit.jupiter:junit-jupiter-api:$versions.junit"
 test.kotlin_junit = "org.jetbrains.kotlin:kotlin-test-junit:$versions.kotlin"
 test.mockk = "io.mockk:mockk:1.8.9.kotlin13"
 deps.test = test
-
+def retrofit =[:]
+retrofit.core = "com.squareup.retrofit2:retrofit:$versions.retrofit"
+retrofit.coroutine_support= "com.jakewharton.retrofit:retrofit2-kotlin-coroutines-adapter:$versions.retrofit_coroutines"
+retrofit.okhttp= "com.squareup.okhttp:okhttp:$versions.retrofit"
+retrofit.gson = "com.google.code.gson:gson:$versions.gson"
+retrofit.gson_retrofit = "com.squareup.retrofit2:converter-gson:$versions.retrofit"
+retrofit.okhttp3 = "com.squareup.okhttp3:okhttp:$versions.okhttp"
+retrofit.logging ="com.squareup.okhttp3:logging-interceptor:$versions.okhttp"
+retrofit.scalar_converter= "com.squareup.retrofit2:converter-scalars:$versions.scalars_converter"
+deps.retrofit = retrofit
 def kotlin = [:]
 kotlin.kotlin_jre = "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$versions.kotlin"
 kotlin.kotlin_gradle_plugin = "org.jetbrains.kotlin:kotlin-gradle-plugin:$versions.kotlin"

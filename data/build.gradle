@@ -33,7 +33,13 @@ android {
     }
 
     buildTypes {
+        debug{
+            buildConfigField 'String', "ApiKey", My_ApiKey
+            resValue 'string', "api_key", My_ApiKey
+        }
         release {
+            buildConfigField 'String', "ApiKey", My_ApiKey
+            resValue 'string', "api_key", My_ApiKey
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
@@ -64,6 +70,14 @@ dependencies {
     implementation deps.room.rxJava
     implementation  'javax.inject:javax.inject:1'
 
+    implementation deps.retrofit.core
+//    retrofit.coroutine_support
+    implementation deps.retrofit.okhttp
+    implementation deps.retrofit.gson
+    implementation deps.retrofit.gson_retrofit
+    implementation deps.retrofit.okhttp3
+    implementation deps.retrofit.logging
+    implementation deps.retrofit.scalar_converter
     testImplementation deps.room.testing
     testImplementation deps.test.junit
     testImplementation deps.test.mockk
