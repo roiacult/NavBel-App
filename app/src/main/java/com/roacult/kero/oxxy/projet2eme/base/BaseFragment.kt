@@ -15,9 +15,9 @@ open class BaseFragment :DaggerFragment(){
         super.onAttach(context)
         if (context is BaseActivity) {
             mActivity = context
+
         }
     }
-
     override fun onDetach() {
         super.onDetach()
         mActivity = null
