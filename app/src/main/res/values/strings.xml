@@ -1,3 +1,16 @@
 <resources>
     <string name="app_name">Projet2eme</string>
+    <string name="some_error">Some thing went wrong!!</string>
+    <string name="login">Login</string>
+    <string name="signin">signin</string>
+    <string name="email">email</string>
+    <string name="password">password</string>
+    <string name="email_not_valid">please provide a valid email !!</string>
+    <string name="no_internet">please connect to internet first !!</string>
+    <string name="password_short">passwword is to short !!</string>
+    <string name="email_not_found">user not found please make sure you entre an email of your school</string>
+    <string name="signin_failled">signin operation failled</string>
+    <string name="not_subscribed_yet">you are not subscribed yet please signin first !!</string>
+    <string name="login_failled">login operation failled</string>
+    <string name="familly_name">familly name</string>
 </resources>

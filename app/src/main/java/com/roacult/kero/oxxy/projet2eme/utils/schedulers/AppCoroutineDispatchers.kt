@@ -1,4 +1,4 @@
-package com.roacult.kero.oxxy.projet2eme.utils.Schedulers
+package com.roacult.kero.oxxy.projet2eme.utils.schedulers
 
 import com.roacult.kero.oxxy.domain.functional.CouroutineDispatchers
 import kotlinx.coroutines.CoroutineDispatcher

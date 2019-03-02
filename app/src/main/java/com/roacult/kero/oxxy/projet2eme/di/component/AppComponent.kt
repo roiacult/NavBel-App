@@ -1,10 +1,12 @@
-package com.roacult.kero.oxxy.projet2eme.di.Component
+package com.roacult.kero.oxxy.projet2eme.di.component
 
 import dagger.Component
 import dagger.android.AndroidInjectionModule
 import dagger.android.AndroidInjector
 import com.roacult.kero.oxxy.projet2eme.AndroidApplication
-import com.roacult.kero.oxxy.projet2eme.di.Module.AppModule
+import com.roacult.kero.oxxy.projet2eme.ui.ActivityBuilder
+import com.roacult.kero.oxxy.projet2eme.di.module.AppModule
+import com.roacult.kero.oxxy.projet2eme.di.viewmodel.ViewModelModule
 import javax.inject.Singleton
 
 /**
@@ -23,7 +25,9 @@ import javax.inject.Singleton
  * */
 @Singleton
 @Component(modules = [AndroidInjectionModule::class,
-                        AppModule::class])
+                    ActivityBuilder::class,
+                    ViewModelModule::class,
+                    AppModule::class])
 interface AppComponent : AndroidInjector<AndroidApplication> {
     @Component.Builder
     abstract class Builder: AndroidInjector.Builder<AndroidApplication>()

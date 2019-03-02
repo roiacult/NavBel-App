@@ -1,5 +1,7 @@
 package com.roacult.kero.oxxy.projet2eme.utils
 
+import com.roacult.kero.oxxy.domain.exception.Failure
+import com.roacult.kero.oxxy.domain.interactors.None
 import java.util.Arrays
 
 
@@ -35,16 +37,5 @@ data class Success<out T>(private val value: T) : Async<T>(complete = true, shou
     internal var metadata: Any? = null
 }
 
-data class Fail<out T>(val error: Throwable) : Async<T>(complete = true, shouldLoad = true) {
-    override fun equals(other: Any?): Boolean {
-        if (other !is Fail<*>) return false
-
-        val otherError = other.error
-        return error::class == otherError::class &&
-                error.message == otherError.message &&
-                error.stackTrace[0] == otherError.stackTrace[0]
-    }
-
-    override fun hashCode(): Int = Arrays.hashCode(arrayOf(error::class, error.message, error.stackTrace[0]))
-}
+data class Fail<F : Failure>(val error: F) : Async<None>(complete = true, shouldLoad = true)
 interface Incomplete

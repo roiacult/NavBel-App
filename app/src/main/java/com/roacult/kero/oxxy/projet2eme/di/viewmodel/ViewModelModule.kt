@@ -1,10 +1,11 @@
 package com.roacult.kero.oxxy.projet2eme.di.viewmodel
 
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.roacult.kero.oxxy.projet2eme.di.viewmodel.ViewModelFactory
+import com.roacult.kero.oxxy.projet2eme.ui.registration_feature.RegistrationViewModel
 import dagger.Binds
 import dagger.Module
-
+import dagger.multibindings.IntoMap
 
 
 @Module
@@ -13,5 +14,9 @@ abstract class ViewModelModule {
     internal abstract fun bindViewModelFactory(factory: ViewModelFactory): ViewModelProvider.Factory
 //
 
+    @Binds
+    @IntoMap
+    @ViewModelKey(RegistrationViewModel::class)
+    internal abstract fun registrationViewModel(viewModel : RegistrationViewModel) : ViewModel
 
 }
