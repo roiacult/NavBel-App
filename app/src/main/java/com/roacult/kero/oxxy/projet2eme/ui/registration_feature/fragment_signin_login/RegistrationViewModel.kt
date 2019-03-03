@@ -1,7 +1,7 @@
-package com.roacult.kero.oxxy.projet2eme.ui.registration_feature
+package com.roacult.kero.oxxy.projet2eme.ui.registration_feature.fragment_signin_login
 
 import com.roacult.kero.oxxy.domain.exception.Failure
-import com.roacult.kero.oxxy.domain.interactors.None
+import com.roacult.kero.oxxy.domain.interactors.MailResult
 import com.roacult.kero.oxxy.domain.interactors.SignInUseCase
 import com.roacult.kero.oxxy.domain.interactors.launchInteractor
 import com.roacult.kero.oxxy.projet2eme.base.BaseViewModel
@@ -12,7 +12,14 @@ import com.roacult.kero.oxxy.projet2eme.utils.Success
 import javax.inject.Inject
 
 class RegistrationViewModel @Inject constructor(val signInOp: SignInUseCase) :
-    BaseViewModel<RegistrationState>(RegistrationState(REGISTRATION_STATE_DEFAULT, null, null)) ,RegistrationFragment.CallbackFromViewModel {
+    BaseViewModel<RegistrationState>(
+        RegistrationState(
+            REGISTRATION_STATE_DEFAULT,
+            null,
+            null
+        )
+    ) ,
+    RegistrationFragment.CallbackFromViewModel {
 
 
     override fun setView(state: Int) {
@@ -29,8 +36,8 @@ class RegistrationViewModel @Inject constructor(val signInOp: SignInUseCase) :
         scope.launchInteractor(signInOp,email){it.either(::handleSignInFaill,::handleSignInSuccess)}
     }
 
-    private fun handleSignInSuccess(none: None) {
-        setState { copy(signInOperation = Event(Success(none))) }
+    private fun handleSignInSuccess(mailResult: MailResult) {
+        setState { copy(signInOperation = Event(Success(mailResult))) }
     }
 
     private fun handleSignInFaill(signInFaillure: Failure.SignInFaillure) {
