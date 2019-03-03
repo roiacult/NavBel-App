@@ -1,17 +1,21 @@
-package com.roacult.kero.oxxy.projet2eme.ui.registration_feature
+package com.roacult.kero.oxxy.projet2eme.ui.registration_feature.fragment_signin_login
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProviders
 import com.roacult.kero.oxxy.domain.exception.Failure
+import com.roacult.kero.oxxy.domain.interactors.MailResult
 import com.roacult.kero.oxxy.domain.interactors.None
 import com.roacult.kero.oxxy.projet2eme.R
 import com.roacult.kero.oxxy.projet2eme.base.BaseFragment
 import com.roacult.kero.oxxy.projet2eme.databinding.RegistrationFragmentBinding
+import com.roacult.kero.oxxy.projet2eme.ui.registration_feature.RegistrationActivity
+import com.roacult.kero.oxxy.projet2eme.ui.registration_feature.fragment_saveinfo.SAVEINFO_FIRST_NAME
+import com.roacult.kero.oxxy.projet2eme.ui.registration_feature.fragment_saveinfo.SAVEINFO_LAST_NAME
+import com.roacult.kero.oxxy.projet2eme.ui.registration_feature.fragment_saveinfo.SAVEINFO_YEAR
 import com.roacult.kero.oxxy.projet2eme.utils.Async
 import com.roacult.kero.oxxy.projet2eme.utils.Fail
 import com.roacult.kero.oxxy.projet2eme.utils.Loading
@@ -25,8 +29,10 @@ class RegistrationFragment : BaseFragment() , RegistrationActivity.CallbackToFra
     companion object { fun getInstance() = RegistrationFragment() }
 
     private lateinit var binding : RegistrationFragmentBinding
-    private val viewModel :RegistrationViewModel by lazy {ViewModelProviders.of(this,viewModelFactory)[RegistrationViewModel::class.java]}
+    private val viewModel : RegistrationViewModel by lazy {ViewModelProviders.of(this,viewModelFactory)[RegistrationViewModel::class.java]}
     private val callback : CallbackFromViewModel by lazy {viewModel}
+    private  val callbackToActivity : CallbackToRegistrationActivity? = (activity as? RegistrationActivity)
+
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(inflater,R.layout.registration_fragment,container,false)
@@ -40,28 +46,34 @@ class RegistrationFragment : BaseFragment() , RegistrationActivity.CallbackToFra
         return binding.root
     }
 
-    private fun handleSignInOperation(signInOperation: Async<None>) {
+    private fun handleSignInOperation(signInOperation: Async<MailResult>) {
         when(signInOperation){
-            is Loading -> {
-                Log.v("sprint1","is loading know")
-                showLoading(true)
-            }
+            is Loading -> showLoading(true)
             is Fail<*> -> {
-                Log.v("sprint1","is failling know")
                 showLoading(false)
                 when(signInOperation.error){
                     is Failure.SignInFaillure.UserNotFoundFaillurre -> onError(R.string.email_not_found)
                     is Failure.SignInFaillure.AutherFaillure -> onError(R.string.signin_failled)
+                    is Failure.SignInFaillure.UserAlreadyExist ->{
+                        onError(R.string.user_alredy_subscribe)
+                        callback.setView(REGISTRATION_STATE_LOGIN)
+                    }
                 }
             }
             is Success -> {
-                Log.v("sprint1","is success know")
                 showLoading(false)
-                showMessage("when you see this you finisht first sprint ,goToSaveInfo")
-                //TODO go to save info
+                gotoSaveInfo(signInOperation())
             }
             else -> showLoading(false)
         }
+    }
+
+    private fun gotoSaveInfo(signInOperation: MailResult) {
+        val bundle = Bundle()
+        bundle.putString(signInOperation.nom,SAVEINFO_FIRST_NAME)
+        bundle.putString(signInOperation.prenom,SAVEINFO_LAST_NAME)
+        bundle.putString(signInOperation.year, SAVEINFO_YEAR)
+        callbackToActivity?.openSaveInfoFragment(bundle)
     }
 
     private fun handleLoginOperation(logInOperation: Async<None>) {
@@ -87,7 +99,6 @@ class RegistrationFragment : BaseFragment() , RegistrationActivity.CallbackToFra
     }
 
     private fun showLoading(b: Boolean) {
-        //TODO there is problem with loadin i will fix it later
         binding.loginBtn.loading(b)
         binding.signinBtn.loading(b)
         binding.progress.alpha = if(b) 1f else 0f
@@ -115,16 +126,8 @@ class RegistrationFragment : BaseFragment() , RegistrationActivity.CallbackToFra
 
     private fun performSignin() {
         val email :String = binding.signinEmail.text.toString()
-        if(!email.isEmailValid()){
-            onError(R.string.email_not_valid)
-            return
-        }
-
-        if (!isNetworkConnected()){
-            onError(R.string.no_internet)
-            return
-        }
-
+        if(!email.isEmailValid()){ onError(R.string.email_not_valid);return }
+        if (!isNetworkConnected()){ onError(R.string.no_internet);return }
         callback.signIn(email)
     }
 
@@ -132,26 +135,13 @@ class RegistrationFragment : BaseFragment() , RegistrationActivity.CallbackToFra
         val email : String = binding.loginEmail.text.toString()
         val password : String = binding.loginPassword.text.toString()
 
-        if(!email.isEmailValid()){
-            onError(R.string.email_not_valid)
-            return
-        }
-
-        if(password.length<8) {
-            onError(R.string.password_short)
-            return
-        }
-
-        if (!isNetworkConnected()){
-            onError(R.string.no_internet)
-            return
-        }
+        if(!email.isEmailValid()){ onError(R.string.email_not_valid) ;return }
+        if(password.length<8) { onError(R.string.password_short);return }
+        if (!isNetworkConnected()){ onError(R.string.no_internet);return }
         callback.login(email,password)
     }
 
-    override fun goToDefaultState() {
-        callback.setView(REGISTRATION_STATE_DEFAULT)
-    }
+    override fun goToDefaultState() { callback.setView(REGISTRATION_STATE_DEFAULT) }
 
     override fun shouldWeGoToDefaultState() : Boolean {
         var gotoDefaultState = false
@@ -160,9 +150,13 @@ class RegistrationFragment : BaseFragment() , RegistrationActivity.CallbackToFra
         }
         return gotoDefaultState
     }
+
     interface CallbackFromViewModel{
         fun setView(state : Int)
         fun login(email : String,password : String)
         fun signIn(email: String)
     }
+}
+interface CallbackToRegistrationActivity{
+    fun openSaveInfoFragment(bundle : Bundle)
 }

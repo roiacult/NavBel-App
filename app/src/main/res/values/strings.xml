@@ -16,4 +16,5 @@
     <string name="name">name</string>
     <string name="confirm_password">confirme password</string>
     <string name="submit">Submit</string>
+    <string name="user_alredy_subscribe">you are alredy subscribed</string>
 </resources>

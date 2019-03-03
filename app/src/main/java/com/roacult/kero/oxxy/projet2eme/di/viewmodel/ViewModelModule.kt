@@ -2,7 +2,7 @@ package com.roacult.kero.oxxy.projet2eme.di.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.roacult.kero.oxxy.projet2eme.ui.registration_feature.RegistrationViewModel
+import com.roacult.kero.oxxy.projet2eme.ui.registration_feature.fragment_signin_login.RegistrationViewModel
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap

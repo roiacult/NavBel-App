@@ -3,9 +3,13 @@ package com.roacult.kero.oxxy.projet2eme.ui.registration_feature
 import android.os.Bundle
 import com.roacult.kero.oxxy.projet2eme.R
 import com.roacult.kero.oxxy.projet2eme.base.BaseActivity
+import com.roacult.kero.oxxy.projet2eme.ui.registration_feature.fragment_saveinfo.SaveInfoFragment
+import com.roacult.kero.oxxy.projet2eme.ui.registration_feature.fragment_signin_login.CallbackToRegistrationActivity
+import com.roacult.kero.oxxy.projet2eme.ui.registration_feature.fragment_signin_login.RegistrationFragment
 import com.roacult.kero.oxxy.projet2eme.utils.extension.inTransaction
 
-class RegistrationActivity : BaseActivity() {
+class RegistrationActivity : BaseActivity() ,
+    CallbackToRegistrationActivity {
 
     private var fragment : RegistrationFragment? = null
     private var callbackToFragment : CallbackToFragment? = null
@@ -36,6 +40,12 @@ class RegistrationActivity : BaseActivity() {
         setUpCallback()
         if(callbackToFragment?.shouldWeGoToDefaultState() == true) callbackToFragment?.goToDefaultState()
         else super.onBackPressed()
+    }
+
+    override fun openSaveInfoFragment(bundle : Bundle){
+        supportFragmentManager.inTransaction {
+            replace(R.id.registration_container,SaveInfoFragment.getInstance())
+        }
     }
 
     interface CallbackToFragment{
