@@ -13,4 +13,7 @@
     <string name="not_subscribed_yet">you are not subscribed yet please signin first !!</string>
     <string name="login_failled">login operation failled</string>
     <string name="familly_name">familly name</string>
+    <string name="name">name</string>
+    <string name="confirm_password">confirme password</string>
+    <string name="submit">Submit</string>
 </resources>

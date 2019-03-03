@@ -1,12 +1,16 @@
 package com.roacult.kero.oxxy.domain.exception
 
 
-sealed class Failure {
-  sealed class SignInFailure: Failure(){
-      class UserDontExist(val e:Exception?):SignInFailure()
-      class UserAlreadyExist(val e:Exception?):SignInFailure()
-      class UserBAnned(val e:Exception?):SignInFailure()
-      class ServerError(val e:Exception?):SignInFailure()
-      class NetworkFailure(val e :Exception?):SignInFailure()
-  }
+sealed class Failure(val error : Throwable) {
+
+    sealed class SignInFaillure(throwable: Throwable) : Failure(throwable){
+        class UserNotFoundFaillurre( faille: Throwable) : SignInFaillure(faille)
+        class AutherFaillure( faille: Throwable) : SignInFaillure(faille)
+        class UserAlreadyExist( e:Throwable):SignInFaillure(e)
+    }
+
+    sealed class LoginFaillure(throwable: Throwable) : Failure(throwable){
+        class UserNotSubscribedYet( faille: Throwable) : LoginFaillure(faille)
+        class AutherFaillure( faille: Throwable) : LoginFaillure(faille)
+    }
 }
