@@ -62,6 +62,13 @@ dependencies {
     implementation deps.rxJava.core
     implementation deps.rxJava.rxAndroid
     implementation deps.rxJava.rxKotlin
+    implementation deps.retrofit.core
+    implementation deps.retrofit.okhttp
+    implementation deps.retrofit.gson
+    implementation deps.retrofit.gson_retrofit
+    implementation deps.retrofit.okhttp3
+    implementation deps.retrofit.logging
+    implementation deps.retrofit.scalar_converter
 
     kapt deps.room.compiler
 

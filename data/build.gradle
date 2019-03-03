@@ -71,13 +71,13 @@ dependencies {
     implementation  'javax.inject:javax.inject:1'
 
     implementation deps.retrofit.core
-//    retrofit.coroutine_support
     implementation deps.retrofit.okhttp
     implementation deps.retrofit.gson
     implementation deps.retrofit.gson_retrofit
     implementation deps.retrofit.okhttp3
     implementation deps.retrofit.logging
     implementation deps.retrofit.scalar_converter
+
     testImplementation deps.room.testing
     testImplementation deps.test.junit
     testImplementation deps.test.mockk

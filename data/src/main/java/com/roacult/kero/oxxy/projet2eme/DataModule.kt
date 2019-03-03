@@ -6,23 +6,23 @@ import com.roacult.kero.oxxy.projet2eme.network.services.AuthentificationService
 import com.roacult.kero.oxxy.projet2eme.repositories.AutherntificationRepositoryImpl
 import com.roacult.kero.oxxy.projet2eme.utils.BASE_URL
 import com.roacult.kero.oxxy.projet2eme.utils.UserAgentInterceptor
-import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
-import retrofit2.Converter
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.converter.scalars.ScalarsConverterFactory
 import javax.inject.Singleton
 
 @Module
-abstract class DataModule {
+ class DataModule {
 
-     @Binds
+     @Provides
      @Singleton
-     abstract fun provideAuthentificationRepository(repositoryImpl: AutherntificationRepositoryImpl):AuthentificationRepository
+     fun provideAuthentificationRepository(repositoryImpl: AutherntificationRepositoryImpl):AuthentificationRepository{
+         return repositoryImpl
+     }
 
     @Provides
     @Singleton

@@ -13,7 +13,7 @@ import retrofit2.Response
 import javax.inject.Inject
 import kotlin.coroutines.suspendCoroutine
 
-class AuthertificationRemote @Inject constructor(private val service: AuthentificationService){
+class AuthertificationRemote @Inject constructor( val service: AuthentificationService){
     suspend  fun CheckMailUser(email:String):Either<Failure.SignInFaillure  , MailResult> = suspendCoroutine{
         service.checkUserMail(Mail(email), token()).enqueue(object :Callback<MailResponse>{
             override fun onFailure(call: Call<MailResponse>, t: Throwable) {

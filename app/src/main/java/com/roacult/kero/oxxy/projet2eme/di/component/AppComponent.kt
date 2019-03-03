@@ -4,6 +4,7 @@ import dagger.Component
 import dagger.android.AndroidInjectionModule
 import dagger.android.AndroidInjector
 import com.roacult.kero.oxxy.projet2eme.AndroidApplication
+import com.roacult.kero.oxxy.projet2eme.DataModule
 import com.roacult.kero.oxxy.projet2eme.ui.ActivityBuilder
 import com.roacult.kero.oxxy.projet2eme.di.module.AppModule
 import com.roacult.kero.oxxy.projet2eme.di.viewmodel.ViewModelModule
@@ -26,6 +27,7 @@ import javax.inject.Singleton
 @Singleton
 @Component(modules = [AndroidInjectionModule::class,
                     ActivityBuilder::class,
+                    DataModule::class ,
                     ViewModelModule::class,
                     AppModule::class])
 interface AppComponent : AndroidInjector<AndroidApplication> {
