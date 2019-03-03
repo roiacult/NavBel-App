@@ -4,6 +4,7 @@ import android.app.Activity.RESULT_OK
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -50,6 +51,15 @@ class SaveInfoFragment : BaseFragment() {
     }
 
     private fun performeSubmit() {
+
+        val name= binding.signeInName.text.toString()
+        val lastName = binding.signeInPrenom.text.toString()
+        val pass = binding.signeInpass.text.toString()
+        val repeatPass = binding.signeInrepeatpass.text.toString()
+        if(TextUtils.isEmpty(name)) {onError(R.string.name_empty) ;return}
+        if(TextUtils.isEmpty(lastName)) {onError(R.string.last_name_empty); return}
+        if(pass.length<8) {onError(R.string.pass_short); return}
+        if(pass != repeatPass) {onError(R.string.confirm_pass); return}
 
     }
 
@@ -105,5 +115,6 @@ class SaveInfoFragment : BaseFragment() {
         fun isItFirstTime() : Boolean
         fun setInfo(fName : String ,Lname : String , year : Int)
         fun setImage(url : String)
+        fun submit(name : String, lastName : String, password : String)
     }
 }

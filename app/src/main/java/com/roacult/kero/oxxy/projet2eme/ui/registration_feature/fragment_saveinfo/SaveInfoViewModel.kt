@@ -21,5 +21,9 @@ class SaveInfoViewModel @Inject constructor(): BaseViewModel<SaveInfoState>(Save
         setState{copy(imageUrl = url)}
     }
 
+    override fun submit(name: String, lastName: String, password: String) {
+        //TODO excuteSubmit useCase
+    }
+
     override fun isItFirstTime(): Boolean  = firstTime
 }
