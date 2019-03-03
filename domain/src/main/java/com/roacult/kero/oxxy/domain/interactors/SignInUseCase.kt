@@ -13,8 +13,7 @@ class SignInUseCase @Inject constructor( dispatchers: CouroutineDispatchers, val
     override val ResultDispatcher= dispatchers.main
 
     override suspend fun invoke(executeParams: String): Either<Failure.SignInFaillure, MailResult> {
-
-                return repo.checkMail(executeParams)
+        return repo.checkMail(executeParams)
     }
 }
 

@@ -21,6 +21,7 @@ import javax.inject.Singleton
 abstract class DataModule {
 
      @Binds
+     @Singleton
      abstract fun provideAuthentificationRepository(repositoryImpl: AutherntificationRepositoryImpl):AuthentificationRepository
 
     @Provides

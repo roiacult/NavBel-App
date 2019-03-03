@@ -6,5 +6,5 @@ import com.roacult.kero.oxxy.domain.functional.Either
 import com.roacult.kero.oxxy.domain.interactors.MailResult
 
 interface AuthentificationRepository {
-  fun checkMail(email: String):Either<Failure.SignInFailure , MailResult>
+ suspend  fun checkMail(email: String):Either<Failure.SignInFaillure , MailResult>
 }
