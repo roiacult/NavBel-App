@@ -49,7 +49,7 @@ dependencies {
     implementation deps.android.design
     implementation deps.android.circle_image
     implementation deps.android.picasso
-//    implementation deps.android.image_copper
+    implementation deps.android.image_copper
 
     implementation deps.dagger.core
     implementation deps.dagger.support

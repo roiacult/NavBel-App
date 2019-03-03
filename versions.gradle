@@ -57,7 +57,7 @@ android.constraint_layout = "androidx.constraintlayout:constraintlayout:$version
 android.lifecycle_extensions = "androidx.lifecycle:lifecycle-extensions:$versions.lifecycle"
 android.picasso = "com.squareup.picasso:picasso:$versions.picasso_version"
 android.circle_image = "de.hdodenhof:circleimageview:$versions.circle_image"
-//android.image_copper = "com.theartofdev.edmodo:android-image-cropper:$versions.image_copper"
+android.image_copper = "com.theartofdev.edmodo:android-image-cropper:$versions.image_copper"
 deps.android = android
 
 
