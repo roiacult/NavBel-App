@@ -7,13 +7,14 @@ import com.roacult.kero.oxxy.domain.functional.Either
 import javax.inject.Inject
 
 class SignInUseCase @Inject constructor( dispatchers: CouroutineDispatchers, val repo:AuthentificationRepository) :
-    EitherInteractor<String,MailResult,Failure.SignInFailure> {
+    EitherInteractor<String,MailResult,Failure.SignInFaillure> {
 
     override val dispatcher =dispatchers.computaion
     override val ResultDispatcher= dispatchers.main
 
-    override suspend fun invoke(executeParams: String): Either<Failure.SignInFailure, MailResult> {
-        return repo.checkMail(executeParams)
+    override suspend fun invoke(executeParams: String): Either<Failure.SignInFaillure, MailResult> {
+
+                return repo.checkMail(executeParams)
     }
 }
 
