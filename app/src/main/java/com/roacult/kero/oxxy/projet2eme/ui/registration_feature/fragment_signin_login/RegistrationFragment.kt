@@ -13,6 +13,7 @@ import com.roacult.kero.oxxy.projet2eme.R
 import com.roacult.kero.oxxy.projet2eme.base.BaseFragment
 import com.roacult.kero.oxxy.projet2eme.databinding.RegistrationFragmentBinding
 import com.roacult.kero.oxxy.projet2eme.ui.registration_feature.RegistrationActivity
+import com.roacult.kero.oxxy.projet2eme.ui.registration_feature.fragment_saveinfo.SAVEINFO_EMAIL
 import com.roacult.kero.oxxy.projet2eme.ui.registration_feature.fragment_saveinfo.SAVEINFO_FIRST_NAME
 import com.roacult.kero.oxxy.projet2eme.ui.registration_feature.fragment_saveinfo.SAVEINFO_LAST_NAME
 import com.roacult.kero.oxxy.projet2eme.ui.registration_feature.fragment_saveinfo.SAVEINFO_YEAR
@@ -70,9 +71,10 @@ class RegistrationFragment : BaseFragment() , RegistrationActivity.CallbackToFra
 
     private fun gotoSaveInfo(signInOperation: MailResult) {
         val bundle = Bundle()
-        bundle.putString(signInOperation.nom,SAVEINFO_FIRST_NAME)
-        bundle.putString(signInOperation.prenom,SAVEINFO_LAST_NAME)
-        bundle.putString(signInOperation.year, SAVEINFO_YEAR)
+        bundle.putString(SAVEINFO_FIRST_NAME,signInOperation.nom)
+        bundle.putString(SAVEINFO_LAST_NAME,signInOperation.prenom)
+        bundle.putString(SAVEINFO_YEAR,signInOperation.year)
+        bundle.putString(SAVEINFO_EMAIL,binding.signinEmail.text.toString())
         callbackToActivity?.openSaveInfoFragment(bundle)
     }
 

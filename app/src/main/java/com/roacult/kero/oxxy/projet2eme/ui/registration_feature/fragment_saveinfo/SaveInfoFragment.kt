@@ -1,5 +1,6 @@
 package com.roacult.kero.oxxy.projet2eme.ui.registration_feature.fragment_saveinfo
 
+import android.annotation.SuppressLint
 import android.app.Activity.RESULT_OK
 import android.content.Intent
 import android.net.Uri
@@ -26,6 +27,7 @@ import com.roacult.kero.oxxy.projet2eme.utils.extension.visible
 const val SAVEINFO_FIRST_NAME = "first_name"
 const val SAVEINFO_LAST_NAME = "last_name"
 const val SAVEINFO_YEAR = "year"
+const val SAVEINFO_EMAIL  ="email"
 
 class SaveInfoFragment : BaseFragment() {
 
@@ -60,7 +62,7 @@ class SaveInfoFragment : BaseFragment() {
         if(TextUtils.isEmpty(lastName)) {onError(R.string.last_name_empty); return}
         if(pass.length<8) {onError(R.string.pass_short); return}
         if(pass != repeatPass) {onError(R.string.confirm_pass); return}
-
+        callback.submit(name,lastName,pass)
     }
 
     private fun startPickingImage() {
@@ -74,11 +76,11 @@ class SaveInfoFragment : BaseFragment() {
         val name = arguments!!.getString(SAVEINFO_FIRST_NAME)!!
         val lastName = arguments!!.getString(SAVEINFO_LAST_NAME)!!
         val year = arguments!!.getString(SAVEINFO_YEAR)!!
+        val email = arguments!!.getString(SAVEINFO_EMAIL)!!
         binding.signeInName.setText(name)
         binding.signeInPrenom.setText(lastName)
-        //TODO add year
-        binding.year.setText(year)
-        callback.setInfo(name,lastName,year.toInt())
+        binding.year.setText("CPI-"+year)
+        callback.setInfo(year.toInt(),email)
     }
 
     private fun handleSubmitOperation(operation: Async<None>) {
@@ -86,11 +88,16 @@ class SaveInfoFragment : BaseFragment() {
             is Loading -> showLoading(true)
             is Success -> {
                 //TODO go to main
+                showMessage("submit successfully")
             }
             is Fail<*> -> {
                 //TODO handle difrent faillers
+                showMessage("submit failled")
             }
-            else -> showLoading(false)
+            else -> {
+                showLoading(false)
+                showMessage("is loading know")
+            }
         }
     }
 
@@ -113,7 +120,7 @@ class SaveInfoFragment : BaseFragment() {
 
     interface CallbackToViewModel{
         fun isItFirstTime() : Boolean
-        fun setInfo(fName : String ,Lname : String , year : Int)
+        fun setInfo( year : Int , email : String)
         fun setImage(url : String)
         fun submit(name : String, lastName : String, password : String)
     }

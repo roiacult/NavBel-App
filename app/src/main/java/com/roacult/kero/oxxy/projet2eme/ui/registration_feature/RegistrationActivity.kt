@@ -44,7 +44,9 @@ class RegistrationActivity : BaseActivity() ,
 
     override fun openSaveInfoFragment(bundle : Bundle){
         supportFragmentManager.inTransaction {
-            replace(R.id.registration_container,SaveInfoFragment.getInstance())
+            val fragment = SaveInfoFragment.getInstance()
+            fragment.arguments = bundle
+            replace(R.id.registration_container,fragment)
         }
     }
 

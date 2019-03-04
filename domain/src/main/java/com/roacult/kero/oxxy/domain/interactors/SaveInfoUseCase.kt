@@ -19,4 +19,4 @@ class SaveInfoUseCase @Inject constructor(dispatchers: CouroutineDispatchers) : 
     }
 }
 
-data class UserInfo(val fName : String , val lName : String,val year : Int,val pass : String)
+data class UserInfo(val fName : String , val lName : String,val email :String,val year : Int,val pass : String,val pictureUrl : String?)

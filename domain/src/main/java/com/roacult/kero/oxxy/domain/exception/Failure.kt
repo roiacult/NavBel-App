@@ -3,7 +3,7 @@ package com.roacult.kero.oxxy.domain.exception
 
 sealed class Failure {
 
-    sealed class SignInFaillure(val e:Exception?) : Failure(){
+    sealed class SignInFaillure() : Failure(){
         class UserNotFoundFaillurre(e:Exception?) : SignInFaillure(e)
         class AutherFaillure(e:Exception?) : SignInFaillure(e)
         class UserAlreadyExist( e:Exception?):SignInFaillure(e)
