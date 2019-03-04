@@ -50,24 +50,6 @@ class RegistrationFragment : BaseFragment() , RegistrationActivity.CallbackToFra
         return binding.root
     }
 
-    private fun handleConfirmeOperation(async: Async<None>) {
-        when(async){
-            is Loading ->showLoading(true)
-            is Fail<*> -> {
-                //TODO  handle defrent faillures
-                when(async.error){
-                    is Failure.ConfirmEmailFaillure.CadeNotCorrect -> onError(R.string.code_not_correct)
-                    is Failure.ConfirmEmailFaillure.MaximumNumbreOfTry ->{
-                        onError(R.string.try_out)
-                        callback.setView(REGISTRATION_STATE_DEFAULT)
-                    }
-                    is Failure.ConfirmEmailFaillure.AutherFaillur -> onError(R.string.confirmation_error)
-                }
-            }
-            is Success -> gotoSaveInfo()
-        }
-    }
-
     private fun handleSignInOperation(signInOperation: Async<MailResult>) {
         when(signInOperation){
             is Loading -> {
@@ -97,25 +79,22 @@ class RegistrationFragment : BaseFragment() , RegistrationActivity.CallbackToFra
         }
     }
 
-    private fun gotoSaveInfo() {
-        Log.v("sprint2","go to save info (in fragment)")
-        val bundle = Bundle()
-        bundle.putString(SAVEINFO_EMAIL,binding.signinEmail.text.toString())
-        bundle.putString(SAVEINFO_FIRST_NAME, viewModel.name)
-        bundle.putString(SAVEINFO_LAST_NAME, viewModel.lastName)
-        bundle.putInt(SAVEINFO_YEAR, viewModel.year)
-        setUpCallbackToActivity()
-        callbackToActivity?.openSaveInfoFragment(bundle)
+    private fun handleConfirmeOperation(async: Async<None>) {
+        when(async){
+            is Loading ->showLoading(true)
+            is Fail<*> -> {
+                when(async.error){
+                    is Failure.ConfirmEmailFaillure.CadeNotCorrect -> onError(R.string.code_not_correct)
+                    is Failure.ConfirmEmailFaillure.MaximumNumbreOfTry ->{
+                        onError(R.string.try_out)
+                        callback.setView(REGISTRATION_STATE_DEFAULT)
+                    }
+                    is Failure.ConfirmEmailFaillure.AutherFaillur -> onError(R.string.confirmation_error)
+                }
+            }
+            is Success -> gotoSaveInfo()
+        }
     }
-
-    private fun showDialoguUserBanned(){
-        androidx.appcompat.app.AlertDialog.Builder(context!!)
-            .setTitle(R.string.banned_title)
-            .setMessage(R.string.banned_message)
-            .show()
-    }
-
-    private fun setUpCallbackToActivity(){callbackToActivity = activity as? RegistrationActivity}
 
     private fun handleLoginOperation(logInOperation: Async<None>) {
         when(logInOperation){
@@ -137,15 +116,6 @@ class RegistrationFragment : BaseFragment() , RegistrationActivity.CallbackToFra
             }
             else -> showLoading(false)
         }
-    }
-
-    private fun showLoading(b: Boolean) {
-        binding.loginBtn.loading(b)
-        binding.signinBtn.loading(b)
-        binding.progress.alpha = if(b) 1f else 0f
-        binding.signinInputs.visible(!b)
-        binding.loginInputs.visible(!b)
-        binding.confirmInputs.visible(!b)
     }
 
     private fun setUpState(state: Int) {
@@ -173,6 +143,34 @@ class RegistrationFragment : BaseFragment() , RegistrationActivity.CallbackToFra
         }
     }
 
+    private fun gotoSaveInfo() {
+        Log.v("sprint2","go to save info (in fragment)")
+        val bundle = Bundle()
+        bundle.putString(SAVEINFO_EMAIL,binding.signinEmail.text.toString())
+        bundle.putString(SAVEINFO_FIRST_NAME, viewModel.name)
+        bundle.putString(SAVEINFO_LAST_NAME, viewModel.lastName)
+        bundle.putInt(SAVEINFO_YEAR, viewModel.year)
+        setUpCallbackToActivity()
+        callbackToActivity?.openSaveInfoFragment(bundle)
+    }
+
+    private fun showDialoguUserBanned(){
+        androidx.appcompat.app.AlertDialog.Builder(context!!)
+            .setTitle(R.string.banned_title)
+            .setMessage(R.string.banned_message)
+            .show()
+    }
+
+    private fun setUpCallbackToActivity(){callbackToActivity = activity as? RegistrationActivity}
+
+    private fun showLoading(b: Boolean) {
+        binding.loginBtn.loading(b)
+        binding.signinBtn.loading(b)
+        binding.progress.alpha = if(b) 1f else 0f
+        binding.signinInputs.visible(!b)
+        binding.loginInputs.visible(!b)
+        binding.confirmInputs.visible(!b)
+    }
 
     private fun performSignin() {
         val email :String = binding.signinEmail.text.toString()

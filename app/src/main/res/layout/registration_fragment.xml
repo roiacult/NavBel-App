@@ -69,12 +69,12 @@
                                                                    android:layout_height="wrap_content">
                 <EditText
                         android:id="@+id/confirm_text"
-                        android:inputType="textEmailAddress"
-                        android:hint="@string/email"
+                        android:hint="confirmationcode"
                         android:maxLines="1"
                         android:singleLine="true"
                         android:completionThreshold="2"
-                        android:layout_width="match_parent" android:layout_height="wrap_content"/>
+                        android:layout_width="match_parent" android:layout_height="wrap_content"
+                        android:inputType="textCapCharacters"/>
             </com.google.android.material.textfield.TextInputLayout>
 
         </LinearLayout>

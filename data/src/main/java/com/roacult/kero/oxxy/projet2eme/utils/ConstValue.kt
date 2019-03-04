@@ -1,6 +1,6 @@
 package com.roacult.kero.oxxy.projet2eme.utils
 
-const val BASE_URL = "http://192.168.1.120/project/operations/"
+const val BASE_URL = "http://192.168.43.179/project/operations/"
 const val USER_NAME = "USER_NAME"
 const val USER_PRENAME = "USER_FNAME"
 const val USER_YEAR= "YEAR"
