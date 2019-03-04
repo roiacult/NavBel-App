@@ -1,5 +1,8 @@
 package com.roacult.kero.oxxy.projet2eme
 
+import android.content.Context
+import android.content.SharedPreferences
+import android.os.Build
 import com.roacult.kero.oxxy.data.BuildConfig
 import com.roacult.kero.oxxy.domain.AuthentificationRepository
 import com.roacult.kero.oxxy.projet2eme.network.services.AuthentificationService
@@ -17,6 +20,11 @@ import javax.inject.Singleton
 
 @Module
  class DataModule {
+    @Provides
+    @Singleton
+    fun providePreferences(context :Context):SharedPreferences{
+        return context.getSharedPreferences(BuildConfig.PreferenceKey, Context.MODE_PRIVATE)
+    }
 
      @Provides
      @Singleton

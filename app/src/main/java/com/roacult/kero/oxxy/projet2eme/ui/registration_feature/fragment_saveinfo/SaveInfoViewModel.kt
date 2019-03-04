@@ -1,5 +1,6 @@
 package com.roacult.kero.oxxy.projet2eme.ui.registration_feature.fragment_saveinfo
 
+import android.util.Log
 import com.roacult.kero.oxxy.domain.exception.Failure
 import com.roacult.kero.oxxy.domain.interactors.None
 import com.roacult.kero.oxxy.domain.interactors.SaveInfoUseCase
@@ -33,6 +34,7 @@ class SaveInfoViewModel @Inject constructor(val saveInfoUseCase: SaveInfoUseCase
     override fun submit(name: String, lastName: String ,password: String) {
         setState { copy(submitOperation = Event( Loading() ) ) }
         withState{
+            Log.e("errr" , it.imageUrl)
             scope.launchInteractor(saveInfoUseCase, UserInfo(name,lastName,email, year,password,it.imageUrl)){
                 it.either(::handleSubmiterror,::handleSuccessSubmit)
             }
