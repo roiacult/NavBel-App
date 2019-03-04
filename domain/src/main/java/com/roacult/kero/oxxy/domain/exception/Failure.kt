@@ -18,4 +18,7 @@ sealed class Failure {
     sealed class SaveInfoFaillure(val e : Exception?) : Failure(){
 
     }
+    sealed class ConfirmEmailFaillure() : Failure(){
+        //TODO add faillure classes here
+    }
 }

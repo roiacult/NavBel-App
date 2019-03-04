@@ -25,4 +25,5 @@
         us in this mail support@team7.talebweb.com
     </string>
     <string name="banned_title">you are banned for security reasons</string>
+    <string name="confirm_email">confirm your email</string>
 </resources>

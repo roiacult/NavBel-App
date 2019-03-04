@@ -11,3 +11,4 @@ data class RegistrationState(val viewState : Int ,val signInOperation : Event<As
 const val REGISTRATION_STATE_DEFAULT= 0
 const val REGISTRATION_STATE_SIGNIN= 1
 const val REGISTRATION_STATE_LOGIN= 2
+const val REGISTRATION_STATE_CONFIRM= 3

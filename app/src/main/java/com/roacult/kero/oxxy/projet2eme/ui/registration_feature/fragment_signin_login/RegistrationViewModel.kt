@@ -44,4 +44,7 @@ class RegistrationViewModel @Inject constructor(val signInOp: SignInUseCase) :
         setState { copy(logInOperation = Event(Fail(signInFaillure))) }
     }
 
+    override fun confirmEmail(code : String){
+//        launchInteractor
+    }
 }

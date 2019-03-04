@@ -159,7 +159,7 @@
         />
     </ConstraintSet>
 
-    <ConstraintSet>
+    <ConstraintSet android:id="@+id/state_confirm">
         <Constraint android:id="@id/login_btn"
                     android:layout_width="0dp"
                     android:layout_height="47dp"

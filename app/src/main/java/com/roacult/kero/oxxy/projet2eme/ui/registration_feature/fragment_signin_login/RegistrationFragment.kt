@@ -71,7 +71,7 @@ class RegistrationFragment : BaseFragment() , RegistrationActivity.CallbackToFra
             is Success -> {
                 showLoading(false)
                 Log.v("sprint2","on success")
-                gotoSaveInfo(signInOperation())
+                callback.setView(REGISTRATION_STATE_CONFIRM)
             }
         }
     }
@@ -130,6 +130,7 @@ class RegistrationFragment : BaseFragment() , RegistrationActivity.CallbackToFra
         when(state ){
             REGISTRATION_STATE_DEFAULT -> {
                 binding.motion.transitionToState(R.id.state_default)
+                binding.signinBtn.setText(R.string.signin)
                 binding.loginBtn.setOnClickListener{ callback.setView(REGISTRATION_STATE_LOGIN) }
                 binding.signinBtn.setOnClickListener{ callback.setView(REGISTRATION_STATE_SIGNIN) }
             }
@@ -139,7 +140,13 @@ class RegistrationFragment : BaseFragment() , RegistrationActivity.CallbackToFra
             }
             REGISTRATION_STATE_SIGNIN -> {
                 binding.motion.transitionToState(R.id.state_signin)
+                binding.signinBtn.setText(R.string.signin)
                 binding.signinBtn.setOnClickListener{ performSignin() }
+            }
+            REGISTRATION_STATE_CONFIRM -> {
+                binding.motion.transitionToState(R.id.state_confirm)
+                binding.signinBtn.setText(R.string.confirm_email)
+                binding.signinBtn.setOnClickListener{ callback.confirmEmail(binding.confirmText.text.toString()) }
             }
         }
     }
@@ -175,6 +182,7 @@ class RegistrationFragment : BaseFragment() , RegistrationActivity.CallbackToFra
         fun setView(state : Int)
         fun login(email : String,password : String)
         fun signIn(email: String)
+        fun confirmEmail(code : String)
     }
 }
 interface CallbackToRegistrationActivity{
