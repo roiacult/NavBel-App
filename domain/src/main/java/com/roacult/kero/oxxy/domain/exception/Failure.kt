@@ -14,4 +14,8 @@ sealed class Failure {
         class UserNotSubscribedYet( faille: Throwable) : LoginFaillure(faille)
         class AutherFaillure( faille: Throwable) : LoginFaillure(faille)
     }
+
+    sealed class SaveInfoFaillure(val e : Exception?) : Failure(){
+
+    }
 }

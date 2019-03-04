@@ -17,4 +17,8 @@
     <string name="confirm_password">confirme password</string>
     <string name="submit">Submit</string>
     <string name="user_alredy_subscribe">you are alredy subscribed</string>
+    <string name="name_empty">name shouldn\'t be empty!!</string>
+    <string name="last_name_empty">last name shouldn\'t be empty</string>
+    <string name="pass_short">password too short</string>
+    <string name="confirm_pass">please confirme password</string>
 </resources>
