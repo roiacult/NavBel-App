@@ -59,6 +59,26 @@
 
         </LinearLayout>
         <LinearLayout
+                android:id="@+id/confirm_inputs"
+                android:layout_width="0dp" android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp" app:layout_constraintBottom_toTopOf="@+id/guideline2"
+                android:layout_marginTop="8dp" app:layout_constraintTop_toTopOf="@+id/guideline"
+                app:layout_constraintStart_toEndOf="parent" android:layout_marginStart="8dp">
+
+            <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent"
+                                                                   android:layout_height="wrap_content">
+                <EditText
+                        android:id="@+id/confirm_text"
+                        android:inputType="textEmailAddress"
+                        android:hint="@string/email"
+                        android:maxLines="1"
+                        android:singleLine="true"
+                        android:completionThreshold="2"
+                        android:layout_width="match_parent" android:layout_height="wrap_content"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+        </LinearLayout>
+        <LinearLayout
                 android:id="@+id/login_inputs"
                 android:orientation="vertical"
                 android:layout_width="0dp" android:layout_height="wrap_content"

@@ -17,6 +17,7 @@ class SignInUseCase @Inject constructor( dispatchers: CouroutineDispatchers, val
         return repo.checkMail(executeParams)
 //        delay(4000)
 //        return Either.Right(MailResult(2,"djawed","benahamed"))
+
     }
 }
 
