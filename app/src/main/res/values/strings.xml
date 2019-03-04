@@ -28,4 +28,5 @@
     <string name="confirm_email">confirm your email</string>
     <string name="code_not_correct">code not correct please try again</string>
     <string name="try_out">you tryed more than 5 times you are know banned</string>
+    <string name="confirmation_error">code not confirmed some thing went wrong</string>
 </resources>

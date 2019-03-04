@@ -49,7 +49,8 @@ class RegistrationActivity : BaseActivity() ,
         supportFragmentManager.inTransaction {
             val fragment = SaveInfoFragment.getInstance()
             fragment.arguments = bundle
-            replace(R.id.registration_container,fragment)
+            setCustomAnimations ( R.anim.entre_from_right,R.anim.exit_to_left,R.anim.entre_from_left,R.anim.exit_to_right )
+                .replace(R.id.registration_container,fragment)
         }
     }
 

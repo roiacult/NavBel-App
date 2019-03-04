@@ -61,7 +61,7 @@ class RegistrationFragment : BaseFragment() , RegistrationActivity.CallbackToFra
                         onError(R.string.try_out)
                         callback.setView(REGISTRATION_STATE_DEFAULT)
                     }
-
+                    is Failure.ConfirmEmailFaillure.AutherFaillur -> onError(R.string.confirmation_error)
                 }
             }
             is Success -> gotoSaveInfo()
@@ -89,6 +89,7 @@ class RegistrationFragment : BaseFragment() , RegistrationActivity.CallbackToFra
             }
             is Success -> {
                 Log.v("sprint2","on success")
+                showLoading(false)
                 callback.setView(REGISTRATION_STATE_CONFIRM)
                 val result = signInOperation()
                 callback.setUserInfo(result.nom,result.prenom,result.year)
@@ -144,6 +145,7 @@ class RegistrationFragment : BaseFragment() , RegistrationActivity.CallbackToFra
         binding.progress.alpha = if(b) 1f else 0f
         binding.signinInputs.visible(!b)
         binding.loginInputs.visible(!b)
+        binding.confirmInputs.visible(!b)
     }
 
     private fun setUpState(state: Int) {
@@ -194,7 +196,9 @@ class RegistrationFragment : BaseFragment() , RegistrationActivity.CallbackToFra
     override fun shouldWeGoToDefaultState() : Boolean {
         var gotoDefaultState = false
         viewModel.withState {
-            gotoDefaultState = it.viewState == REGISTRATION_STATE_SIGNIN || it.viewState == REGISTRATION_STATE_LOGIN
+            gotoDefaultState = it.viewState == REGISTRATION_STATE_SIGNIN
+                    || it.viewState == REGISTRATION_STATE_LOGIN
+                    || it.viewState == REGISTRATION_STATE_CONFIRM
         }
         return gotoDefaultState
     }
