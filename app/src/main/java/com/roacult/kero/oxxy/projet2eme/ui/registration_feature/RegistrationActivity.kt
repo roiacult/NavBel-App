@@ -1,6 +1,7 @@
 package com.roacult.kero.oxxy.projet2eme.ui.registration_feature
 
 import android.os.Bundle
+import android.util.Log
 import com.roacult.kero.oxxy.projet2eme.R
 import com.roacult.kero.oxxy.projet2eme.base.BaseActivity
 import com.roacult.kero.oxxy.projet2eme.ui.registration_feature.fragment_saveinfo.SaveInfoFragment
@@ -43,6 +44,7 @@ class RegistrationActivity : BaseActivity() ,
     }
 
     override fun openSaveInfoFragment(bundle : Bundle){
+        Log.v("sprint2","open save info (in activity)")
         supportFragmentManager.inTransaction {
             val fragment = SaveInfoFragment.getInstance()
             fragment.arguments = bundle

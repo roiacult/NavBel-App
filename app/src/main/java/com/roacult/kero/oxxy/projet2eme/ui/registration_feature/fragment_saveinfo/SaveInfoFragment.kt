@@ -75,7 +75,7 @@ class SaveInfoFragment : BaseFragment() {
     private fun saveDataToViewModel() {
         val name = arguments!!.getString(SAVEINFO_FIRST_NAME)!!
         val lastName = arguments!!.getString(SAVEINFO_LAST_NAME)!!
-        val year = arguments!!.getString(SAVEINFO_YEAR)!!
+        val year = arguments!!.getInt(SAVEINFO_YEAR)
         val email = arguments!!.getString(SAVEINFO_EMAIL)!!
         binding.signeInName.setText(name)
         binding.signeInPrenom.setText(lastName)

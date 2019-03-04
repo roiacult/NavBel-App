@@ -1,6 +1,8 @@
 package com.roacult.kero.oxxy.projet2eme.ui.registration_feature.fragment_signin_login
 
+import android.app.AlertDialog
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -32,7 +34,7 @@ class RegistrationFragment : BaseFragment() , RegistrationActivity.CallbackToFra
     private lateinit var binding : RegistrationFragmentBinding
     private val viewModel : RegistrationViewModel by lazy {ViewModelProviders.of(this,viewModelFactory)[RegistrationViewModel::class.java]}
     private val callback : CallbackFromViewModel by lazy {viewModel}
-    private  val callbackToActivity : CallbackToRegistrationActivity? = (activity as? RegistrationActivity)
+    private  var callbackToActivity : CallbackToRegistrationActivity? = null
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -49,8 +51,12 @@ class RegistrationFragment : BaseFragment() , RegistrationActivity.CallbackToFra
 
     private fun handleSignInOperation(signInOperation: Async<MailResult>) {
         when(signInOperation){
-            is Loading -> showLoading(true)
+            is Loading -> {
+                showLoading(true)
+                Log.v("sprint2","on loading")
+            }
             is Fail<*> -> {
+                Log.v("sprint2","on faille")
                 showLoading(false)
                 when(signInOperation.error){
                     is Failure.SignInFaillure.UserNotFoundFaillurre -> onError(R.string.email_not_found)
@@ -59,24 +65,36 @@ class RegistrationFragment : BaseFragment() , RegistrationActivity.CallbackToFra
                         onError(R.string.user_alredy_subscribe)
                         callback.setView(REGISTRATION_STATE_LOGIN)
                     }
+                    is Failure.SignInFaillure.UserBanned -> {showDialoguUserBanned()}
                 }
             }
             is Success -> {
                 showLoading(false)
+                Log.v("sprint2","on success")
                 gotoSaveInfo(signInOperation())
             }
-            else -> showLoading(false)
         }
     }
 
     private fun gotoSaveInfo(signInOperation: MailResult) {
+        Log.v("sprint2","go to save info (in fragment)")
         val bundle = Bundle()
-          bundle.putString(SAVEINFO_EMAIL,binding.signinEmail.text.toString())
+        bundle.putString(SAVEINFO_EMAIL,binding.signinEmail.text.toString())
         bundle.putString(SAVEINFO_FIRST_NAME, signInOperation.nom)
         bundle.putString(SAVEINFO_LAST_NAME, signInOperation.prenom)
         bundle.putInt(SAVEINFO_YEAR, signInOperation.year )
+        setUpCallbackToActivity()
         callbackToActivity?.openSaveInfoFragment(bundle)
     }
+
+    private fun showDialoguUserBanned(){
+        androidx.appcompat.app.AlertDialog.Builder(context!!)
+            .setTitle(R.string.banned_title)
+            .setMessage(R.string.banned_message)
+            .show()
+    }
+
+    private fun setUpCallbackToActivity(){callbackToActivity = activity as? RegistrationActivity}
 
     private fun handleLoginOperation(logInOperation: Async<None>) {
         when(logInOperation){

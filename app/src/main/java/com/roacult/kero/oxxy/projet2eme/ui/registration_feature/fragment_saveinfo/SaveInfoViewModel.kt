@@ -23,17 +23,21 @@ class SaveInfoViewModel @Inject constructor(val saveInfoUseCase: SaveInfoUseCase
     override fun setInfo(year: Int,email : String) {
         this.year = year
         this.email = email
+        firstTime =false
     }
 
     override fun setImage(url : String){
         setState{copy(imageUrl = url)}
     }
 
-    override fun submit(name: String, lastName: String ,password: String,imageUrl : String?) {
+    override fun submit(name: String, lastName: String ,password: String) {
         setState { copy(submitOperation = Event( Loading() ) ) }
-        scope.launchInteractor(saveInfoUseCase, UserInfo(name,lastName,email, year,password,imageUrl)){
-            it.either(::handleSubmiterror,::handleSuccessSubmit)
+        withState{
+            scope.launchInteractor(saveInfoUseCase, UserInfo(name,lastName,email, year,password,it.imageUrl)){
+                it.either(::handleSubmiterror,::handleSuccessSubmit)
+            }
         }
+
     }
 
     private fun handleSubmiterror(saveInfoFaillure: Failure.SaveInfoFaillure) {

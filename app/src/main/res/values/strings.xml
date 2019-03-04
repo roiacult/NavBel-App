@@ -21,4 +21,8 @@
     <string name="last_name_empty">last name shouldn\'t be empty</string>
     <string name="pass_short">password too short</string>
     <string name="confirm_pass">please confirme password</string>
+    <string name="banned_message">if you want to recover your acount or you want know why we suspeded you please contact
+        us in this mail support@team7.talebweb.com
+    </string>
+    <string name="banned_title">you are banned for security reasons</string>
 </resources>
