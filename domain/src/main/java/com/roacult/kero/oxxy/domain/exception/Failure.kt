@@ -15,8 +15,9 @@ sealed class Failure {
         class AutherFaillure( faille: Throwable) : LoginFaillure(faille)
     }
 
-    sealed class SaveInfoFaillure(val e : Exception?) : Failure(){
-
+    sealed class SaveInfoFaillure : Failure(){
+        class OperationFailed:SaveInfoFaillure()
+       class OtherFailure(t:Throwable?) :SaveInfoFaillure()
     }
     sealed class ConfirmEmailFaillure() : Failure(){
         //TODO add faillure classes here

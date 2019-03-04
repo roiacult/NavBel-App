@@ -1,25 +1,45 @@
 package com.roacult.kero.oxxy.projet2eme.network
 
+import android.content.Context
+import android.net.Uri
+import android.provider.MediaStore
+import android.util.Base64
 import android.util.Log
 import com.roacult.kero.oxxy.domain.exception.Failure
 import com.roacult.kero.oxxy.domain.functional.Either
 import com.roacult.kero.oxxy.domain.interactors.MailResult
+import com.roacult.kero.oxxy.domain.interactors.None
+import com.roacult.kero.oxxy.domain.interactors.UserInfo
 import com.roacult.kero.oxxy.projet2eme.network.entities.Mail
 import com.roacult.kero.oxxy.projet2eme.network.entities.MailResponse
+import com.roacult.kero.oxxy.projet2eme.network.entities.SaveInfo
 import com.roacult.kero.oxxy.projet2eme.network.services.AuthentificationService
 import com.roacult.kero.oxxy.projet2eme.utils.token
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.io.File
 import javax.inject.Inject
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
+import android.graphics.Bitmap
+import com.roacult.kero.oxxy.projet2eme.network.entities.SaveInfoResult
+import com.roacult.kero.oxxy.projet2eme.utils.toHexString
+import java.io.ByteArrayOutputStream
+import java.security.MessageDigest
 
-class AuthertificationRemote @Inject constructor( val service: AuthentificationService){
+
+/**
+ * this class will handle the authentification remote requests
+ */
+class AuthertificationRemote @Inject constructor( val service: AuthentificationService , val context:Context){
+    /**
+     * this function will send a request to a server this request will have an email which the server will check if
+     *  the user is banned forever or he has already subscribed or he doesnt exist in the students table
+     */
     suspend  fun CheckMailUser(email:String):Either<Failure.SignInFaillure  , MailResult> = suspendCoroutine{
         service.checkUserMail(Mail(email)).enqueue(object :Callback<MailResponse>{
             override fun onFailure(call: Call<MailResponse>, t: Throwable) {
-                Log.e("errr", t.message)
                 it.resume(Either.Left(Failure.SignInFaillure.AutherFaillure(t)))
             }
             override fun onResponse(call: Call<MailResponse>, response: Response<MailResponse>) {
@@ -52,5 +72,52 @@ class AuthertificationRemote @Inject constructor( val service: AuthentificationS
         })
     }
 
+    /**
+     * this function will take the userInfo as param and post this param to the server and then it returnn either a failure
+     * or a none (so it has completed successfully)
+     */
+    suspend fun saveUserInfo(userInfo: UserInfo):Either<Failure.SaveInfoFaillure , None> = suspendCoroutine {
+        service.saveUserInfo(userInfo.mapToRequest()).enqueue(object :Callback<SaveInfoResult>{
+            override fun onFailure(call: Call<SaveInfoResult>, t: Throwable) {
+                  it.resume(Either.Left(Failure.SaveInfoFaillure.OtherFailure(t)))
+            }
 
+            override fun onResponse(call: Call<SaveInfoResult>, response: Response<SaveInfoResult>) {
+                 val reponse = response.body()
+                if(reponse==null) it.resume(Either.Left(Failure.SaveInfoFaillure.OtherFailure(Throwable(message = "we have a server error"))))
+                else{
+                    if(reponse.reponse==0){
+                        it.resume(Either.Left(Failure.SaveInfoFaillure.OperationFailed()))
+                    }else{
+                        it.resume(Either.Right(None()))
+                    }
+                }
+            }
+        })
+    }
+
+
+    /**
+     * this function will map the userInfo to the saveInfo  the userInfo object will be get from the presentation layer and the saveInfo
+     * will be the object that we will send to the server the difference between them is that the picture can be null and converted to
+     * an empty string or it can have the uri and will be converted to base64
+     */
+    private fun UserInfo.mapToRequest():SaveInfo{
+        var picture :String
+        //if ther picture is null it will be converted to an empty string
+        if(this.pictureUrl==null) picture = ""
+        else{
+            picture =this.pictureUrl!!
+            // the picture will be compressed here
+            val baos = ByteArrayOutputStream()
+            MediaStore.Images.Media.getBitmap(context.contentResolver , Uri.fromFile(File(picture))).compress(Bitmap.CompressFormat.PNG,
+                    100, baos)
+
+            val b = baos.toByteArray()
+            //picture encoded to bas64
+            picture  = Base64.encodeToString(b, Base64.URL_SAFE or Base64.NO_WRAP)
+        }
+        return SaveInfo(this.email , this.fName ,this.lName ,this.pass ,
+            toHexString(picture.toByteArray()), this.year)
+    }
 }

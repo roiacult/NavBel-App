@@ -1,7 +1,9 @@
 package com.roacult.kero.oxxy.projet2eme.di.module
 
+import android.content.Context
 import com.roacult.kero.oxxy.domain.functional.AppRxSchedulers
 import com.roacult.kero.oxxy.domain.functional.CouroutineDispatchers
+import com.roacult.kero.oxxy.projet2eme.AndroidApplication
 import dagger.Module
 import dagger.Provides
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -13,6 +15,9 @@ import javax.inject.Singleton
 
 @Module
 class AppModule {
+    @Provides
+    @Singleton
+    fun provideContext(app:AndroidApplication):Context  = app.applicationContext
 
     @Provides @Singleton
     fun provideSchedulers(): AppRxSchedulers {

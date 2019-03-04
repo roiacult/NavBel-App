@@ -6,7 +6,7 @@ import java.util.*
 import javax.crypto.Mac
 import javax.crypto.spec.SecretKeySpec
 
-private fun toHexString(bytes: ByteArray): String {
+ fun toHexString(bytes: ByteArray): String {
     val formatter = Formatter()
     for (b in bytes) {
         formatter.format("%02x", b)
