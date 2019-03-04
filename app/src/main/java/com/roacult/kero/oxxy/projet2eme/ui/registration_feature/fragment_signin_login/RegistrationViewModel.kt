@@ -1,9 +1,7 @@
 package com.roacult.kero.oxxy.projet2eme.ui.registration_feature.fragment_signin_login
 
 import com.roacult.kero.oxxy.domain.exception.Failure
-import com.roacult.kero.oxxy.domain.interactors.MailResult
-import com.roacult.kero.oxxy.domain.interactors.SignInUseCase
-import com.roacult.kero.oxxy.domain.interactors.launchInteractor
+import com.roacult.kero.oxxy.domain.interactors.*
 import com.roacult.kero.oxxy.projet2eme.base.BaseViewModel
 import com.roacult.kero.oxxy.projet2eme.utils.Event
 import com.roacult.kero.oxxy.projet2eme.utils.Fail
@@ -11,16 +9,20 @@ import com.roacult.kero.oxxy.projet2eme.utils.Loading
 import com.roacult.kero.oxxy.projet2eme.utils.Success
 import javax.inject.Inject
 
-class RegistrationViewModel @Inject constructor(val signInOp: SignInUseCase) :
+class RegistrationViewModel @Inject constructor(val signInOp: SignInUseCase,val confirmationOp : ConfirmEmail) :
     BaseViewModel<RegistrationState>(
         RegistrationState(
             REGISTRATION_STATE_DEFAULT,
+            null,
             null,
             null
         )
     ) ,
     RegistrationFragment.CallbackFromViewModel {
 
+    var name :String =""
+    var lastName: String = ""
+    var year : Int = 0
 
     override fun setView(state: Int) {
         setState { copy(viewState = state) }
@@ -44,7 +46,24 @@ class RegistrationViewModel @Inject constructor(val signInOp: SignInUseCase) :
         setState { copy(logInOperation = Event(Fail(signInFaillure))) }
     }
 
+    override fun setUserInfo(name: String, lastName: String, year: Int) {
+        this.name = name
+        this.lastName =lastName
+        this.year = year
+    }
+
     override fun confirmEmail(code : String){
-//        launchInteractor
+        setState { copy(confirmatioOperation = Event(Loading())) }
+        scope.launchInteractor(confirmationOp,code){
+            it.either(::handelFaile,::handleSuccess)
+        }
+    }
+
+    private fun handleSuccess(none: None) {
+        setState { copy(confirmatioOperation = Event(Success(none))) }
+    }
+
+    private fun handelFaile(confirmEmailFaillure: Failure.ConfirmEmailFaillure) {
+        setState { copy(confirmatioOperation = Event(Fail(confirmEmailFaillure))) }
     }
 }

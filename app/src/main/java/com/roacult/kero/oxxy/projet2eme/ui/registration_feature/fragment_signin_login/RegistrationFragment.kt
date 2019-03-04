@@ -44,9 +44,28 @@ class RegistrationFragment : BaseFragment() , RegistrationActivity.CallbackToFra
             setUpState(it.viewState)
             it.logInOperation?.getContentIfNotHandled()?.apply { handleLoginOperation(this) }
             it.signInOperation?.getContentIfNotHandled()?.apply { handleSignInOperation(this) }
+            it.confirmatioOperation?.getContentIfNotHandled()?.apply { handleConfirmeOperation(this) }
         }
 
         return binding.root
+    }
+
+    private fun handleConfirmeOperation(async: Async<None>) {
+        when(async){
+            is Loading ->showLoading(true)
+            is Fail<*> -> {
+                //TODO  handle defrent faillures
+                when(async.error){
+                    is Failure.ConfirmEmailFaillure.CadeNotCorrect -> onError(R.string.code_not_correct)
+                    is Failure.ConfirmEmailFaillure.MaximumNumbreOfTry ->{
+                        onError(R.string.try_out)
+                        callback.setView(REGISTRATION_STATE_DEFAULT)
+                    }
+
+                }
+            }
+            is Success -> gotoSaveInfo()
+        }
     }
 
     private fun handleSignInOperation(signInOperation: Async<MailResult>) {
@@ -69,20 +88,21 @@ class RegistrationFragment : BaseFragment() , RegistrationActivity.CallbackToFra
                 }
             }
             is Success -> {
-                showLoading(false)
                 Log.v("sprint2","on success")
                 callback.setView(REGISTRATION_STATE_CONFIRM)
+                val result = signInOperation()
+                callback.setUserInfo(result.nom,result.prenom,result.year)
             }
         }
     }
 
-    private fun gotoSaveInfo(signInOperation: MailResult) {
+    private fun gotoSaveInfo() {
         Log.v("sprint2","go to save info (in fragment)")
         val bundle = Bundle()
         bundle.putString(SAVEINFO_EMAIL,binding.signinEmail.text.toString())
-        bundle.putString(SAVEINFO_FIRST_NAME, signInOperation.nom)
-        bundle.putString(SAVEINFO_LAST_NAME, signInOperation.prenom)
-        bundle.putInt(SAVEINFO_YEAR, signInOperation.year )
+        bundle.putString(SAVEINFO_FIRST_NAME, viewModel.name)
+        bundle.putString(SAVEINFO_LAST_NAME, viewModel.lastName)
+        bundle.putInt(SAVEINFO_YEAR, viewModel.year)
         setUpCallbackToActivity()
         callbackToActivity?.openSaveInfoFragment(bundle)
     }
@@ -144,12 +164,13 @@ class RegistrationFragment : BaseFragment() , RegistrationActivity.CallbackToFra
                 binding.signinBtn.setOnClickListener{ performSignin() }
             }
             REGISTRATION_STATE_CONFIRM -> {
-                binding.motion.transitionToState(R.id.state_confirm)
                 binding.signinBtn.setText(R.string.confirm_email)
                 binding.signinBtn.setOnClickListener{ callback.confirmEmail(binding.confirmText.text.toString()) }
+                binding.motion.transitionToState(R.id.state_confirm)
             }
         }
     }
+
 
     private fun performSignin() {
         val email :String = binding.signinEmail.text.toString()
@@ -183,6 +204,7 @@ class RegistrationFragment : BaseFragment() , RegistrationActivity.CallbackToFra
         fun login(email : String,password : String)
         fun signIn(email: String)
         fun confirmEmail(code : String)
+        fun setUserInfo(name : String , lastName : String , year : Int)
     }
 }
 interface CallbackToRegistrationActivity{

@@ -21,5 +21,8 @@ sealed class Failure {
     }
     sealed class ConfirmEmailFaillure() : Failure(){
         //TODO add faillure classes here
+        class MaximumNumbreOfTry() : ConfirmEmailFaillure()
+        class CadeNotCorrect() : ConfirmEmailFaillure()
+        class AutherFaillur() : ConfirmEmailFaillure()
     }
 }
