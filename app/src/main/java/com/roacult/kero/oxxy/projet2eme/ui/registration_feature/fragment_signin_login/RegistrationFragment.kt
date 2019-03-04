@@ -70,9 +70,10 @@ class RegistrationFragment : BaseFragment() , RegistrationActivity.CallbackToFra
 
     private fun gotoSaveInfo(signInOperation: MailResult) {
         val bundle = Bundle()
-        bundle.putString(signInOperation.nom,SAVEINFO_FIRST_NAME)
-        bundle.putString(signInOperation.prenom,SAVEINFO_LAST_NAME)
-        bundle.putString(signInOperation.year, SAVEINFO_YEAR)
+        bundle.putString(SAVEINFO_FIRST_NAME, signInOperation.nom)
+        bundle.putString(SAVEINFO_LAST_NAME, signInOperation.prenom)
+        bundle.putInt(SAVEINFO_YEAR,
+            signInOperation.year )
         callbackToActivity?.openSaveInfoFragment(bundle)
     }
 

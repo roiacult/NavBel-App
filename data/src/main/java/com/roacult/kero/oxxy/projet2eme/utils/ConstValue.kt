@@ -1,3 +1,3 @@
 package com.roacult.kero.oxxy.projet2eme.utils
 
-const val BASE_URL = "http://35.203.11.145/"
+const val BASE_URL = "http://192.168.1.120/project/operations/"

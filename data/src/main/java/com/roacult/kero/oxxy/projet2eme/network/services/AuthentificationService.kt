@@ -9,7 +9,7 @@ import retrofit2.http.Query
 
 interface AuthentificationService {
 //todo configure it
-@POST("")
-fun checkUserMail(@Body mail:Mail , @Query("key") token:String):Call<MailResponse>
+@POST("check-signin.php")
+fun checkUserMail(@Body mail:Mail ):Call<MailResponse>
 
 }

@@ -17,4 +17,4 @@ class SignInUseCase @Inject constructor( dispatchers: CouroutineDispatchers, val
     }
 }
 
-data class MailResult(val year :String , val nom:String , val prenom :String )
+data class MailResult(val year :Int  , val nom:String , val prenom :String )
