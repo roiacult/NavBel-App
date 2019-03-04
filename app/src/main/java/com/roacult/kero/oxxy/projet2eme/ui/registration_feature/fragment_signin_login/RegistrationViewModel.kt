@@ -9,7 +9,7 @@ import com.roacult.kero.oxxy.projet2eme.utils.Loading
 import com.roacult.kero.oxxy.projet2eme.utils.Success
 import javax.inject.Inject
 
-class RegistrationViewModel @Inject constructor(val signInOp: SignInUseCase,val confirmationOp : ConfirmEmail) :
+class RegistrationViewModel @Inject constructor(val signInOp: SignInUseCase,val confirmationOp : ConfirmEmail, val loginOp: Login) :
     BaseViewModel<RegistrationState>(
         RegistrationState(
             REGISTRATION_STATE_DEFAULT,
@@ -29,8 +29,18 @@ class RegistrationViewModel @Inject constructor(val signInOp: SignInUseCase,val 
     }
 
     override fun login(email: String, password: String) {
-//        setState { copy(logInOperation = Event(Loading())) }
-        //TODO launche login interactor
+        setState { copy(logInOperation = Event(Loading())) }
+        scope.launchInteractor(loginOp, LoginParam(email,password)){
+            it.either(::handleLoginFaillure,::handleLoginSuccess)
+        }
+    }
+
+    private fun handleLoginSuccess(none: None) {
+        setState{ copy(logInOperation = Event(Success(none)))}
+    }
+
+    private fun handleLoginFaillure(loginFaillure: Failure.LoginFaillure) {
+        setState { copy(logInOperation = Event(Fail(loginFaillure))) }
     }
 
     override fun signIn(email: String) {
