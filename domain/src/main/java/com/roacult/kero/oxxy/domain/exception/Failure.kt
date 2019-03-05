@@ -8,6 +8,7 @@ sealed class Failure {
         class AutherFaillure(val e:Throwable?) : SignInFaillure()
         class UserAlreadyExist:SignInFaillure()
         class UserBanned:SignInFaillure()
+        class CodeSendingError():SignInFaillure()
     }
 
     sealed class LoginFaillure(throwable: Throwable) : Failure(){
@@ -20,7 +21,6 @@ sealed class Failure {
        class OtherFailure(t:Throwable?) :SaveInfoFaillure()
     }
     sealed class ConfirmEmailFaillure() : Failure(){
-        //TODO add faillure classes here
         class MaximumNumbreOfTry() : ConfirmEmailFaillure()
         class CadeNotCorrect() : ConfirmEmailFaillure()
         class AutherFaillur() : ConfirmEmailFaillure()

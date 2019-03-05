@@ -22,10 +22,27 @@ class AuthentificationLocal @Inject constructor(val preference:SharedPreferences
              putString(USER_IMAGEURL , user.imageUrl)
              putString(USER_NAME , user.fname)
              putString(USER_PRENAME , user.lname)
-             putInt(USER_YEAR, user.year!!)
             commit()
          }
         it.resume(Either.Right(None()))
     }
-
+    fun saveCodeLocal(code :String){
+        preference.edit().apply{
+            putString(USER_CODE , code)
+            putInt(USER_COUNTER  , 0)
+            commit()
+        }
+    }
+    fun incrementCounter(){
+        preference.edit().apply{
+            putInt(USER_COUNTER , preference.getInt(USER_COUNTER , 0)+1)
+            commit()
+        }
+    }
+    fun getCounter():Int{
+       return  preference.getInt(USER_COUNTER , 0)
+    }
+    fun isCodeCorrect(code:String):Boolean{
+       return  preference.getString(USER_CODE, "").equals(code)
+    }
 }

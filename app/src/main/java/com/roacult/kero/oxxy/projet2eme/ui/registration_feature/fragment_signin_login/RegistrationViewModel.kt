@@ -53,7 +53,7 @@ class RegistrationViewModel @Inject constructor(val signInOp: SignInUseCase,val 
     }
 
     private fun handleSignInFaill(signInFaillure: Failure.SignInFaillure) {
-        setState { copy(logInOperation = Event(Fail(signInFaillure))) }
+        setState { copy(signInOperation = Event(Fail(signInFaillure))) }
     }
 
     override fun setUserInfo(name: String, lastName: String, year: Int) {

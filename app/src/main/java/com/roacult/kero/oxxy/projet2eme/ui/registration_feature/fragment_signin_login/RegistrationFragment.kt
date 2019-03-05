@@ -54,10 +54,10 @@ class RegistrationFragment : BaseFragment() , RegistrationActivity.CallbackToFra
         when(signInOperation){
             is Loading -> {
                 showLoading(true)
-                Log.v("sprint2","on loading")
+                Log.e("sprint2","on loading")
             }
-            is Fail<*> -> {
-                Log.v("sprint2","on faille")
+            is Fail<*, *> -> {
+                Log.e("sprint2","on faille")
                 showLoading(false)
                 when(signInOperation.error){
                     is Failure.SignInFaillure.UserNotFoundFaillurre -> onError(R.string.email_not_found)
@@ -82,7 +82,7 @@ class RegistrationFragment : BaseFragment() , RegistrationActivity.CallbackToFra
     private fun handleConfirmeOperation(async: Async<None>) {
         when(async){
             is Loading ->showLoading(true)
-            is Fail<*> -> {
+            is Fail<*, *> -> {
                 when(async.error){
                     is Failure.ConfirmEmailFaillure.CadeNotCorrect -> onError(R.string.code_not_correct)
                     is Failure.ConfirmEmailFaillure.MaximumNumbreOfTry ->{
@@ -99,7 +99,7 @@ class RegistrationFragment : BaseFragment() , RegistrationActivity.CallbackToFra
     private fun handleLoginOperation(logInOperation: Async<None>) {
         when(logInOperation){
             is Loading -> showLoading(true)
-            is Fail<*> -> {
+            is Fail<*, *> -> {
                 showLoading(false)
                 when (logInOperation.error){
                     is Failure.LoginFaillure.UserNotSubscribedYet -> {

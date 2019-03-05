@@ -10,9 +10,6 @@ import com.roacult.kero.oxxy.domain.functional.Either
 import com.roacult.kero.oxxy.domain.interactors.MailResult
 import com.roacult.kero.oxxy.domain.interactors.None
 import com.roacult.kero.oxxy.domain.interactors.UserInfo
-import com.roacult.kero.oxxy.projet2eme.network.entities.Mail
-import com.roacult.kero.oxxy.projet2eme.network.entities.MailResponse
-import com.roacult.kero.oxxy.projet2eme.network.entities.SaveInfo
 import com.roacult.kero.oxxy.projet2eme.network.services.AuthentificationService
 import com.roacult.kero.oxxy.projet2eme.utils.token
 import retrofit2.Call
@@ -23,7 +20,7 @@ import javax.inject.Inject
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 import android.graphics.Bitmap
-import com.roacult.kero.oxxy.projet2eme.network.entities.SaveInfoResult
+import com.roacult.kero.oxxy.projet2eme.network.entities.*
 import com.roacult.kero.oxxy.projet2eme.utils.toHexString
 import java.io.ByteArrayOutputStream
 import java.security.MessageDigest
@@ -76,9 +73,10 @@ class AuthertificationRemote @Inject constructor( val service: AuthentificationS
      * this function will take the userInfo as param and post this param to the server and then it returnn either a failure
      * or a none (so it has completed successfully)
      */
-    suspend fun saveUserInfo(userInfo: UserInfo):Either<Failure.SaveInfoFaillure , None> = suspendCoroutine {
-        service.saveUserInfo(userInfo.mapToRequest()).enqueue(object :Callback<SaveInfoResult>{
+    suspend fun saveUserInfo(userInfo: SaveInfo):Either<Failure.SaveInfoFaillure , SaveInfoResult> = suspendCoroutine {
+        service.saveUserInfo(userInfo).enqueue(object :Callback<SaveInfoResult>{
             override fun onFailure(call: Call<SaveInfoResult>, t: Throwable) {
+                Log.e("errr", "errrrroor")
                   it.resume(Either.Left(Failure.SaveInfoFaillure.OtherFailure(t)))
             }
 
@@ -89,35 +87,54 @@ class AuthertificationRemote @Inject constructor( val service: AuthentificationS
                     if(reponse.reponse==0){
                         it.resume(Either.Left(Failure.SaveInfoFaillure.OperationFailed()))
                     }else{
-                        it.resume(Either.Right(None()))
+                        it.resume(Either.Right(reponse))
                     }
                 }
             }
         })
     }
 
+    suspend fun sendConfirmationMail(email:String):Either<Failure.SignInFaillure , String> = suspendCoroutine{
+        service.sendMailConfirmation(Mail(email)).enqueue(object :Callback<Code>{
+            override fun onFailure(call: Call<Code>, t: Throwable) {
+                it.resume(Either.Left(Failure.SignInFaillure.AutherFaillure(t)))
+            }
 
+            override fun onResponse(call: Call<Code>, response: Response<Code>) {
+                val reponse = response.body()
+                if(reponse==null){
+                    it.resume(Either.Left(Failure.SignInFaillure.AutherFaillure(Throwable("server eror"))))
+                }else {
+                    if (reponse.reponse == "0"){
+                        it.resume(Either.Left(Failure.SignInFaillure.CodeSendingError()))
+                    }else {
+                        it.resume(Either.Right(reponse.reponse))
+                    }
+                    }
+            }
+        })
+    }
     /**
      * this function will map the userInfo to the saveInfo  the userInfo object will be get from the presentation layer and the saveInfo
      * will be the object that we will send to the server the difference between them is that the picture can be null and converted to
      * an empty string or it can have the uri and will be converted to base64
      */
-    private fun UserInfo.mapToRequest():SaveInfo{
+    suspend fun mapToRequest(  userInfo: UserInfo):SaveInfo = suspendCoroutine{
         var picture :String
         //if ther picture is null it will be converted to an empty string
-        if(this.pictureUrl==null) picture = ""
+        if(userInfo.pictureUrl==null) picture = ""
         else{
-            picture =this.pictureUrl!!
+            picture =userInfo.pictureUrl!!
             // the picture will be compressed here
             val baos = ByteArrayOutputStream()
             MediaStore.Images.Media.getBitmap(context.contentResolver , Uri.fromFile(File(picture))).compress(Bitmap.CompressFormat.PNG,
-                    100, baos)
+                100, baos)
 
             val b = baos.toByteArray()
             //picture encoded to bas64
             picture  = Base64.encodeToString(b, Base64.URL_SAFE or Base64.NO_WRAP)
         }
-        return SaveInfo(this.email , this.fName ,this.lName ,this.pass ,
-            toHexString(picture.toByteArray()), this.year)
+        it.resume( SaveInfo(userInfo.email , userInfo.fName ,userInfo.lName ,userInfo.pass ,
+            toHexString(picture.toByteArray()), userInfo.year))
     }
 }

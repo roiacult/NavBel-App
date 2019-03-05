@@ -37,5 +37,6 @@ data class Success<out T>(private val value: T) : Async<T>(complete = true, shou
     internal var metadata: Any? = null
 }
 
-data class Fail<F : Failure>(val error: F) : Async<None>(complete = true, shouldLoad = true)
+data class Fail<F : Failure, out T>(val error: F) : Async<T>(complete = true, shouldLoad = true)
+
 interface Incomplete

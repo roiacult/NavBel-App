@@ -90,7 +90,7 @@ class SaveInfoFragment : BaseFragment() {
                 //TODO go to main
                 showMessage("submit successfully")
             }
-            is Fail<*> -> {
+            is Fail<*, *> -> {
                 //TODO handle difrent faillers
                 showMessage("submit failled")
             }

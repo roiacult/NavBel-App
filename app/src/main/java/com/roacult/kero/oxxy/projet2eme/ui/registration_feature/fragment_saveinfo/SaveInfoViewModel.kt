@@ -34,7 +34,6 @@ class SaveInfoViewModel @Inject constructor(val saveInfoUseCase: SaveInfoUseCase
     override fun submit(name: String, lastName: String ,password: String) {
         setState { copy(submitOperation = Event( Loading() ) ) }
         withState{
-            Log.e("errr" , it.imageUrl)
             scope.launchInteractor(saveInfoUseCase, UserInfo(name,lastName,email, year,password,it.imageUrl)){
                 it.either(::handleSubmiterror,::handleSuccessSubmit)
             }
