@@ -12,10 +12,17 @@ import com.roacult.kero.oxxy.projet2eme.network.AuthertificationRemote
 import com.roacult.kero.oxxy.projet2eme.network.entities.SaveInfoResult
 import javax.inject.Inject
 
+/**
+ * this class will beour repository for the authentification features it implments the interface that we have defined in the doain module
+ *
+ */
 class AutherntificationRepositoryImpl
     @Inject constructor(val remote :AuthertificationRemote , val local :AuthentificationLocal):AuthentificationRepository {
+    /**
+     * this will check the mail  and if it exist then it will send a confirmation code to the mail
+     * and store that code for checking it with the code the user enter
+     */
     override suspend fun checkMail(email: String): Either<Failure.SignInFaillure, MailResult> {
-
         val either = remote.CheckMailUser(email)
         if(either.isLeft) return either
         else {
@@ -28,6 +35,10 @@ class AutherntificationRepositoryImpl
         }
     }
 
+    /**
+     * this function will the userInfo in the server so it will compress the image and convert it to base64 then
+     * it will send the info to the server then if it goes well he will save it locally
+     */
     override suspend fun saveUserInfo(user: UserInfo): Either<Failure.SaveInfoFaillure, None> {
         val userr = remote.mapToRequest(user)
         var either= remote.saveUserInfo(userr)
@@ -40,6 +51,13 @@ class AutherntificationRepositoryImpl
         }else   return either as Either<Failure.SaveInfoFaillure, None>
 
     }
+
+    /**
+     * this function will check the code that a user enter
+     * and return if the code is correct or a failure
+     * todo dont forget to verify the timing
+     */
+
     override fun checkCodeCorrect(code:String ):Either<Failure.ConfirmEmailFaillure , None>{
         return if(local.getCounter()==5){
             Either.Left(Failure.ConfirmEmailFaillure.MaximumNumbreOfTry())

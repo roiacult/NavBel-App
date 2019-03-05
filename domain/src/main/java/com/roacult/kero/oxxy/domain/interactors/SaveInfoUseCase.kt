@@ -16,8 +16,7 @@ class SaveInfoUseCase @Inject constructor(dispatchers: CouroutineDispatchers ,
     override val ResultDispatcher= dispatchers.main
 
     override suspend fun invoke(executeParams: UserInfo): Either<Failure.SaveInfoFaillure, None> {
-//        delay(4000)
-//        return Either.Right(None())
+
         return repo.saveUserInfo(executeParams)
     }
 }
