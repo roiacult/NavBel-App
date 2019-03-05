@@ -20,6 +20,7 @@ import javax.inject.Inject
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 import android.graphics.Bitmap
+import com.roacult.kero.oxxy.domain.interactors.LoginParam
 import com.roacult.kero.oxxy.projet2eme.network.entities.*
 import com.roacult.kero.oxxy.projet2eme.utils.toHexString
 import java.io.ByteArrayOutputStream
@@ -136,5 +137,35 @@ class AuthertificationRemote @Inject constructor( val service: AuthentificationS
         }
         it.resume( SaveInfo(userInfo.email , userInfo.fName ,userInfo.lName ,userInfo.pass ,
             toHexString(picture.toByteArray()), userInfo.year))
+    }
+
+
+
+    suspend fun logUserIn(user:LoginParam):Either<Failure.LoginFaillure , LoginResult> = suspendCoroutine {
+        service.logUserIn(user).enqueue(object :Callback<LoginResult>{
+            override fun onFailure(call: Call<LoginResult>, t: Throwable) {
+                it.resume(Either.Left(Failure.LoginFaillure.AutherFaillure(t)))
+            }
+
+            override fun onResponse(call: Call<LoginResult>, response: Response<LoginResult>) {
+                 val reponse = response.body()
+                if(reponse==null) it.resume(Either.Left(Failure.LoginFaillure.AutherFaillure(Throwable("the reponse is null"))))
+                  else {
+                    //user doesnt exist or unsaved
+                    if(reponse.reponse==0){
+                        it.resume(Either.Left(Failure.LoginFaillure.UserNotSubscribedYet()))
+
+                    }else  ///the user is subscribed and logged in
+                        if(reponse.reponse==1){
+                        it.resume(Either.Right(reponse))
+                    }else if(reponse.reponse==2){
+                            it.resume(Either.Left(Failure.LoginFaillure.WrongPassword()))
+                        }else if(reponse.reponse==3){
+                            it.resume(Either.Left(Failure.LoginFaillure.UserBanned()))
+                        }
+                }
+            }
+        })
+
     }
 }

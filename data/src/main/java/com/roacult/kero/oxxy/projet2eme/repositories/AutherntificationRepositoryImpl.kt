@@ -4,6 +4,7 @@ import android.util.Log
 import com.roacult.kero.oxxy.domain.AuthentificationRepository
 import com.roacult.kero.oxxy.domain.exception.Failure
 import com.roacult.kero.oxxy.domain.functional.Either
+import com.roacult.kero.oxxy.domain.interactors.LoginParam
 import com.roacult.kero.oxxy.domain.interactors.MailResult
 import com.roacult.kero.oxxy.domain.interactors.None
 import com.roacult.kero.oxxy.domain.interactors.UserInfo
@@ -59,15 +60,31 @@ class AutherntificationRepositoryImpl
      */
 
     override fun checkCodeCorrect(code:String ):Either<Failure.ConfirmEmailFaillure , None>{
+        //if we use rxjava it wil be awesssooommm
         return if(local.getCounter()==5){
+            //banne the adresse ip
             Either.Left(Failure.ConfirmEmailFaillure.MaximumNumbreOfTry())
         }else{
             if(local.isCodeCorrect(code)){
+                local.removeCode()
                 Either.Right(None())
             }else{
                 local.incrementCounter()
                 Either.Left(Failure.ConfirmEmailFaillure.CadeNotCorrect())
             }
+        }
+    }
+
+    /**
+     * this function will log the user in and save his
+     * info in the local storage
+     */
+    override suspend fun logUserIn(loginParam: LoginParam): Either<Failure.LoginFaillure, None> {
+      val either = remote.logUserIn(loginParam)
+        if(either.isLeft) return either as Either<Failure.LoginFaillure, None>
+        else{
+            local.saveUserLogged((either as Either.Right).b)
+            return Either.Right(None())
         }
     }
 }

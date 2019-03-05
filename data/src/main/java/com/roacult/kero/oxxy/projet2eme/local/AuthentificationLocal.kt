@@ -4,6 +4,7 @@ import android.content.SharedPreferences
 import com.roacult.kero.oxxy.domain.exception.Failure
 import com.roacult.kero.oxxy.domain.functional.Either
 import com.roacult.kero.oxxy.domain.interactors.None
+import com.roacult.kero.oxxy.projet2eme.network.entities.LoginResult
 import com.roacult.kero.oxxy.projet2eme.network.entities.SaveInfoResult
 import com.roacult.kero.oxxy.projet2eme.utils.*
 import javax.inject.Inject
@@ -22,6 +23,12 @@ class AuthentificationLocal @Inject constructor(val preference:SharedPreferences
              putString(USER_IMAGEURL , user.imageUrl)
              putString(USER_NAME , user.fname)
              putString(USER_PRENAME , user.lname)
+             putBoolean(USER_CONNECTED , true )
+             putInt(USER_POINT , 0)
+             putInt(USER_RANK ,0)
+             putInt(NQSOLVED , 0)
+             //todo date
+             //rank table
             commit()
          }
         it.resume(Either.Right(None()))
@@ -44,5 +51,28 @@ class AuthentificationLocal @Inject constructor(val preference:SharedPreferences
     }
     fun isCodeCorrect(code:String):Boolean{
        return  preference.getString(USER_CODE, "").equals(code)
+    }
+
+    fun removeCode(){
+        preference.edit().apply {
+            remove(USER_CODE)
+            remove(USER_COUNTER)
+            commit()
+        }
+    }
+    fun saveUserLogged(info:LoginResult){
+        preference.edit().apply{
+            putString(USER_EMAIL , info.email)
+            putString(USER_IMAGEURL , info.imageUrl)
+            putString(USER_NAME , info.fname)
+            putString(USER_PRENAME , info.lname)
+            putBoolean(USER_CONNECTED , true )
+            putInt(USER_POINT , info.point)
+            putInt(USER_RANK ,info.currentRank)
+            putInt(NQSOLVED , info.nqsolved)
+            putString(DATE , info.date)
+//            putStringSet()
+            commit()
+        }
     }
 }

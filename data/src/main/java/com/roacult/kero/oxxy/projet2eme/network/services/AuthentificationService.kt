@@ -1,5 +1,6 @@
 package com.roacult.kero.oxxy.projet2eme.network.services
 
+import com.roacult.kero.oxxy.domain.interactors.LoginParam
 import com.roacult.kero.oxxy.domain.interactors.UserInfo
 import com.roacult.kero.oxxy.projet2eme.network.entities.*
 import retrofit2.Call
@@ -14,5 +15,6 @@ fun checkUserMail(@Body mail:Mail ):Call<MailResponse>
     fun saveUserInfo(@Body user:SaveInfo):Call<SaveInfoResult>
     @POST("?op=reset")
     fun sendMailConfirmation(@Body mail: Mail):Call<Code>
-
+    @POST("?op=login")
+    fun logUserIn(@Body user:LoginParam):Call<LoginResult>
 }

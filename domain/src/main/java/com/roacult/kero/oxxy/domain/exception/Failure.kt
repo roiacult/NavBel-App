@@ -11,14 +11,16 @@ sealed class Failure {
         class CodeSendingError():SignInFaillure()
     }
 
-    sealed class LoginFaillure(throwable: Throwable) : Failure(){
-        class UserNotSubscribedYet( faille: Throwable) : LoginFaillure(faille)
-        class AutherFaillure( faille: Throwable) : LoginFaillure(faille)
+    sealed class LoginFaillure : Failure(){
+        class UserNotSubscribedYet : LoginFaillure()
+        class UserBanned:LoginFaillure()
+        class WrongPassword:LoginFaillure()
+        class AutherFaillure(val t:Throwable?) : LoginFaillure()
     }
 
     sealed class SaveInfoFaillure : Failure(){
         class OperationFailed:SaveInfoFaillure()
-       class OtherFailure(t:Throwable?) :SaveInfoFaillure()
+       class OtherFailure(val t:Throwable?) :SaveInfoFaillure()
     }
     sealed class ConfirmEmailFaillure() : Failure(){
         class MaximumNumbreOfTry() : ConfirmEmailFaillure()
