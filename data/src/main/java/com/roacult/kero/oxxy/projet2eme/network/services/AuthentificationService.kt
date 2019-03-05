@@ -17,4 +17,6 @@ fun checkUserMail(@Body mail:Mail ):Call<MailResponse>
     fun sendMailConfirmation(@Body mail: Mail):Call<Code>
     @POST("?op=login")
     fun logUserIn(@Body user:LoginParam):Call<LoginResult>
+    @POST()
+    fun banneUser(@Body reason :BanneParam):Call<BanneResult>
 }

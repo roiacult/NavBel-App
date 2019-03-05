@@ -168,4 +168,19 @@ class AuthertificationRemote @Inject constructor( val service: AuthentificationS
         })
 
     }
+    fun banneUser(reason:String){
+          service.banneUser(BanneParam(reason)).enqueue(object :Callback<BanneResult>{
+              override fun onFailure(call: Call<BanneResult>, t: Throwable) {
+                 t.printStackTrace()
+              }
+
+              override fun onResponse(call: Call<BanneResult>, response: Response<BanneResult>) {
+                       if(response.body()?.reponse==0){
+                           Log.e("errr","user is not banned" )
+                       }else{
+                           Log.e("errr", "user is banned now")
+                       }
+              }
+          })
+    }
 }
