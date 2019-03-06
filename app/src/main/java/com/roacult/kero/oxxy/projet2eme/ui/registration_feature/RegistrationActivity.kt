@@ -8,6 +8,7 @@ import com.roacult.kero.oxxy.projet2eme.base.BaseActivity
 import com.roacult.kero.oxxy.projet2eme.ui.registration_feature.fragment_saveinfo.SaveInfoFragment
 import com.roacult.kero.oxxy.projet2eme.ui.registration_feature.fragment_signin_login.CallbackToRegistrationActivity
 import com.roacult.kero.oxxy.projet2eme.ui.registration_feature.fragment_signin_login.RegistrationFragment
+import com.roacult.kero.oxxy.projet2eme.ui.registration_feature.reset_password.ResetPasswordFragment
 import com.roacult.kero.oxxy.projet2eme.utils.extension.inTransaction
 
 class RegistrationActivity : BaseActivity() ,
@@ -23,9 +24,13 @@ class RegistrationActivity : BaseActivity() ,
     }
 
     private fun setFragment() {
-        if(fragment == null) { fragment = RegistrationFragment.getInstance() }
-        supportFragmentManager.inTransaction {
-            add( R.id.registration_container , fragment!! )
+        //just for testing reset emaail fragment
+//        if(fragment == null) { fragment = RegistrationFragment.getInstance() }
+//        supportFragmentManager.inTransaction {
+//            add( R.id.registration_container , fragment!! )
+//        }
+        supportFragmentManager.inTransaction{
+            add(R.id.registration_container,ResetPasswordFragment.getInstance())
         }
     }
 
@@ -39,9 +44,11 @@ class RegistrationActivity : BaseActivity() ,
     }
 
     override fun onBackPressed() {
-        setUpCallback()
-        if(callbackToFragment?.shouldWeGoToDefaultState() == true) callbackToFragment?.goToDefaultState()
-        else super.onBackPressed()
+        //for testing UI
+//        setUpCallback()
+//        if(callbackToFragment?.shouldWeGoToDefaultState() == true) callbackToFragment?.goToDefaultState()
+//        else super.onBackPressed()
+        (supportFragmentManager.findFragmentById(R.id.registration_container) as? ResetPasswordFragment)?.transiteToStart()
     }
 
     override fun openSaveInfoFragment(bundle : Bundle){
