@@ -36,7 +36,7 @@ class AuthertificationRemote @Inject constructor( val service: AuthentificationS
      *  the user is banned forever or he has already subscribed or he doesnt exist in the students table
      */
     suspend  fun CheckMailUser(email:String):Either<Failure.SignInFaillure  , MailResult> = suspendCoroutine{
-        service.checkUserMail(Mail(email)).enqueue(object :Callback<MailResponse>{
+        service.checkUserMail(Mail(email) , token()).enqueue(object :Callback<MailResponse>{
             override fun onFailure(call: Call<MailResponse>, t: Throwable) {
                 it.resume(Either.Left(Failure.SignInFaillure.AutherFaillure(t)))
             }
@@ -75,7 +75,7 @@ class AuthertificationRemote @Inject constructor( val service: AuthentificationS
      * or a none (so it has completed successfully)
      */
     suspend fun saveUserInfo(userInfo: SaveInfo):Either<Failure.SaveInfoFaillure , SaveInfoResult> = suspendCoroutine {
-        service.saveUserInfo(userInfo).enqueue(object :Callback<SaveInfoResult>{
+        service.saveUserInfo(userInfo , token()).enqueue(object :Callback<SaveInfoResult>{
             override fun onFailure(call: Call<SaveInfoResult>, t: Throwable) {
                 Log.e("errr", "errrrroor")
                   it.resume(Either.Left(Failure.SaveInfoFaillure.OtherFailure(t)))
@@ -96,7 +96,7 @@ class AuthertificationRemote @Inject constructor( val service: AuthentificationS
     }
 
     suspend fun sendConfirmationMail(email:String):Either<Failure.SignInFaillure , String> = suspendCoroutine{
-        service.sendMailConfirmation(Mail(email)).enqueue(object :Callback<Code>{
+        service.sendMailConfirmation(CofirmMail(0 , "", email), token()).enqueue(object :Callback<Code>{
             override fun onFailure(call: Call<Code>, t: Throwable) {
                 it.resume(Either.Left(Failure.SignInFaillure.AutherFaillure(t)))
             }
@@ -142,7 +142,7 @@ class AuthertificationRemote @Inject constructor( val service: AuthentificationS
 
 
     suspend fun logUserIn(user:LoginParam):Either<Failure.LoginFaillure , LoginResult> = suspendCoroutine {
-        service.logUserIn(user).enqueue(object :Callback<LoginResult>{
+        service.logUserIn(LoginParame(0 , "", user.email , user.password), token()).enqueue(object :Callback<LoginResult>{
             override fun onFailure(call: Call<LoginResult>, t: Throwable) {
                 it.resume(Either.Left(Failure.LoginFaillure.AutherFaillure(t)))
             }
@@ -162,26 +162,27 @@ class AuthertificationRemote @Inject constructor( val service: AuthentificationS
                     }else if(reponse.reponse==2){
                             it.resume(Either.Left(Failure.LoginFaillure.UserNotSubscribedYet()))
                         }else if(reponse.reponse==3){
+                             it.resume(Either.Left(Failure.LoginFaillure.NotFromEsi()))
+                        }else if(reponse.reponse==4){
                             it.resume(Either.Left(Failure.LoginFaillure.WrongPassword()))
+
                         }
                 }
             }
         })
 
     }
-    fun banneUser(reason:String){
-          service.banneUser(BanneParam(reason)).enqueue(object :Callback<BanneResult>{
-              override fun onFailure(call: Call<BanneResult>, t: Throwable) {
-                 t.printStackTrace()
-              }
 
-              override fun onResponse(call: Call<BanneResult>, response: Response<BanneResult>) {
-                       if(response.body()?.reponse==0){
-                           Log.e("errr","user is not banned" )
-                       }else{
-                           Log.e("errr", "user is banned now")
-                       }
-              }
-          })
-    }
+//    fun banneUser(reason:String){
+//          service.sendMailConfirmation(CofirmMail(1 ,reason , "" ), token()).enqueue(object :Callback<Code> {
+//              override fun onFailure(call: Call<Code>, t: Throwable) {
+//
+//              }
+//
+//              override fun onResponse(call: Call<Code>, response: Response<Code>) {
+//                  TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+//              }
+//          }
+//              )
+//    }
 }

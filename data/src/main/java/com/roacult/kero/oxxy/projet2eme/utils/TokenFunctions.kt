@@ -18,7 +18,7 @@ fun token():String {
     var diggest = MessageDigest.getInstance("md5")
     diggest.update(time.toString().toByteArray())
     val md5OfTime = toHexString(diggest.digest())
-    diggest = MessageDigest.getInstance("sha256")
+    diggest = MessageDigest.getInstance("SHA-256")
     diggest.update("$time${BuildConfig.ApiKey}".toByteArray())
     val key = diggest.digest()
     val mac = Mac.getInstance("HmacSHA256")

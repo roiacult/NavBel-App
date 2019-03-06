@@ -27,7 +27,9 @@ class AuthentificationLocal @Inject constructor(val preference:SharedPreferences
              putInt(USER_POINT , 0)
              putInt(USER_RANK ,0)
              putInt(NQSOLVED , 0)
-             //todo date
+             putString(USER_DATE , user.date)
+             putInt(USER_YEAR , user.year ?:0)
+             putLong(USER_ID  , user.id ?:0)
              //rank table
             commit()
          }
@@ -70,7 +72,8 @@ class AuthentificationLocal @Inject constructor(val preference:SharedPreferences
             putInt(USER_POINT , info.point ?: 0)
             putInt(USER_RANK ,info.currentrank ?: 0)
             putInt(NQSOLVED , info.nbsolved ?: 0)
-            putString(DATE , info.date)
+            putString(USER_DATE , info.date)
+            putLong(USER_ID , info.id ?:0)
 //            putStringSet()
             commit()
         }

@@ -15,6 +15,7 @@ sealed class Failure {
         class UserNotSubscribedYet : LoginFaillure()
         class UserBanned:LoginFaillure()
         class WrongPassword:LoginFaillure()
+        class NotFromEsi():LoginFaillure()
         class AutherFaillure(val t:Throwable?) : LoginFaillure()
     }
 

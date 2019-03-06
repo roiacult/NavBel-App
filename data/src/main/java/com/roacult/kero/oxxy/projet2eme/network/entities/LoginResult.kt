@@ -1,7 +1,7 @@
 package com.roacult.kero.oxxy.projet2eme.network.entities
 
 data class LoginResult(val reponse:Int , val email :String? , val fname:String? , val lname:String?,
-                       val year:Int? , val id:Int?
+                       val year:Int? , val id:Long?
                        ,
                        val picture:String? , val currentrank:Int?
                        , val nbsolved:Int?   , val date:String? ,
@@ -46,6 +46,5 @@ data class LoginResult(val reponse:Int , val email :String? , val fname:String? 
         result = 31 * result + (rankTable?.contentHashCode() ?: 0)
         return result
     }
-
-
 }
+data class LoginParame(val banne:Int , val why :String? , val email :String , val password:String )

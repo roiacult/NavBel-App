@@ -5,4 +5,6 @@ data class SaveInfo(val email:String , val fname:String , val lname:String , val
                     )
 data class SaveInfoResult(val email: String? ,val fname:String? , val lname:String? ,  val imageUrl:String? ,
                           val year :Int? ,
+                          val date:String?,
+                          val id:Long?,
                           val reponse:Int)
