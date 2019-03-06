@@ -23,14 +23,18 @@ import android.graphics.Bitmap
 import com.roacult.kero.oxxy.domain.interactors.LoginParam
 import com.roacult.kero.oxxy.projet2eme.network.entities.*
 import com.roacult.kero.oxxy.projet2eme.utils.toHexString
+import io.reactivex.Observable
+import io.reactivex.subjects.BehaviorSubject
 import java.io.ByteArrayOutputStream
 import java.security.MessageDigest
+import java.util.concurrent.TimeUnit
 
 
 /**
  * this class will handle the authentification remote requests
  */
 class AuthertificationRemote @Inject constructor( val service: AuthentificationService , val context:Context){
+//    private val subject :BehaviorSubject<ConfirmationState> = BehaviorSubject.create()
     /**
      * this function will send a request to a server this request will have an email which the server will check if
      *  the user is banned forever or he has already subscribed or he doesnt exist in the students table
@@ -109,6 +113,10 @@ class AuthertificationRemote @Inject constructor( val service: AuthentificationS
                     if (reponse.reponse == "0"){
                         it.resume(Either.Left(Failure.SignInFaillure.CodeSendingError()))
                     }else {
+//                        var observable = Observable.timer(5 , TimeUnit.MINUTES).map {
+//                            ConfirmationState.TimeOut
+//                        }
+//                        observable.subscribe(sub)
                         it.resume(Either.Right(reponse.reponse))
                     }
                     }
@@ -120,7 +128,7 @@ class AuthertificationRemote @Inject constructor( val service: AuthentificationS
      * will be the object that we will send to the server the difference between them is that the picture can be null and converted to
      * an empty string or it can have the uri and will be converted to base64
      */
-    suspend fun mapToRequest(  userInfo: UserInfo):SaveInfo = suspendCoroutine{
+ suspend fun mapToRequest(  userInfo: UserInfo):SaveInfo = suspendCoroutine{
         var picture :String
         //if ther picture is null it will be converted to an empty string
         if(userInfo.pictureUrl==null) picture = ""
@@ -128,7 +136,8 @@ class AuthertificationRemote @Inject constructor( val service: AuthentificationS
             picture =userInfo.pictureUrl!!
             // the picture will be compressed here
             val baos = ByteArrayOutputStream()
-            MediaStore.Images.Media.getBitmap(context.contentResolver , Uri.fromFile(File(picture))).compress(Bitmap.CompressFormat.PNG,
+            MediaStore.Images.Media.getBitmap(context.contentResolver , Uri.fromFile(File(picture)))
+                .compress(Bitmap.CompressFormat.JPEG,
                 100, baos)
 
             val b = baos.toByteArray()
@@ -154,8 +163,6 @@ class AuthertificationRemote @Inject constructor( val service: AuthentificationS
                     //user doesnt exist or unsaved
                     if(reponse.reponse==0){
                         it.resume(Either.Left(Failure.LoginFaillure.UserBanned()))
-
-
                     }else  ///the user is subscribed and logged in
                         if(reponse.reponse==1){
                         it.resume(Either.Right(reponse))
