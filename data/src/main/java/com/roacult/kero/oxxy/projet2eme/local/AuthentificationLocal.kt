@@ -63,13 +63,13 @@ class AuthentificationLocal @Inject constructor(val preference:SharedPreferences
     fun saveUserLogged(info:LoginResult){
         preference.edit().apply{
             putString(USER_EMAIL , info.email)
-            putString(USER_IMAGEURL , info.imageUrl)
+            putString(USER_IMAGEURL , info.picture)
             putString(USER_NAME , info.fname)
             putString(USER_PRENAME , info.lname)
             putBoolean(USER_CONNECTED , true )
-            putInt(USER_POINT , info.point)
-            putInt(USER_RANK ,info.currentRank)
-            putInt(NQSOLVED , info.nqsolved)
+            putInt(USER_POINT , info.point ?: 0)
+            putInt(USER_RANK ,info.currentrank ?: 0)
+            putInt(NQSOLVED , info.nbsolved ?: 0)
             putString(DATE , info.date)
 //            putStringSet()
             commit()

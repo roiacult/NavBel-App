@@ -153,15 +153,16 @@ class AuthertificationRemote @Inject constructor( val service: AuthentificationS
                   else {
                     //user doesnt exist or unsaved
                     if(reponse.reponse==0){
-                        it.resume(Either.Left(Failure.LoginFaillure.UserNotSubscribedYet()))
+                        it.resume(Either.Left(Failure.LoginFaillure.UserBanned()))
+
 
                     }else  ///the user is subscribed and logged in
                         if(reponse.reponse==1){
                         it.resume(Either.Right(reponse))
                     }else if(reponse.reponse==2){
-                            it.resume(Either.Left(Failure.LoginFaillure.WrongPassword()))
+                            it.resume(Either.Left(Failure.LoginFaillure.UserNotSubscribedYet()))
                         }else if(reponse.reponse==3){
-                            it.resume(Either.Left(Failure.LoginFaillure.UserBanned()))
+                            it.resume(Either.Left(Failure.LoginFaillure.WrongPassword()))
                         }
                 }
             }

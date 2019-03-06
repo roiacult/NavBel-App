@@ -43,11 +43,9 @@ class AutherntificationRepositoryImpl
     override suspend fun saveUserInfo(user: UserInfo): Either<Failure.SaveInfoFaillure, None> {
         val userr = remote.mapToRequest(user)
         var either= remote.saveUserInfo(userr)
-        Log.e("errr", "its done remotely ")
         if (either.isRight) {
             val e = either as  Either.Right<SaveInfoResult>
             local.saveUSerLocal(e.b)
-            Log.e("errr", "its done actually")
             return Either.Right(None())
         }else   return either as Either<Failure.SaveInfoFaillure, None>
 
