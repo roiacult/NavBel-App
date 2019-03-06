@@ -108,7 +108,7 @@ class RegistrationFragment : BaseFragment() , RegistrationActivity.CallbackToFra
                 showLoading(false)
                 callback.setView(REGISTRATION_STATE_CONFIRM)
                 val result = signInOperation()
-                callback.setUserInfo(result.nom,result.prenom,result.year)
+                callback.setUserInfo(result.nom,result.prenom,result.year,binding.signinEmail.text.toString())
             }
         }
     }
@@ -143,7 +143,7 @@ class RegistrationFragment : BaseFragment() , RegistrationActivity.CallbackToFra
                 showLoadingForConfirmation(false)
                 onError(R.string.resend_failled)
             }
-        }
+            }
     }
 
 
@@ -225,7 +225,7 @@ class RegistrationFragment : BaseFragment() , RegistrationActivity.CallbackToFra
     private fun gotoSaveInfo() {
         Log.v("sprint2","go to save info (in fragment)")
         val bundle = Bundle()
-        bundle.putString(SAVEINFO_EMAIL,binding.signinEmail.text.toString())
+        bundle.putString(SAVEINFO_EMAIL,viewModel.email)
         bundle.putString(SAVEINFO_FIRST_NAME, viewModel.name)
         bundle.putString(SAVEINFO_LAST_NAME, viewModel.lastName)
         bundle.putInt(SAVEINFO_YEAR, viewModel.year)
@@ -259,7 +259,7 @@ class RegistrationFragment : BaseFragment() , RegistrationActivity.CallbackToFra
         fun login(email : String,password : String)
         fun signIn(email: String)
         fun confirmEmail(code : String)
-        fun setUserInfo(name : String , lastName : String , year : Int)
+        fun setUserInfo(name : String , lastName : String , year : Int,email : String)
         fun resendConfirmationCode()
     }
 }

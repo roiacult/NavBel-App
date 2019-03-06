@@ -30,6 +30,7 @@ class RegistrationViewModel @Inject constructor(val signInOp: SignInUseCase,val 
     ) ,
     RegistrationFragment.CallbackFromViewModel {
 
+    var email :String = ""
     var name :String =""
     var lastName: String = ""
     var year : Int = 0
@@ -67,10 +68,11 @@ class RegistrationViewModel @Inject constructor(val signInOp: SignInUseCase,val 
         setState { copy(signInOperation = Event(Fail(signInFaillure))) }
     }
 
-    override fun setUserInfo(name: String, lastName: String, year: Int) {
+    override fun setUserInfo(name: String, lastName: String, year: Int,email :String) {
         this.name = name
         this.lastName =lastName
         this.year = year
+        this.email = email
     }
 
     override fun confirmEmail(code : String){
@@ -89,7 +91,7 @@ class RegistrationViewModel @Inject constructor(val signInOp: SignInUseCase,val 
     }
     override fun resendConfirmationCode(){
         setState{copy(resendOperation = Event(Loading()))}
-        scope.launchInteractor(resendOp,None()){
+        scope.launchInteractor(resendOp,email){
             it.either(::handleResendFaillure,::handleResendSuccess)
         }
     }
