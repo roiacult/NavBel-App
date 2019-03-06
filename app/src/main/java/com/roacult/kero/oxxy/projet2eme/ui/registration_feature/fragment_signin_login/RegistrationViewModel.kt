@@ -15,6 +15,7 @@ class RegistrationViewModel @Inject constructor(val signInOp: SignInUseCase,val 
             REGISTRATION_STATE_DEFAULT,
             null,
             null,
+            null,
             null
         )
     ) ,
@@ -75,5 +76,8 @@ class RegistrationViewModel @Inject constructor(val signInOp: SignInUseCase,val 
 
     private fun handelFaile(confirmEmailFaillure: Failure.ConfirmEmailFaillure) {
         setState { copy(confirmatioOperation = Event(Fail(confirmEmailFaillure))) }
+    }
+    override fun resendConfirmationCode(){
+        //TODO excute resend confirmation usecase
     }
 }

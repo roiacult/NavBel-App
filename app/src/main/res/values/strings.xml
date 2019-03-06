@@ -25,8 +25,13 @@
         us in this mail support@team7.talebweb.com
     </string>
     <string name="banned_title">you are banned for security reasons</string>
-    <string name="confirm_email">confirm your email</string>
+    <string name="confirm_email">confirm</string>
     <string name="code_not_correct">code not correct please try again</string>
     <string name="try_out">you tryed more than 5 times you are know banned</string>
     <string name="confirmation_error">code not confirmed some thing went wrong</string>
+    <string name="confirmation_code">confirmation code</string>
+    <string name="resend_email">resend</string>
+    <string name="confirm_code_not_valid">please entre a valid confirmation code</string>
+    <string name="wrong_password">wrong password</string>
+    <string name="code_sending_error">somthing went wrong please check your internet connection and try again</string>
 </resources>

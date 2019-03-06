@@ -66,7 +66,12 @@ class RegistrationFragment : BaseFragment() , RegistrationActivity.CallbackToFra
                         onError(R.string.user_alredy_subscribe)
                         callback.setView(REGISTRATION_STATE_LOGIN)
                     }
-                    is Failure.SignInFaillure.UserBanned -> {showDialoguUserBanned()}
+                    is Failure.SignInFaillure.UserBanned -> {
+                        showDialoguUserBanned()
+                        callback.setView(REGISTRATION_STATE_DEFAULT)
+                    }
+                    is Failure.SignInFaillure.CodeSendingError -> onError(R.string.code_sending_error)
+
                 }
             }
             is Success -> {
@@ -83,6 +88,7 @@ class RegistrationFragment : BaseFragment() , RegistrationActivity.CallbackToFra
         when(async){
             is Loading ->showLoading(true)
             is Fail<*, *> -> {
+                showLoading(false)
                 when(async.error){
                     is Failure.ConfirmEmailFaillure.CadeNotCorrect -> onError(R.string.code_not_correct)
                     is Failure.ConfirmEmailFaillure.MaximumNumbreOfTry ->{
@@ -92,7 +98,10 @@ class RegistrationFragment : BaseFragment() , RegistrationActivity.CallbackToFra
                     is Failure.ConfirmEmailFaillure.AutherFaillur -> onError(R.string.confirmation_error)
                 }
             }
-            is Success -> gotoSaveInfo()
+            is Success -> {
+                showLoading(false)
+                gotoSaveInfo()
+            }
         }
     }
 
@@ -106,6 +115,11 @@ class RegistrationFragment : BaseFragment() , RegistrationActivity.CallbackToFra
                         onError(R.string.not_subscribed_yet)
                         callback.setView(REGISTRATION_STATE_SIGNIN)
                     }
+                    is Failure.LoginFaillure.UserBanned -> {
+                        showDialoguUserBanned()
+                        callback.setView(REGISTRATION_STATE_DEFAULT)
+                    }
+                    is Failure.LoginFaillure.WrongPassword -> onError(R.string.wrong_password)
                     is Failure.LoginFaillure.AutherFaillure -> onError(R.string.login_failled)
                 }
             }
@@ -136,11 +150,18 @@ class RegistrationFragment : BaseFragment() , RegistrationActivity.CallbackToFra
                 binding.signinBtn.setOnClickListener{ performSignin() }
             }
             REGISTRATION_STATE_CONFIRM -> {
-                binding.signinBtn.setText(R.string.confirm_email)
-                binding.signinBtn.setOnClickListener{ callback.confirmEmail(binding.confirmText.text.toString()) }
                 binding.motion.transitionToState(R.id.state_confirm)
+                binding.signinBtn.setText(R.string.confirm_email)
+                binding.signinBtn.setOnClickListener{ confirmEmail(binding.confirmText.text.toString())}
+                binding.resendBtn.setOnClickListener{callback.resendConfirmationCode()}
+
             }
         }
+    }
+
+    private fun confirmEmail(code: String) {
+        if(code.isEmpty() || code.length != 5) {onError(R.string.confirm_code_not_valid);return}
+        callback.confirmEmail(code)
     }
 
     private fun gotoSaveInfo() {
@@ -207,6 +228,7 @@ class RegistrationFragment : BaseFragment() , RegistrationActivity.CallbackToFra
         fun signIn(email: String)
         fun confirmEmail(code : String)
         fun setUserInfo(name : String , lastName : String , year : Int)
+        fun resendConfirmationCode()
     }
 }
 interface CallbackToRegistrationActivity{

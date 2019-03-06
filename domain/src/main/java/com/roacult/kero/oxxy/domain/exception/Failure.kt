@@ -17,14 +17,15 @@ sealed class Failure {
         class WrongPassword:LoginFaillure()
         class AutherFaillure(val t:Throwable?) : LoginFaillure()
     }
-
-    sealed class SaveInfoFaillure : Failure(){
-        class OperationFailed:SaveInfoFaillure()
-       class OtherFailure(val t:Throwable?) :SaveInfoFaillure()
-    }
     sealed class ConfirmEmailFaillure() : Failure(){
         class MaximumNumbreOfTry() : ConfirmEmailFaillure()
         class CadeNotCorrect() : ConfirmEmailFaillure()
         class AutherFaillur() : ConfirmEmailFaillure()
     }
+
+    sealed class SaveInfoFaillure : Failure(){
+        class OperationFailed:SaveInfoFaillure()
+       class OtherFailure(val t:Throwable?) :SaveInfoFaillure()
+    }
+
 }
