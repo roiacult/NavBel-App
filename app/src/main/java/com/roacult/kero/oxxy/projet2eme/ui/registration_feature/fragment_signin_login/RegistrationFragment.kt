@@ -118,6 +118,7 @@ class RegistrationFragment : BaseFragment() , RegistrationActivity.CallbackToFra
             is Loading ->showLoading(true)
             is Fail<*, *> -> {
                 showLoading(false)
+                binding.confirmText.setText("")
                 when(async.error){
                     is Failure.ConfirmEmailFaillure.CadeNotCorrect -> onError(R.string.code_not_correct)
                     is Failure.ConfirmEmailFaillure.MaximumNumbreOfTry ->{
@@ -184,6 +185,7 @@ class RegistrationFragment : BaseFragment() , RegistrationActivity.CallbackToFra
                 binding.signinBtn.setText(R.string.confirm_email)
                 binding.signinBtn.setOnClickListener{ confirmEmail(binding.confirmText.text.toString())}
                 binding.resendBtn.setOnClickListener{resendConfirmationCode()}
+                binding.confirmText.setText("")
                 viewModel.lastResendTime = System.currentTimeMillis()
             }
         }

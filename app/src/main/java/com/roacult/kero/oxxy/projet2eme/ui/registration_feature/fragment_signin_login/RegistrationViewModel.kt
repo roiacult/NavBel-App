@@ -88,7 +88,7 @@ class RegistrationViewModel @Inject constructor(val signInOp: SignInUseCase,val 
         setState { copy(confirmatioOperation = Event(Fail(confirmEmailFaillure))) }
     }
     override fun resendConfirmationCode(){
-        //TODO excute resend confirmation usecase
+        setState{copy(resendOperation = Event(Loading()))}
         scope.launchInteractor(resendOp,None()){
             it.either(::handleResendFaillure,::handleResendSuccess)
         }
