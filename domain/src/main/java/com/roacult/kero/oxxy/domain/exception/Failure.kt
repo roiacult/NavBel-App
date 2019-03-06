@@ -15,8 +15,10 @@ sealed class Failure {
         class UserNotSubscribedYet : LoginFaillure()
         class UserBanned:LoginFaillure()
         class WrongPassword:LoginFaillure()
+        class NotFromEsi():LoginFaillure()
         class AutherFaillure(val t:Throwable?) : LoginFaillure()
     }
+
     sealed class ConfirmEmailFaillure() : Failure(){
         class MaximumNumbreOfTry() : ConfirmEmailFaillure()
         class CadeNotCorrect() : ConfirmEmailFaillure()
@@ -28,4 +30,8 @@ sealed class Failure {
        class OtherFailure(val t:Throwable?) :SaveInfoFaillure()
     }
 
+    sealed class ResendConfirmationFailure:Failure(){
+        class CodeError():ResendConfirmationFailure()
+        class OtherFailure(val t:Throwable?):ResendConfirmationFailure()
+    }
 }

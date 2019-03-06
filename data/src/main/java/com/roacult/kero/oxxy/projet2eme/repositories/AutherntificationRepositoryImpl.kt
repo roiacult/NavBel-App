@@ -43,11 +43,9 @@ class AutherntificationRepositoryImpl
     override suspend fun saveUserInfo(user: UserInfo): Either<Failure.SaveInfoFaillure, None> {
         val userr = remote.mapToRequest(user)
         var either= remote.saveUserInfo(userr)
-        Log.e("errr", "its done remotely ")
         if (either.isRight) {
             val e = either as  Either.Right<SaveInfoResult>
             local.saveUSerLocal(e.b)
-            Log.e("errr", "its done actually")
             return Either.Right(None())
         }else   return either as Either<Failure.SaveInfoFaillure, None>
 
@@ -62,7 +60,7 @@ class AutherntificationRepositoryImpl
     override fun checkCodeCorrect(code:String ):Either<Failure.ConfirmEmailFaillure , None>{
         //if we use rxjava it wil be awesssooommm
         return if(local.getCounter()==5){
-//            remote.banneUser("user tried 5 times the confirmation code")
+            remote.banneUser("user tried 5 times the confirmation code")
             Either.Left(Failure.ConfirmEmailFaillure.MaximumNumbreOfTry())
         }else{
             if(local.isCodeCorrect(code)){
@@ -84,6 +82,20 @@ class AutherntificationRepositoryImpl
         if(either.isLeft) return either as Either<Failure.LoginFaillure, None>
         else{
             local.saveUserLogged((either as Either.Right).b)
+            return Either.Right(None())
+        }
+    }
+
+    override suspend fun resendConfirmationCode(email: String): Either<Failure.ResendConfirmationFailure, None> {
+        local.removeCode()
+       val either =  remote.sendConfirmationMail(email)
+        if(either.isLeft) {
+            return if((either as Either.Left<Failure.SignInFaillure>).a  is Failure.SignInFaillure.CodeSendingError)
+                Either.Left(Failure.ResendConfirmationFailure.CodeError())
+            else Either.Left(Failure.ResendConfirmationFailure.OtherFailure(Throwable("erreur sending")))
+        }else{
+            val code =(either as Either.Right<String>).b
+            local.saveCodeLocal(code)
             return Either.Right(None())
         }
     }

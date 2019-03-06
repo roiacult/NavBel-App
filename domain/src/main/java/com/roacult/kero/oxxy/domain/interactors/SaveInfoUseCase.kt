@@ -12,7 +12,7 @@ class SaveInfoUseCase @Inject constructor(dispatchers: CouroutineDispatchers ,
       val repo:AuthentificationRepository) : EitherInteractor<UserInfo,None
         ,Failure.SaveInfoFaillure>{
 
-    override val dispatcher =dispatchers.computaion
+    override val dispatcher =dispatchers.io
     override val ResultDispatcher= dispatchers.main
 
     override suspend fun invoke(executeParams: UserInfo): Either<Failure.SaveInfoFaillure, None> {

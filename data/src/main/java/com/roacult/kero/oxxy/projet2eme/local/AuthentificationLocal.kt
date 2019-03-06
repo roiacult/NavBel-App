@@ -27,7 +27,9 @@ class AuthentificationLocal @Inject constructor(val preference:SharedPreferences
              putInt(USER_POINT , 0)
              putInt(USER_RANK ,0)
              putInt(NQSOLVED , 0)
-             //todo date
+             putString(USER_DATE , user.date)
+             putInt(USER_YEAR , user.year ?:0)
+             putLong(USER_ID  , user.id ?:0)
              //rank table
             commit()
          }
@@ -63,14 +65,15 @@ class AuthentificationLocal @Inject constructor(val preference:SharedPreferences
     fun saveUserLogged(info:LoginResult){
         preference.edit().apply{
             putString(USER_EMAIL , info.email)
-            putString(USER_IMAGEURL , info.imageUrl)
+            putString(USER_IMAGEURL , info.picture)
             putString(USER_NAME , info.fname)
             putString(USER_PRENAME , info.lname)
             putBoolean(USER_CONNECTED , true )
-            putInt(USER_POINT , info.point)
-            putInt(USER_RANK ,info.currentRank)
-            putInt(NQSOLVED , info.nqsolved)
-            putString(DATE , info.date)
+            putInt(USER_POINT , info.point ?: 0)
+            putInt(USER_RANK ,info.currentrank ?: 0)
+            putInt(NQSOLVED , info.nbsolved ?: 0)
+            putString(USER_DATE , info.date)
+            putLong(USER_ID , info.id ?:0)
 //            putStringSet()
             commit()
         }

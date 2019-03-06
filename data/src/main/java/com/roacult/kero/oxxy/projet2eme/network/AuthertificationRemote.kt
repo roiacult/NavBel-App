@@ -23,20 +23,24 @@ import android.graphics.Bitmap
 import com.roacult.kero.oxxy.domain.interactors.LoginParam
 import com.roacult.kero.oxxy.projet2eme.network.entities.*
 import com.roacult.kero.oxxy.projet2eme.utils.toHexString
+import io.reactivex.Observable
+import io.reactivex.subjects.BehaviorSubject
 import java.io.ByteArrayOutputStream
 import java.security.MessageDigest
+import java.util.concurrent.TimeUnit
 
 
 /**
  * this class will handle the authentification remote requests
  */
 class AuthertificationRemote @Inject constructor( val service: AuthentificationService , val context:Context){
+//    private val subject :BehaviorSubject<ConfirmationState> = BehaviorSubject.create()
     /**
      * this function will send a request to a server this request will have an email which the server will check if
      *  the user is banned forever or he has already subscribed or he doesnt exist in the students table
      */
     suspend  fun CheckMailUser(email:String):Either<Failure.SignInFaillure  , MailResult> = suspendCoroutine{
-        service.checkUserMail(Mail(email)).enqueue(object :Callback<MailResponse>{
+        service.checkUserMail(Mail(email) , token()).enqueue(object :Callback<MailResponse>{
             override fun onFailure(call: Call<MailResponse>, t: Throwable) {
                 it.resume(Either.Left(Failure.SignInFaillure.AutherFaillure(t)))
             }
@@ -75,7 +79,7 @@ class AuthertificationRemote @Inject constructor( val service: AuthentificationS
      * or a none (so it has completed successfully)
      */
     suspend fun saveUserInfo(userInfo: SaveInfo):Either<Failure.SaveInfoFaillure , SaveInfoResult> = suspendCoroutine {
-        service.saveUserInfo(userInfo).enqueue(object :Callback<SaveInfoResult>{
+        service.saveUserInfo(userInfo , token()).enqueue(object :Callback<SaveInfoResult>{
             override fun onFailure(call: Call<SaveInfoResult>, t: Throwable) {
                 Log.e("errr", "errrrroor")
                   it.resume(Either.Left(Failure.SaveInfoFaillure.OtherFailure(t)))
@@ -96,7 +100,7 @@ class AuthertificationRemote @Inject constructor( val service: AuthentificationS
     }
 
     suspend fun sendConfirmationMail(email:String):Either<Failure.SignInFaillure , String> = suspendCoroutine{
-        service.sendMailConfirmation(Mail(email)).enqueue(object :Callback<Code>{
+        service.sendMailConfirmation(CofirmMail(0 , "", email), token()).enqueue(object :Callback<Code>{
             override fun onFailure(call: Call<Code>, t: Throwable) {
                 it.resume(Either.Left(Failure.SignInFaillure.AutherFaillure(t)))
             }
@@ -109,6 +113,10 @@ class AuthertificationRemote @Inject constructor( val service: AuthentificationS
                     if (reponse.reponse == "0"){
                         it.resume(Either.Left(Failure.SignInFaillure.CodeSendingError()))
                     }else {
+//                        var observable = Observable.timer(5 , TimeUnit.MINUTES).map {
+//                            ConfirmationState.TimeOut
+//                        }
+//                        observable.subscribe(sub)
                         it.resume(Either.Right(reponse.reponse))
                     }
                     }
@@ -120,7 +128,7 @@ class AuthertificationRemote @Inject constructor( val service: AuthentificationS
      * will be the object that we will send to the server the difference between them is that the picture can be null and converted to
      * an empty string or it can have the uri and will be converted to base64
      */
-    suspend fun mapToRequest(  userInfo: UserInfo):SaveInfo = suspendCoroutine{
+ suspend fun mapToRequest(  userInfo: UserInfo):SaveInfo = suspendCoroutine{
         var picture :String
         //if ther picture is null it will be converted to an empty string
         if(userInfo.pictureUrl==null) picture = ""
@@ -128,7 +136,8 @@ class AuthertificationRemote @Inject constructor( val service: AuthentificationS
             picture =userInfo.pictureUrl!!
             // the picture will be compressed here
             val baos = ByteArrayOutputStream()
-            MediaStore.Images.Media.getBitmap(context.contentResolver , Uri.fromFile(File(picture))).compress(Bitmap.CompressFormat.PNG,
+            MediaStore.Images.Media.getBitmap(context.contentResolver , Uri.fromFile(File(picture)))
+                .compress(Bitmap.CompressFormat.JPEG,
                 100, baos)
 
             val b = baos.toByteArray()
@@ -142,7 +151,7 @@ class AuthertificationRemote @Inject constructor( val service: AuthentificationS
 
 
     suspend fun logUserIn(user:LoginParam):Either<Failure.LoginFaillure , LoginResult> = suspendCoroutine {
-        service.logUserIn(user).enqueue(object :Callback<LoginResult>{
+        service.logUserIn(LoginParame(0 , "", user.email , user.password), token()).enqueue(object :Callback<LoginResult>{
             override fun onFailure(call: Call<LoginResult>, t: Throwable) {
                 it.resume(Either.Left(Failure.LoginFaillure.AutherFaillure(t)))
             }
@@ -153,34 +162,34 @@ class AuthertificationRemote @Inject constructor( val service: AuthentificationS
                   else {
                     //user doesnt exist or unsaved
                     if(reponse.reponse==0){
-                        it.resume(Either.Left(Failure.LoginFaillure.UserNotSubscribedYet()))
-
+                        it.resume(Either.Left(Failure.LoginFaillure.UserBanned()))
                     }else  ///the user is subscribed and logged in
                         if(reponse.reponse==1){
                         it.resume(Either.Right(reponse))
                     }else if(reponse.reponse==2){
-                            it.resume(Either.Left(Failure.LoginFaillure.WrongPassword()))
+                            it.resume(Either.Left(Failure.LoginFaillure.UserNotSubscribedYet()))
                         }else if(reponse.reponse==3){
-                            it.resume(Either.Left(Failure.LoginFaillure.UserBanned()))
+                             it.resume(Either.Left(Failure.LoginFaillure.NotFromEsi()))
+                        }else if(reponse.reponse==4){
+                            it.resume(Either.Left(Failure.LoginFaillure.WrongPassword()))
+
                         }
                 }
             }
         })
 
     }
+
     fun banneUser(reason:String){
-          service.banneUser(BanneParam(reason)).enqueue(object :Callback<BanneResult>{
-              override fun onFailure(call: Call<BanneResult>, t: Throwable) {
-                 t.printStackTrace()
+          service.sendMailConfirmation(CofirmMail(1 ,reason , "" ), token()).enqueue(object :Callback<Code> {
+              override fun onFailure(call: Call<Code>, t: Throwable) {
+                          t.printStackTrace()
               }
 
-              override fun onResponse(call: Call<BanneResult>, response: Response<BanneResult>) {
-                       if(response.body()?.reponse==0){
-                           Log.e("errr","user is not banned" )
-                       }else{
-                           Log.e("errr", "user is banned now")
-                       }
+              override fun onResponse(call: Call<Code>, response: Response<Code>) {
+                       Log.e("errr", "done")
               }
-          })
+          }
+              )
     }
 }
