@@ -12,4 +12,5 @@ interface AuthentificationRepository {
  suspend fun saveUserInfo(user:UserInfo):Either<Failure.SaveInfoFaillure , None>
  fun checkCodeCorrect(code:String):Either<Failure.ConfirmEmailFaillure , None>
  suspend fun logUserIn(loginParam: LoginParam):Either<Failure.LoginFaillure , None>
+ suspend fun resendConfirmationCode(email: String):Either<Failure.ResendConfirmationFailure , None>
 }

@@ -28,4 +28,8 @@ sealed class Failure {
         class CadeNotCorrect() : ConfirmEmailFaillure()
         class AutherFaillur() : ConfirmEmailFaillure()
     }
+    sealed class ResendConfirmationFailure:Failure(){
+        class CodeError():ResendConfirmationFailure()
+        class OtherFailure(val t:Throwable?):ResendConfirmationFailure()
+    }
 }

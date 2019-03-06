@@ -85,4 +85,18 @@ class AutherntificationRepositoryImpl
             return Either.Right(None())
         }
     }
+
+    override suspend fun resendConfirmationCode(email: String): Either<Failure.ResendConfirmationFailure, None> {
+        local.removeCode()
+       val either =  remote.sendConfirmationMail(email)
+        if(either.isLeft) {
+            return if((either as Either.Left<Failure.SignInFaillure>).a  is Failure.SignInFaillure.CodeSendingError)
+                Either.Left(Failure.ResendConfirmationFailure.CodeError())
+            else Either.Left(Failure.ResendConfirmationFailure.OtherFailure(Throwable("erreur sending")))
+        }else{
+            val code =(either as Either.Right<String>).b
+            local.saveCodeLocal(code)
+            return Either.Right(None())
+        }
+    }
 }
