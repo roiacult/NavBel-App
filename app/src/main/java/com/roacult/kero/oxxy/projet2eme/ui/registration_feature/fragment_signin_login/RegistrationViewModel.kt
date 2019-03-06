@@ -9,7 +9,16 @@ import com.roacult.kero.oxxy.projet2eme.utils.Loading
 import com.roacult.kero.oxxy.projet2eme.utils.Success
 import javax.inject.Inject
 
-class RegistrationViewModel @Inject constructor(val signInOp: SignInUseCase,val confirmationOp : ConfirmEmail, val loginOp: Login) :
+    /**
+     * constant time for resending email 3 min
+     * user must wait
+     * @param RESEND_EMAIL_TIME miliseconds
+     * to performe resending confirmation email
+     *
+     * */
+    const val RESEND_EMAIL_TIME = 3*60*1000L
+
+class RegistrationViewModel @Inject constructor(val signInOp: SignInUseCase,val confirmationOp : ConfirmEmail, val loginOp: Login,val resendOp : ResendConfirmationCode) :
     BaseViewModel<RegistrationState>(
         RegistrationState(
             REGISTRATION_STATE_DEFAULT,
@@ -24,6 +33,7 @@ class RegistrationViewModel @Inject constructor(val signInOp: SignInUseCase,val 
     var name :String =""
     var lastName: String = ""
     var year : Int = 0
+    var lastResendTime = -1L
 
     override fun setView(state: Int) {
         setState { copy(viewState = state) }
@@ -79,5 +89,17 @@ class RegistrationViewModel @Inject constructor(val signInOp: SignInUseCase,val 
     }
     override fun resendConfirmationCode(){
         //TODO excute resend confirmation usecase
+        scope.launchInteractor(resendOp,None()){
+            it.either(::handleResendFaillure,::handleResendSuccess)
+        }
+    }
+
+    private fun handleResendSuccess(none: None) {
+        lastResendTime = System.currentTimeMillis()
+        setState { copy(resendOperation = Event(Success(none))) }
+    }
+
+    private fun handleResendFaillure(failure: Failure) {
+        setState{copy(resendOperation = Event(Fail(failure)))}
     }
 }

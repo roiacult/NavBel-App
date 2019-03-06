@@ -1,6 +1,5 @@
 package com.roacult.kero.oxxy.projet2eme.ui.registration_feature.fragment_saveinfo
 
-import android.util.Log
 import com.roacult.kero.oxxy.domain.exception.Failure
 import com.roacult.kero.oxxy.domain.interactors.None
 import com.roacult.kero.oxxy.domain.interactors.SaveInfoUseCase

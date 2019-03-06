@@ -34,4 +34,7 @@
     <string name="confirm_code_not_valid">please entre a valid confirmation code</string>
     <string name="wrong_password">wrong password</string>
     <string name="code_sending_error">somthing went wrong please check your internet connection and try again</string>
+    <string name="resend_failled">resend operation failled please check your internet connection and try again</string>
+    <string name="resend_code_time_limit">you must wait atleast 3 minute to resend confirmation code</string>
+    <string name="confirmation_code_title">please check your email and write the confirmation code</string>
 </resources>

@@ -50,6 +50,7 @@ dependencies {
     implementation deps.android.circle_image
     implementation deps.android.picasso
     implementation deps.android.image_copper
+    implementation(deps.android.pin_inputs){exclude group: 'androidx.appcompat', module: 'appcompat'}
 
     implementation deps.dagger.core
     implementation deps.dagger.support

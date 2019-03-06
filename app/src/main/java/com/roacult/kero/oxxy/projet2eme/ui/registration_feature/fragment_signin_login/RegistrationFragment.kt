@@ -1,6 +1,5 @@
 package com.roacult.kero.oxxy.projet2eme.ui.registration_feature.fragment_signin_login
 
-import android.app.AlertDialog
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -26,6 +25,8 @@ import com.roacult.kero.oxxy.projet2eme.utils.Success
 import com.roacult.kero.oxxy.projet2eme.utils.extension.isEmailValid
 import com.roacult.kero.oxxy.projet2eme.utils.extension.loading
 import com.roacult.kero.oxxy.projet2eme.utils.extension.visible
+import java.sql.Time
+import java.util.*
 
 class RegistrationFragment : BaseFragment() , RegistrationActivity.CallbackToFragment {
 
@@ -45,9 +46,37 @@ class RegistrationFragment : BaseFragment() , RegistrationActivity.CallbackToFra
             it.logInOperation?.getContentIfNotHandled()?.apply { handleLoginOperation(this) }
             it.signInOperation?.getContentIfNotHandled()?.apply { handleSignInOperation(this) }
             it.confirmatioOperation?.getContentIfNotHandled()?.apply { handleConfirmeOperation(this) }
+            it.resendOperation?.getContentIfNotHandled()?.apply { handleResendConfirmationOperration(this) }
         }
 
         return binding.root
+    }
+
+    private fun handleLoginOperation(logInOperation: Async<None>) {
+        when(logInOperation){
+            is Loading -> showLoading(true)
+            is Fail<*, *> -> {
+                showLoading(false)
+                when (logInOperation.error){
+                    is Failure.LoginFaillure.UserNotSubscribedYet -> {
+                        onError(R.string.not_subscribed_yet)
+                        callback.setView(REGISTRATION_STATE_SIGNIN)
+                    }
+                    is Failure.LoginFaillure.UserBanned -> {
+                        showDialoguUserBanned()
+                        callback.setView(REGISTRATION_STATE_DEFAULT)
+                    }
+                    is Failure.LoginFaillure.WrongPassword -> onError(R.string.wrong_password)
+                    is Failure.LoginFaillure.AutherFaillure -> onError(R.string.login_failled)
+                }
+            }
+            is Success -> {
+                showLoading(false)
+                //TODO goto main
+                showMessage("go to main know")
+            }
+            else -> showLoading(false)
+        }
     }
 
     private fun handleSignInOperation(signInOperation: Async<MailResult>) {
@@ -105,31 +134,32 @@ class RegistrationFragment : BaseFragment() , RegistrationActivity.CallbackToFra
         }
     }
 
-    private fun handleLoginOperation(logInOperation: Async<None>) {
-        when(logInOperation){
-            is Loading -> showLoading(true)
-            is Fail<*, *> -> {
-                showLoading(false)
-                when (logInOperation.error){
-                    is Failure.LoginFaillure.UserNotSubscribedYet -> {
-                        onError(R.string.not_subscribed_yet)
-                        callback.setView(REGISTRATION_STATE_SIGNIN)
-                    }
-                    is Failure.LoginFaillure.UserBanned -> {
-                        showDialoguUserBanned()
-                        callback.setView(REGISTRATION_STATE_DEFAULT)
-                    }
-                    is Failure.LoginFaillure.WrongPassword -> onError(R.string.wrong_password)
-                    is Failure.LoginFaillure.AutherFaillure -> onError(R.string.login_failled)
-                }
+    private fun handleResendConfirmationOperration(resend: Async<None>) {
+        when(resend){
+            is Loading -> showLoadingForConfirmation(true)
+            is Success -> showLoadingForConfirmation(false)
+            is Fail<*,*> -> {
+                showLoadingForConfirmation(false)
+                onError(R.string.resend_failled)
             }
-            is Success -> {
-                showLoading(false)
-                //TODO goto main
-                showMessage("go to main know")
-            }
-            else -> showLoading(false)
         }
+    }
+
+
+    private fun showLoading(b: Boolean) {
+        binding.loginBtn.loading(b)
+        binding.signinBtn.loading(b)
+        binding.progress.alpha = if(b) 1f else 0f
+        binding.signinInputs.visible(!b)
+        binding.loginInputs.visible(!b)
+        binding.confirmInputs.visible(!b)
+    }
+
+    private fun showLoadingForConfirmation(show: Boolean) {
+        binding.resendBtn.loading(show)
+        binding.confirmInputs.visible(!show)
+        binding.progress.alpha = if(show) 1f else 0f
+        binding.confirmText.isClickable = !show
     }
 
     private fun setUpState(state: Int) {
@@ -153,10 +183,36 @@ class RegistrationFragment : BaseFragment() , RegistrationActivity.CallbackToFra
                 binding.motion.transitionToState(R.id.state_confirm)
                 binding.signinBtn.setText(R.string.confirm_email)
                 binding.signinBtn.setOnClickListener{ confirmEmail(binding.confirmText.text.toString())}
-                binding.resendBtn.setOnClickListener{callback.resendConfirmationCode()}
-
+                binding.resendBtn.setOnClickListener{resendConfirmationCode()}
+                viewModel.lastResendTime = System.currentTimeMillis()
             }
         }
+    }
+
+    private fun resendConfirmationCode() {
+
+        if(System.currentTimeMillis() - viewModel.lastResendTime< RESEND_EMAIL_TIME ){
+            onError(R.string.resend_code_time_limit)
+            return;
+        }
+        callback.resendConfirmationCode()
+    }
+
+    private fun performSignin() {
+        val email :String = binding.signinEmail.text.toString()
+        if(!email.isEmailValid()){ onError(R.string.email_not_valid);return }
+        if (!isNetworkConnected()){ onError(R.string.no_internet);return }
+        callback.signIn(email)
+    }
+
+    private fun performeLogin() {
+        val email : String = binding.loginEmail.text.toString()
+        val password : String = binding.loginPassword.text.toString()
+
+        if(!email.isEmailValid()){ onError(R.string.email_not_valid) ;return }
+        if(password.length<8) { onError(R.string.password_short);return }
+        if (!isNetworkConnected()){ onError(R.string.no_internet);return }
+        callback.login(email,password)
     }
 
     private fun confirmEmail(code: String) {
@@ -183,32 +239,6 @@ class RegistrationFragment : BaseFragment() , RegistrationActivity.CallbackToFra
     }
 
     private fun setUpCallbackToActivity(){callbackToActivity = activity as? RegistrationActivity}
-
-    private fun showLoading(b: Boolean) {
-        binding.loginBtn.loading(b)
-        binding.signinBtn.loading(b)
-        binding.progress.alpha = if(b) 1f else 0f
-        binding.signinInputs.visible(!b)
-        binding.loginInputs.visible(!b)
-        binding.confirmInputs.visible(!b)
-    }
-
-    private fun performSignin() {
-        val email :String = binding.signinEmail.text.toString()
-        if(!email.isEmailValid()){ onError(R.string.email_not_valid);return }
-        if (!isNetworkConnected()){ onError(R.string.no_internet);return }
-        callback.signIn(email)
-    }
-
-    private fun performeLogin() {
-        val email : String = binding.loginEmail.text.toString()
-        val password : String = binding.loginPassword.text.toString()
-
-        if(!email.isEmailValid()){ onError(R.string.email_not_valid) ;return }
-        if(password.length<8) { onError(R.string.password_short);return }
-        if (!isNetworkConnected()){ onError(R.string.no_internet);return }
-        callback.login(email,password)
-    }
 
     override fun goToDefaultState() { callback.setView(REGISTRATION_STATE_DEFAULT) }
 
