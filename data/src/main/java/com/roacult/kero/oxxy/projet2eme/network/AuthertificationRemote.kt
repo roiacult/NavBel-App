@@ -180,16 +180,16 @@ class AuthertificationRemote @Inject constructor( val service: AuthentificationS
 
     }
 
-//    fun banneUser(reason:String){
-//          service.sendMailConfirmation(CofirmMail(1 ,reason , "" ), token()).enqueue(object :Callback<Code> {
-//              override fun onFailure(call: Call<Code>, t: Throwable) {
-//
-//              }
-//
-//              override fun onResponse(call: Call<Code>, response: Response<Code>) {
-//                  TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-//              }
-//          }
-//              )
-//    }
+    fun banneUser(reason:String){
+          service.sendMailConfirmation(CofirmMail(1 ,reason , "" ), token()).enqueue(object :Callback<Code> {
+              override fun onFailure(call: Call<Code>, t: Throwable) {
+                          t.printStackTrace()
+              }
+
+              override fun onResponse(call: Call<Code>, response: Response<Code>) {
+                       Log.e("errr", "done")
+              }
+          }
+              )
+    }
 }
