@@ -6,9 +6,11 @@ import javax.inject.Inject
 class RestPasswordViewModel @Inject constructor() : BaseViewModel<RestPasswordState>(RestPasswordState(REST_PASS_STATE_SEND,
     null,
     null,
+    null,
     null)) , ResetPasswordFragment.CallbackFromViewModel {
 
     var lastSendTime = -1
+    var email =""
 
     override fun setView(state: Int) {
         setState { copy(viewState = state) }
@@ -19,6 +21,10 @@ class RestPasswordViewModel @Inject constructor() : BaseViewModel<RestPasswordSt
     }
 
     override fun confirmCode(code: String) {
+
+    }
+
+    override fun resendEmail() {
 
     }
 }

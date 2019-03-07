@@ -14,7 +14,6 @@ import com.roacult.kero.oxxy.projet2eme.utils.extension.inTransaction
 class RegistrationActivity : BaseActivity() ,
     CallbackToRegistrationActivity {
 
-    private var fragment : RegistrationFragment? = null
     private var callbackToFragment : CallbackToFragment? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -25,19 +24,17 @@ class RegistrationActivity : BaseActivity() ,
 
     private fun setFragment() {
         //just for testing reset emaail fragment
-        if(fragment == null) { fragment = RegistrationFragment.getInstance() }
+        val fragment = RegistrationFragment.getInstance()
         supportFragmentManager.inTransaction {
-            add( R.id.registration_container , fragment!! )
+            add( R.id.registration_container , fragment )
         }
     }
 
     private fun setUpCallback(){
-        if(fragment != null) {
-            callbackToFragment = fragment
-            return
-        }
-        fragment = supportFragmentManager.findFragmentById(R.id.registration_container) as? RegistrationFragment
-        callbackToFragment = fragment
+        val fragment = supportFragmentManager.findFragmentById(R.id.registration_container)
+        callbackToFragment = if( fragment is ResetPasswordFragment)  fragment
+        else if(fragment is RegistrationFragment ) fragment
+        else null
     }
 
     override fun onBackPressed() {
@@ -62,7 +59,7 @@ class RegistrationActivity : BaseActivity() ,
             val resetPasswordFragment = ResetPasswordFragment.getInstance()
             setCustomAnimations ( R.anim.entre_from_right,R.anim.exit_to_left,R.anim.entre_from_left,R.anim.exit_to_right )
                 .addToBackStack(null)
-                .replace(R.id.registration_container,resetPasswordFragment)
+                .add(R.id.registration_container,resetPasswordFragment)
         }
     }
 
