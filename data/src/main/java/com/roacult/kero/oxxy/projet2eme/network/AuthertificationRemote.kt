@@ -7,9 +7,6 @@ import android.util.Base64
 import android.util.Log
 import com.roacult.kero.oxxy.domain.exception.Failure
 import com.roacult.kero.oxxy.domain.functional.Either
-import com.roacult.kero.oxxy.domain.interactors.MailResult
-import com.roacult.kero.oxxy.domain.interactors.None
-import com.roacult.kero.oxxy.domain.interactors.UserInfo
 import com.roacult.kero.oxxy.projet2eme.network.services.AuthentificationService
 import com.roacult.kero.oxxy.projet2eme.utils.token
 import retrofit2.Call
@@ -20,9 +17,10 @@ import javax.inject.Inject
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 import android.graphics.Bitmap
-import com.roacult.kero.oxxy.domain.interactors.LoginParam
+import com.roacult.kero.oxxy.domain.interactors.*
 import com.roacult.kero.oxxy.projet2eme.network.entities.*
 import com.roacult.kero.oxxy.projet2eme.utils.toHexString
+import io.reactivex.BackpressureStrategy
 import io.reactivex.Observable
 import io.reactivex.subjects.BehaviorSubject
 import java.io.ByteArrayOutputStream
@@ -34,7 +32,6 @@ import java.util.concurrent.TimeUnit
  * this class will handle the authentification remote requests
  */
 class AuthertificationRemote @Inject constructor( val service: AuthentificationService , val context:Context){
-//    private val subject :BehaviorSubject<ConfirmationState> = BehaviorSubject.create()
     /**
      * this function will send a request to a server this request will have an email which the server will check if
      *  the user is banned forever or he has already subscribed or he doesnt exist in the students table
@@ -113,10 +110,6 @@ class AuthertificationRemote @Inject constructor( val service: AuthentificationS
                     if (reponse.reponse == "0"){
                         it.resume(Either.Left(Failure.SignInFaillure.CodeSendingError()))
                     }else {
-//                        var observable = Observable.timer(5 , TimeUnit.MINUTES).map {
-//                            ConfirmationState.TimeOut
-//                        }
-//                        observable.subscribe(sub)
                         it.resume(Either.Right(reponse.reponse))
                     }
                     }
@@ -139,6 +132,7 @@ class AuthertificationRemote @Inject constructor( val service: AuthentificationS
             MediaStore.Images.Media.getBitmap(context.contentResolver , Uri.fromFile(File(picture)))
                 .compress(Bitmap.CompressFormat.JPEG,
                 100, baos)
+            //todo set progress here
 
             val b = baos.toByteArray()
             //picture encoded to bas64
@@ -149,7 +143,10 @@ class AuthertificationRemote @Inject constructor( val service: AuthentificationS
     }
 
 
-
+    /**
+     * this function will handle the login feature so it will send a log in request with  a user and a password
+     * it will then response with either the user info or  a failure
+     */
     suspend fun logUserIn(user:LoginParam):Either<Failure.LoginFaillure , LoginResult> = suspendCoroutine {
         service.logUserIn(LoginParame(0 , "", user.email , user.password), token()).enqueue(object :Callback<LoginResult>{
             override fun onFailure(call: Call<LoginResult>, t: Throwable) {
@@ -180,6 +177,10 @@ class AuthertificationRemote @Inject constructor( val service: AuthentificationS
 
     }
 
+    /**
+     * this function will send a request to the server to banne this user because of the reason we give to it
+     *
+     */
     fun banneUser(reason:String){
           service.sendMailConfirmation(CofirmMail(1 ,reason , "" ), token()).enqueue(object :Callback<Code> {
               override fun onFailure(call: Call<Code>, t: Throwable) {
@@ -191,5 +192,28 @@ class AuthertificationRemote @Inject constructor( val service: AuthentificationS
               }
           }
               )
+    }
+
+    /**
+     * this function will send a put request to the server to reset the password of the giving mail
+     */
+    suspend fun resetePassword(param:ResetPasswordParams):Either<Failure.ResetPasswordFailure , None> = suspendCoroutine {
+        service.resetePassword(param , token()).enqueue(object :Callback<Reponse>{
+            override fun onFailure(call: Call<Reponse>, t: Throwable) {
+                it.resume(Either.Left(Failure.ResetPasswordFailure.OtherFailure(t)))
+            }
+
+            override fun onResponse(call: Call<Reponse>, response: Response<Reponse>) {
+                if(response.body()?.reponse==1){
+                    it.resume(Either.Right(None()))
+                }else{
+                    it.resume(Either.Left(Failure.ResetPasswordFailure.OperationFailed()))
+                }
+            }
+        })
+
+
+
+
     }
 }

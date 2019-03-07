@@ -48,3 +48,4 @@ data class LoginResult(val reponse:Int , val email :String? , val fname:String? 
     }
 }
 data class LoginParame(val banne:Int , val why :String? , val email :String , val password:String )
+data class Reponse(val reponse:Int)

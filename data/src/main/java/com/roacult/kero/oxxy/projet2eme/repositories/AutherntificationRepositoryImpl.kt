@@ -4,13 +4,12 @@ import android.util.Log
 import com.roacult.kero.oxxy.domain.AuthentificationRepository
 import com.roacult.kero.oxxy.domain.exception.Failure
 import com.roacult.kero.oxxy.domain.functional.Either
-import com.roacult.kero.oxxy.domain.interactors.LoginParam
-import com.roacult.kero.oxxy.domain.interactors.MailResult
-import com.roacult.kero.oxxy.domain.interactors.None
-import com.roacult.kero.oxxy.domain.interactors.UserInfo
+import com.roacult.kero.oxxy.domain.interactors.*
 import com.roacult.kero.oxxy.projet2eme.local.AuthentificationLocal
 import com.roacult.kero.oxxy.projet2eme.network.AuthertificationRemote
+import com.roacult.kero.oxxy.projet2eme.network.entities.ConfirmationState
 import com.roacult.kero.oxxy.projet2eme.network.entities.SaveInfoResult
+import io.reactivex.Observable
 import javax.inject.Inject
 
 /**
@@ -98,5 +97,9 @@ class AutherntificationRepositoryImpl
             local.saveCodeLocal(code)
             return Either.Right(None())
         }
+    }
+
+    override suspend fun resetPassword(param: ResetPasswordParams): Either<Failure.ResetPasswordFailure, None> {
+        return remote.resetePassword(param)
     }
 }
