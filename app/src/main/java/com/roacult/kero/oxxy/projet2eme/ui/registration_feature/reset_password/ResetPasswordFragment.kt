@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProviders
-import com.roacult.kero.oxxy.domain.exception.Failure
 import com.roacult.kero.oxxy.domain.interactors.None
 import com.roacult.kero.oxxy.projet2eme.R
 import com.roacult.kero.oxxy.projet2eme.base.BaseFragment
@@ -18,6 +17,9 @@ import com.roacult.kero.oxxy.projet2eme.utils.extension.isEmailValid
 import com.roacult.kero.oxxy.projet2eme.utils.Loading
 import com.roacult.kero.oxxy.projet2eme.utils.Success
 import com.roacult.kero.oxxy.projet2eme.utils.Fail
+import com.roacult.kero.oxxy.projet2eme.utils.extension.visible
+import com.roacult.kero.oxxy.projet2eme.utils.extension.loading
+import kotlinx.android.synthetic.main.reset_password_fragment.view.*
 
 @Suppress("DUPLICATE_LABEL_IN_WHEN")
 class ResetPasswordFragment : BaseFragment() , RegistrationActivity.CallbackToFragment {
@@ -38,6 +40,7 @@ class ResetPasswordFragment : BaseFragment() , RegistrationActivity.CallbackToFr
             it.sendCodeToEmailOp?.getContentIfNotHandled()?.apply { handleSendingEmailResult(this) }
             it.confirmEmailOp?.getContentIfNotHandled()?.apply { handleConfirmResult(this) }
             it.resendCodeToEmailOp?.getContentIfNotHandled()?.apply { handleResendigCodeResult(this) }
+            it.changinPassOp?.getContentIfNotHandled()?.apply { handleChangePasswordOp(this) }
         }
 
         return binding.root
@@ -55,7 +58,7 @@ class ResetPasswordFragment : BaseFragment() , RegistrationActivity.CallbackToFr
             is Success -> {
                 showLoading(false)
                 viewModel.email = binding.email.text.toString()
-                callback.setView(REST_PASS_STATE_CHANGE)
+                callback.setView(REST_PASS_STATE_CONFIRM)
             }
         }
     }
@@ -67,6 +70,7 @@ class ResetPasswordFragment : BaseFragment() , RegistrationActivity.CallbackToFr
                 showLoading(false)
                 when(op.error){
                     //TODO handle diffrent errors
+
                 }
             }
             is Success -> {
@@ -78,6 +82,34 @@ class ResetPasswordFragment : BaseFragment() , RegistrationActivity.CallbackToFr
 
     private fun handleResendigCodeResult(op: Async<None>) {
         when(op){
+            is Loading -> showLoading(true)
+            is Fail<*,*> ->  {
+                showLoading(false)
+                when(op.error){
+                    //TODO
+                }
+            }
+            is Success ->{
+                showLoading(false)
+//                activity?.supportFragmentManager?.popBackStack()
+            }
+        }
+    }
+
+    private fun handleChangePasswordOp(op: Async<None>) {
+        when(op){
+            is Loading -> showLoading(true)
+            is Fail<*,*> -> {
+                showLoading(false)
+                when(op.error){
+                    //TODO handle difrren erros
+                }
+            }
+            is Success -> {
+                showLoading(false)
+                showMessage(R.string.pass_change_success)
+                activity?.supportFragmentManager?.popBackStack()
+            }
         }
     }
 
@@ -87,6 +119,7 @@ class ResetPasswordFragment : BaseFragment() , RegistrationActivity.CallbackToFr
                 binding.motion.transitionToState(R.id.start)
                 binding.submit.setOnClickListener{ performSendingemail(binding.email.text.toString()) }
                 binding.submit.setText(R.string.send)
+                binding.title.setText(R.string.forgot_password)
                 viewModel.email = ""
             }
             REST_PASS_STATE_CONFIRM -> {
@@ -94,13 +127,18 @@ class ResetPasswordFragment : BaseFragment() , RegistrationActivity.CallbackToFr
                 binding.submit.setOnClickListener{ performConfirmation(binding.code.text.toString()) }
                 binding.submit.setText(R.string.confirm)
                 binding.resendBtn.setOnClickListener{performResendingEmail()}
+                binding.title.setText(R.string.verification)
                 binding.code.setText("")
             }
             REST_PASS_STATE_CHANGE -> {
-                //TODO don't forget this state
+                binding.motion.transitionToState(R.id.final_state)
+                binding.submit.setOnClickListener{changePassword(binding.newPass.text.toString())}
+                binding.submit.setText(R.string.change_pass)
+                binding.title.setText(R.string.change_pass_title)
             }
         }
     }
+
     private fun performSendingemail(email: String) {
         if(!email.isEmailValid()){onError(R.string.email_not_valid); return }
         callback.sendEmail(email)
@@ -119,8 +157,20 @@ class ResetPasswordFragment : BaseFragment() , RegistrationActivity.CallbackToFr
         callback.resendEmail()
     }
 
+    private fun changePassword(newPass: String) {
+        if(newPass.length<8){
+            onError(R.string.pass_short)
+            return
+        }
+        callback.changePassword(newPass)
+    }
+
     private fun showLoading(show: Boolean) {
-        //TODO show loading
+        binding.loading.alpha = if(show) 1f else 0f
+        binding.sendEmail.visible(!show)
+        binding.confirm.visible(!show)
+        binding.changePass.visible(!show)
+        binding.submit.loading(show)
     }
 
     override fun goToDefaultState() {
@@ -140,5 +190,6 @@ class ResetPasswordFragment : BaseFragment() , RegistrationActivity.CallbackToFr
         fun sendEmail(email: String)
         fun resendEmail()
         fun confirmCode(code :String)
+        fun changePassword(password : String)
     }
 }

@@ -157,7 +157,7 @@ class RegistrationFragment : BaseFragment() , RegistrationActivity.CallbackToFra
     }
 
     private fun showLoadingForConfirmation(show: Boolean) {
-        binding.resendBtn.loading(show)
+        binding.resendBtn.isClickable = !show
         binding.confirmInputs.visible(!show)
         binding.progress.alpha = if(show) 1f else 0f
         binding.confirmText.isClickable = !show

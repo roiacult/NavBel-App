@@ -12,4 +12,4 @@ data class RestPasswordState (val viewState :Int, val  sendCodeToEmailOp : Event
 
 const val REST_PASS_STATE_SEND = 0
 const val REST_PASS_STATE_CONFIRM = 1
-const val REST_PASS_STATE_CHANGE = 1
+const val REST_PASS_STATE_CHANGE = 2

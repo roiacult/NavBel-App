@@ -50,4 +50,10 @@
     <string name="sign_in_des">entre the email address of your school</string>
     <string name="reset_pass">you dont remembre your password?</string>
     <string name="rest">rest</string>
+    <string name="change_pass">change password</string>
+    <string name="entre_new_pass">please entre new \npassword</string>
+    <string name="new_pass">new password</string>
+    <string name="verification">verification</string>
+    <string name="change_pass_title">change your password</string>
+    <string name="pass_change_success">password changed successfuly ,you can login with your new password</string>
 </resources>

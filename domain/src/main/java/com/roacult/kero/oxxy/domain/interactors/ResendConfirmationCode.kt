@@ -5,6 +5,7 @@ import com.roacult.kero.oxxy.domain.exception.Failure
 import com.roacult.kero.oxxy.domain.functional.CouroutineDispatchers
 import com.roacult.kero.oxxy.domain.functional.Either
 import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.delay
 import javax.inject.Inject
 
 class ResendConfirmationCode @Inject constructor(dispatchers: CouroutineDispatchers ,
@@ -13,6 +14,8 @@ class ResendConfirmationCode @Inject constructor(dispatchers: CouroutineDispatch
     override val ResultDispatcher=dispatchers.main
 
     override suspend fun invoke(executeParams: String): Either<Failure.ResendConfirmationFailure, None> {
-       return repo.resendConfirmationCode(executeParams)
+//       return repo.resendConfirmationCode(executeParams)
+        delay(3000)
+        return Either.Right(None())
     }
 }

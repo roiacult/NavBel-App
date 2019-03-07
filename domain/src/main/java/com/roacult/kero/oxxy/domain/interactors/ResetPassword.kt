@@ -5,6 +5,7 @@ import com.roacult.kero.oxxy.domain.exception.Failure
 import com.roacult.kero.oxxy.domain.functional.CouroutineDispatchers
 import com.roacult.kero.oxxy.domain.functional.Either
 import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.delay
 import javax.inject.Inject
 
 class ResetPassword @Inject constructor(val repo:AuthentificationRepository,
@@ -13,7 +14,9 @@ class ResetPassword @Inject constructor(val repo:AuthentificationRepository,
     override val ResultDispatcher= dispatchers.main
 
     override suspend fun invoke(executeParams: ResetPasswordParams): Either<Failure.ResetPasswordFailure, None> {
-     return repo.resetPassword(executeParams)
+//     return repo.resetPassword(executeParams)
+        delay(3000)
+        return Either.Right(None())
     }
 }
 data class ResetPasswordParams(val email:String , val password:String)
