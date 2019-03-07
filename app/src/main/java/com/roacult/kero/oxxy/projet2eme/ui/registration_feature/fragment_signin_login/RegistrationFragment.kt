@@ -234,7 +234,7 @@ class RegistrationFragment : BaseFragment() , RegistrationActivity.CallbackToFra
     private fun goToResetPassword(){
         Log.v("sprint2","go to reset password (in fragment)")
         setUpCallbackToActivity()
-        callbackToActivity.goToResetPassword()
+        callbackToActivity?.goToResetPassword()
     }
 
     private fun showDialoguUserBanned(){
