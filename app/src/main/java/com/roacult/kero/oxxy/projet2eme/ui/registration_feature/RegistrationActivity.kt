@@ -29,9 +29,6 @@ class RegistrationActivity : BaseActivity() ,
         supportFragmentManager.inTransaction {
             add( R.id.registration_container , fragment!! )
         }
-//        supportFragmentManager.inTransaction{
-//            add(R.id.registration_container,ResetPasswordFragment.getInstance())
-//        }
     }
 
     private fun setUpCallback(){
@@ -44,11 +41,9 @@ class RegistrationActivity : BaseActivity() ,
     }
 
     override fun onBackPressed() {
-        //for testing UI
         setUpCallback()
         if(callbackToFragment?.shouldWeGoToDefaultState() == true) callbackToFragment?.goToDefaultState()
         else super.onBackPressed()
-//        (supportFragmentManager.findFragmentById(R.id.registration_container) as? ResetPasswordFragment)?.transiteToStart()
     }
 
     override fun openSaveInfoFragment(bundle : Bundle){
@@ -58,6 +53,16 @@ class RegistrationActivity : BaseActivity() ,
             fragment.arguments = bundle
             setCustomAnimations ( R.anim.entre_from_right,R.anim.exit_to_left,R.anim.entre_from_left,R.anim.exit_to_right )
                 .replace(R.id.registration_container,fragment)
+        }
+    }
+
+    override fun goToResetPassword() {
+        Log.v("sprint2","open save info (in activity)")
+        supportFragmentManager.inTransaction{
+            val resetPasswordFragment = ResetPasswordFragment.getInstance()
+            setCustomAnimations ( R.anim.entre_from_right,R.anim.exit_to_left,R.anim.entre_from_left,R.anim.exit_to_right )
+                .addToBackStack(null)
+                .replace(R.id.registration_container,resetPasswordFragment)
         }
     }
 

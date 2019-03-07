@@ -174,6 +174,7 @@ class RegistrationFragment : BaseFragment() , RegistrationActivity.CallbackToFra
             REGISTRATION_STATE_LOGIN -> {
                 binding.motion.transitionToState(R.id.state_login)
                 binding.loginBtn.setOnClickListener{ performeLogin() }
+                binding.resetBtn.setOnClickListener{goToResetPassword()}
             }
             REGISTRATION_STATE_SIGNIN -> {
                 binding.motion.transitionToState(R.id.state_signin)
@@ -230,6 +231,12 @@ class RegistrationFragment : BaseFragment() , RegistrationActivity.CallbackToFra
         callbackToActivity?.openSaveInfoFragment(bundle)
     }
 
+    private fun goToResetPassword(){
+        Log.v("sprint2","go to reset password (in fragment)")
+        setUpCallbackToActivity()
+        callbackToActivity.goToResetPassword()
+    }
+
     private fun showDialoguUserBanned(){
         androidx.appcompat.app.AlertDialog.Builder(context!!)
             .setTitle(R.string.banned_title)
@@ -262,4 +269,5 @@ class RegistrationFragment : BaseFragment() , RegistrationActivity.CallbackToFra
 }
 interface CallbackToRegistrationActivity{
     fun openSaveInfoFragment(bundle : Bundle)
+    fun goToResetPassword()
 }
