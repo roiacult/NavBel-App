@@ -45,4 +45,5 @@
     <string name="confirm_desc">entre the verification code we just sent you on your email address.</string>
     <string name="reset_resend_email">if you didn\'t receive a code!.</string>
     <string name="resend">RESEND</string>
+    <string name="confirm">confirm</string>
 </resources>

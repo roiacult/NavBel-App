@@ -14,9 +14,9 @@ class SignInUseCase @Inject constructor( dispatchers: CouroutineDispatchers, val
     override val ResultDispatcher= dispatchers.main
 
     override suspend fun invoke(executeParams: String): Either<Failure.SignInFaillure, MailResult> {
-//        return repo.checkMail(executeParams)
-        delay(3000)
-        return Either.Right(MailResult(2,"djawed ","benahmed"))
+        return repo.checkMail(executeParams)
+//        delay(3000)
+//        return Either.Right(MailResult(2,"djawed ","benahmed"))
     }
 }
 

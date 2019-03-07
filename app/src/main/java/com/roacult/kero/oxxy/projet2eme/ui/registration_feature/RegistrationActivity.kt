@@ -25,13 +25,13 @@ class RegistrationActivity : BaseActivity() ,
 
     private fun setFragment() {
         //just for testing reset emaail fragment
-//        if(fragment == null) { fragment = RegistrationFragment.getInstance() }
-//        supportFragmentManager.inTransaction {
-//            add( R.id.registration_container , fragment!! )
-//        }
-        supportFragmentManager.inTransaction{
-            add(R.id.registration_container,ResetPasswordFragment.getInstance())
+        if(fragment == null) { fragment = RegistrationFragment.getInstance() }
+        supportFragmentManager.inTransaction {
+            add( R.id.registration_container , fragment!! )
         }
+//        supportFragmentManager.inTransaction{
+//            add(R.id.registration_container,ResetPasswordFragment.getInstance())
+//        }
     }
 
     private fun setUpCallback(){
@@ -45,10 +45,10 @@ class RegistrationActivity : BaseActivity() ,
 
     override fun onBackPressed() {
         //for testing UI
-//        setUpCallback()
-//        if(callbackToFragment?.shouldWeGoToDefaultState() == true) callbackToFragment?.goToDefaultState()
-//        else super.onBackPressed()
-        (supportFragmentManager.findFragmentById(R.id.registration_container) as? ResetPasswordFragment)?.transiteToStart()
+        setUpCallback()
+        if(callbackToFragment?.shouldWeGoToDefaultState() == true) callbackToFragment?.goToDefaultState()
+        else super.onBackPressed()
+//        (supportFragmentManager.findFragmentById(R.id.registration_container) as? ResetPasswordFragment)?.transiteToStart()
     }
 
     override fun openSaveInfoFragment(bundle : Bundle){

@@ -193,10 +193,7 @@ class RegistrationFragment : BaseFragment() , RegistrationActivity.CallbackToFra
 
     private fun resendConfirmationCode() {
 
-        if(System.currentTimeMillis() - viewModel.lastResendTime< RESEND_EMAIL_TIME ){
-            onError(R.string.resend_code_time_limit)
-            return;
-        }
+        if(System.currentTimeMillis() - viewModel.lastResendTime< RESEND_EMAIL_TIME ){ onError(R.string.resend_code_time_limit);return }
         callback.resendConfirmationCode()
     }
 
