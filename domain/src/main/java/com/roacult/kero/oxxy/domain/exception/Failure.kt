@@ -34,4 +34,7 @@ sealed class Failure {
         class CodeError():ResendConfirmationFailure()
         class OtherFailure(val t:Throwable?):ResendConfirmationFailure()
     }
+    sealed class ResetPasswordFailure : Failure(){
+        //TODO
+    }
 }
