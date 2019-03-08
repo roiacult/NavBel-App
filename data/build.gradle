@@ -80,6 +80,7 @@ dependencies {
     implementation deps.retrofit.okhttp3
     implementation deps.retrofit.logging
     implementation deps.retrofit.scalar_converter
+    implementation deps.android.compressor
 
     testImplementation deps.room.testing
     testImplementation deps.test.junit
