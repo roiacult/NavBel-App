@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProviders
+import com.roacult.kero.oxxy.domain.exception.Failure
 import com.roacult.kero.oxxy.domain.interactors.None
 import com.roacult.kero.oxxy.projet2eme.R
 import com.roacult.kero.oxxy.projet2eme.base.BaseFragment
@@ -52,7 +53,11 @@ class ResetPasswordFragment : BaseFragment() , RegistrationActivity.CallbackToFr
             is Fail<*,*> ->{
                 showLoading(false)
                 when(op.error){
-                    //TODO handle diffrent errors
+                    is Failure.SendCodeResetPassword.OperationFailed -> onError(R.string.sendcoe_fail)
+                    is Failure.SendCodeResetPassword.UserNotFound -> onError(R.string.reset_email_not_found)
+                    is Failure.SendCodeResetPassword.UserNotLoggedIn -> onError(R.string.reset_email_not_subscribed)
+                    is Failure.SendCodeResetPassword.UserBanned -> showDialoguUserBanned()
+                    is Failure.SendCodeResetPassword.OtherFailrue-> onError(R.string.reset_unknown_prblm)
                 }
             }
             is Success -> {
@@ -69,8 +74,9 @@ class ResetPasswordFragment : BaseFragment() , RegistrationActivity.CallbackToFr
             is Fail<*,*> ->  {
                 showLoading(false)
                 when(op.error){
-                    //TODO handle diffrent errors
-
+                    is Failure.ConfirmEmailFaillure.CadeNotCorrect -> onError(R.string.reset_code_not_correct)
+                    is Failure.ConfirmEmailFaillure.MaximumNumbreOfTry ->onError(R.string.try_out)
+                    is Failure.ConfirmEmailFaillure.AutherFaillur -> onError(R.string.confirmation_error)
                 }
             }
             is Success -> {
@@ -86,13 +92,12 @@ class ResetPasswordFragment : BaseFragment() , RegistrationActivity.CallbackToFr
             is Fail<*,*> ->  {
                 showLoading(false)
                 when(op.error){
-                    //TODO
+                    //TODO handle auther failure
+                    is Failure.ResendConfirmationFailure-> onError(R.string.resend_failled)
                 }
             }
-            is Success ->{
-                showLoading(false)
-//                activity?.supportFragmentManager?.popBackStack()
-            }
+            is Success -> showLoading(false)
+
         }
     }
 
@@ -102,7 +107,8 @@ class ResetPasswordFragment : BaseFragment() , RegistrationActivity.CallbackToFr
             is Fail<*,*> -> {
                 showLoading(false)
                 when(op.error){
-                    //TODO handle difrren erros
+                    is Failure.ResetPasswordFailure.OperationFailed -> onError(R.string.reset_oper_fail)
+                    is Failure.ResetPasswordFailure.OtherFailure -> onError(R.string.reset_unknown_error)
                 }
             }
             is Success -> {
@@ -171,6 +177,13 @@ class ResetPasswordFragment : BaseFragment() , RegistrationActivity.CallbackToFr
         binding.confirm.visible(!show)
         binding.changePass.visible(!show)
         binding.submit.loading(show)
+    }
+
+    private fun showDialoguUserBanned(){
+        androidx.appcompat.app.AlertDialog.Builder(context!!)
+            .setTitle(R.string.banned_title)
+            .setMessage(R.string.banned_message)
+            .show()
     }
 
     override fun goToDefaultState() {

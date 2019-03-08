@@ -31,6 +31,7 @@ sealed class Failure {
     }
 
     sealed class ResendConfirmationFailure:Failure(){
+        //TODO  what (CodeError) is??
         class CodeError():ResendConfirmationFailure()
         class OtherFailure(val t:Throwable?):ResendConfirmationFailure()
     }

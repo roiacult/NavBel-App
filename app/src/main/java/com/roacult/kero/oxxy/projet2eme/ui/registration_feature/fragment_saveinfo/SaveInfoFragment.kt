@@ -11,6 +11,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProviders
+import com.roacult.kero.oxxy.domain.exception.Failure
 import com.roacult.kero.oxxy.domain.interactors.None
 import com.roacult.kero.oxxy.projet2eme.R
 import com.roacult.kero.oxxy.projet2eme.base.BaseFragment
@@ -88,15 +89,16 @@ class SaveInfoFragment : BaseFragment() {
             is Loading -> showLoading(true)
             is Success -> {
                 //TODO go to main
-                showMessage("submit successfully")
             }
             is Fail<*, *> -> {
-                //TODO handle difrent faillers
-                showMessage("submit failled")
+
+                when(operation.error){
+                    is Failure.SaveInfoFaillure.OperationFailed -> onError(R.string.saveingo_fail)
+                    is Failure.SaveInfoFaillure.OtherFailure -> onError(R.string.saveinfo_auther_fail)
+                }
             }
             else -> {
                 showLoading(false)
-                showMessage("is loading know")
             }
         }
     }

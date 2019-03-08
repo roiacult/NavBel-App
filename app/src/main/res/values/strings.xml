@@ -56,4 +56,13 @@
     <string name="verification">verification</string>
     <string name="change_pass_title">change your password</string>
     <string name="pass_change_success">password changed successfuly ,you can login with your new password</string>
+    <string name="saveingo_fail">operation failled please check your internet connection</string>
+    <string name="saveinfo_auther_fail">some thing wrong happend while submiting user informations</string>
+    <string name="sendcoe_fail">sending email failed, please check your internet connection and try again</string>
+    <string name="reset_email_not_found">sorry we can\'t find any acount associated with provided email</string>
+    <string name="reset_email_not_subscribed">this email is not subscribed yet, please signup</string>
+    <string name="reset_unknown_prblm">something wrong happend while sending email</string>
+    <string name="reset_code_not_correct">confirmation code is not correct please try again</string>
+    <string name="reset_oper_fail">something wrong happend please check your internet connection and try again</string>
+    <string name="reset_unknown_error">some thing wrong happend while changing password</string>
 </resources>
