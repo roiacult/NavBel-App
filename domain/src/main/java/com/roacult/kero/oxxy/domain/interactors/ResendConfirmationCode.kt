@@ -9,7 +9,8 @@ import kotlinx.coroutines.delay
 import javax.inject.Inject
 
 class ResendConfirmationCode @Inject constructor(dispatchers: CouroutineDispatchers ,
-                                                 val repo:AuthentificationRepository) :EitherInteractor<String , None, Failure.ResendConfirmationFailure > {
+                                                 val repo:AuthentificationRepository) :EitherInteractor<String , None,
+        Failure.ResendConfirmationFailure > {
     override val dispatcher= dispatchers.io
     override val ResultDispatcher=dispatchers.main
 

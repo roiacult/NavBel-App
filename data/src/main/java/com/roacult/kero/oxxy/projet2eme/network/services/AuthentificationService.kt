@@ -16,11 +16,10 @@ interface AuthentificationService {
 fun checkUserMail(@Body mail:Mail , @Query(value = "tooken" ) key:String):Call<MailResponse>
     @POST("?op=signin")
     fun saveUserInfo(@Body user:SaveInfo , @Query(value = "tooken" ) key:String):Call<SaveInfoResult>
-    @POST("?op=reset")
+    @POST("?op=rcode")
     fun sendMailConfirmation(@Body mail: CofirmMail , @Query(value = "tooken" ) key:String):Call<Code>
     @POST("?op=login")
     fun logUserIn(@Body user:LoginParame , @Query(value = "tooken" ) key:String):Call<LoginResult>
-
-    @PUT()
+    @POST("?op=reset")
     fun resetePassword(@Body passwordParams: ResetPasswordParams, @Query(value = "tooken")key:String ):Call<Reponse>
 }

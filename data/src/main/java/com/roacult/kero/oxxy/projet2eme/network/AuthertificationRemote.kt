@@ -21,10 +21,12 @@ import com.roacult.kero.oxxy.domain.interactors.*
 import com.roacult.kero.oxxy.projet2eme.network.entities.*
 import com.roacult.kero.oxxy.projet2eme.utils.toHexString
 import io.reactivex.BackpressureStrategy
+import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.subjects.BehaviorSubject
 import java.io.ByteArrayOutputStream
 import java.security.MessageDigest
+import java.util.concurrent.Future
 import java.util.concurrent.TimeUnit
 
 
@@ -96,8 +98,8 @@ class AuthertificationRemote @Inject constructor( val service: AuthentificationS
         })
     }
 
-    suspend fun sendConfirmationMail(email:String):Either<Failure.SignInFaillure , String> = suspendCoroutine{
-        service.sendMailConfirmation(CofirmMail(0 , "", email), token()).enqueue(object :Callback<Code>{
+    suspend fun sendConfirmationMail(email:String , fname:String?):Either<Failure.SignInFaillure , String> = suspendCoroutine{
+        service.sendMailConfirmation(CofirmMail(0 , "", email , fname), token()).enqueue(object :Callback<Code>{
             override fun onFailure(call: Call<Code>, t: Throwable) {
                 it.resume(Either.Left(Failure.SignInFaillure.AutherFaillure(t)))
             }

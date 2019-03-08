@@ -38,4 +38,11 @@ sealed class Failure {
         class OperationFailed :ResetPasswordFailure()
         class   OtherFailure(val t:Throwable?):ResetPasswordFailure()
     }
+    sealed class SendCodeResetPassword:Failure(){
+        class UserNotFound:SendCodeResetPassword()
+        class UserNotLoggedIn:SendCodeResetPassword()
+        class UserBanned:SendCodeResetPassword()
+        class OperationFailed():SendCodeResetPassword()
+        class OtherFailrue(val t:Throwable?):SendCodeResetPassword()
+    }
 }

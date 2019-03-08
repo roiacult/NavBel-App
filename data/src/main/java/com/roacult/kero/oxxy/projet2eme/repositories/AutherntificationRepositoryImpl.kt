@@ -18,15 +18,18 @@ import javax.inject.Inject
  */
 class AutherntificationRepositoryImpl
     @Inject constructor(val remote :AuthertificationRemote , val local :AuthentificationLocal):AuthentificationRepository {
+    var fname :String? = null
     /**
      * this will check the mail  and if it exist then it will send a confirmation code to the mail
      * and store that code for checking it with the code the user enter
      */
     override suspend fun checkMail(email: String): Either<Failure.SignInFaillure, MailResult> {
-        val either = remote.CheckMailUser(email)
+        var either = remote.CheckMailUser(email)
         if(either.isLeft) return either
         else {
-         val either2 = remote.sendConfirmationMail(email)
+            either = either as Either.Right<MailResult>
+            fname = either.b.nom
+         val either2 = remote.sendConfirmationMail(email , either.b.nom)
             if(either2.isLeft) return  either2 as Either<Failure.SignInFaillure, MailResult>
             else  {
                 local.saveCodeLocal((either2 as Either.Right<String>).b)
@@ -87,7 +90,7 @@ class AutherntificationRepositoryImpl
 
     override suspend fun resendConfirmationCode(email: String): Either<Failure.ResendConfirmationFailure, None> {
         local.removeCode()
-       val either =  remote.sendConfirmationMail(email)
+       val either =  remote.sendConfirmationMail(email , fname)
         if(either.isLeft) {
             return if((either as Either.Left<Failure.SignInFaillure>).a  is Failure.SignInFaillure.CodeSendingError)
                 Either.Left(Failure.ResendConfirmationFailure.CodeError())
@@ -101,5 +104,32 @@ class AutherntificationRepositoryImpl
 
     override suspend fun resetPassword(param: ResetPasswordParams): Either<Failure.ResetPasswordFailure, None> {
         return remote.resetePassword(param)
+    }
+
+    override suspend fun sendCodeResetPass(param: String): Either<Failure.SendCodeResetPassword, None> {
+    val either = remote.CheckMailUser(param)
+        if(either.isLeft){
+            val failure = (either as Either.Left<Failure.SignInFaillure>).a
+            when(failure){
+                is Failure.SignInFaillure.AutherFaillure -> return Either.Left(Failure.SendCodeResetPassword.OtherFailrue(failure.e))
+                is Failure.SignInFaillure.UserNotFoundFaillurre->return  Either.Left(Failure.SendCodeResetPassword.UserNotFound())
+                is Failure.SignInFaillure.UserBanned ->return Either.Left(Failure.SendCodeResetPassword.UserBanned())
+                is Failure.SignInFaillure.UserAlreadyExist->{
+                     val either2 = remote.sendConfirmationMail(param , null)
+                    if(either2.isLeft){
+                         return Either.Left(Failure.SendCodeResetPassword.OperationFailed())
+                    }else{
+                        local.saveCodeLocal((either2 as Either.Right<String>).b)
+                        return Either.Right(None())
+                    }
+                }
+                else->{
+                    return Either.Left(Failure.SendCodeResetPassword.OtherFailrue(null))
+                }
+
+            }
+        }else{
+            return Either.Left(Failure.SendCodeResetPassword.UserNotLoggedIn())
+        }
     }
 }

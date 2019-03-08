@@ -37,7 +37,7 @@ class RestPasswordViewModel @Inject constructor(val sendigCode: RestPassSendigCo
         setState { copy(sendCodeToEmailOp = Event(Success(none))) }
     }
 
-    private fun handleSendingEmailFaile(resetPasswordFailure: Failure.ResetPasswordFailure) {
+    private fun handleSendingEmailFaile(resetPasswordFailure: Failure.SendCodeResetPassword) {
         setState{copy(sendCodeToEmailOp = Event(Fail(resetPasswordFailure)))}
     }
 ///////////////////////confirm code op //////////////////////////////////////////
