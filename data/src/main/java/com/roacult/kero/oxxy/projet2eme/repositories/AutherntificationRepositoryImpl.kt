@@ -13,7 +13,7 @@ import io.reactivex.Observable
 import javax.inject.Inject
 
 /**
- * this class will beour repository for the authentification features it implments the interface that we have defined in the doain module
+ * this class will be our repository for the authentification features it implments the interface that we have defined in the doain module
  *
  */
 class AutherntificationRepositoryImpl
@@ -88,6 +88,11 @@ class AutherntificationRepositoryImpl
         }
     }
 
+    /**
+     * so this funcntion will handle the resendconfirmationcode in both signUp and login features
+     * so it will erase the code cashed just to be sure that no cofilt happen then it will send request to the server to
+     * send an email to this adresse then if  the sending email operation works then we should store the code locally
+     */
     override suspend fun resendConfirmationCode(email: String): Either<Failure.ResendConfirmationFailure, None> {
         local.removeCode()
        val either =  remote.sendConfirmationMail(email , fname)
@@ -102,10 +107,19 @@ class AutherntificationRepositoryImpl
         }
     }
 
+    /**
+     * this function will handle reseting the password of a user so after making sure that the email is
+     * his mail we can reset the password safely
+     */
     override suspend fun resetPassword(param: ResetPasswordParams): Either<Failure.ResetPasswordFailure, None> {
         return remote.resetePassword(param)
     }
 
+    /**
+     * this function will handle sending the confirmation code to the client mail to
+     * verify that he is the owner of this account and then procced to changng the password
+     * so we will begin by verifying the email by the @{CheckMailUser} function and then send the code and save it locally
+     */
     override suspend fun sendCodeResetPass(param: String): Either<Failure.SendCodeResetPassword, None> {
     val either = remote.CheckMailUser(param)
         if(either.isLeft){
