@@ -44,6 +44,7 @@ versions.gson = "2.3"
 versions.okhttp = "3.12.0"
 versions.scalars_converter= "2.1.0"
 versions.pin_input = '2.0.6'
+versions.compresser= '2.1.0'
 
 
 
@@ -60,6 +61,7 @@ android.picasso = "com.squareup.picasso:picasso:$versions.picasso_version"
 android.circle_image = "de.hdodenhof:circleimageview:$versions.circle_image"
 android.image_copper = "com.theartofdev.edmodo:android-image-cropper:$versions.image_copper"
 android.pin_inputs = "com.alimuzaffar.lib:pinentryedittext:$versions.pin_input"
+android.compressor = "id.zelory:compressor:$versions.compresser"
 deps.android = android
 
 

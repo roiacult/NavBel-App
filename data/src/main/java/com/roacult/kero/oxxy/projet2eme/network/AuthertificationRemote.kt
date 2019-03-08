@@ -20,6 +20,7 @@ import android.graphics.Bitmap
 import com.roacult.kero.oxxy.domain.interactors.*
 import com.roacult.kero.oxxy.projet2eme.network.entities.*
 import com.roacult.kero.oxxy.projet2eme.utils.toHexString
+import id.zelory.compressor.Compressor
 import io.reactivex.BackpressureStrategy
 import io.reactivex.Completable
 import io.reactivex.Observable
@@ -131,11 +132,11 @@ class AuthertificationRemote @Inject constructor( val service: AuthentificationS
             picture =userInfo.pictureUrl!!
             // the picture will be compressed here
             val baos = ByteArrayOutputStream()
-            MediaStore.Images.Media.getBitmap(context.contentResolver , Uri.fromFile(File(picture)))
-                .compress(Bitmap.CompressFormat.JPEG,
-                100, baos)
-            //todo set progress here
-
+            val file = File(picture)
+           val bitmap =  MediaStore.Images.Media.getBitmap(context.contentResolver , Uri.fromFile(file))
+                bitmap.compress(Bitmap.CompressFormat.JPEG,
+                50, baos)
+            Log.e("errr", baos.size().toString())
             val b = baos.toByteArray()
             //picture encoded to bas64
             picture  = Base64.encodeToString(b, Base64.URL_SAFE or Base64.NO_WRAP)
