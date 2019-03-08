@@ -1,6 +1,7 @@
 package com.roacult.kero.oxxy.projet2eme.ui.registration_feature
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import com.roacult.kero.oxxy.projet2eme.R
@@ -13,6 +14,10 @@ import com.roacult.kero.oxxy.projet2eme.utils.extension.inTransaction
 
 class RegistrationActivity : BaseActivity() ,
     CallbackToRegistrationActivity {
+
+    companion object {
+        fun getIntent(context :Context) = Intent(context,RegistrationActivity::class.java)
+    }
 
     private var callbackToFragment : CallbackToFragment? = null
 

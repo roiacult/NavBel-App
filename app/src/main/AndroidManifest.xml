@@ -3,7 +3,7 @@
           xmlns:tools="http://schemas.android.com/tools" package="com.roacult.kero.oxxy.projet2eme">
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-    <uses-permission android:name="android.permission.INTERNET"></uses-permission>
+    <uses-permission android:name="android.permission.INTERNET"/>
     <application
             android:allowBackup="true"
             android:icon="@mipmap/ic_launcher"
@@ -12,13 +12,20 @@
             android:name=".AndroidApplication"
             android:supportsRtl="true"
             android:theme="@style/AppTheme" tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".ui.registration_feature.RegistrationActivity">
+
+        <activity android:name=".ui.splash.SplashActivity"
+        android:screenOrientation="portrait"
+        android:theme="@style/AppTheme.Launcher">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+
+        <activity android:name=".ui.registration_feature.RegistrationActivity"
+        android:screenOrientation="portrait"/>
+
         <activity android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
                   android:theme="@style/Base.Theme.AppCompat"/>
 

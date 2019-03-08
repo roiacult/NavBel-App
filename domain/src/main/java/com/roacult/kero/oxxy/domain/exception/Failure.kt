@@ -3,6 +3,10 @@ package com.roacult.kero.oxxy.domain.exception
 
 sealed class Failure {
 
+    sealed class UserStateFaile  : Failure(){
+        //TODO
+    }
+
     sealed class SignInFaillure : Failure(){
         class UserNotFoundFaillurre : SignInFaillure()
         class AutherFaillure(val e:Throwable?) : SignInFaillure()
