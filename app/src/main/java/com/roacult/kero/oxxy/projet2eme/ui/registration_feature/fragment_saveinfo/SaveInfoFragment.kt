@@ -16,6 +16,7 @@ import com.roacult.kero.oxxy.domain.interactors.None
 import com.roacult.kero.oxxy.projet2eme.R
 import com.roacult.kero.oxxy.projet2eme.base.BaseFragment
 import com.roacult.kero.oxxy.projet2eme.databinding.SaveInfoFragmentBinding
+import com.roacult.kero.oxxy.projet2eme.ui.main.MainActivity
 import com.roacult.kero.oxxy.projet2eme.utils.Async
 import com.theartofdev.edmodo.cropper.CropImage
 import com.theartofdev.edmodo.cropper.CropImageView
@@ -88,7 +89,8 @@ class SaveInfoFragment : BaseFragment() {
         when (operation){
             is Loading -> showLoading(true)
             is Success -> {
-                //TODO go to main
+                startActivity(MainActivity.getIntent(context!!))
+                activity?.finish()
             }
             is Fail<*, *> -> {
 

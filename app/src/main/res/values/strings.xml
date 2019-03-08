@@ -65,4 +65,8 @@
     <string name="reset_code_not_correct">confirmation code is not correct please try again</string>
     <string name="reset_oper_fail">something wrong happend please check your internet connection and try again</string>
     <string name="reset_unknown_error">some thing wrong happend while changing password</string>
+    <string name="chalenges">Chalenges</string>
+    <string name="forume">forume</string>
+    <string name="award">awards</string>
+    <string name="profile">profile</string>
 </resources>

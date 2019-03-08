@@ -13,6 +13,7 @@ import com.roacult.kero.oxxy.domain.interactors.None
 import com.roacult.kero.oxxy.projet2eme.R
 import com.roacult.kero.oxxy.projet2eme.base.BaseFragment
 import com.roacult.kero.oxxy.projet2eme.databinding.RegistrationFragmentBinding
+import com.roacult.kero.oxxy.projet2eme.ui.main.MainActivity
 import com.roacult.kero.oxxy.projet2eme.ui.registration_feature.RegistrationActivity
 import com.roacult.kero.oxxy.projet2eme.ui.registration_feature.fragment_saveinfo.SAVEINFO_EMAIL
 import com.roacult.kero.oxxy.projet2eme.ui.registration_feature.fragment_saveinfo.SAVEINFO_FIRST_NAME
@@ -72,8 +73,8 @@ class RegistrationFragment : BaseFragment() , RegistrationActivity.CallbackToFra
             }
             is Success -> {
                 showLoading(false)
-                //TODO goto main
-                showMessage("go to main know")
+                startActivity(MainActivity.getIntent(context!!))
+                activity?.finish()
             }
             else -> showLoading(false)
         }
