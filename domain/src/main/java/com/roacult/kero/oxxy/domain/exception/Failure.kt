@@ -46,4 +46,7 @@ sealed class Failure {
         class OperationFailed():SendCodeResetPassword()
         class OtherFailrue(val t:Throwable?):SendCodeResetPassword()
     }
+    sealed class GetAllChalengesFailure:Failure(){
+
+    }
 }

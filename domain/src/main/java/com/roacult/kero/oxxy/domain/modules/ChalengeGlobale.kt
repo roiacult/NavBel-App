@@ -7,4 +7,5 @@ package com.roacult.kero.oxxy.domain.modules
  * i seprate them like this because it might chalenge alredy solved by 5 peaple when user
  * click on start button so we need to test if the chalnge is still availble or not
  * */
-data class ChalengeGlobale(val id  :Int ,val module : String , val story : String , val point : Int ,val nbPersonSolveded : Int,val nbOfQuestions : Int)
+data class ChalengeGlobale(val id  :Int ,val module : String , val story : String
+                           , val point : Int ,val nbPersonSolveded : Int,val nbOfQuestions : Int)
