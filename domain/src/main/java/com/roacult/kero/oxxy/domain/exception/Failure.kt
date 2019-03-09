@@ -47,6 +47,9 @@ sealed class Failure {
         class OtherFailrue(val t:Throwable?):SendCodeResetPassword()
     }
     sealed class GetAllChalengesFailure:Failure(){
-
+          object UserBannedForever:GetAllChalengesFailure()
+        object  UserBannedTemp:GetAllChalengesFailure()
+        object OperationFailed:GetAllChalengesFailure()
+          class OtherFailrue(t:Throwable):GetAllChalengesFailure()
     }
 }
