@@ -17,11 +17,6 @@ class SplashViewModel @Inject constructor(userState: UserStateUseCase) : BaseVie
         setState { copy(Loading()) }
         scope.launchInteractor(userState, None()){
             setState { copy(Success(it)) }
-//            it.either({
-//                setState { copy(Fail(it)) }
-//            },{
-//                setState { copy(Success(it)) }
-//            })
         }
     }
 }

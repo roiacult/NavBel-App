@@ -16,15 +16,10 @@ class SplashFragment : BaseFragment(){
     private val viewModel  : SplashViewModel by lazy { ViewModelProviders.of(this,viewModelFactory)[SplashViewModel::class.java]}
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        viewModel.observe(this){
-            when(it.userStateOp){
-                is Success<*> -> {
-                    if(it.userStateOp.invoke() == true) goToMain()
-                    else goToRegistration()
-                }
-                is Fail<*,*> ->{
-                    //TODO show error in toast first
-                    activity?.finish()}
+        viewModel.observe(this) {
+            if (it.userStateOp is Success<*>) {
+                if (it.userStateOp.invoke() == true) goToMain()
+                else goToRegistration()
             }
         }
         return super.onCreateView(inflater, container, savedInstanceState)
