@@ -78,4 +78,7 @@ class AuthentificationLocal @Inject constructor(val preference:SharedPreferences
             commit()
         }
     }
+    fun isUserConnected():Boolean{
+        return preference.getBoolean(USER_CONNECTED , false)
+    }
 }

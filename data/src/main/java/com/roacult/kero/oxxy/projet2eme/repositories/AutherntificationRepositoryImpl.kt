@@ -146,4 +146,11 @@ class AutherntificationRepositoryImpl
             return Either.Left(Failure.SendCodeResetPassword.UserNotLoggedIn())
         }
     }
+
+    /**
+     * this funtion will check if the user was logged in and info saved
+     */
+    override suspend fun userState(): Boolean {
+        return local.isUserConnected()
+    }
 }

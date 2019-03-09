@@ -11,4 +11,5 @@ interface AuthentificationRepository {
  suspend fun resendConfirmationCode(email: String):Either<Failure.ResendConfirmationFailure , None>
  suspend fun resetPassword(param:ResetPasswordParams):Either<Failure.ResetPasswordFailure, None>
  suspend  fun sendCodeResetPass(param:String):Either<Failure.SendCodeResetPassword , None>
+ suspend  fun userState():Boolean
 }

@@ -13,10 +13,10 @@ interface EitherInteractor<in P, out R , out F :Failure> {
     suspend operator fun invoke(executeParams: P):Either<F, R>
 }
 
-interface Interactor<in P>{
+interface Interactor<in P , out R >{
     val  dispatcher: CoroutineDispatcher
     val ResultDispatcher :CoroutineDispatcher
-    suspend operator fun invoke(executeParams: P)
+    suspend operator fun invoke(executeParams: P):R
 }
 
 abstract class ObservableInteractor<Type , in Params>(private val schedulers:AppRxSchedulers){
@@ -46,9 +46,9 @@ fun <P, R, T:Failure> CoroutineScope.launchInteractor(interactor: EitherInteract
 class None
 
 
-fun <P> CoroutineScope.launchInteractor(interactor:Interactor<P>, param: P, onResult:()->Unit):Job{
+fun <P , R> CoroutineScope.launchInteractor(interactor:Interactor<P , R>, param: P, onResult:(R)->Unit):Job{
     val job = async(context = interactor.dispatcher){interactor(param)}
-    return launch (interactor.ResultDispatcher){ job.await()
-        onResult()}
+    return launch (interactor.ResultDispatcher){
+        onResult(job.await())}
 
 }
