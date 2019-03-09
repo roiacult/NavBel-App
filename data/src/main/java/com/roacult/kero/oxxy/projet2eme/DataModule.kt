@@ -5,8 +5,11 @@ import android.content.SharedPreferences
 import android.os.Build
 import com.roacult.kero.oxxy.data.BuildConfig
 import com.roacult.kero.oxxy.domain.AuthentificationRepository
+import com.roacult.kero.oxxy.domain.MainRepository
 import com.roacult.kero.oxxy.projet2eme.network.services.AuthentificationService
+import com.roacult.kero.oxxy.projet2eme.network.services.MainService
 import com.roacult.kero.oxxy.projet2eme.repositories.AutherntificationRepositoryImpl
+import com.roacult.kero.oxxy.projet2eme.repositories.MainRepositoryImpl
 import com.roacult.kero.oxxy.projet2eme.utils.BASE_URL
 import com.roacult.kero.oxxy.projet2eme.utils.UserAgentInterceptor
 import dagger.Module
@@ -31,7 +34,16 @@ import javax.inject.Singleton
      fun provideAuthentificationRepository(repositoryImpl: AutherntificationRepositoryImpl):AuthentificationRepository{
          return repositoryImpl
      }
-
+    @Provides
+    @Singleton
+    fun provideMainRepository(mainRepo:MainRepositoryImpl):MainRepository{
+        return mainRepo
+    }
+    @Provides
+    @Singleton
+    fun provideMainService(retrofit: Retrofit):MainService{
+        return retrofit.create(MainService::class.java)
+    }
     @Provides
     @Singleton
     fun provideAutherntificationService(retrofit: Retrofit):AuthentificationService{
