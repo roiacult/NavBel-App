@@ -53,6 +53,7 @@ dependencies {
     implementation(deps.android.pin_inputs){exclude group: 'androidx.appcompat', module: 'appcompat'}
     implementation deps.android.shimmer
     implementation deps.android.refresh
+    implementation deps.android.expand_layou
 
     implementation deps.dagger.core
     implementation deps.dagger.support

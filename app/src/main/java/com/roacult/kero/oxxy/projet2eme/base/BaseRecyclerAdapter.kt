@@ -48,7 +48,7 @@ abstract class BaseRecyclerAdapter<D ,B : ViewDataBinding>(kClass: Class<D>,@Lay
     abstract fun compare(o1: D, o2: D): Int
     abstract fun areContentsTheSame(oldItem: D, newItem: D): Boolean
     abstract fun upDateView(item : D ,binding: B  )
-    abstract fun onClickOnItem(item : D , view : View?, binding: B)
+    abstract fun onClickOnItem(item : D , view : View?, binding: B,adapterPostion : Int)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflater =LayoutInflater.from(parent.context)
@@ -62,12 +62,26 @@ abstract class BaseRecyclerAdapter<D ,B : ViewDataBinding>(kClass: Class<D>,@Lay
         holder.upDateView(listOfData[position])
     }
 
+    fun addAll(items : List<D>){
+        listOfData.beginBatchedUpdates()
+
+        val size = listOfData.size()
+        if(size>0){
+            for(i in (size-1) downTo 0 ) {
+                val item = listOfData[i]
+                if(!items.contains(item)) listOfData.remove(item)
+            }
+        }
+        listOfData.addAll(items)
+        listOfData.endBatchedUpdates()
+    }
+
     inner class ViewHolder(val binding: B ) :RecyclerView.ViewHolder(binding.root) {
 
         fun upDateView(item : D){
             upDateView(item,binding)
             binding.root.setOnClickListener {
-                onClickOnItem(item,it,binding)
+                onClickOnItem(item,it,binding,adapterPosition)
             }
         }
     }

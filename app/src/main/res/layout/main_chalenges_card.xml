@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools">
+    <androidx.cardview.widget.CardView
+            android:layout_height="match_parent"
+            android:layout_width="match_parent" app:cardCornerRadius="10dp" android:layout_marginBottom="8dp"
+            app:cardElevation="5dp">
+        <androidx.constraintlayout.widget.ConstraintLayout android:orientation="vertical"
+                                                           android:layout_width="match_parent"
+                                                           android:layout_height="wrap_content">
+
+            <TextView
+                    tools:text="Module  here"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/textView6" app:layout_constraintStart_toStartOf="parent"
+                    android:layout_marginStart="16dp"
+                    app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp"
+                    android:layout_marginTop="16dp"
+                    app:layout_constraintTop_toTopOf="parent" android:textSize="18sp" android:textColor="#000"/>
+            <TextView
+                    tools:text="littele story here"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/textView7" android:layout_marginTop="16dp"
+                    app:layout_constraintTop_toBottomOf="@+id/textView6" app:layout_constraintStart_toStartOf="parent"
+                    android:layout_marginStart="32dp" app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginBottom="16dp" app:layout_constraintBottom_toTopOf="@+id/expanded"/>
+            <net.cachapa.expandablelayout.ExpandableLayout
+                    android:id="@+id/expanded"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent">
+                <LinearLayout android:orientation="horizontal"
+                              android:background="#7D888F"
+                              android:layout_height="47dp"
+                              android:layout_width="match_parent">
+                    <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            tools:text="120 pt"
+                            android:gravity="center"
+                            android:layout_weight="1"
+                            android:textColor="#fff"
+                            android:id="@+id/point"/>
+                    <View android:layout_width="2dp" android:layout_height="match_parent"
+                          android:background="#62ffffff"
+                          android:layout_marginTop="5dp"
+                          android:layout_marginBottom="5dp"/>
+                    <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            tools:text="4/5"
+                            android:gravity="center"
+                            android:layout_weight="1"
+                            android:textColor="#fff"
+                            android:id="@+id/solved"/>
+                    <View android:layout_width="2dp" android:layout_height="match_parent"
+                          android:background="#62ffffff"
+                          android:layout_marginTop="5dp"
+                          android:layout_marginBottom="5dp"/>
+                    <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            tools:text="7 question"
+                            android:gravity="center"
+                            android:layout_weight="1"
+                            android:textColor="#fff"
+                            android:id="@+id/nb_question"/>
+                    <View android:layout_width="2dp" android:layout_height="match_parent"
+                          android:background="#62ffffff"
+                          android:layout_marginTop="5dp"
+                          android:layout_marginBottom="5dp"/>
+                    <Button
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:text="@string/start"
+                            android:gravity="center"
+                            android:layout_weight="1"
+                            android:background="#00ffffff"
+                            android:textColor="#fff"
+                            android:id="@+id/start"/>
+
+                </LinearLayout>
+
+            </net.cachapa.expandablelayout.ExpandableLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+</layout>

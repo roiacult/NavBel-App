@@ -69,4 +69,10 @@
     <string name="forume">forume</string>
     <string name="award">awards</string>
     <string name="profile">profile</string>
+    <string name="start">start</string>
+    <string name="no_chalenge">no chalenges left for today \nplease comeback
+        tomorow
+    </string>
+    <string name="chalenge_cnx_prblm">please check your internet connection and try again</string>
+    <string name="banne_tmp">you are banned cheating probleme please cheack tomorow</string>
 </resources>
