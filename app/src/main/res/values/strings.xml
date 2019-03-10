@@ -75,4 +75,7 @@
     </string>
     <string name="chalenge_cnx_prblm">please check your internet connection and try again</string>
     <string name="banne_tmp">you are banned cheating probleme please cheack tomorow</string>
+    <string name="filtering">Filtering</string>
+    <string name="filter">filter</string>
+    <string name="cancel">cancel</string>
 </resources>

@@ -14,6 +14,8 @@ import javax.inject.Inject
 class ChalengeViewModel @Inject constructor(val getChalenges : GetAllChallenges) : BaseViewModel<ChalengeState>(ChalengeState(null))
     , ChalengeFragment.CallbackFromViewModel{
 
+    val modules = ArrayList<String>()
+
     init {
         setState { copy(getChalenges = Loading()) }
         requestData()
@@ -27,6 +29,10 @@ class ChalengeViewModel @Inject constructor(val getChalenges : GetAllChallenges)
 
     private fun handleSuccesss(list: List<ChalengeGlobale>) {
         setState { copy(getChalenges = Success(list)) }
+        val newList = list.map { it.module }
+        modules.clear()
+        modules.add("none")
+        modules.addAll(newList)
     }
 
     private fun handleFailure(getAllChalengesFailure: Failure.GetAllChalengesFailure) {

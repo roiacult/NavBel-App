@@ -4,8 +4,8 @@
         xmlns:tools="http://schemas.android.com/tools">
     <androidx.cardview.widget.CardView
             android:layout_height="wrap_content"
-            android:layout_width="match_parent" app:cardCornerRadius="10dp" android:layout_marginBottom="8dp"
-            app:cardElevation="5dp">
+            android:layout_width="match_parent" app:cardCornerRadius="5dp" android:layout_marginBottom="8dp"
+            app:cardElevation="3dp">
         <androidx.constraintlayout.widget.ConstraintLayout android:orientation="vertical"
                                                            android:layout_width="match_parent"
                                                            android:layout_height="wrap_content">

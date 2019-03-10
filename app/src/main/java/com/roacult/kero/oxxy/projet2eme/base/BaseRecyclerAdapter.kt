@@ -62,9 +62,8 @@ abstract class BaseRecyclerAdapter<D ,B : ViewDataBinding>(kClass: Class<D>,@Lay
         holder.upDateView(listOfData[position])
     }
 
-    fun addAll(items : List<D>){
+    open fun addAll(items : List<D>){
         listOfData.beginBatchedUpdates()
-
         val size = listOfData.size()
         if(size>0){
             for(i in (size-1) downTo 0 ) {

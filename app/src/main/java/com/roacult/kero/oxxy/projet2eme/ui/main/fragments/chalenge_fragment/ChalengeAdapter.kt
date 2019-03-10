@@ -5,10 +5,18 @@ import com.roacult.kero.oxxy.projet2eme.base.BaseRecyclerAdapter
 import com.roacult.kero.oxxy.domain.modules.ChalengeGlobale
 import com.roacult.kero.oxxy.projet2eme.R
 import com.roacult.kero.oxxy.projet2eme.databinding.MainChalengesCardBinding
+import com.roacult.kero.oxxy.projet2eme.utils.Success
 
-class ChalengeAdapter
+class ChalengeAdapter(val viewModel : ChalengeViewModel)
     : BaseRecyclerAdapter<ChalengeGlobale, MainChalengesCardBinding>(ChalengeGlobale::class.java, R.layout.main_chalenges_card){
 
+    var filter : Filter = Filter()
+    set(value) {
+        field = value
+        viewModel.withState {
+            addAll((it.getChalenges as? Success)?.invoke() ?: ArrayList())
+        }
+    }
 
     override fun areItemsTheSame(item1: ChalengeGlobale, item2: ChalengeGlobale) = item1.id == item2.id
 
@@ -30,7 +38,11 @@ class ChalengeAdapter
         binding.point.setText("${item.point} points")
         binding.nbQuestion.setText("${item.nbOfQuestions} questions")
         binding.arrow.rotation = 180f
+    }
 
+    override fun addAll(items: List<ChalengeGlobale>) {
+        val newList = filter.filter(items)
+        super.addAll(newList)
     }
 
     override fun onClickOnItem(item: ChalengeGlobale, view: View?, binding: MainChalengesCardBinding, adapterPostion : Int) {
@@ -42,6 +54,7 @@ class ChalengeAdapter
         }
         if(isCollapsed) binding.expanded.collapse()
         else binding.expanded.expand()
-
     }
+
+
 }

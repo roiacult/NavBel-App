@@ -1,5 +1,6 @@
 package com.roacult.kero.oxxy.projet2eme.utils.extension
 
+import androidx.recyclerview.widget.SortedList
 import java.util.regex.Matcher
 import java.util.regex.Pattern
 
@@ -10,4 +11,12 @@ fun String.isEmailValid(): Boolean {
     pattern = Pattern.compile(EMAIL_PATTERN)
     matcher = pattern.matcher(this)
     return matcher.matches()
+}
+
+fun <D> SortedList<D>.toList() : List<D>{
+    val list = ArrayList<D>()
+    for (i in 0 until this.size()){
+        list.add(this[i])
+    }
+    return list
 }
