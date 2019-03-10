@@ -1,12 +1,14 @@
 package com.roacult.kero.oxxy.projet2eme.ui.main.fragments.chalenge_fragment
 
-import `in`.srain.cube.views.ptr.header.StoreHouseHeader
 import android.animation.Animator
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
+import android.widget.ArrayAdapter
+import android.widget.EditText
+import android.widget.Spinner
 import androidx.annotation.StringRes
+import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -21,13 +23,14 @@ import com.roacult.kero.oxxy.projet2eme.utils.Success
 import com.roacult.kero.oxxy.projet2eme.utils.Fail
 import com.roacult.kero.oxxy.projet2eme.utils.extension.visible
 import com.roacult.kero.oxxy.projet2eme.utils.extension.invisible
+import com.roacult.kero.oxxy.projet2eme.utils.getFilter
 
 class ChalengeFragment : BaseFragment() {
     companion object { fun getInstance() = ChalengeFragment() }
     private lateinit var binding : MainChalengesBinding
-    private val adapter = ChalengeAdapter()
     private val viewModel by lazy { ViewModelProviders.of(this,viewModelFactory)[ChalengeViewModel::class.java] }
     private val callback : CallbackFromViewModel by lazy { viewModel }
+    private val adapter  :ChalengeAdapter by lazy {ChalengeAdapter(viewModel)}
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding =DataBindingUtil.inflate(inflater,R.layout.main_chalenges,container,false)
@@ -118,6 +121,43 @@ class ChalengeFragment : BaseFragment() {
         binding.refresh.setOnRefreshListener {
             callback.requestData()
         }
+        setHasOptionsMenu(true)
+        (activity as? AppCompatActivity)?.setSupportActionBar(binding.toolbar)
+    }
+
+    private fun showFilteringDialogue() {
+        //initialising view
+        val view = LayoutInflater.from(context).inflate(R.layout.main_chalenges_dialogue,null)
+        val spinner = view.findViewById<Spinner>(R.id.modules)
+        val minPoint = view.findViewById<EditText>(R.id.min_point)
+        val maxPoint = view.findViewById<EditText>(R.id.max_point)
+        val minQues = view.findViewById<EditText>(R.id.min_ques)
+        val maxQues = view.findViewById<EditText>(R.id.max_ques)
+
+        //adding modules to spinner
+        val spinnerAdapter  = ArrayAdapter<String>(context!!,android.R.layout.simple_dropdown_item_1line,viewModel.modules)
+        spinner.adapter = spinnerAdapter
+
+        //building alert dialogue
+        AlertDialog.Builder(context!!).setTitle(R.string.filtering)
+            .setNegativeButton(R.string.cancel) { _, _->}
+            .setView(view)
+            .setPositiveButton(R.string.filter){_,_->
+                adapter.filter = getFilter(spinner.selectedItem as String,minPoint.text.toString(),maxPoint.text.toString(),minQues.text.toString(),maxQues.text.toString())
+            }
+            .show()
+    }
+    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater?.inflate(R.menu.chalenge_menu,menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        if(item?.itemId == R.id.filter){
+            showFilteringDialogue()
+            return true
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     interface CallbackFromViewModel {

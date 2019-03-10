@@ -3,6 +3,8 @@ package com.roacult.kero.oxxy.projet2eme.ui.main
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import com.roacult.kero.oxxy.projet2eme.R
 import com.roacult.kero.oxxy.projet2eme.base.BaseActivity
 import com.roacult.kero.oxxy.projet2eme.ui.main.fragments.award_fragment.AwardFragment
@@ -58,6 +60,10 @@ class MainActivity : BaseActivity() {
         }
 
         return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        return false
     }
 
     override fun onBackPressed() {
