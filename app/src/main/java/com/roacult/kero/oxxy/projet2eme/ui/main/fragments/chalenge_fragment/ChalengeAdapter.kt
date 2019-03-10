@@ -29,12 +29,19 @@ class ChalengeAdapter
         binding.solved.setText("${item.nbPersonSolveded}/5")
         binding.point.setText("${item.point} points")
         binding.nbQuestion.setText("${item.nbOfQuestions} questions")
+        binding.arrow.rotation = 180f
 
     }
 
     override fun onClickOnItem(item: ChalengeGlobale, view: View?, binding: MainChalengesCardBinding, adapterPostion : Int) {
         //TODO  implement this
-        if(binding.expanded.isExpanded) binding.expanded.collapse()
+        val isCollapsed = binding.expanded.isExpanded
+        binding.arrow.animate().apply {
+            rotation(if(isCollapsed)180f else 0f)
+            start()
+        }
+        if(isCollapsed) binding.expanded.collapse()
         else binding.expanded.expand()
+
     }
 }
