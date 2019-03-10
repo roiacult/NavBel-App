@@ -37,6 +37,12 @@ class GetAllChallenges @Inject constructor(couroutineDispatchers: CouroutineDisp
                 "numbre of candidat passt interviews and get the job 0.1%,076%" +
                 "number of candidat hired   2000 *** 470",200,3,7)
         tmp.add(sch)
+        sch = ChalengeGlobale(4,"module4","numbre of resums recived  2M *** 380k" +
+                "numbre of employers  88k *** 10k" +
+                "number of resumes accepted 1.7% (34k) *** 6% (22k)" +
+                "numbre of candidat passt interviews and get the job 0.1%,076%" +
+                "number of candidat hired   2000 *** 470",80,3,7)
+        tmp.add(sch)
         return  Either.Right(tmp)
     }
 }

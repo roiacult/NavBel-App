@@ -3,7 +3,7 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools">
     <androidx.cardview.widget.CardView
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_width="match_parent" app:cardCornerRadius="10dp" android:layout_marginBottom="8dp"
             app:cardElevation="5dp">
         <androidx.constraintlayout.widget.ConstraintLayout android:orientation="vertical"
@@ -36,7 +36,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent">
                 <LinearLayout android:orientation="horizontal"
-                              android:background="#7D888F"
+                              android:background="#A300C7F5"
                               android:layout_height="47dp"
                               android:layout_width="match_parent">
                     <TextView

@@ -21,12 +21,20 @@ class ChalengeAdapter
             oldItem.point == newItem.point
 
     override fun upDateView(item: ChalengeGlobale, binding: MainChalengesCardBinding) {
-        //TODO update view
         binding.textView7.setText(item.story)
         binding.textView6.setText(item.module)
+        binding.start.setOnClickListener{
+            //TODO  start chalenge
+        }
+        binding.solved.setText("${item.nbPersonSolveded}/5")
+        binding.point.setText("${item.point} points")
+        binding.nbQuestion.setText("${item.nbOfQuestions} questions")
+
     }
 
     override fun onClickOnItem(item: ChalengeGlobale, view: View?, binding: MainChalengesCardBinding, adapterPostion : Int) {
         //TODO  implement this
+        if(binding.expanded.isExpanded) binding.expanded.collapse()
+        else binding.expanded.expand()
     }
 }
