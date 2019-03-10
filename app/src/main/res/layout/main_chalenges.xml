@@ -1,9 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout  xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:android="http://schemas.android.com/apk/res/android">
-    <com.baoyz.widget.PullRefreshLayout
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
             android:id="@+id/refresh"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            app:ptr_duration_to_close="200"
+            app:ptr_duration_to_close_header="1000"
+            app:ptr_keep_header_when_refresh="true"
+            app:ptr_ratio_of_header_height_to_refresh="1.2"
+            app:ptr_resistance="1.7"
+    >
         <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
@@ -37,5 +43,5 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-    </com.baoyz.widget.PullRefreshLayout>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 </layout>

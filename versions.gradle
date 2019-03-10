@@ -46,7 +46,7 @@ versions.scalars_converter= "2.1.0"
 versions.pin_input = '2.0.6'
 versions.compresser= '2.1.0'
 versions.shimmer = '0.4.0'
-versions.refresh_layout ='1.2.0'
+versions.refresh_layout ='1.0.11'
 versions.expande_layout = '2.9.2'
 
 
@@ -65,7 +65,7 @@ android.image_copper = "com.theartofdev.edmodo:android-image-cropper:$versions.i
 android.pin_inputs = "com.alimuzaffar.lib:pinentryedittext:$versions.pin_input"
 android.compressor = "id.zelory:compressor:$versions.compresser"
 android.shimmer = "com.facebook.shimmer:shimmer:$versions.shimmer"
-android.refresh ="com.baoyz.pullrefreshlayout:library:$versions.refresh_layout"
+android.refresh ="in.srain.cube:ultra-ptr:$versions.refresh_layout"
 android.expand_layou = "net.cachapa.expandablelayout:expandablelayout:$versions.expande_layout"
 deps.android = android
 
@@ -130,6 +130,7 @@ def addRepos(RepositoryHandler handler) {
     handler.maven { url 'https://oss.sonatype.org/content/repositories/snapshots' }
     handler.maven { url 'https://dl.bintray.com/kotlin/kotlin-eap' }
     handler.maven{ url 'https://jitpack.io' }
+    handler.maven{url 'https://oss.sonatype.org/content/repositories/snapshots'}
 }
 
 ext.addRepos = this.&addRepos
