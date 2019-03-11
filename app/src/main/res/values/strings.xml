@@ -78,4 +78,18 @@
     <string name="filtering">Filtering</string>
     <string name="filter">filter</string>
     <string name="cancel">cancel</string>
+    <string name="help_chalenge">chalenge page</string>
+    <string name="help_chalenge_des">here you can find all chalenges availble</string>
+    <string name="help_filter">filter</string>
+    <string name="help_filter_des">you can filter chalenges here</string>
+    <string name="help_module">Module</string>
+    <string name="help_module_des">this is the module of chalenge</string>
+    <string name="help_start">start chalenges</string>
+    <string name="help_start_des">you can start chalenges by clicking here</string>
+    <string name="help_points_des">numbre of points of this chalenge</string>
+    <string name="help_points">points</string>
+    <string name="help_solved">solved</string>
+    <string name="help_solved_des">numbre of persone who solved this chalenge</string>
+    <string name="help_question_des">numbre of questions iin this chalenge</string>
+    <string name="help_question">questions</string>
 </resources>
