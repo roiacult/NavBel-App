@@ -52,8 +52,9 @@ dependencies {
     implementation deps.android.image_copper
     implementation(deps.android.pin_inputs){exclude group: 'androidx.appcompat', module: 'appcompat'}
     implementation deps.android.shimmer
-    implementation deps.android.refresh
+    implementation deps.android.helper
     implementation deps.android.expand_layou
+    implementation deps.android.time_view
 
     implementation deps.dagger.core
     implementation deps.dagger.support
