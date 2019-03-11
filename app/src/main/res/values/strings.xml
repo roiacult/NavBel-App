@@ -92,4 +92,10 @@
     <string name="help_solved_des">numbre of persone who solved this chalenge</string>
     <string name="help_question_des">numbre of questions iin this chalenge</string>
     <string name="help_question">questions</string>
+    <string name="help_profile_des">here you can see you\'r profile and your informations</string>
+    <string name="help_profile">Profile page</string>
+    <string name="help_award">Award Page</string>
+    <string name="help_award_des">here you can collect your rawards</string>
+    <string name="help_forum">Forume page</string>
+    <string name="help_forum_des">here you can discuss and communicate with auther students</string>
 </resources>

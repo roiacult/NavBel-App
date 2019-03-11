@@ -1,5 +1,6 @@
 package com.roacult.kero.oxxy.projet2eme.utils
 
+import com.roacult.kero.oxxy.projet2eme.R
 import com.roacult.kero.oxxy.projet2eme.ui.main.fragments.chalenge_fragment.Filter
 
 fun getFilter(module : String , minPointStr : String , maxPointStr : String, minQuesStr : String , maxQuesStr : String) :Filter {
@@ -16,3 +17,17 @@ fun getFilter(module : String , minPointStr : String , maxPointStr : String, min
                 if(minQues<0 ) -1 else minQues
         )
 }
+fun getId(position : Int ): Int =
+        when(position){
+                0 -> R.id.chalenge_page
+                1 -> R.id.forum_page
+                2 -> R.id.award_page
+                else -> R.id.profile_page
+        }
+fun getPosition(id : Int): Int =
+        when(id){
+                R.id.chalenge_page -> 0
+                R.id.forum_page -> 1
+                R.id.award_page -> 2
+                else -> 3
+        }
