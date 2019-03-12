@@ -46,7 +46,6 @@ class ChalengeAdapter(val viewModel : ChalengeViewModel)
     }
 
     override fun onClickOnItem(item: ChalengeGlobale, view: View?, binding: MainChalengesCardBinding, adapterPostion : Int) {
-        //TODO  implement this
         val isCollapsed = binding.expanded.isExpanded
         binding.arrow.animate().apply {
             rotation(if(isCollapsed)180f else 0f)

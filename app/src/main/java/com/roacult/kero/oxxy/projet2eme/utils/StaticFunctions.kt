@@ -1,5 +1,6 @@
 package com.roacult.kero.oxxy.projet2eme.utils
 
+import android.content.Context
 import com.roacult.kero.oxxy.projet2eme.R
 import com.roacult.kero.oxxy.projet2eme.ui.main.fragments.chalenge_fragment.Filter
 
@@ -31,3 +32,9 @@ fun getPosition(id : Int): Int =
                 R.id.award_page -> 2
                 else -> 3
         }
+fun showBannedDialogue(context : Context){
+        androidx.appcompat.app.AlertDialog.Builder(context)
+                .setTitle(R.string.banned_title)
+                .setMessage(R.string.banned_message)
+                .show()
+}

@@ -5,5 +5,9 @@ package com.roacult.kero.oxxy.domain.modules
  * resources -> list of url (pdf)
  * you can change the id to String if you want but don't
  * forget to change it in ChalngeGlobale to
+ *
+ * i change resoureces list
+ * Resources --> Pair(name , url )
+ *
  * */
-data class ChalengeDetailles(val id : Int,val time : Int ,val resources : List<String>, val questions : List<Question>)
+data class ChalengeDetailles(val id : Int,val time : Int ,val resources : List<Pair<String,String>>, val questions : List<Question>)

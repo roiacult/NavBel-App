@@ -13,7 +13,6 @@ import com.roacult.kero.oxxy.domain.interactors.None
 import com.roacult.kero.oxxy.projet2eme.R
 import com.roacult.kero.oxxy.projet2eme.base.BaseFragment
 import com.roacult.kero.oxxy.projet2eme.databinding.RegistrationBinding
-import com.roacult.kero.oxxy.projet2eme.databinding.RegistrationFragmentBinding
 import com.roacult.kero.oxxy.projet2eme.ui.main.MainActivity
 import com.roacult.kero.oxxy.projet2eme.ui.registration_feature.RegistrationActivity
 import com.roacult.kero.oxxy.projet2eme.ui.registration_feature.fragment_saveinfo.SAVEINFO_EMAIL
@@ -27,8 +26,7 @@ import com.roacult.kero.oxxy.projet2eme.utils.Success
 import com.roacult.kero.oxxy.projet2eme.utils.extension.isEmailValid
 import com.roacult.kero.oxxy.projet2eme.utils.extension.loading
 import com.roacult.kero.oxxy.projet2eme.utils.extension.visible
-import java.sql.Time
-import java.util.*
+import com.roacult.kero.oxxy.projet2eme.utils.showBannedDialogue
 
 class RegistrationFragment : BaseFragment() , RegistrationActivity.CallbackToFragment {
 
@@ -65,7 +63,7 @@ class RegistrationFragment : BaseFragment() , RegistrationActivity.CallbackToFra
                         callback.setView(REGISTRATION_STATE_SIGNIN)
                     }
                     is Failure.LoginFaillure.UserBanned -> {
-                        showDialoguUserBanned()
+                        showBannedDialogue(context!!)
                         callback.setView(REGISTRATION_STATE_DEFAULT)
                     }
                     is Failure.LoginFaillure.WrongPassword -> onError(R.string.wrong_password)
@@ -98,7 +96,7 @@ class RegistrationFragment : BaseFragment() , RegistrationActivity.CallbackToFra
                         callback.setView(REGISTRATION_STATE_LOGIN)
                     }
                     is Failure.SignInFaillure.UserBanned -> {
-                        showDialoguUserBanned()
+                        showBannedDialogue(context!!)
                         callback.setView(REGISTRATION_STATE_DEFAULT)
                     }
                     is Failure.SignInFaillure.CodeSendingError -> onError(R.string.code_sending_error)
@@ -239,12 +237,6 @@ class RegistrationFragment : BaseFragment() , RegistrationActivity.CallbackToFra
         callbackToActivity?.goToResetPassword()
     }
 
-    private fun showDialoguUserBanned(){
-        androidx.appcompat.app.AlertDialog.Builder(context!!)
-            .setTitle(R.string.banned_title)
-            .setMessage(R.string.banned_message)
-            .show()
-    }
 
     private fun setUpCallbackToActivity(){callbackToActivity = activity as? RegistrationActivity}
 

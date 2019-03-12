@@ -8,7 +8,7 @@ import android.widget.EditText
 import android.widget.Spinner
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.app.AppCompatActivity
+import com.roacult.kero.oxxy.projet2eme.utils.showBannedDialogue
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -56,9 +56,8 @@ class ChalengeFragment : BaseFragment() , CallbackFromActivity {
                     is Failure.GetAllChalengesFailure.OperationFailed -> showError(R.string.chalenge_cnx_prblm)
                     is Failure.GetAllChalengesFailure.OtherFailrue -> showError(R.string.chalenge_cnx_prblm)
                     is Failure.GetAllChalengesFailure.UserBannedTemp -> showError(R.string.banne_tmp)
-                    is Failure.GetAllChalengesFailure.UserBannedForever -> {
-                        //TODO show alert dialogue
-                    }
+                    is Failure.GetAllChalengesFailure.UserBannedForever -> showBannedDialogue(context!!)
+
                 }
             }
             is Success ->{
@@ -126,7 +125,6 @@ class ChalengeFragment : BaseFragment() , CallbackFromActivity {
     }
 
     override fun showHelp() {
-        //TODO addtargets here
         TapTargetSequence(activity!!).apply {
             val holder = binding.chalengeRecycler.findViewHolderForAdapterPosition((binding.chalengeRecycler.layoutManager as LinearLayoutManager).findFirstVisibleItemPosition())
             if(holder != null ){

@@ -53,4 +53,7 @@ sealed class Failure {
         object UserNotRegistred:GetAllChalengesFailure()
           class OtherFailrue(t:Throwable):GetAllChalengesFailure()
     }
+    sealed class GetChalengeDetailsFailure : Failure(){
+        //TODO add all failure here
+    }
 }

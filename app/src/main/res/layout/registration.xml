@@ -5,7 +5,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layoutDescription="@xml/registration_scene"
-            app:currentState="@id/state_confirm"
+            app:currentState="@id/state_signin"
             android:background="@drawable/registration_back">
         <!--app:currentState="@id/state_default"-->
 

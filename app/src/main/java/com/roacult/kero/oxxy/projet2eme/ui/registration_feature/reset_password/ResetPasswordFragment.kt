@@ -21,6 +21,7 @@ import com.roacult.kero.oxxy.projet2eme.utils.Fail
 import com.roacult.kero.oxxy.projet2eme.utils.extension.visible
 import com.roacult.kero.oxxy.projet2eme.utils.extension.loading
 import kotlinx.android.synthetic.main.reset_password_fragment.view.*
+import com.roacult.kero.oxxy.projet2eme.utils.showBannedDialogue
 
 @Suppress("DUPLICATE_LABEL_IN_WHEN")
 class ResetPasswordFragment : BaseFragment() , RegistrationActivity.CallbackToFragment {
@@ -56,7 +57,7 @@ class ResetPasswordFragment : BaseFragment() , RegistrationActivity.CallbackToFr
                     is Failure.SendCodeResetPassword.OperationFailed -> onError(R.string.sendcoe_fail)
                     is Failure.SendCodeResetPassword.UserNotFound -> onError(R.string.reset_email_not_found)
                     is Failure.SendCodeResetPassword.UserNotLoggedIn -> onError(R.string.reset_email_not_subscribed)
-                    is Failure.SendCodeResetPassword.UserBanned -> showDialoguUserBanned()
+                    is Failure.SendCodeResetPassword.UserBanned -> showBannedDialogue(context!!)
                     is Failure.SendCodeResetPassword.OtherFailrue-> onError(R.string.reset_unknown_prblm)
                 }
             }
@@ -177,13 +178,6 @@ class ResetPasswordFragment : BaseFragment() , RegistrationActivity.CallbackToFr
         binding.confirm.visible(!show)
         binding.changePass.visible(!show)
         binding.submit.loading(show)
-    }
-
-    private fun showDialoguUserBanned(){
-        androidx.appcompat.app.AlertDialog.Builder(context!!)
-            .setTitle(R.string.banned_title)
-            .setMessage(R.string.banned_message)
-            .show()
     }
 
     override fun goToDefaultState() {

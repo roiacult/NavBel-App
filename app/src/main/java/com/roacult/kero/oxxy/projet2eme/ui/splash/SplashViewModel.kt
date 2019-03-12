@@ -13,7 +13,6 @@ import javax.inject.Inject
 class SplashViewModel @Inject constructor(userState: UserStateUseCase) : BaseViewModel<SplashState>(SplashState(null)) {
 
     init {
-        //TODO excute getUserState here
         setState { copy(Loading()) }
         scope.launchInteractor(userState, None()){
             setState { copy(Success(it)) }
