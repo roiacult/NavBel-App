@@ -50,6 +50,7 @@ sealed class Failure {
           object UserBannedForever:GetAllChalengesFailure()
         object  UserBannedTemp:GetAllChalengesFailure()
         object OperationFailed:GetAllChalengesFailure()
+        object UserNotRegistred:GetAllChalengesFailure()
           class OtherFailrue(t:Throwable):GetAllChalengesFailure()
     }
 }

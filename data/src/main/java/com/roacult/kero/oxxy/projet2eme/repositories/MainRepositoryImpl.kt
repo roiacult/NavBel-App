@@ -14,6 +14,6 @@ import javax.inject.Inject
  */
 class MainRepositoryImpl @Inject constructor( private val remote :MainRemote  ,private val local :MainLocal):MainRepository {
     override suspend fun getAllChallenges(): Either< Failure.GetAllChalengesFailure  , List<ChalengeGlobale>> {
-    return remote.getChallenges(local.getYear())
+    return remote.getChallenges(local.getChallengeRequest())
     }
 }
