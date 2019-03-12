@@ -30,7 +30,7 @@ class AuthentificationLocal @Inject constructor(val preference:SharedPreferences
              putString(USER_DATE , user.date)
              putInt(USER_YEAR , user.year ?:0)
              putLong(USER_ID  , user.id ?:0)
-             //rank table
+             //todo rank table
             commit()
          }
         it.resume(Either.Right(None()))
@@ -74,6 +74,7 @@ class AuthentificationLocal @Inject constructor(val preference:SharedPreferences
             putInt(NQSOLVED , info.nbsolved ?: 0)
             putString(USER_DATE , info.date)
             putLong(USER_ID , info.id ?:0)
+            putInt(USER_YEAR , info.year ?:0)
 //            putStringSet()
             commit()
         }
