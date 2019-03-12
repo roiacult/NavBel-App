@@ -11,7 +11,6 @@
     </style>
 
     <style name="AppTheme.Launcher">
-        <!--TODO don't forget to set background of splash screen -->
-        <!--<item name="android:windowBackground">@drawable/splash_screen</item>-->
+        <item name="android:windowBackground">@drawable/splash</item>
     </style>
 </resources>

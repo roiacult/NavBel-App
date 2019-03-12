@@ -31,14 +31,8 @@ class MainActivity : BaseActivity() {
 
     private val chalengeFragment : ChalengeFragment by lazy {
         val fr = supportFragmentManager.findFragmentByTag(TAG_CHALENGE)
-        if(fr != null){
-            Log.v("bullshit","there is an instance")
-            fr as ChalengeFragment
-        }
-        else{
-            Log.v("bullshit","creat new instance")
-            ChalengeFragment.getInstance()
-        }
+        if(fr != null)fr as ChalengeFragment
+        else ChalengeFragment.getInstance()
     }
     private val forumFragment  : ForumeFragment by lazy {
         val fr = supportFragmentManager.findFragmentByTag(TAG_FORUME)
@@ -190,8 +184,6 @@ class MainActivity : BaseActivity() {
         }.listener(object : TapTargetSequence.Listener{
             override fun onSequenceCanceled(lastTarget: TapTarget?) {}
             override fun onSequenceFinish() {
-                if(callback == null ) Log.v("bullshit","callback is null ")
-                else Log.v("bullshit","callback is not null")
                 callback?.showHelp() }
             override fun onSequenceStep(lastTarget: TapTarget?, targetClicked: Boolean) {}
         }).start()

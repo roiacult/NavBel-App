@@ -122,9 +122,7 @@ class ChalengeFragment : BaseFragment() , CallbackFromActivity {
         binding.chalengeRecycler.adapter = adapter
         val manager = LinearLayoutManager(context!!)
         binding.chalengeRecycler.layoutManager = manager
-        binding.refresh.setOnRefreshListener {
-            callback.requestData()
-        }
+        binding.refresh.setOnRefreshListener { callback.requestData() }
     }
 
     override fun showHelp() {

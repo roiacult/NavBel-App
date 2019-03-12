@@ -42,12 +42,12 @@
     <string name="reset_pass_des">entre the email address \nassociated with your acount</string>
     <string name="reset_pass_sub_title">we will email you a link to reset your \npassword.</string>
     <string name="entre_email_address">entre email address</string>
-    <string name="confirm_desc">entre the verification code we \njust sent you on your email address.</string>
+    <string name="confirm_desc">entre the verification code we \njust sent you on your\nemail address.</string>
     <string name="reset_resend_email">if you didn\'t receive a code!.</string>
     <string name="resend">RESEND</string>
     <string name="confirm">confirm</string>
-    <string name="sign_in_title">we will email you a link to confirm your email</string>
-    <string name="sign_in_des">entre the email address of your school</string>
+    <string name="sign_in_title">we will email you a link to\nconfirm your email</string>
+    <string name="sign_in_des">entre the email address </string>
     <string name="reset_pass">you dont remembre your password?</string>
     <string name="rest">rest</string>
     <string name="change_pass">change password</string>

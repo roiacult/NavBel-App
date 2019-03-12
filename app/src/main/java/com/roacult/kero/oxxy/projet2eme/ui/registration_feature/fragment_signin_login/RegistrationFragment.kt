@@ -12,6 +12,7 @@ import com.roacult.kero.oxxy.domain.interactors.MailResult
 import com.roacult.kero.oxxy.domain.interactors.None
 import com.roacult.kero.oxxy.projet2eme.R
 import com.roacult.kero.oxxy.projet2eme.base.BaseFragment
+import com.roacult.kero.oxxy.projet2eme.databinding.RegistrationBinding
 import com.roacult.kero.oxxy.projet2eme.databinding.RegistrationFragmentBinding
 import com.roacult.kero.oxxy.projet2eme.ui.main.MainActivity
 import com.roacult.kero.oxxy.projet2eme.ui.registration_feature.RegistrationActivity
@@ -33,14 +34,14 @@ class RegistrationFragment : BaseFragment() , RegistrationActivity.CallbackToFra
 
     companion object { fun getInstance() = RegistrationFragment() }
 
-    private lateinit var binding : RegistrationFragmentBinding
+    private lateinit var binding : RegistrationBinding
     private val viewModel : RegistrationViewModel by lazy {ViewModelProviders.of(this,viewModelFactory)[RegistrationViewModel::class.java]}
     private val callback : CallbackFromViewModel by lazy {viewModel}
     private  var callbackToActivity : CallbackToRegistrationActivity? = null
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        binding = DataBindingUtil.inflate(inflater,R.layout.registration_fragment,container,false)
+        binding = DataBindingUtil.inflate(inflater,R.layout.registration,container,false)
 
         viewModel.observe(this){
             setUpState(it.viewState)
