@@ -31,7 +31,6 @@ sealed class Failure {
     }
 
     sealed class ResendConfirmationFailure:Failure(){
-        //TODO  what (CodeError) is??
         class CodeError():ResendConfirmationFailure()
         class OtherFailure(val t:Throwable?):ResendConfirmationFailure()
     }
@@ -51,9 +50,13 @@ sealed class Failure {
         object  UserBannedTemp:GetAllChalengesFailure()
         object OperationFailed:GetAllChalengesFailure()
         object UserNotRegistred:GetAllChalengesFailure()
-          class OtherFailrue(t:Throwable):GetAllChalengesFailure()
+          class OtherFailrue(val t:Throwable):GetAllChalengesFailure()
     }
     sealed class GetChalengeDetailsFailure : Failure(){
-        //TODO add all failure here
+         object ChallengeAlreadySolved:GetChalengeDetailsFailure()
+         object UserNotRegistred:GetChalengeDetailsFailure()
+        object OperationFailed:GetChalengeDetailsFailure()
+        object  UserBannedTemp:GetChalengeDetailsFailure()
+        class OtherFailrue(val t:Throwable):GetChalengeDetailsFailure()
     }
 }

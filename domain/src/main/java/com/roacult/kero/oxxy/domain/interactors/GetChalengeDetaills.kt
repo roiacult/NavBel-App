@@ -6,7 +6,8 @@ import com.roacult.kero.oxxy.domain.functional.Either
 import com.roacult.kero.oxxy.domain.modules.ChalengeDetailles
 import kotlinx.coroutines.delay
 
-class GetChalengeDetaills(dispatchers: CouroutineDispatchers) : EitherInteractor<Int,ChalengeDetailles,Failure.GetChalengeDetailsFailure> {
+class GetChalengeDetaills(dispatchers: CouroutineDispatchers) : EitherInteractor<Int,ChalengeDetailles
+        ,Failure.GetChalengeDetailsFailure> {
     override val dispatcher =dispatchers.computaion
     override val ResultDispatcher= dispatchers.main
 

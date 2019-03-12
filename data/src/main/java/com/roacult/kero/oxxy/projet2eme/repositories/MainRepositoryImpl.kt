@@ -16,4 +16,8 @@ class MainRepositoryImpl @Inject constructor( private val remote :MainRemote  ,p
     override suspend fun getAllChallenges(): Either< Failure.GetAllChalengesFailure  , List<ChalengeGlobale>> {
     return remote.getChallenges(local.getChallengeRequest())
     }
+
+    override fun logOut() {
+        local.logOut()
+    }
 }

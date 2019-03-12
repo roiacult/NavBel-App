@@ -6,4 +6,5 @@ import com.roacult.kero.oxxy.domain.modules.ChalengeGlobale
 
 interface MainRepository {
     suspend  fun getAllChallenges():Either<Failure.GetAllChalengesFailure , List<ChalengeGlobale> >
+    fun logOut()
 }
