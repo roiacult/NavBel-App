@@ -23,6 +23,10 @@ import kotlin.coroutines.suspendCoroutine
  * ..etc
  */
 class MainRemote @Inject constructor(private val service :MainService) {
+    /**
+     * so this function will help us request for the challenge untried by the user defined with the userID given
+     * and then it can return either that the user is banned or he hasnt registred  or it can get all the challenges
+     */
   suspend  fun getChallenges(request: Request):Either<Failure.GetAllChalengesFailure , List<ChalengeGlobale>> = suspendCoroutine {
       service.getAllchallenges(request =  request, token =token()).enqueue(object : Callback<GetAllChallengeReponse> {
           override fun onFailure(call: Call<GetAllChallengeReponse>, t: Throwable) {
@@ -43,9 +47,12 @@ class MainRemote @Inject constructor(private val service :MainService) {
           }
       })
 
-
-
   }
+
+    /**
+     * this funtion will send request to get the challenge detaille a challenge detaille is the time that  a challenge can take
+     * and the id of the challenge and the ressources with this challenges
+     */
     suspend  fun getChallengeDetaille(id:Int , mail :String):Either<Failure.GetChalengeDetailsFailure , ChalengeDetailles> = suspendCoroutine{
    service.getChallengeDetaille(ChallengeId(id, mail) ).enqueue(object :Callback<ChallengeDetailleReponse>{
        override fun onFailure(call: Call<ChallengeDetailleReponse>, t: Throwable) {

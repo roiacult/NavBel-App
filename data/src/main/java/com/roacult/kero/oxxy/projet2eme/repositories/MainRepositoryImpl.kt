@@ -18,6 +18,10 @@ class MainRepositoryImpl @Inject constructor( private val remote :MainRemote  ,p
     return remote.getChallenges(local.getChallengeRequest())
     }
 
+    /**
+     * this function will logout the user
+     *
+     */
     override fun logOut() {
         local.logOut()
     }
