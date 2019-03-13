@@ -98,4 +98,13 @@
     <string name="help_award_des">here you can collect your rawards</string>
     <string name="help_forum">Forume page</string>
     <string name="help_forum_des">here you can discuss and communicate with auther students</string>
+    <string name="start_resource_notice">befor you satrt this chalenge you should take a lock to the resources provided
+        below
+    </string>
+    <string name="notice_befor_start_chalenge">once you hit start button you can\'t make pause if the time finish or  numbre of persone who solved this chalenge reach the maximum you will not get the points so you better hurry up and you only have one chance you can\'t try again on this chaleneg you are ready for chalenge?</string>
+    <string name="points">Points</string>
+    <string name="solved">solved</string>
+    <string name="question">question</string>
+    <string name="time">Time</string>
+    <string name="chalenge_not_availible">sorry this chalenge is not availible any more</string>
 </resources>

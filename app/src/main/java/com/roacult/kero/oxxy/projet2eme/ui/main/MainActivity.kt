@@ -3,7 +3,6 @@ package com.roacult.kero.oxxy.projet2eme.ui.main
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import com.getkeepsafe.taptargetview.TapTarget
@@ -15,6 +14,7 @@ import com.roacult.kero.oxxy.projet2eme.ui.main.fragments.award_fragment.AwardFr
 import com.roacult.kero.oxxy.projet2eme.ui.main.fragments.chalenge_fragment.ChalengeFragment
 import com.roacult.kero.oxxy.projet2eme.ui.main.fragments.forume_fragment.ForumeFragment
 import com.roacult.kero.oxxy.projet2eme.ui.main.fragments.profile_fragment.ProfileFragment
+import com.roacult.kero.oxxy.projet2eme.ui.start_chalenge.StartChalengeActivity
 import kotlinx.android.synthetic.main.main_activity.*
 import com.roacult.kero.oxxy.projet2eme.utils.extension.inTransaction
 
@@ -187,6 +187,12 @@ class MainActivity : BaseActivity() {
                 callback?.showHelp() }
             override fun onSequenceStep(lastTarget: TapTarget?, targetClicked: Boolean) {}
         }).start()
+    }
+
+    fun startChalenge(bundle: Bundle){
+        val intent = StartChalengeActivity.getIntent(this)
+        intent.putExtras(bundle)
+        startActivity(intent)
     }
 
     override fun onBackPressed() {

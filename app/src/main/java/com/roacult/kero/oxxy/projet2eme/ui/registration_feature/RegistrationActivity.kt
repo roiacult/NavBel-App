@@ -23,20 +23,19 @@ class RegistrationActivity : BaseActivity() ,
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.registartion_activity)
+        setContentView(R.layout.single_fragment_activity)
         if(savedInstanceState == null) setFragment()
     }
 
     private fun setFragment() {
-        //just for testing reset emaail fragment
         val fragment = RegistrationFragment.getInstance()
         supportFragmentManager.inTransaction {
-            add( R.id.registration_container , fragment )
+            add( R.id.fragment_container , fragment )
         }
     }
 
     private fun setUpCallback(){
-        val fragment = supportFragmentManager.findFragmentById(R.id.registration_container)
+        val fragment = supportFragmentManager.findFragmentById(R.id.fragment_container)
         callbackToFragment = if( fragment is ResetPasswordFragment)  fragment
         else if(fragment is RegistrationFragment ) fragment
         else null
@@ -54,7 +53,7 @@ class RegistrationActivity : BaseActivity() ,
             val fragment = SaveInfoFragment.getInstance()
             fragment.arguments = bundle
             setCustomAnimations ( R.anim.entre_from_right,R.anim.exit_to_left,R.anim.entre_from_left,R.anim.exit_to_right )
-                .replace(R.id.registration_container,fragment)
+                .replace(R.id.fragment_container,fragment)
         }
     }
 
@@ -64,7 +63,7 @@ class RegistrationActivity : BaseActivity() ,
             val resetPasswordFragment = ResetPasswordFragment.getInstance()
             setCustomAnimations ( R.anim.entre_from_right,R.anim.exit_to_left,R.anim.entre_from_left,R.anim.exit_to_right )
                 .addToBackStack(null)
-                .add(R.id.registration_container,resetPasswordFragment)
+                .add(R.id.fragment_container,resetPasswordFragment)
         }
     }
 

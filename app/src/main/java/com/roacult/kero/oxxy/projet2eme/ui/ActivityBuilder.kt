@@ -7,6 +7,8 @@ import com.roacult.kero.oxxy.projet2eme.ui.registration_feature.RegistrationActi
 import com.roacult.kero.oxxy.projet2eme.ui.splash.SplashActivity
 import com.roacult.kero.oxxy.projet2eme.ui.splash.SplashFragment
 import com.roacult.kero.oxxy.projet2eme.ui.splash.SplashFragmentBuilder
+import com.roacult.kero.oxxy.projet2eme.ui.start_chalenge.StartChalengeActivity
+import com.roacult.kero.oxxy.projet2eme.ui.start_chalenge.StartChalengeFragmentBuilder
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
@@ -22,4 +24,6 @@ abstract class ActivityBuilder {
     @ContributesAndroidInjector(modules = [MainFragmentBuilder::class])
     abstract fun provideMain() : MainActivity
 
+    @ContributesAndroidInjector(modules = [StartChalengeFragmentBuilder::class])
+    abstract fun provideStartChalenge() : StartChalengeActivity
 }

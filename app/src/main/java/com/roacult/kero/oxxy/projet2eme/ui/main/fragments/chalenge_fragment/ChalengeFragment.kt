@@ -20,6 +20,8 @@ import com.roacult.kero.oxxy.projet2eme.R
 import com.roacult.kero.oxxy.projet2eme.base.BaseFragment
 import com.roacult.kero.oxxy.projet2eme.databinding.MainChalengesBinding
 import com.roacult.kero.oxxy.projet2eme.ui.main.CallbackFromActivity
+import com.roacult.kero.oxxy.projet2eme.ui.main.MainActivity
+import com.roacult.kero.oxxy.projet2eme.ui.start_chalenge.*
 import com.roacult.kero.oxxy.projet2eme.utils.Async
 import com.roacult.kero.oxxy.projet2eme.utils.Loading
 import com.roacult.kero.oxxy.projet2eme.utils.Success
@@ -34,7 +36,7 @@ class ChalengeFragment : BaseFragment() , CallbackFromActivity {
     private lateinit var binding : MainChalengesBinding
     private val viewModel by lazy { ViewModelProviders.of(this,viewModelFactory)[ChalengeViewModel::class.java] }
     private val callback : CallbackFromViewModel by lazy { viewModel }
-    private val adapter  :ChalengeAdapter by lazy {ChalengeAdapter(viewModel)}
+    private val adapter  :ChalengeAdapter by lazy {ChalengeAdapter(viewModel,::startChaleng)}
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding =DataBindingUtil.inflate(inflater,R.layout.main_chalenges,container,false)
@@ -138,6 +140,18 @@ class ChalengeFragment : BaseFragment() , CallbackFromActivity {
         }.start()
     }
 
+    fun startChaleng(chalengeGlobale: ChalengeGlobale) {
+        val bundle = Bundle()
+        bundle.putInt(CHALENGE_ID,chalengeGlobale.id)
+        bundle.putInt(CHALENGE_POINT,chalengeGlobale.point)
+        bundle.putInt(CHALENGE_SOLVED,chalengeGlobale.nbPersonSolveded)
+        bundle.putInt(CHALENGE_QUESTION,chalengeGlobale.nbOfQuestions)
+        bundle.putString(CHALENGE_MODULE,chalengeGlobale.module)
+        bundle.putString(CHALENGE_STORY,chalengeGlobale.story)
+        bundle.putString(CHALENGE_IMAGE,chalengeGlobale.image)
+        (activity as? MainActivity)?.startChalenge(bundle)
+    }
+
     override fun showFilter() {
         //initialising view
         val view = LayoutInflater.from(context).inflate(R.layout.main_chalenges_dialogue,null)
@@ -166,3 +180,4 @@ class ChalengeFragment : BaseFragment() , CallbackFromActivity {
         fun requestData()
     }
 }
+

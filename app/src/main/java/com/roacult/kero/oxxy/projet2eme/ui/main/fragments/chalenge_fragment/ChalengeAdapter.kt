@@ -7,7 +7,7 @@ import com.roacult.kero.oxxy.projet2eme.R
 import com.roacult.kero.oxxy.projet2eme.databinding.MainChalengesCardBinding
 import com.roacult.kero.oxxy.projet2eme.utils.Success
 
-class ChalengeAdapter(val viewModel : ChalengeViewModel)
+class ChalengeAdapter(val viewModel : ChalengeViewModel,val startChalenge : (ChalengeGlobale) ->Unit )
     : BaseRecyclerAdapter<ChalengeGlobale, MainChalengesCardBinding>(ChalengeGlobale::class.java, R.layout.main_chalenges_card){
 
     var filter : Filter = Filter()
@@ -31,9 +31,7 @@ class ChalengeAdapter(val viewModel : ChalengeViewModel)
     override fun upDateView(item: ChalengeGlobale, binding: MainChalengesCardBinding) {
         binding.textView7.setText(item.story)
         binding.textView6.setText(item.module)
-        binding.start.setOnClickListener{
-            //TODO  start chalenge
-        }
+        binding.start.setOnClickListener{ startChalenge(item) }
         binding.solved.setText("${item.nbPersonSolveded}/5")
         binding.point.setText("${item.point} points")
         binding.nbQuestion.setText("${item.nbOfQuestions} questions")

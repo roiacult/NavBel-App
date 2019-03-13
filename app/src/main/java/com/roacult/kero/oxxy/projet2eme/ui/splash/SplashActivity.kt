@@ -9,7 +9,7 @@ class SplashActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.registartion_activity)
-        if(savedInstanceState == null)supportFragmentManager.inTransaction{add(R.id.registration_container,SplashFragment.getInstance())}
+        setContentView(R.layout.single_fragment_activity)
+        if(savedInstanceState == null)supportFragmentManager.inTransaction{add(R.id.fragment_container,SplashFragment.getInstance())}
     }
 }

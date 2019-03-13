@@ -39,5 +39,4 @@ class ChalengeViewModel @Inject constructor(val getChalenges : GetAllChallenges)
         setState{copy(getChalenges = Fail(getAllChalengesFailure))}
     }
 
-
 }
