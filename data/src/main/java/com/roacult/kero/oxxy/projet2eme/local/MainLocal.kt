@@ -27,4 +27,5 @@ class MainLocal @Inject constructor( private val preferences: SharedPreferences)
             remove(USER_CONNECTED)
         }
     }
+    fun getMail():String  = preferences.getString(USER_EMAIL , "")
 }

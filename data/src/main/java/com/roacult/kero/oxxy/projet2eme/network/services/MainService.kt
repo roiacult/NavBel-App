@@ -1,7 +1,6 @@
 package com.roacult.kero.oxxy.projet2eme.network.services
 
-import com.roacult.kero.oxxy.projet2eme.network.entities.GetAllChallengeReponse
-import com.roacult.kero.oxxy.projet2eme.network.entities.Request
+import com.roacult.kero.oxxy.projet2eme.network.entities.*
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -12,4 +11,7 @@ interface MainService {
     @POST("?op=challenges")
     fun getAllchallenges(@Query("tooken")token :String
      , @Body request: Request):Call<GetAllChallengeReponse>
+    @POST("?op=detaille")
+    fun getChallengeDetaille(@Body id :ChallengeId):Call<ChallengeDetailleReponse>
+
 }
