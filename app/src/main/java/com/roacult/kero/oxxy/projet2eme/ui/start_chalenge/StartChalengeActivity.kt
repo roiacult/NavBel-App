@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
+import com.roacult.kero.oxxy.domain.modules.ChalengeGlobale
 import com.roacult.kero.oxxy.projet2eme.R
 import com.roacult.kero.oxxy.projet2eme.base.BaseActivity
 import com.roacult.kero.oxxy.projet2eme.ui.start_chalenge.first_fragment.FirstFragment
@@ -23,7 +24,21 @@ const val CHALENGE_STORY ="com.roacult.kero.oxxy.projet2eme:chalengeStory"
 
 class StartChalengeActivity : BaseActivity(){
 
-    companion object { fun getIntent(context : Context) = Intent(context,StartChalengeActivity::class.java) }
+    companion object {
+        fun getIntent(context : Context,chalengeGlobale: ChalengeGlobale): Intent {
+            val intent = Intent(context,StartChalengeActivity::class.java)
+            val bundle = Bundle()
+            bundle.putInt(CHALENGE_ID,chalengeGlobale.id)
+            bundle.putInt(CHALENGE_POINT,chalengeGlobale.point)
+            bundle.putInt(CHALENGE_SOLVED,chalengeGlobale.nbPersonSolveded)
+            bundle.putInt(CHALENGE_QUESTION,chalengeGlobale.nbOfQuestions)
+            bundle.putString(CHALENGE_MODULE,chalengeGlobale.module)
+            bundle.putString(CHALENGE_STORY,chalengeGlobale.story)
+            bundle.putString(CHALENGE_IMAGE,chalengeGlobale.image)
+            intent.putExtras(bundle)
+            return intent
+        }
+    }
 
     @Inject lateinit var viewModelFactory: ViewModelProvider.Factory
     private val viewModel : StartChelngeViewModel by lazy { ViewModelProviders.of(this,viewModelFactory)[StartChelngeViewModel::class.java]}
@@ -31,7 +46,6 @@ class StartChalengeActivity : BaseActivity(){
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.single_fragment_activity)
-
         viewModel.observe(this){
             it.selectedFragment.getContentIfNotHandled()?.apply { loadFragment(this) }
         }

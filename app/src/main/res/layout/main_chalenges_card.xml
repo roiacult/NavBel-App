@@ -15,9 +15,10 @@
                     android:layout_height="150dp" tools:srcCompat="@tools:sample/backgrounds/scenic"
                     android:id="@+id/chalenge_img" app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintStart_toStartOf="parent" app:layout_constraintEnd_toEndOf="parent"
-                    android:scaleType="centerCrop"/>
+                    android:scaleType="centerCrop" app:layout_constraintHorizontal_bias="0.0"/>
             <TextView
                     tools:text="Module  here"
+                    android:transitionName="@string/start_chalenge_trans"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/textView6" app:layout_constraintStart_toStartOf="parent"

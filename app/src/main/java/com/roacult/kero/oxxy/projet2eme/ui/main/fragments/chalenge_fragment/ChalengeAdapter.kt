@@ -6,9 +6,10 @@ import com.roacult.kero.oxxy.domain.modules.ChalengeGlobale
 import com.roacult.kero.oxxy.projet2eme.R
 import com.roacult.kero.oxxy.projet2eme.databinding.MainChalengesCardBinding
 import com.roacult.kero.oxxy.projet2eme.utils.Success
+import com.squareup.picasso.NetworkPolicy
 import com.squareup.picasso.Picasso
 
-class ChalengeAdapter(val viewModel : ChalengeViewModel,val startChalenge : (ChalengeGlobale) ->Unit )
+class ChalengeAdapter(val viewModel : ChalengeViewModel,val startChalenge : (ChalengeGlobale,View) ->Unit )
     : BaseRecyclerAdapter<ChalengeGlobale, MainChalengesCardBinding>(ChalengeGlobale::class.java, R.layout.main_chalenges_card){
 
     var filter : Filter = Filter()
@@ -32,7 +33,7 @@ class ChalengeAdapter(val viewModel : ChalengeViewModel,val startChalenge : (Cha
     override fun upDateView(item: ChalengeGlobale, binding: MainChalengesCardBinding) {
         binding.textView7.setText(item.story)
         binding.textView6.setText(item.module)
-        binding.start.setOnClickListener{ startChalenge(item) }
+        binding.start.setOnClickListener{ startChalenge(item,binding.chalengeImg) }
         binding.solved.setText("${item.nbPersonSolveded}/5")
         binding.point.setText("${item.point} points")
         binding.nbQuestion.setText("${item.nbOfQuestions} questions")

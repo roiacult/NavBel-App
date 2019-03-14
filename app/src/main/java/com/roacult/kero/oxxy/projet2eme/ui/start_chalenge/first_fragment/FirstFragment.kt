@@ -142,8 +142,8 @@ class FirstFragment : BaseFragment(){
     }
 
     private fun setGlobalDate() {
-        Picasso.get().load(viewModel.chalengeGlobale.image).into(binding.imageView5)
-        binding.textView19.text = viewModel.chalengeGlobale.module // module text vieww
+        Picasso.get().load(viewModel.chalengeGlobale.image).noFade().into(binding.imageView5)
+        binding.textView19.text = viewModel.chalengeGlobale.module // module text view
         binding.points.text = viewModel.chalengeGlobale.point.toString()
         binding.solved.text = viewModel.chalengeGlobale.nbPersonSolveded.toString()
         binding.questions.text = viewModel.chalengeGlobale.nbOfQuestions.toString()

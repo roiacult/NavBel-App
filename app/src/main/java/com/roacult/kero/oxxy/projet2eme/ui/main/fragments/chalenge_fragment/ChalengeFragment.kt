@@ -8,6 +8,7 @@ import android.widget.EditText
 import android.widget.Spinner
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AlertDialog
+import androidx.core.app.ActivityOptionsCompat
 import com.roacult.kero.oxxy.projet2eme.utils.showBannedDialogue
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProviders
@@ -140,16 +141,10 @@ class ChalengeFragment : BaseFragment() , CallbackFromActivity {
         }.start()
     }
 
-    fun startChaleng(chalengeGlobale: ChalengeGlobale) {
-        val bundle = Bundle()
-        bundle.putInt(CHALENGE_ID,chalengeGlobale.id)
-        bundle.putInt(CHALENGE_POINT,chalengeGlobale.point)
-        bundle.putInt(CHALENGE_SOLVED,chalengeGlobale.nbPersonSolveded)
-        bundle.putInt(CHALENGE_QUESTION,chalengeGlobale.nbOfQuestions)
-        bundle.putString(CHALENGE_MODULE,chalengeGlobale.module)
-        bundle.putString(CHALENGE_STORY,chalengeGlobale.story)
-        bundle.putString(CHALENGE_IMAGE,chalengeGlobale.image)
-        (activity as? MainActivity)?.startChalenge(bundle)
+    fun startChaleng(chalengeGlobale: ChalengeGlobale,sharedElement : View) {
+        val intent = StartChalengeActivity.getIntent(context!!,chalengeGlobale)
+        val options = ActivityOptionsCompat.makeSceneTransitionAnimation(activity!!,sharedElement,getString(R.string.start_chalenge_trans))
+        activity?.startActivity(intent,options.toBundle())
     }
 
     override fun showFilter() {
@@ -170,7 +165,11 @@ class ChalengeFragment : BaseFragment() , CallbackFromActivity {
             .setNegativeButton(R.string.cancel) { _, _->}
             .setView(view)
             .setPositiveButton(R.string.filter){_,_->
-                adapter.filter = getFilter(spinner.selectedItem as String,minPoint.text.toString(),maxPoint.text.toString(),minQues.text.toString(),maxQues.text.toString())
+                adapter.filter = getFilter(spinner.selectedItem as String,
+                    minPoint.text.toString(),
+                    maxPoint.text.toString(),
+                    minQues.text.toString(),
+                    maxQues.text.toString())
             }
             .show()
 

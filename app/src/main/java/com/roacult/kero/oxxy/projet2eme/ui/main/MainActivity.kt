@@ -189,12 +189,6 @@ class MainActivity : BaseActivity() {
         }).start()
     }
 
-    fun startChalenge(bundle: Bundle){
-        val intent = StartChalengeActivity.getIntent(this)
-        intent.putExtras(bundle)
-        startActivity(intent)
-    }
-
     override fun onBackPressed() {
         if(selectedFragment != R.id.chalenge_page) bottom_nav.selectedItemId = R.id.chalenge_page
         else super.onBackPressed()

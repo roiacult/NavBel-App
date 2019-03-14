@@ -111,4 +111,5 @@
     </string>
     <string name="chale_detai_op_fail">some thing went wrong please try again later</string>
     <string name="before_start">before you start</string>
+    <string name="start_chalenge_trans">start_chalenge_transation</string>
 </resources>
