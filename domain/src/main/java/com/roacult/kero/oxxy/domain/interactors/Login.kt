@@ -14,7 +14,10 @@ class Login @Inject constructor(dispatchers: CouroutineDispatchers , val repo:Au
     override val ResultDispatcher= dispatchers.main
 
     override suspend fun invoke(executeParams: LoginParam): Either<Failure.LoginFaillure, None> {
-       return repo.logUserIn(executeParams)
+
+        delay(3000)
+        return Either.Right(None())
+//       return repo.logUserIn(executeParams)
     }
 }
 

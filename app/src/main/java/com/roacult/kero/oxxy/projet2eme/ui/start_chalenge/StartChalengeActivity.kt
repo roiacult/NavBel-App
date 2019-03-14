@@ -41,7 +41,9 @@ class StartChalengeActivity : BaseActivity(){
     private fun loadFragment(fra : Int) {
         when(fra){
             STARTCHALENGE_FRAGMENT1 -> supportFragmentManager.inTransaction{
-                add(R.id.fragment_container,FirstFragment.getInstance())
+                val fragment = FirstFragment.getInstance()
+                fragment.arguments = intent.extras
+                add(R.id.fragment_container,fragment)
             }
 
             STARTCHALENGE_FRAGMENT2 ->supportFragmentManager.inTransaction{

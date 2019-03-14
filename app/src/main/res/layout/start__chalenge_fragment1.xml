@@ -13,7 +13,8 @@
 
         <include
                 android:id="@+id/shimmer"
-        layout="@layout/start_chalenge_holder" />
+                layout="@layout/start_chalenge_holder" tools:layout_editor_absoluteY="0dp"
+                tools:layout_editor_absoluteX="0dp"/>
 
         <androidx.cardview.widget.CardView
                 android:layout_width="0dp"
@@ -27,19 +28,19 @@
                     android:layout_height="match_parent">
 
                 <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" tools:srcCompat="@tools:sample/backgrounds/scenic"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
                         android:id="@+id/imageView5" app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintBottom_toBottomOf="parent" android:scaleType="center"
-                        app:layout_constraintHorizontal_bias="1.0" app:layout_constraintVertical_bias="1.0"/>
+                        app:layout_constraintBottom_toBottomOf="parent" android:scaleType="centerCrop"
+                        tools:srcCompat="@tools:sample/backgrounds/scenic"/>
                 <ImageView
                         android:layout_width="0dp"
-                        android:layout_height="241dp" app:srcCompat="@color/dark_filter"
+                        android:layout_height="0dp" app:srcCompat="@color/dark_filter"
                         android:id="@+id/imageView"
                         app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintTop_toTopOf="parent"
-                />
+                        android:scaleType="center"/>
                 <LinearLayout
                         android:orientation="horizontal"
                         android:layout_width="0dp"
@@ -62,13 +63,13 @@
                                 tools:text="120"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content" android:id="@+id/points"
-                                android:textColor="#fff" android:textSize="20sp" android:gravity="center"
+                                android:textColor="#fff" android:textSize="18sp" android:gravity="center"
                                 android:layout_marginTop="5dp"/>
                         <TextView
                                 android:text="@string/points"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:textColor="#fff" android:textSize="20sp" android:gravity="center"/>
+                                android:textColor="#fff" android:textSize="18sp" android:gravity="center"/>
                     </LinearLayout>
                     <LinearLayout
                             android:orientation="vertical"
@@ -83,13 +84,13 @@
                                 tools:text="3/4"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content" android:id="@+id/solved"
-                                android:textColor="#fff" android:textSize="20sp" android:gravity="center"
+                                android:textColor="#fff" android:textSize="18sp" android:gravity="center"
                                 android:layout_marginTop="5dp"/>
                         <TextView
                                 android:text="@string/solved"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:textColor="#fff" android:textSize="20sp" android:gravity="center"/>
+                                android:textColor="#fff" android:textSize="18sp" android:gravity="center"/>
                     </LinearLayout>
                     <LinearLayout
                             android:orientation="vertical"
@@ -104,13 +105,13 @@
                                 tools:text="7"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content" android:id="@+id/questions"
-                                android:textColor="#fff" android:textSize="20sp" android:gravity="center"
+                                android:textColor="#fff" android:textSize="18sp" android:gravity="center"
                                 android:layout_marginTop="5dp"/>
                         <TextView
                                 android:text="@string/question"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:textColor="#fff" android:textSize="20sp" android:gravity="center"/>
+                                android:textColor="#fff" android:textSize="18sp" android:gravity="center"/>
                     </LinearLayout>
                     <LinearLayout
                             android:orientation="vertical"
@@ -125,13 +126,13 @@
                                 tools:text="10 min"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content" android:id="@+id/time"
-                                android:textColor="#fff" android:textSize="20sp" android:gravity="center"
+                                android:textColor="#fff" android:textSize="18sp" android:gravity="center"
                                 android:layout_marginTop="5dp"/>
                         <TextView
                                 android:text="@string/time"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:textColor="#fff" android:textSize="20sp" android:gravity="center"/>
+                                android:textColor="#fff" android:textSize="18sp" android:gravity="center"/>
                     </LinearLayout>
                 </LinearLayout>
                 <TextView

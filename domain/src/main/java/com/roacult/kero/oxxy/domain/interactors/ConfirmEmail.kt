@@ -13,8 +13,8 @@ class ConfirmEmail @Inject constructor(dispatchers : CouroutineDispatchers ,
     override val ResultDispatcher= dispatchers.main
 
     override suspend fun invoke(executeParams: String): Either<Failure.ConfirmEmailFaillure, None> {
-    return repo.checkCodeCorrect(executeParams)
-//        delay(3000)
-//        return Either.Right(None())
+//    return repo.checkCodeCorrect(executeParams)
+        delay(3000)
+        return Either.Right(None())
     }
 }

@@ -6,6 +6,7 @@ import com.roacult.kero.oxxy.domain.modules.ChalengeGlobale
 import com.roacult.kero.oxxy.projet2eme.R
 import com.roacult.kero.oxxy.projet2eme.databinding.MainChalengesCardBinding
 import com.roacult.kero.oxxy.projet2eme.utils.Success
+import com.squareup.picasso.Picasso
 
 class ChalengeAdapter(val viewModel : ChalengeViewModel,val startChalenge : (ChalengeGlobale) ->Unit )
     : BaseRecyclerAdapter<ChalengeGlobale, MainChalengesCardBinding>(ChalengeGlobale::class.java, R.layout.main_chalenges_card){
@@ -36,6 +37,7 @@ class ChalengeAdapter(val viewModel : ChalengeViewModel,val startChalenge : (Cha
         binding.point.setText("${item.point} points")
         binding.nbQuestion.setText("${item.nbOfQuestions} questions")
         binding.arrow.rotation = 180f
+        Picasso.get().load(item.image).into(binding.chalengeImg)
     }
 
     override fun addAll(items: List<ChalengeGlobale>) {

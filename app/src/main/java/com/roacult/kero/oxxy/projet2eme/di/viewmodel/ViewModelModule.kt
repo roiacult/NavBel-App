@@ -7,6 +7,7 @@ import com.roacult.kero.oxxy.projet2eme.ui.registration_feature.fragment_saveinf
 import com.roacult.kero.oxxy.projet2eme.ui.registration_feature.fragment_signin_login.RegistrationViewModel
 import com.roacult.kero.oxxy.projet2eme.ui.registration_feature.reset_password.RestPasswordViewModel
 import com.roacult.kero.oxxy.projet2eme.ui.splash.SplashViewModel
+import com.roacult.kero.oxxy.projet2eme.ui.start_chalenge.StartChelngeViewModel
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
@@ -41,4 +42,9 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(ChalengeViewModel::class)
     internal abstract fun mainChalengesViewModel(viewModel : ChalengeViewModel) : ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(StartChelngeViewModel::class)
+    internal abstract fun startChalengesViewModel(viewModel : StartChelngeViewModel) : ViewModel
 }

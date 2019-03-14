@@ -26,10 +26,10 @@ import com.roacult.kero.oxxy.projet2eme.utils.Fail
 import com.roacult.kero.oxxy.projet2eme.utils.Loading
 import com.roacult.kero.oxxy.projet2eme.utils.extension.visible
 
-const val SAVEINFO_FIRST_NAME = "first_name"
-const val SAVEINFO_LAST_NAME = "last_name"
-const val SAVEINFO_YEAR = "year"
-const val SAVEINFO_EMAIL  ="email"
+const val SAVEINFO_FIRST_NAME = "com.roacult.kero.oxxy.projet2eme:first_name"
+const val SAVEINFO_LAST_NAME = "com.roacult.kero.oxxy.projet2eme:last_name"
+const val SAVEINFO_YEAR = "com.roacult.kero.oxxy.projet2eme:year"
+const val SAVEINFO_EMAIL  ="com.roacult.kero.oxxy.projet2eme:email"
 
 class SaveInfoFragment : BaseFragment() {
 

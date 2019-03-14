@@ -9,6 +9,12 @@ import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SortedList
 
+/**
+ * layoutId --> layout id of recycler card
+ * kClass --> class of data example User::class.java
+ * D --> Data class example User
+ * B -> Data Binding Class like CardBinding
+ * */
 abstract class BaseRecyclerAdapter<D ,B : ViewDataBinding>(kClass: Class<D>,@LayoutRes val layoutId : Int) : RecyclerView.Adapter<BaseRecyclerAdapter<D,B>.ViewHolder>() {
 
     val callback : SortedList.Callback<D>  = object : SortedList.Callback<D>(){
