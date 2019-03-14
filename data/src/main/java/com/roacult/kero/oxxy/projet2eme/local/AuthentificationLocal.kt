@@ -1,6 +1,7 @@
 package com.roacult.kero.oxxy.projet2eme.local
 
 import android.content.SharedPreferences
+import android.util.Log
 import com.roacult.kero.oxxy.domain.exception.Failure
 import com.roacult.kero.oxxy.domain.functional.Either
 import com.roacult.kero.oxxy.domain.interactors.None
@@ -20,7 +21,7 @@ class AuthentificationLocal @Inject constructor(val preference:SharedPreferences
     suspend fun saveUSerLocal(user:SaveInfoResult):Either<Failure.SaveInfoFaillure , None> = suspendCoroutine{
          preference.edit().apply {
              putString(USER_EMAIL , user.email)
-             putString(USER_IMAGEURL , user.imageUrl)
+             putString(USER_IMAGEURL , user.picture)
              putString(USER_NAME , user.fname)
              putString(USER_PRENAME , user.lname)
              putBoolean(USER_CONNECTED , true )
@@ -63,6 +64,7 @@ class AuthentificationLocal @Inject constructor(val preference:SharedPreferences
         }
     }
     fun saveUserLogged(info:LoginResult){
+        Log.e("errr", "saving")
         preference.edit().apply{
             putString(USER_EMAIL , info.email)
             putString(USER_IMAGEURL , info.picture)

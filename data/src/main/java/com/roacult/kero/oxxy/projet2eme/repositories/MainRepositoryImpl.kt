@@ -27,6 +27,6 @@ class MainRepositoryImpl @Inject constructor( private val remote :MainRemote  ,p
     }
 
     override suspend fun getChallengeDetaille(challengeId: Int): Either<Failure.GetChalengeDetailsFailure, ChalengeDetailles> {
-return remote.getChallengeDetaille(challengeId, local.getMail())
+return remote.getChallengeDetaille(challengeId)
     }
 }

@@ -81,7 +81,6 @@ class AuthertificationRemote @Inject constructor( val service: AuthentificationS
     suspend fun saveUserInfo(userInfo: SaveInfo):Either<Failure.SaveInfoFaillure , SaveInfoResult> = suspendCoroutine {
         service.saveUserInfo(userInfo , token()).enqueue(object :Callback<SaveInfoResult>{
             override fun onFailure(call: Call<SaveInfoResult>, t: Throwable) {
-                Log.e("errr", "errrrroor")
                   it.resume(Either.Left(Failure.SaveInfoFaillure.OtherFailure(t)))
             }
 
@@ -89,7 +88,7 @@ class AuthertificationRemote @Inject constructor( val service: AuthentificationS
                  val reponse = response.body()
                 if(reponse==null) it.resume(Either.Left(Failure.SaveInfoFaillure.OtherFailure(Throwable(message = "we have a server error"))))
                 else{
-                    if(reponse.reponse==0){
+                    if(reponse.reponse==-1){
                         it.resume(Either.Left(Failure.SaveInfoFaillure.OperationFailed()))
                     }else{
                         it.resume(Either.Right(reponse))
@@ -110,10 +109,10 @@ class AuthertificationRemote @Inject constructor( val service: AuthentificationS
                 if(reponse==null){
                     it.resume(Either.Left(Failure.SignInFaillure.AutherFaillure(Throwable("server eror"))))
                 }else {
-                    if (reponse.reponse == "0"){
+                    if (reponse.reponse == "-1"){
                         it.resume(Either.Left(Failure.SignInFaillure.CodeSendingError()))
                     }else {
-                        it.resume(Either.Right(reponse.reponse))
+                        it.resume(Either.Right(reponse.code.toString()))
                     }
                     }
             }
@@ -126,7 +125,6 @@ class AuthertificationRemote @Inject constructor( val service: AuthentificationS
      */
  suspend fun mapToRequest(  userInfo: UserInfo):SaveInfo = suspendCoroutine{
         var picture :String
-        //if ther picture is null it will be converted to an empty string
         if(userInfo.pictureUrl==null) picture = ""
         else{
             picture =userInfo.pictureUrl!!
@@ -135,14 +133,20 @@ class AuthertificationRemote @Inject constructor( val service: AuthentificationS
             val file = File(picture)
            val bitmap =  MediaStore.Images.Media.getBitmap(context.contentResolver , Uri.fromFile(file))
                 bitmap.compress(Bitmap.CompressFormat.JPEG,
-                100, baos)
+                50, baos)
             Log.e("errr", baos.size().toString())
             val b = baos.toByteArray()
             //picture encoded to bas64
-            picture  = Base64.encodeToString(b, Base64.URL_SAFE or Base64.NO_WRAP)
+            picture  = Base64.encodeToString(b, Base64.DEFAULT)
+            println(picture)
         }
         it.resume( SaveInfo(userInfo.email , userInfo.fName ,userInfo.lName ,userInfo.pass ,
-            toHexString(picture.toByteArray()), userInfo.year))
+            if(picture.isEmpty()) "" else picture
+
+
+
+
+            , userInfo.year))
     }
 
 
@@ -170,7 +174,7 @@ class AuthertificationRemote @Inject constructor( val service: AuthentificationS
                             it.resume(Either.Left(Failure.LoginFaillure.UserNotSubscribedYet()))
                         }else if(reponse.reponse==3){
                              it.resume(Either.Left(Failure.LoginFaillure.NotFromEsi()))
-                        }else if(reponse.reponse==4){
+                        }else if(reponse.reponse==-1){
                             it.resume(Either.Left(Failure.LoginFaillure.WrongPassword()))
 
                         }

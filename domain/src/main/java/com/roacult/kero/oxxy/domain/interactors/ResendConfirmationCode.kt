@@ -15,8 +15,8 @@ class ResendConfirmationCode @Inject constructor(dispatchers: CouroutineDispatch
     override val ResultDispatcher=dispatchers.main
 
     override suspend fun invoke(executeParams: String): Either<Failure.ResendConfirmationFailure, None> {
-//       return repo.resendConfirmationCode(executeParams)
-        delay(3000)
-        return Either.Right(None())
+       return repo.resendConfirmationCode(executeParams)
+//        delay(3000)
+//        return Either.Right(None())
     }
 }

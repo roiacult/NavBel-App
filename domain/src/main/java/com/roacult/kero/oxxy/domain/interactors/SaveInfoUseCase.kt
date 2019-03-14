@@ -17,8 +17,8 @@ class SaveInfoUseCase @Inject constructor(dispatchers: CouroutineDispatchers ,
 
     override suspend fun invoke(executeParams: UserInfo): Either<Failure.SaveInfoFaillure, None> {
 
-//        return repo.saveUserInfo(executeParams)
-        return Either.Right(None())
+        return repo.saveUserInfo(executeParams)
+//        return Either.Right(None())
     }
 }
 data class UserInfo(val fName : String , val lName : String

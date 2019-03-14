@@ -41,8 +41,7 @@ class MainRemote @Inject constructor(private val service :MainService) {
                reponse.reponse==1->if(reponse.challenges==null) it.resume(Either.Left(Failure.GetAllChalengesFailure.OtherFailrue(Throwable("reponse incorrect"))))
                else it.resume(Either.Right(reponse.challenges))
                reponse.reponse== 2-> it.resume(Either.Left(Failure.GetAllChalengesFailure.UserBannedTemp))
-               reponse.reponse==3 -> it.resume(Either.Left(Failure.GetAllChalengesFailure.UserNotRegistred))
-               reponse.reponse==4-> it.resume(Either.Left(Failure.GetAllChalengesFailure.UserBannedTemp))
+               reponse.reponse== -1-> it.resume(Either.Left(Failure.GetAllChalengesFailure.OperationFailed))
            }
           }
       })
@@ -53,8 +52,8 @@ class MainRemote @Inject constructor(private val service :MainService) {
      * this funtion will send request to get the challenge detaille a challenge detaille is the time that  a challenge can take
      * and the id of the challenge and the ressources with this challenges
      */
-    suspend  fun getChallengeDetaille(id:Int , mail :String):Either<Failure.GetChalengeDetailsFailure , ChalengeDetailles> = suspendCoroutine{
-   service.getChallengeDetaille(ChallengeId(id, mail) ).enqueue(object :Callback<ChallengeDetailleReponse>{
+    suspend  fun getChallengeDetaille(id:Int ):Either<Failure.GetChalengeDetailsFailure , ChalengeDetailles> = suspendCoroutine{
+   service.getChallengeDetaille(ChallengeId(id) ).enqueue(object :Callback<ChallengeDetailleReponse>{
        override fun onFailure(call: Call<ChallengeDetailleReponse>, t: Throwable) {
            it.resume(Either.Left(Failure.GetChalengeDetailsFailure.OtherFailrue(t)))
        }
@@ -68,8 +67,6 @@ class MainRemote @Inject constructor(private val service :MainService) {
                    it.resume(Either.Left(Failure.GetChalengeDetailsFailure.OtherFailrue(Throwable("reponse incorrect"))))
                else it.resume(Either.Right(ChalengeDetailles(reponse.id!! , reponse.time!! , reponse.resources?.fromRessourceToPair()!! , reponse.questions!!)))
                reponse.reponse== 2-> it.resume(Either.Left(Failure.GetChalengeDetailsFailure.UserBannedTemp))
-               reponse.reponse==3 -> it.resume(Either.Left(Failure.GetChalengeDetailsFailure.UserNotRegistred))
-               reponse.reponse==4-> it.resume(Either.Left(Failure.GetChalengeDetailsFailure.UserBannedTemp))
            }
        }
    })

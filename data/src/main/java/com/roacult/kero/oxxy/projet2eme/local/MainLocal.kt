@@ -7,8 +7,8 @@ import javax.inject.Inject
 
 class MainLocal @Inject constructor( private val preferences: SharedPreferences){
     fun getChallengeRequest():Request{
-       return Request( year =  preferences.getInt(USER_YEAR, 0) ,  email = preferences.getString(USER_EMAIL , "") ,
-           userId = preferences.getLong(
+       return Request( year =  preferences.getInt(USER_YEAR, 0) ,
+           id = preferences.getLong(
            USER_ID , 0))
     }
     fun logOut(){
