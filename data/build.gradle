@@ -72,6 +72,9 @@ dependencies {
     implementation deps.rxJava.rxAndroid
     implementation deps.room.rxJava
     implementation  'javax.inject:javax.inject:1'
+    api 'com.facebook.stetho:stetho-okhttp3:1.5.0'
+    releaseApi 'com.readystatesoftware.chuck:library-no-op:1.1.0'
+    debugApi 'com.readystatesoftware.chuck:library:1.1.0'
 
     implementation deps.retrofit.core
     implementation deps.retrofit.okhttp

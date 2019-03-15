@@ -3,6 +3,8 @@ package com.roacult.kero.oxxy.projet2eme
 import android.content.Context
 import android.content.SharedPreferences
 import android.os.Build
+import com.facebook.stetho.okhttp3.StethoInterceptor
+import com.readystatesoftware.chuck.ChuckInterceptor
 import com.roacult.kero.oxxy.data.BuildConfig
 import com.roacult.kero.oxxy.domain.AuthentificationRepository
 import com.roacult.kero.oxxy.domain.MainRepository
@@ -19,6 +21,7 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.converter.scalars.ScalarsConverterFactory
+import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
 @Module
@@ -57,11 +60,21 @@ import javax.inject.Singleton
     }
     @Provides
     @Singleton
-    fun provideClient():OkHttpClient{
+    fun provideClient(chuckInterceptor: ChuckInterceptor):OkHttpClient{
         return OkHttpClient.Builder().addInterceptor(HttpLoggingInterceptor()
             .setLevel(HttpLoggingInterceptor.Level.BODY)).addInterceptor(UserAgentInterceptor(
             "navbell", BuildConfig.VERSION_NAME
-        )).build()
+        )).addInterceptor(chuckInterceptor)
+            .addNetworkInterceptor(StethoInterceptor())
+            .connectTimeout(60, TimeUnit.SECONDS)
+            .readTimeout(60, TimeUnit.SECONDS)
+            .writeTimeout(60, TimeUnit.SECONDS)
+            .build()
+    }
+    @Provides
+    @Singleton
+    fun chuckInterceptor(context: Context):ChuckInterceptor{
+        return ChuckInterceptor(context)
     }
 
 
