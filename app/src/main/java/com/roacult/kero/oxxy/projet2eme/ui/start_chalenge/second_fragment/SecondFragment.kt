@@ -14,6 +14,7 @@ import com.roacult.kero.oxxy.projet2eme.base.BaseFragment
 import com.roacult.kero.oxxy.projet2eme.ui.start_chalenge.StartChelngeViewModel
 import com.roacult.kero.oxxy.projet2eme.databinding.StartChalengeFragmnt2Binding
 import com.roacult.kero.oxxy.projet2eme.utils.Success
+import com.roacult.kero.oxxy.projet2eme.utils.extension.setEnable
 
 class SecondFragment :BaseFragment() {
 
@@ -46,16 +47,29 @@ class SecondFragment :BaseFragment() {
         }
         binding.time.startTimer(viewModel.lastTime.toLong()){
             showDialogueFinish(R.string.time_finish,R.string.time_finish_msg)
-            //TODO unsubsribe observer
+            //TODO unsubscribe observer
+        }
+        binding.perv.setOnClickListener {
+            binding.questionsContainer.setCurrentItem(binding.questionsContainer.currentItem-1,true)
         }
     }
 
     private fun setUpPage(page: Int) {
-        when(page){
-            0 -> {
-
+        if(page == 0) binding.perv.setEnable(false)
+        else binding.perv.setEnable(true)
+        if(page == viewModel.size-1) {
+            binding.next.setText(R.string.submit)
+            binding.next.setOnClickListener { performSubmition() }
+        }else{
+            binding.next.setText(R.string.next)
+            binding.next.setOnClickListener {
+                binding.questionsContainer.setCurrentItem(binding.questionsContainer.currentItem+1,true)
             }
         }
+    }
+
+    private fun performSubmition() {
+        showMessage("//TODO performing submition")
     }
 
     private fun setSolvedNumbre(solved: Int) {

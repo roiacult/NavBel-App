@@ -1,5 +1,6 @@
 package com.roacult.kero.oxxy.projet2eme.utils.extension
 
+import android.content.res.ColorStateList
 import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
@@ -38,5 +39,13 @@ fun Button.loading(loading : Boolean){
         isClickable = true
     }
     invalidate()
+}
+fun Button.setEnable(active : Boolean){
+    this.isClickable = active
+    if(active){
+        setTextColor(Color.BLACK)
+    }else{
+        setTextColor(Color.GRAY)
+    }
 }
 

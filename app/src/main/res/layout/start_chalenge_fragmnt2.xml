@@ -58,7 +58,8 @@
                 android:id="@+id/perv"
                 app:layout_constraintBottom_toBottomOf="parent" android:layout_marginBottom="6dp"
                 app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="8dp"
-                android:background="#00ffffff" android:drawableLeft="@drawable/ic_chevron_left_black_24dp"/>
+                android:background="#00ffffff" android:drawableLeft="@drawable/ic_chevron_left_black_24dp"
+        />
         <Button
                 android:text="@string/next"
                 android:layout_width="wrap_content"

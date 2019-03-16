@@ -20,6 +20,7 @@ class StartChelngeViewModel @Inject constructor(private val useCase : GetChaleng
 
     var firstTime = true
     var lastTime : Int = 0
+    var size = 0
 
     override fun isItFirstTime() = firstTime
 
@@ -38,6 +39,7 @@ class StartChelngeViewModel @Inject constructor(private val useCase : GetChaleng
 
     private fun handleSuccesss(chalengeDetailles: ChalengeDetailles) {
         lastTime = chalengeDetailles.time
+        size = chalengeDetailles.questions.size
         setState { copy(getChalengeDetailles = Success(chalengeDetailles)) }
     }
 
