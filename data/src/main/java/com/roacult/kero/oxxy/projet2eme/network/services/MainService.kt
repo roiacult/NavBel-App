@@ -13,5 +13,7 @@ interface MainService {
      , @Body request: Request):Call<GetAllChallengeReponse>
     @POST("?op=detaille")
     fun getChallengeDetaille(@Body id :ChallengeId):Call<ChallengeDetailleReponse>
+    @POST()
+    fun checkChallenge(@Body id :ChallengeId):Call<CheckChallengeReponse>
 
 }

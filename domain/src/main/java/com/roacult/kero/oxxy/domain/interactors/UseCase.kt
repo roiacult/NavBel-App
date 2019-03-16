@@ -6,6 +6,8 @@ import kotlinx.coroutines.*
 import com.roacult.kero.oxxy.domain.exception.Failure
 import com.roacult.kero.oxxy.domain.functional.AppRxSchedulers
 import com.roacult.kero.oxxy.domain.functional.Either
+import io.reactivex.Flowable
+import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.subjects.BehaviorSubject
 
 interface EitherInteractor<in P, out R , out F :Failure> {
@@ -21,11 +23,16 @@ interface Interactor<in P , out R >{
 }
 abstract  class SubjectInteractor<Type  , in Params>(private val schedulers:AppRxSchedulers){
     private val subject = BehaviorSubject.create<Type>()
+    private val compositeDisposeable = CompositeDisposable()
     protected abstract fun buildObservable(p:Params):Observable<Type>
-    fun observe(p:Params ,  FailureObserver:(e:Throwable)->Unit , SuccesObserver:(t:Type)->Unit):Disposable{
-        return buildObservable(p).subscribeOn(schedulers.computation)
+    fun observe(p:Params ,  SuccesObserver:(t:Type)->Unit){
+        buildObservable(p).subscribe(subject)
+        compositeDisposeable.add( subject.subscribeOn(schedulers.computation)
             .observeOn(schedulers.main)
-            .subscribe(SuccesObserver , FailureObserver)
+            .subscribe(SuccesObserver))
+    }
+    fun dispose(){
+        compositeDisposeable.clear()
     }
 }
 

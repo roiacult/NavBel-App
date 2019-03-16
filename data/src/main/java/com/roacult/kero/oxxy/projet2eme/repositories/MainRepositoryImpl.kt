@@ -31,7 +31,17 @@ class MainRepositoryImpl @Inject constructor( private val remote :MainRemote  ,p
 return remote.getChallengeDetaille(challengeId)
     }
 
-    override fun checkChallenge(): Observable<Int> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun checkChallenge(id:Int): Observable<Int> {
+     return remote.checkChallenge(id).filter {
+         local.checkNumber(it)
+     }.doOnComplete {
+       local.remove()
+     }.doOnNext {
+         local.save(it)
+     }
+    }
+
+    override fun clearObservable() {
+        remote.clear()
     }
 }

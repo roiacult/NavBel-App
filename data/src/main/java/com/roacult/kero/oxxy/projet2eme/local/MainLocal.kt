@@ -28,4 +28,15 @@ class MainLocal @Inject constructor( private val preferences: SharedPreferences)
         }
     }
     fun getMail():String  = preferences.getString(USER_EMAIL , "")
+    fun remove() {
+      preferences.edit().remove(CHALLENGE_NSOLVED)
+    }
+
+    fun checkNumber(it: Int): Boolean
+    = preferences.getInt(CHALLENGE_NSOLVED , 0) ==it
+
+
+    fun save(it: Int?) {
+    preferences.edit().putInt(CHALLENGE_NSOLVED, it?:0)
+    }
 }

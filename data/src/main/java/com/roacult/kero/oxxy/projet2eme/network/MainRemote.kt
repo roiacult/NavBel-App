@@ -1,19 +1,22 @@
 package com.roacult.kero.oxxy.projet2eme.network
 
+import android.util.Log
 import com.roacult.kero.oxxy.domain.exception.Failure
 import com.roacult.kero.oxxy.domain.functional.Either
 import com.roacult.kero.oxxy.domain.modules.ChalengeDetailles
 import com.roacult.kero.oxxy.domain.modules.ChalengeGlobale
-import com.roacult.kero.oxxy.projet2eme.network.entities.ChallengeDetailleReponse
-import com.roacult.kero.oxxy.projet2eme.network.entities.ChallengeId
-import com.roacult.kero.oxxy.projet2eme.network.entities.GetAllChallengeReponse
-import com.roacult.kero.oxxy.projet2eme.network.entities.Request
+import com.roacult.kero.oxxy.projet2eme.network.entities.*
 import com.roacult.kero.oxxy.projet2eme.network.services.MainService
 import com.roacult.kero.oxxy.projet2eme.utils.fromRessourceToPair
 import com.roacult.kero.oxxy.projet2eme.utils.token
+import io.reactivex.BackpressureStrategy
+import io.reactivex.Observable
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.subjects.BehaviorSubject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
@@ -23,6 +26,10 @@ import kotlin.coroutines.suspendCoroutine
  * ..etc
  */
 class MainRemote @Inject constructor(private val service :MainService) {
+
+
+    val compositeDisposable = CompositeDisposable()
+
     /**
      * so this function will help us request for the challenge untried by the user defined with the userID given
      * and then it can return either that the user is banned or he hasnt registred  or it can get all the challenges
@@ -72,5 +79,31 @@ class MainRemote @Inject constructor(private val service :MainService) {
        }
    })
 
+    }
+      fun checkChallenge(id:Int):Observable<Int>{
+          val subject = BehaviorSubject.create<Int>()
+          val observable = Observable.interval(30, TimeUnit.SECONDS).map {
+            service.checkChallenge(ChallengeId(id)).enqueue(object:Callback<CheckChallengeReponse>{
+                override fun onFailure(call: Call<CheckChallengeReponse>, t: Throwable) {
+                    Log.e("errr", "erorr happened")
+                }
+
+                override fun onResponse(call: Call<CheckChallengeReponse>, response: Response<CheckChallengeReponse>) {
+                    val reponse = response.body()
+                    if(reponse!=null){
+                        if(reponse.reponse==1){
+                            subject.onNext(reponse.numberSolved)
+                        }else if(reponse.reponse==3){
+                            subject.onComplete()
+                        }
+                    }
+                }
+            })
+          }
+          compositeDisposable.add(observable.publish().connect())
+        return subject.toFlowable(BackpressureStrategy.DROP).toObservable()
+      }
+    fun clear(){
+        compositeDisposable.clear()
     }
 }
