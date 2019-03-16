@@ -62,11 +62,12 @@ class MainRemote @Inject constructor(private val service :MainService) {
            val reponse = response.body()
            when{
                reponse==null -> it.resume(Either.Left(Failure.GetChalengeDetailsFailure.OtherFailrue(Throwable("reponse incorrect"))))
-               reponse.reponse==0-> it.resume(Either.Left(Failure.GetChalengeDetailsFailure.ChallengeAlreadySolved))
+               reponse.reponse==-1-> it.resume(Either.Left(Failure.GetChalengeDetailsFailure.OperationFailed))
                reponse.reponse==1->if((reponse.questions==null) or (reponse.resources==null))
                    it.resume(Either.Left(Failure.GetChalengeDetailsFailure.OtherFailrue(Throwable("reponse incorrect"))))
                else it.resume(Either.Right(ChalengeDetailles(reponse.id!! , reponse.time!! , reponse.resources?.fromRessourceToPair()!! , reponse.questions!!)))
                reponse.reponse== 2-> it.resume(Either.Left(Failure.GetChalengeDetailsFailure.UserBannedTemp))
+               reponse.reponse ==3 -> it.resume(Either.Left(Failure.GetChalengeDetailsFailure.ChallengeAlreadySolved))
            }
        }
    })

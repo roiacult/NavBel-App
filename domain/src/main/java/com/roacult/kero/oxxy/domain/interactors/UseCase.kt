@@ -6,6 +6,7 @@ import kotlinx.coroutines.*
 import com.roacult.kero.oxxy.domain.exception.Failure
 import com.roacult.kero.oxxy.domain.functional.AppRxSchedulers
 import com.roacult.kero.oxxy.domain.functional.Either
+import io.reactivex.subjects.BehaviorSubject
 
 interface EitherInteractor<in P, out R , out F :Failure> {
     val dispatcher: CoroutineDispatcher
@@ -17,6 +18,15 @@ interface Interactor<in P , out R >{
     val  dispatcher: CoroutineDispatcher
     val ResultDispatcher :CoroutineDispatcher
     suspend operator fun invoke(executeParams: P):R
+}
+abstract  class SubjectInteractor<Type  , in Params>(private val schedulers:AppRxSchedulers){
+    private val subject = BehaviorSubject.create<Type>()
+    protected abstract fun buildObservable(p:Params):Observable<Type>
+    fun observe(p:Params ,  FailureObserver:(e:Throwable)->Unit , SuccesObserver:(t:Type)->Unit):Disposable{
+        return buildObservable(p).subscribeOn(schedulers.computation)
+            .observeOn(schedulers.main)
+            .subscribe(SuccesObserver , FailureObserver)
+    }
 }
 
 abstract class ObservableInteractor<Type , in Params>(private val schedulers:AppRxSchedulers){

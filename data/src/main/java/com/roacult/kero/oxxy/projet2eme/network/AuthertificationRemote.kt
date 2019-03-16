@@ -134,11 +134,9 @@ class AuthertificationRemote @Inject constructor( val service: AuthentificationS
            val bitmap =  MediaStore.Images.Media.getBitmap(context.contentResolver , Uri.fromFile(file))
                 bitmap.compress(Bitmap.CompressFormat.JPEG,
                 50, baos)
-            Log.e("errr", baos.size().toString())
             val b = baos.toByteArray()
             //picture encoded to bas64
             picture  = Base64.encodeToString(b, Base64.DEFAULT)
-            println(picture)
         }
         it.resume( SaveInfo(userInfo.email , userInfo.fName ,userInfo.lName ,userInfo.pass ,
             if(picture.isEmpty()) "" else picture

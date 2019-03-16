@@ -7,6 +7,7 @@ import com.roacult.kero.oxxy.domain.modules.ChalengeDetailles
 import com.roacult.kero.oxxy.domain.modules.ChalengeGlobale
 import com.roacult.kero.oxxy.projet2eme.local.MainLocal
 import com.roacult.kero.oxxy.projet2eme.network.MainRemote
+import io.reactivex.Observable
 import javax.inject.Inject
 
 /**
@@ -28,5 +29,9 @@ class MainRepositoryImpl @Inject constructor( private val remote :MainRemote  ,p
 
     override suspend fun getChallengeDetaille(challengeId: Int): Either<Failure.GetChalengeDetailsFailure, ChalengeDetailles> {
 return remote.getChallengeDetaille(challengeId)
+    }
+
+    override fun checkChallenge(): Observable<Boolean> {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }
