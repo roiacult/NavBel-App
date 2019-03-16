@@ -22,7 +22,6 @@ class ResourceAdapter(val checkPermition : ()-> Boolean,val asqPermission: () ->
         binding.textView14.text = item.content.first
         binding.imageView6.setOnClickListener{
             binding.root.context.startActivity(Intent(Intent.ACTION_VIEW,Uri.parse(item.content.second)))
-
         }
     }
 

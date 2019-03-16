@@ -10,6 +10,6 @@ interface MainRepository {
     suspend  fun getAllChallenges():Either<Failure.GetAllChalengesFailure , List<ChalengeGlobale> >
     fun logOut()
     suspend  fun getChallengeDetaille(challengeId:Int):Either<Failure.GetChalengeDetailsFailure ,ChalengeDetailles>
-    fun checkChallenge():Observable<Boolean>
+    fun checkChallenge():Observable<Int>
 
 }

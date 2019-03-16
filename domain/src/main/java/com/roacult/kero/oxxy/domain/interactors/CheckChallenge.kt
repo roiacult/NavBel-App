@@ -3,10 +3,10 @@ package com.roacult.kero.oxxy.domain.interactors
 import com.roacult.kero.oxxy.domain.MainRepository
 import com.roacult.kero.oxxy.domain.functional.AppRxSchedulers
 import io.reactivex.Observable
+import javax.inject.Inject
 
-class CheckChallenge(val mainRepository: MainRepository , schedulers: AppRxSchedulers) :SubjectInteractor<Boolean , Int >(schedulers) {
-    override fun buildObservable(p: Int): Observable<Boolean> {
+class CheckChallenge @Inject constructor(val mainRepository: MainRepository, schedulers: AppRxSchedulers) :SubjectInteractor<Int , Int >(schedulers) {
+    override fun buildObservable(p: Int): Observable<Int> {
         return mainRepository.checkChallenge()
     }
 }
-data class  CheckChallengeParam(val id:Int , val challengeTime:Int)

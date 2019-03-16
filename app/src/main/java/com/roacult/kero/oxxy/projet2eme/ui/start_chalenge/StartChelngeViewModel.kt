@@ -14,11 +14,12 @@ import com.roacult.kero.oxxy.projet2eme.utils.Event
 import javax.inject.Inject
 
 class StartChelngeViewModel @Inject constructor(private val useCase : GetChalengeDetaills) :
-    BaseViewModel<StartChalengeState>(StartChalengeState(Event(STARTCHALENGE_FRAGMENT1),Loading())), FirstFragment.CallbackToViewModel {
+    BaseViewModel<StartChalengeState>(StartChalengeState(Event(STARTCHALENGE_FRAGMENT1),Loading(),Event(0))), FirstFragment.CallbackToViewModel {
 
     lateinit var chalengeGlobale: ChalengeGlobale
 
     var firstTime = true
+    var lastTime : Int = 0
 
     override fun isItFirstTime() = firstTime
 
@@ -36,6 +37,7 @@ class StartChelngeViewModel @Inject constructor(private val useCase : GetChaleng
 
 
     private fun handleSuccesss(chalengeDetailles: ChalengeDetailles) {
+        lastTime = chalengeDetailles.time
         setState { copy(getChalengeDetailles = Success(chalengeDetailles)) }
     }
 
