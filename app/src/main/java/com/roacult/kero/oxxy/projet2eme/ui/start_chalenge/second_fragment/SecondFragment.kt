@@ -1,9 +1,12 @@
 package com.roacult.kero.oxxy.projet2eme.ui.start_chalenge.second_fragment
 
+import android.content.res.Configuration
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.StringRes
+import androidx.appcompat.app.AlertDialog
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProviders
 import com.roacult.kero.oxxy.projet2eme.R
@@ -26,6 +29,7 @@ class SecondFragment :BaseFragment() {
         initialize()
         viewModel.observe(this){
             it.page.getContentIfNotHandled()?.apply { setUpPage(this) }
+            setSolvedNumbre(it.solved)
         }
 
         return binding.root
@@ -36,13 +40,41 @@ class SecondFragment :BaseFragment() {
             val detailles = (it.getChalengeDetailles as Success)()
             pagerAdapter= CardPagerAdapter()
             pagerAdapter.addAllCards(detailles.questions)
-            binding.time.startTimer(detailles.time.toLong()){
-                //TODO unsubsrive observer
-            }
+            binding.questionsContainer.adapter = pagerAdapter
+            val animationPager = ScallingPagerAnimation(binding.questionsContainer::getCurrentItem,pagerAdapter)
+            binding.questionsContainer.setPageTransformer(false,animationPager)
+        }
+        binding.time.startTimer(viewModel.lastTime.toLong()){
+            showDialogueFinish(R.string.time_finish,R.string.time_finish_msg)
+            //TODO unsubsribe observer
         }
     }
 
     private fun setUpPage(page: Int) {
 
+    }
+
+    private fun setSolvedNumbre(solved: Int) {
+        binding.solved.text= solved.toString()+"/5"
+        if(solved >= 5) {
+            showDialogueFinish(R.string.chalneg_solved,R.string.chalneg_solved_msg)
+        }
+    }
+
+    private fun showDialogueFinish(@StringRes title : Int ,@StringRes msg : Int){
+        AlertDialog.Builder(context!!).apply {
+            setTitle(title)
+            setMessage(msg)
+            setPositiveButton(R.string.continue_challenge) { _, _ -> }
+            setNegativeButton(R.string.cancel) { _, _ ->
+                //TODO finish activity and go back to main
+            }
+            show()
+        }
+    }
+
+    override fun onConfigurationChanged(newConfig: Configuration?) {
+        super.onConfigurationChanged(newConfig)
+        viewModel.lastTime = binding.time.time.toInt()
     }
 }

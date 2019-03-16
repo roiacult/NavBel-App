@@ -30,7 +30,7 @@ class TimeView : TextView{
      *
      * */
 
-    private var time: Long = 0
+    var time: Long = 0
 
     /**
      * callback when time finish
@@ -51,7 +51,7 @@ class TimeView : TextView{
             if(time>0) {
                 //time didn't finish yet
                 onTimeChanged()
-                time-=1000
+                time-=1
                 handler.postAtTime(this, SystemClock.uptimeMillis() + 1000)
             }else{
                 //time finish
@@ -78,9 +78,8 @@ class TimeView : TextView{
     }
 
     private fun onTimeChanged() {
-        val timeOnSec = time/1000
-        val seconds = timeOnSec%60
-        val minute = timeOnSec/60
+        val seconds = time%60
+        val minute = time/60
 
         if(minute == 0L && !isAnimated) {
             //if it left less than one minute we should animate the view

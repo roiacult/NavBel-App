@@ -113,4 +113,13 @@
     <string name="before_start">before you start</string>
     <string name="start_chalenge_trans">start_chalenge_transation</string>
     <string name="next">Next</string>
+    <string name="chalneg_solved_msg">chalenge allredy solved by 5 peaple so you can still solve this chaleng but you
+        will get no point
+    </string>
+    <string name="time_finish_msg">time  finish , you can still solve this chaleng but you
+        will get no point
+    </string>
+    <string name="chalneg_solved">challenge solved!!</string>
+    <string name="continue_challenge">continue</string>
+    <string name="time_finish">time finisg!!</string>
 </resources>
