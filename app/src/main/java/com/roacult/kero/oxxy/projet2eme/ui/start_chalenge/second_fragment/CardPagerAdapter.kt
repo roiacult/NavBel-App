@@ -10,13 +10,16 @@ import com.roacult.kero.oxxy.projet2eme.R
 import kotlinx.android.synthetic.main.start_chalenge_pager_card.view.*
 
 
-class CardPagerAdapter constructor(private val questions : ArrayList<Question>,private val views : ArrayList<CardView?>) : PagerAdapter() {
-
-    companion object { const val MAX_ELEVATION_FACTOR = 8 }
+class CardPagerAdapter constructor(private val questions : ArrayList<Question>,private val views : ArrayList<CardView?>,private val getCurentPos: () ->Int) : PagerAdapter() {
 
     //constructor for creating emmpty adapter
-    constructor() : this(ArrayList<Question>(),ArrayList<CardView?>())
-    var baseElevation = 0f
+    constructor(getCurentPos: () ->Int) : this(ArrayList<Question>(),ArrayList<CardView?>(),getCurentPos)
+
+    /**
+     * this field will hold the elevation
+     * sets on XML
+     * */
+    var baseElevation = -1f
 
     fun getCardViewAt(position: Int): CardView? = views.getOrNull(position)
 
@@ -35,16 +38,18 @@ class CardPagerAdapter constructor(private val questions : ArrayList<Question>,p
         container.addView(view)
         upDateView(view,questions[position])
         val cardView = view.pager_card
-        if(baseElevation == 0f) baseElevation = cardView.cardElevation
-        cardView.maxCardElevation = baseElevation * MAX_ELEVATION_FACTOR
-        views.set(position,cardView)
-
+        if(baseElevation == -1f) baseElevation =cardView.elevation
+            if(position != getCurentPos()) {
+            cardView.scaleX = ScallingPagerAnimation.PERCENTAGE_OF_SCALING_GROWING
+            cardView.scaleY = ScallingPagerAnimation.PERCENTAGE_OF_SCALING_GROWING
+        }
+        views[position] = cardView
         return view
     }
 
     override fun destroyItem(container: ViewGroup, position: Int, card : Any) {
         container.removeView( card as View)
-        views.set(position,null)
+        views[position] = null
     }
 
     override fun getCount(): Int  = questions.size

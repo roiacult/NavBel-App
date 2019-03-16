@@ -14,7 +14,7 @@ import com.roacult.kero.oxxy.projet2eme.utils.Event
 import javax.inject.Inject
 
 class StartChelngeViewModel @Inject constructor(private val useCase : GetChalengeDetaills) :
-    BaseViewModel<StartChalengeState>(StartChalengeState(Event(STARTCHALENGE_FRAGMENT1),Loading(),Event(0), 0)), FirstFragment.CallbackToViewModel {
+    BaseViewModel<StartChalengeState>(StartChalengeState(Event(STARTCHALENGE_FRAGMENT1),Loading(),Event(0),0)), FirstFragment.CallbackToViewModel {
 
     lateinit var chalengeGlobale: ChalengeGlobale
 
@@ -47,5 +47,9 @@ class StartChelngeViewModel @Inject constructor(private val useCase : GetChaleng
 
     override fun startChalenge() {
         setState { copy(selectedFragment = Event(STARTCHALENGE_FRAGMENT2) ) }
+    }
+
+    public fun setPage(page : Int){
+        setState{copy(page = Event(page))}
     }
 }

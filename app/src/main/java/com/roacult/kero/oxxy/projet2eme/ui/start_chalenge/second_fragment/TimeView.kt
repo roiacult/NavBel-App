@@ -4,8 +4,10 @@ import android.animation.Animator
 import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Color
+import android.os.Handler
 import android.os.SystemClock
 import android.util.AttributeSet
+import android.widget.TextClock
 import android.widget.TextView
 import androidx.annotation.Nullable
 
@@ -46,13 +48,15 @@ class TimeView : TextView{
      * once we registred this Runnable with handler he will keep call
      * onTimeChanged() every second till time finish
      * */
+    private val timeHandler  =Handler()
+
     private val ticker = object : Runnable {
         override fun run() {
             if(time>0) {
                 //time didn't finish yet
                 onTimeChanged()
                 time-=1
-                handler.postAtTime(this, SystemClock.uptimeMillis() + 1000)
+                timeHandler.postAtTime(this, SystemClock.uptimeMillis() + 1000)
             }else{
                 //time finish
                 time = 0
@@ -73,7 +77,7 @@ class TimeView : TextView{
         if(!itsAlredyStart){
             this.time = time
             itsAlredyStart = true
-            handler.post(ticker)
+            timeHandler.post(ticker)
         }
     }
 
@@ -124,5 +128,16 @@ class TimeView : TextView{
             })
             start()
         }
+    }
+
+    /**
+     * cancel handler when view detached from window
+     * to avoid memory lakes and null pointer exception
+     * in callback
+     * */
+
+    override fun onDetachedFromWindow() {
+        super.onDetachedFromWindow()
+         timeHandler.removeCallbacks (ticker)
     }
 }

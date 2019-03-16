@@ -8,37 +8,29 @@
                 android:orientation="horizontal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" android:id="@+id/guideline25"
-                app:layout_constraintGuide_percent="0.1"/>
+                app:layout_constraintGuide_percent="0.08"/>
         <androidx.constraintlayout.widget.Guideline
                 android:orientation="horizontal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" android:id="@+id/guideline26"
-                app:layout_constraintGuide_percent="0.9"/>
+                app:layout_constraintGuide_percent="0.92"/>
         <androidx.constraintlayout.widget.Guideline
                 android:orientation="vertical"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" android:id="@+id/guideline29"
                 app:layout_constraintGuide_percent="0.5"/>
-        <androidx.constraintlayout.widget.Guideline
-                android:orientation="vertical"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" android:id="@+id/guideline27"
-                app:layout_constraintGuide_percent="0.1"/>
-        <androidx.constraintlayout.widget.Guideline
-                android:orientation="vertical"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" android:id="@+id/guideline28"
-                app:layout_constraintGuide_percent="0.9"/>
         <androidx.viewpager.widget.ViewPager
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:clipToPadding="false"
                 android:overScrollMode="never"
                 app:layout_constraintTop_toTopOf="@+id/guideline25"
-                app:layout_constraintStart_toStartOf="@+id/guideline27" android:layout_marginStart="8dp"
-                app:layout_constraintEnd_toStartOf="@+id/guideline28" android:layout_marginEnd="8dp"
-                android:layout_marginBottom="8dp" app:layout_constraintBottom_toTopOf="@+id/guideline26"
-                android:layout_marginTop="8dp" android:id="@+id/questions_container"/>
+                app:layout_constraintBottom_toTopOf="@+id/guideline26"
+                android:id="@+id/questions_container"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                android:paddingTop="8dp" android:paddingBottom="8dp" android:paddingEnd="32dp"
+                android:paddingLeft="32dp" android:paddingRight="32dp" android:paddingStart="32dp"/>
         <TextView
                 tools:text="3/5"
                 android:layout_width="wrap_content"
@@ -46,8 +38,8 @@
                 android:id="@+id/solved"
                 app:layout_constraintBaseline_toBaselineOf="@+id/time"
                 app:layout_constraintStart_toStartOf="@+id/guideline29" android:layout_marginStart="8dp"
-                app:layout_constraintEnd_toStartOf="@+id/guideline28" android:layout_marginEnd="8dp"
-                android:textSize="20sp" android:textColor="#000"/>
+                android:textSize="20sp" android:textColor="#000" android:layout_marginEnd="8dp"
+                app:layout_constraintEnd_toEndOf="parent"/>
         <com.roacult.kero.oxxy.projet2eme.ui.start_chalenge.second_fragment.TimeView
                 tools:text="17:58"
                 android:layout_width="wrap_content"
@@ -57,10 +49,10 @@
                 android:textSize="20dp"
                 app:layout_constraintVertical_bias="0.473"
                 android:id="@+id/time" android:layout_marginEnd="8dp"
-                app:layout_constraintEnd_toStartOf="@+id/guideline29" android:layout_marginStart="8dp"
-                app:layout_constraintStart_toStartOf="@+id/guideline27"/>
+                app:layout_constraintEnd_toStartOf="@+id/guideline29"
+                android:layout_marginStart="8dp" app:layout_constraintStart_toStartOf="parent"/>
         <Button
-                android:text="Previeuse"
+                android:text="   Previeuse"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/perv"

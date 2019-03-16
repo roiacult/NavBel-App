@@ -36,7 +36,7 @@ class FirstFragment : BaseFragment(){
     private val viewModel : StartChelngeViewModel by lazy { ViewModelProviders.of(activity!!,viewModelFactory)[StartChelngeViewModel::class.java]}
     private val callback : CallbackToViewModel by lazy { viewModel }
     private lateinit var binding : StartChalengeFragment1Binding
-    private val adapter by lazy { ResourceAdapter(::checkPermission,::asqForPerition) }
+    private val adapter by lazy { ResourceAdapter() }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.start__chalenge_fragment1,container,false)
@@ -124,7 +124,9 @@ class FirstFragment : BaseFragment(){
                 setTitle(R.string.before_start).
                 setMessage(R.string.notice_befor_start_chalenge).
                 setNegativeButton(R.string.cancel){_,_->}.
-                setPositiveButton(R.string.start,{_,_-> showToast("//TODO start chalenge here")}).
+                setPositiveButton(R.string.start) { _, _->
+                    callback.startChalenge()
+                }.
                 show()
     }
 
@@ -160,20 +162,6 @@ class FirstFragment : BaseFragment(){
         callback.saveData(ChalengeGlobale(id,module,story,image,point,solved,question))
         setGlobalDate()
     }
-
-    fun checkPermission(): Boolean
-         = (Build.VERSION.SDK_INT < Build.VERSION_CODES.M ||
-            activity!!.checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED )
-
-
-
-    private fun asqForPerition() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            activity?.requestPermissions(arrayOf(android.Manifest.permission.WRITE_EXTERNAL_STORAGE),PERMITION_EXTRENAL_STORAGE)
-        }
-    }
-
-
 
     interface CallbackToViewModel{
         fun fetchData()

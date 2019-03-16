@@ -57,4 +57,8 @@ sealed class Failure {
         object  UserBannedTemp:GetChalengeDetailsFailure()
         class OtherFailrue(val t:Throwable):GetChalengeDetailsFailure()
     }
+
+    sealed class UserTryFailure : Failure() {
+        //TODO
+    }
 }

@@ -1,44 +1,30 @@
 package com.roacult.kero.oxxy.projet2eme.ui.start_chalenge.second_fragment
 
-import android.view.View
 import androidx.viewpager.widget.ViewPager
-import com.roacult.kero.oxxy.projet2eme.ui.start_chalenge.second_fragment.CardPagerAdapter.Companion.MAX_ELEVATION_FACTOR
 
 
-class ScallingPagerAnimation(private val curentPage : () -> Int,private val adapter: CardPagerAdapter,var enableScalling : Boolean)
-    : ViewPager.OnPageChangeListener , ViewPager.PageTransformer{
+class ScallingPagerAnimation(private val adapter: CardPagerAdapter,val setPage : (Int) ->Unit)
+    : ViewPager.OnPageChangeListener {
 
-    //enable scalling by default
-    constructor(curentPage: () -> Int,adapter: CardPagerAdapter) : this(curentPage,adapter, true)
+    companion object {
+        //this mean that card not selected will be her scalX and scalY 0.7
+        //and selected will be 1
+        const val PERCENTAGE_OF_SCALING_GROWING = 0.9f
+        //this  will hold the precentage of growing elevation when scrolling
+        const val PERCENTAGE_OF_ELEVATION_GROWING = 0.4f
+    }
 
     private var lastOffset = 0f
 
-    fun  setScalling(scale : Boolean){
-        if (enableScalling && !scale) {
-            // shrink main card
-            val currentCard = adapter.getCardViewAt(curentPage())
-            currentCard?.apply{
-                this.animate().scaleY(1f)
-                this.animate().scaleX(1f)
-            }
-        } else if (!enableScalling && scale) {
-            // grow main card
-            val currentCard = adapter.getCardViewAt(curentPage())
-            currentCard?.apply {
-                this.animate().scaleY(1.1f)
-                this.animate().scaleX(1.1f)
-            }
-        }
-
-        enableScalling = scale
-    }
-
     override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
+
+
         val realCurrentPosition:Int
         val nextPosition:Int
-        val baseElevation = adapter.baseElevation
         val realOffset:Float
+        val baseElevation = adapter.baseElevation
         val goingLeft = lastOffset > positionOffset
+
 
         // If we're going backwards, onPageScrolled receives the last position
         // instead of the current one
@@ -60,32 +46,29 @@ class ScallingPagerAnimation(private val curentPage : () -> Int,private val adap
 
         // This might be null if a fragment is being used
         // and the views weren't created yet
-        if (currentCard != null) {
-            if (enableScalling) {
-                currentCard.scaleX = (1 + 0.1 * (1 - realOffset)).toFloat()
-                currentCard.scaleY = (1 + 0.1 * (1 - realOffset)).toFloat()
-            }
-            currentCard.cardElevation = baseElevation + (baseElevation * (MAX_ELEVATION_FACTOR - 1) * (1 - realOffset))
+        if (currentCard != null ) {
+            //change the scalling
+            currentCard.scaleX = PERCENTAGE_OF_SCALING_GROWING + (1- PERCENTAGE_OF_SCALING_GROWING)*(1-realOffset)
+            currentCard.scaleY = PERCENTAGE_OF_SCALING_GROWING + (1- PERCENTAGE_OF_SCALING_GROWING)*(1-realOffset)
+            //change the elevations
+            currentCard.elevation = baseElevation + PERCENTAGE_OF_ELEVATION_GROWING*baseElevation*(1-realOffset)
         }
 
         val nextCard = adapter.getCardViewAt(nextPosition)
 
         // We might be scrolling fast enough so that the next (or previous) card
         // was already destroyed or a fragment might not have been created yet
-        if (nextCard != null) {
-            if (enableScalling) {
-                nextCard.scaleX = (1 + 0.1 * (realOffset)).toFloat()
-                nextCard.scaleY = (1 + 0.1 * (realOffset)).toFloat()
-            }
-            nextCard.cardElevation = ((baseElevation + (baseElevation
-                    * (MAX_ELEVATION_FACTOR - 1) * (realOffset))))
+        if (nextCard != null ) {
+            //change the scalling
+            nextCard.scaleX = PERCENTAGE_OF_SCALING_GROWING + (1- PERCENTAGE_OF_SCALING_GROWING)*realOffset
+            nextCard.scaleY = PERCENTAGE_OF_SCALING_GROWING + (1- PERCENTAGE_OF_SCALING_GROWING)*realOffset
+            //change elevation
+            nextCard.elevation = baseElevation+ PERCENTAGE_OF_ELEVATION_GROWING*baseElevation*realOffset
         }
         lastOffset = positionOffset
     }
 
     override fun onPageScrollStateChanged(state: Int) {}
 
-    override fun onPageSelected(position: Int) {}
-
-    override fun transformPage(page: View, position: Float) {}
+    override fun onPageSelected(position: Int) {setPage(position)}
 }

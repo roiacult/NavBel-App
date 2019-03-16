@@ -38,11 +38,11 @@ class SecondFragment :BaseFragment() {
     private fun initialize() {
         viewModel.withState {
             val detailles = (it.getChalengeDetailles as Success)()
-            pagerAdapter= CardPagerAdapter()
+            pagerAdapter= CardPagerAdapter(binding.questionsContainer::getCurrentItem)
             pagerAdapter.addAllCards(detailles.questions)
+            val animationPager = ScallingPagerAnimation(pagerAdapter,viewModel::setPage)
+            binding.questionsContainer.addOnPageChangeListener(animationPager)
             binding.questionsContainer.adapter = pagerAdapter
-            val animationPager = ScallingPagerAnimation(binding.questionsContainer::getCurrentItem,pagerAdapter)
-            binding.questionsContainer.setPageTransformer(false,animationPager)
         }
         binding.time.startTimer(viewModel.lastTime.toLong()){
             showDialogueFinish(R.string.time_finish,R.string.time_finish_msg)
@@ -51,7 +51,11 @@ class SecondFragment :BaseFragment() {
     }
 
     private fun setUpPage(page: Int) {
+        when(page){
+            0 -> {
 
+            }
+        }
     }
 
     private fun setSolvedNumbre(solved: Int) {

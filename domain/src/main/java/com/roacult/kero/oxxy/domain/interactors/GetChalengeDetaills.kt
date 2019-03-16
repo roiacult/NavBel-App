@@ -29,7 +29,7 @@ class GetChalengeDetaills @Inject constructor(dispatchers: CouroutineDispatchers
         questions.add(Question("bla bla bla 2 ?",ArrayList()))
         questions.add(Question("bla bla bla 3 ?",ArrayList()))
         questions.add(Question("bla bla bla 4 ?",ArrayList()))
-        val detailles = ChalengeDetailles(0,3600,res,questions)
+        val detailles = ChalengeDetailles(0,100,res,questions)
 
         return Either.Right(detailles)
 //      return repo.getChallengeDetaille(executeParams)

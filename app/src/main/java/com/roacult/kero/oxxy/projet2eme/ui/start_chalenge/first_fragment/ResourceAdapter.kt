@@ -11,7 +11,7 @@ import com.roacult.kero.oxxy.projet2eme.base.BaseRecyclerAdapter
 import com.roacult.kero.oxxy.projet2eme.databinding.StartChalenngeCard1Binding
 
 
-class ResourceAdapter(val checkPermition : ()-> Boolean,val asqPermission: () -> Unit ) : BaseRecyclerAdapter<Resource,StartChalenngeCard1Binding>(Resource::class.java,R.layout.start_chalennge_card1){
+class ResourceAdapter( ) : BaseRecyclerAdapter<Resource,StartChalenngeCard1Binding>(Resource::class.java,R.layout.start_chalennge_card1){
     override fun areItemsTheSame(item1: Resource, item2: Resource) = item1 == item2
 
     override fun compare(o1: Resource, o2: Resource) = o1.content.first.compareTo(o2.content.first)
