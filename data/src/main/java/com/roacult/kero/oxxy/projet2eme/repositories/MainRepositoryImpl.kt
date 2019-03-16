@@ -27,10 +27,18 @@ class MainRepositoryImpl @Inject constructor( private val remote :MainRemote  ,p
         local.logOut()
     }
 
+    /**
+     * this function will get the challenge detailles of a challenge defined by its id
+     */
     override suspend fun getChallengeDetaille(challengeId: Int): Either<Failure.GetChalengeDetailsFailure, ChalengeDetailles> {
 return remote.getChallengeDetaille(challengeId)
     }
 
+    /**
+     * this function will check the challenge each 30 seconds and deliver an integer so and if the number of pasTime
+     * is not equal to this number we will notify the user or we wont do thing
+     *
+     */
     override fun checkChallenge(id:Int): Observable<Int> {
      return remote.checkChallenge(id).filter {
          local.checkNumber(it)

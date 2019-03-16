@@ -33,7 +33,7 @@ class MainLocal @Inject constructor( private val preferences: SharedPreferences)
     }
 
     fun checkNumber(it: Int): Boolean
-    = preferences.getInt(CHALLENGE_NSOLVED , 0) ==it
+    = preferences.getInt(CHALLENGE_NSOLVED , 0) !=it
 
 
     fun save(it: Int?) {

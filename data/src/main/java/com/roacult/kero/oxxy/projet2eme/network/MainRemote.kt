@@ -27,7 +27,10 @@ import kotlin.coroutines.suspendCoroutine
  */
 class MainRemote @Inject constructor(private val service :MainService) {
 
-
+    /**
+     * this will be the bucket where we put all of ou observable
+     * and then we clear them when we dont need them
+     */
     val compositeDisposable = CompositeDisposable()
 
     /**
@@ -80,6 +83,12 @@ class MainRemote @Inject constructor(private val service :MainService) {
    })
 
     }
+
+    /**
+     * so this function will be called when the challenge start so this function will push an observable to notify observer
+     * each 30 seconds and when it notify it will send a request to the server to check if the  challenge is solved and how much
+     * person solved it
+     */
       fun checkChallenge(id:Int):Observable<Int>{
           val subject = BehaviorSubject.create<Int>()
           val observable = Observable.interval(30, TimeUnit.SECONDS).map {
@@ -103,6 +112,10 @@ class MainRemote @Inject constructor(private val service :MainService) {
           compositeDisposable.add(observable.publish().connect())
         return subject.toFlowable(BackpressureStrategy.DROP).toObservable()
       }
+
+    /**
+     * this function will clear the connection between the observer and observable so the observable stop emitting
+     */
     fun clear(){
         compositeDisposable.clear()
     }
