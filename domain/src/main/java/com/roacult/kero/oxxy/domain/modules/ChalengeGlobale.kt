@@ -1,11 +1,11 @@
 package com.roacult.kero.oxxy.domain.modules
 
 data class ChalengeGlobale(
-    val id  :Int ,
-    val module : String ,
+    val id  :Int,
+    val module : String,
     val story : String,
-    val image : String ,
-    val point : Int ,
-    val nbPersonSolveded : Int,
+    val url : String,
+    val point : Int,
+    val nbPersonSolved : Int,
     val nbOfQuestions : Int
 )

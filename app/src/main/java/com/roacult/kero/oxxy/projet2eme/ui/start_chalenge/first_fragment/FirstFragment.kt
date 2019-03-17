@@ -1,8 +1,6 @@
 package com.roacult.kero.oxxy.projet2eme.ui.start_chalenge.first_fragment
 
 import android.animation.Animator
-import android.content.pm.PackageManager
-import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -144,10 +142,10 @@ class FirstFragment : BaseFragment(){
     }
 
     private fun setGlobalDate() {
-        Picasso.get().load(viewModel.chalengeGlobale.image).noFade().into(binding.imageView5)
+        Picasso.get().load(viewModel.chalengeGlobale.url).noFade().into(binding.imageView5)
         binding.textView19.text = viewModel.chalengeGlobale.module // module text view
         binding.points.text = viewModel.chalengeGlobale.point.toString()
-        binding.solved.text = viewModel.chalengeGlobale.nbPersonSolveded.toString()
+        binding.solved.text = viewModel.chalengeGlobale.nbPersonSolved.toString()
         binding.questions.text = viewModel.chalengeGlobale.nbOfQuestions.toString()
     }
 

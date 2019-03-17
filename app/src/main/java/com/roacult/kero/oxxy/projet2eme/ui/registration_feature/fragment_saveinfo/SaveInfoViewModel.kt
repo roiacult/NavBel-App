@@ -14,7 +14,7 @@ import com.roacult.kero.oxxy.projet2eme.utils.Fail
 
 
 class SaveInfoViewModel @Inject constructor(val saveInfoUseCase: SaveInfoUseCase): BaseViewModel<SaveInfoState>(SaveInfoState(null,null)),SaveInfoFragment.CallbackToViewModel {
-    /*image null means user didn't pick image yet , event null means he didn't perform submit operation yet */
+    /*url null means user didn't pick url yet , event null means he didn't perform submit operation yet */
 
     var firstTime = true
     var year = 0

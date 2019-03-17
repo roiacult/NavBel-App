@@ -30,11 +30,11 @@ class StartChalengeActivity : BaseActivity(){
             val bundle = Bundle()
             bundle.putInt(CHALENGE_ID,chalengeGlobale.id)
             bundle.putInt(CHALENGE_POINT,chalengeGlobale.point)
-            bundle.putInt(CHALENGE_SOLVED,chalengeGlobale.nbPersonSolveded)
+            bundle.putInt(CHALENGE_SOLVED,chalengeGlobale.nbPersonSolved)
             bundle.putInt(CHALENGE_QUESTION,chalengeGlobale.nbOfQuestions)
             bundle.putString(CHALENGE_MODULE,chalengeGlobale.module)
             bundle.putString(CHALENGE_STORY,chalengeGlobale.story)
-            bundle.putString(CHALENGE_IMAGE,chalengeGlobale.image)
+            bundle.putString(CHALENGE_IMAGE,chalengeGlobale.url)
             intent.putExtras(bundle)
             return intent
         }

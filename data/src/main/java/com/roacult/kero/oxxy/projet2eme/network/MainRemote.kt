@@ -63,7 +63,7 @@ class MainRemote @Inject constructor(private val service :MainService) {
      * and the id of the challenge and the ressources with this challenges
      */
     suspend  fun getChallengeDetaille(id:Int ):Either<Failure.GetChalengeDetailsFailure , ChalengeDetailles> = suspendCoroutine{
-   service.getChallengeDetaille(ChallengeId(id) ).enqueue(object :Callback<ChallengeDetailleReponse>{
+   service.getChallengeDetaille(ChallengeId(id), token() ).enqueue(object :Callback<ChallengeDetailleReponse>{
        override fun onFailure(call: Call<ChallengeDetailleReponse>, t: Throwable) {
            it.resume(Either.Left(Failure.GetChalengeDetailsFailure.OtherFailrue(t)))
        }
@@ -72,12 +72,11 @@ class MainRemote @Inject constructor(private val service :MainService) {
            val reponse = response.body()
            when{
                reponse==null -> it.resume(Either.Left(Failure.GetChalengeDetailsFailure.OtherFailrue(Throwable("reponse incorrect"))))
-               reponse.reponse==-1-> it.resume(Either.Left(Failure.GetChalengeDetailsFailure.OperationFailed))
-               reponse.reponse==1->if((reponse.questions==null) or (reponse.resources==null))
+               reponse.reponse==-1-> it.resume(Either.Left(Failure.GetChalengeDetailsFailure.ChallengeAlreadySolved))
+               reponse.reponse==1->if((reponse.questions==null) or (reponse.resource==null))
                    it.resume(Either.Left(Failure.GetChalengeDetailsFailure.OtherFailrue(Throwable("reponse incorrect"))))
-               else it.resume(Either.Right(ChalengeDetailles(reponse.id!! , reponse.time!! , reponse.resources?.fromRessourceToPair()!! , reponse.questions!!)))
+               else it.resume(Either.Right(ChalengeDetailles(reponse.id!! , reponse.time!! , reponse.resource?.fromRessourceToPair()!! , reponse.questions!!)))
                reponse.reponse== 2-> it.resume(Either.Left(Failure.GetChalengeDetailsFailure.UserBannedTemp))
-               reponse.reponse ==3 -> it.resume(Either.Left(Failure.GetChalengeDetailsFailure.ChallengeAlreadySolved))
            }
        }
    })
@@ -92,7 +91,7 @@ class MainRemote @Inject constructor(private val service :MainService) {
       fun checkChallenge(id:Int):Observable<Int>{
           val subject = BehaviorSubject.create<Int>()
           val observable = Observable.interval(30, TimeUnit.SECONDS).map {
-            service.checkChallenge(ChallengeId(id)).enqueue(object:Callback<CheckChallengeReponse>{
+            service.checkChallenge(ChallengeId(id) , token()).enqueue(object:Callback<CheckChallengeReponse>{
                 override fun onFailure(call: Call<CheckChallengeReponse>, t: Throwable) {
                     Log.e("errr", "erorr happened")
                 }
@@ -102,7 +101,7 @@ class MainRemote @Inject constructor(private val service :MainService) {
                     if(reponse!=null){
                         if(reponse.reponse==1){
                             subject.onNext(reponse.numberSolved)
-                        }else if(reponse.reponse==3){
+                        }else if(reponse.reponse==-1){
                             subject.onComplete()
                         }
                     }
