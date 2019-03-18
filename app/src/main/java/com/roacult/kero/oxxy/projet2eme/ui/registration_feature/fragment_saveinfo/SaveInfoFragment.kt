@@ -117,7 +117,7 @@ class SaveInfoFragment : BaseFragment() {
         if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
             if(resultCode == RESULT_OK){
                 val result = CropImage.getActivityResult(data)
-                callback.setImage(result.uri.path)
+                callback.setImage(result.uri.path!!)
             }
         }
     }

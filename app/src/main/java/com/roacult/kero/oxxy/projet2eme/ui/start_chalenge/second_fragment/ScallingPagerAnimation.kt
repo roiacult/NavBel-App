@@ -7,7 +7,7 @@ class ScallingPagerAnimation(private val adapter: CardPagerAdapter,val setPage :
     : ViewPager.OnPageChangeListener {
 
     companion object {
-        //this mean that card not selected will be her scalX and scalY 0.7
+        //this mean that card not selected will be her scalX and scalY 0.9
         //and selected will be 1
         const val PERCENTAGE_OF_SCALING_GROWING = 0.9f
         //this  will hold the precentage of growing elevation when scrolling

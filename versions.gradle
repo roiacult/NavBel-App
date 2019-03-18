@@ -48,7 +48,7 @@ versions.compresser= '2.1.0'
 versions.shimmer = '0.4.0'
 versions.helper ='1.12.0'
 versions.expande_layout = '2.9.2'
-versions.time_view = '1.0.2'
+versions.custom_bottom_bar  ='0.1'
 
 
 def deps = [:]
@@ -59,6 +59,7 @@ android.recyclerview = "androidx.recyclerview:recyclerview:$versions.appcompat"
 android.design = "com.google.android.material:material:$versions.appcompat"
 android.card_view = "androidx.cardview:cardview:$versions.appcompat"
 android.constraint_layout = "androidx.constraintlayout:constraintlayout:$versions.constraint_layout"
+android.view_pager = "androidx.viewpager:viewpager:$versions.appcompat"
 android.lifecycle_extensions = "androidx.lifecycle:lifecycle-extensions:$versions.lifecycle"
 android.picasso = "com.squareup.picasso:picasso:$versions.picasso_version"
 android.circle_image = "de.hdodenhof:circleimageview:$versions.circle_image"
@@ -68,7 +69,7 @@ android.compressor = "id.zelory:compressor:$versions.compresser"
 android.shimmer = "com.facebook.shimmer:shimmer:$versions.shimmer"
 android.helper ="com.getkeepsafe.taptargetview:taptargetview:$versions.helper"
 android.expand_layou = "net.cachapa.expandablelayout:expandablelayout:$versions.expande_layout"
-android.time_view = "com.xenione.libs:tab-digit:$versions.time_view"
+android.custom_bottom_bar = "com.github.iammert:ReadableBottomBar:$versions.custom_bottom_bar"
 deps.android = android
 
 

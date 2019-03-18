@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<tabs>
+    <tab text="@string/chalenges"
+         drawable="@drawable/bottom_nav_bar_moyenne"/>
+    <tab text="@string/forume"
+         drawable="@drawable/bottom_nav_bar_modules"/>
+    <tab text="@string/award"
+         drawable="@drawable/gift_outline"/>
+    <tab text="@string/profile"
+         drawable="@drawable/add_acount_name_icon"/>
+</tabs>

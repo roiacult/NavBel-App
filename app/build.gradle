@@ -37,9 +37,9 @@ android {
 
 dependencies {
     implementation project(':domain')
-    implementation project(":data")
-
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation project(':data')
+    implementation project(':CustomBottomBar')
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation deps.android.constraint_layout
     implementation deps.android.lifecycle_extensions
     implementation deps.android.fragment
@@ -47,15 +47,16 @@ dependencies {
     implementation deps.android.recyclerview
     implementation deps.android.card_view
     implementation deps.android.design
+    implementation deps.android.view_pager
     implementation deps.android.circle_image
     implementation deps.android.picasso
     implementation deps.android.image_copper
-    implementation(deps.android.pin_inputs){exclude group: 'androidx.appcompat', module: 'appcompat'}
+    implementation(deps.android.pin_inputs) {
+        exclude group: 'androidx.appcompat', module: 'appcompat'
+    }
     implementation deps.android.shimmer
     implementation deps.android.helper
     implementation deps.android.expand_layou
-    implementation deps.android.time_view
-
     implementation deps.dagger.core
     implementation deps.dagger.support
     kapt deps.dagger.kaptCompiler
@@ -74,13 +75,10 @@ dependencies {
     implementation deps.retrofit.okhttp3
     implementation deps.retrofit.logging
     implementation deps.retrofit.scalar_converter
-
     kapt deps.room.compiler
-
     testImplementation deps.test.mockk
     testImplementation deps.test.kotlin_junit
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.1.2-alpha01'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.2-alpha01'
-    implementation 'androidx.viewpager:viewpager:1.0.0'
 }

@@ -7,6 +7,7 @@ import android.view.Menu
 import android.view.MenuItem
 import com.getkeepsafe.taptargetview.TapTarget
 import com.getkeepsafe.taptargetview.TapTargetSequence
+import com.iammert.library.readablebottombar.ReadableBottomBar
 import com.roacult.kero.oxxy.projet2eme.R
 import com.roacult.kero.oxxy.projet2eme.base.BaseActivity
 import com.roacult.kero.oxxy.projet2eme.base.BaseFragment
@@ -54,7 +55,7 @@ class MainActivity : BaseActivity() {
 
     private var callback  : CallbackFromActivity? = null
 
-    private var selectedFragment :Int = R.id.chalenge_page
+    private var selectedFragment :Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -67,19 +68,19 @@ class MainActivity : BaseActivity() {
         setSupportActionBar(toolbar)
         //set active fragment
         when(selectedFragment){
-            R.id.chalenge_page -> {
+            0 -> {
                 activeFragment = chalengeFragment
                 callback = chalengeFragment
             }
-            R.id.forum_page -> {
+            1 -> {
                 activeFragment = forumFragment
                 callback =forumFragment
             }
-            R.id.award_page -> {
+            2 -> {
                 activeFragment = awardFragment
                 callback = awardFragment
             }
-            R.id.profile_page -> {
+            3 -> {
                 activeFragment = profileFragment
                 callback = profileFragment
             }
@@ -94,63 +95,63 @@ class MainActivity : BaseActivity() {
             show(activeFragment!!)
         }
 
-        bottom_nav.setOnNavigationItemSelectedListener { setFragment(it.itemId) }
-        bottom_nav.selectedItemId = selectedFragment
+        bottom_nav.setOnItemSelectListener ( object : ReadableBottomBar.ItemSelectListener{
+            override fun onItemSelected(index: Int) {setFragment(index)}
+        })
+        bottom_nav.setSelectedItem(selectedFragment)
     }
 
-    private fun setFragment(itemId: Int) : Boolean {
-        selectedFragment = itemId
-        when(itemId){
-            R.id.chalenge_page -> {
-                if(activeFragment is ChalengeFragment) return false
+    private fun setFragment(position: Int)  {
+        selectedFragment = position
+        when(position){
+            0 -> {
+                if(activeFragment is ChalengeFragment) return
                 supportFragmentManager.inTransaction{
                     hide(activeFragment!!).show(chalengeFragment).attach(chalengeFragment)
                 }
                 activeFragment = chalengeFragment
                 callback = chalengeFragment
             }
-            R.id.forum_page ->{
-                if(activeFragment is ForumeFragment) return false
+            1 ->{
+                if(activeFragment is ForumeFragment) return
                 supportFragmentManager.inTransaction{
                     hide(activeFragment!!).show(forumFragment).attach(chalengeFragment)
                 }
                 activeFragment = forumFragment
                 callback = forumFragment
             }
-            R.id.award_page ->{
-                if(activeFragment is AwardFragment) return false
+            2 ->{
+                if(activeFragment is AwardFragment) return
                 supportFragmentManager.inTransaction{
                     hide(activeFragment!!).show(awardFragment).attach(chalengeFragment)
                 }
                 activeFragment = awardFragment
                 callback = awardFragment
             }
-            R.id.profile_page ->{
-                if(activeFragment is ProfileFragment) return false
+            3 ->{
+                if(activeFragment is ProfileFragment) return
                 supportFragmentManager.inTransaction{
                     hide(activeFragment!!).show(profileFragment).attach(chalengeFragment)
                 }
                 activeFragment = profileFragment
                 callback = profileFragment
             }
-            else -> return false
         }
         invalidateOptionsMenu()
-        return true
     }
 
     override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
         when (selectedFragment) {
-            R.id.chalenge_page -> {
+            0 -> {
                 menu?.findItem(R.id.filter)?.isVisible= true
             }
-            R.id.forum_page -> {
+            1 -> {
                 menu?.findItem(R.id.filter)?.isVisible= false
             }
-            R.id.award_page -> {
+            2 -> {
                 menu?.findItem(R.id.filter)?.isVisible= false
             }
-            R.id.profile_page -> {
+            3 -> {
                 menu?.findItem(R.id.filter)?.isVisible= false
             }
         }
@@ -173,14 +174,14 @@ class MainActivity : BaseActivity() {
     private fun showHelp() {
         TapTargetSequence(this).apply {
             val (title : String, desc :String) = when(selectedFragment){
-                R.id.chalenge_page -> Pair(getString(R.string.help_chalenge),getString(R.string.help_chalenge_des))
-                R.id.forum_page -> Pair(getString(R.string.help_forum),getString(R.string.help_forum_des))
-                R.id.award_page -> Pair(getString(R.string.help_award),getString(R.string.help_award_des))
-                R.id.profile_page -> Pair(getString(R.string.help_profile),getString(R.string.help_profile_des))
+                0 -> Pair(getString(R.string.help_chalenge),getString(R.string.help_chalenge_des))
+                1 -> Pair(getString(R.string.help_forum),getString(R.string.help_forum_des))
+                2 -> Pair(getString(R.string.help_award),getString(R.string.help_award_des))
+                3 -> Pair(getString(R.string.help_profile),getString(R.string.help_profile_des))
                 else -> Pair("","")
             }
-            target(TapTarget.forView(bottom_nav.findViewById(selectedFragment),title,desc))
-            if(selectedFragment == R.id.chalenge_page)target(TapTarget.forToolbarMenuItem(toolbar,R.id.filter,getString(R.string.help_filter),getString(R.string.help_filter_des)))
+            target(TapTarget.forView(bottom_nav.getChildViewAt(selectedFragment)!!.textView,title,desc))
+            if(selectedFragment == 0)target(TapTarget.forToolbarMenuItem(toolbar,R.id.filter,getString(R.string.help_filter),getString(R.string.help_filter_des)))
         }.listener(object : TapTargetSequence.Listener{
             override fun onSequenceCanceled(lastTarget: TapTarget?) {}
             override fun onSequenceFinish() {
@@ -190,13 +191,13 @@ class MainActivity : BaseActivity() {
     }
 
     override fun onBackPressed() {
-        if(selectedFragment != R.id.chalenge_page) bottom_nav.selectedItemId = R.id.chalenge_page
+        if(selectedFragment != 0) bottom_nav.setSelectedItem(0)
         else super.onBackPressed()
     }
 
     override fun onSaveInstanceState(outState: Bundle?) {
         super.onSaveInstanceState(outState)
-        outState?.putInt(CURENT_FRAGMET,bottom_nav.selectedItemId)
+        outState?.putInt(CURENT_FRAGMET,selectedFragment)
     }
 }
 interface CallbackFromActivity{

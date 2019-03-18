@@ -58,6 +58,7 @@ class CardPagerAdapter constructor(private val questions : ArrayList<Question>,p
 
     private fun upDateView(view: View, question: Question) {
         //TODO don't forget update view here
+        //TODO creat adapter recycler for eache page
         view.question.text = question.question
     }
 }
