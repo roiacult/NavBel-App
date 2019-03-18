@@ -133,6 +133,7 @@ def addRepos(RepositoryHandler handler) {
     handler.maven { url 'https://oss.sonatype.org/content/repositories/snapshots' }
     handler.maven { url 'https://dl.bintray.com/kotlin/kotlin-eap' }
     handler.maven{ url 'https://jitpack.io' }
+    handler.maven { url 'https://maven.fabric.io/public' }
     handler.maven{url 'https://oss.sonatype.org/content/repositories/snapshots'}
 }
 

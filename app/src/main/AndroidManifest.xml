@@ -15,6 +15,10 @@
             android:supportsRtl="true"
             android:networkSecurityConfig="@xml/enabling_http_request"
             android:theme="@style/AppTheme" tools:ignore="GoogleAppIndexingWarning">
+        <meta-data
+                android:name="io.fabric.ApiKey"
+                android:value="82a935f5dfbb0998b3430524afa9ede8a577dd4b"
+        />
 
         <activity android:name=".ui.splash.SplashActivity"
         android:screenOrientation="portrait"
