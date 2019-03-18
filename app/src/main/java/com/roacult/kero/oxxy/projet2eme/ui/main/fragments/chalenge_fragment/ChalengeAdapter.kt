@@ -6,7 +6,6 @@ import com.roacult.kero.oxxy.domain.modules.ChalengeGlobale
 import com.roacult.kero.oxxy.projet2eme.R
 import com.roacult.kero.oxxy.projet2eme.databinding.MainChalengesCardBinding
 import com.roacult.kero.oxxy.projet2eme.utils.Success
-import com.squareup.picasso.NetworkPolicy
 import com.squareup.picasso.Picasso
 
 class ChalengeAdapter(val viewModel : ChalengeViewModel,val startChalenge : (ChalengeGlobale,View) ->Unit )
@@ -26,7 +25,7 @@ class ChalengeAdapter(val viewModel : ChalengeViewModel,val startChalenge : (Cha
 
     override fun areContentsTheSame(oldItem: ChalengeGlobale, newItem: ChalengeGlobale)= oldItem.module == newItem.module &&
             oldItem.nbOfQuestions == newItem.nbOfQuestions &&
-            oldItem.nbPersonSolveded == newItem.nbPersonSolveded &&
+            oldItem.nbPersonSolved == newItem.nbPersonSolved &&
             oldItem.story == newItem.story &&
             oldItem.point == newItem.point
 
@@ -34,11 +33,11 @@ class ChalengeAdapter(val viewModel : ChalengeViewModel,val startChalenge : (Cha
         binding.textView7.setText(item.story)
         binding.textView6.setText(item.module)
         binding.start.setOnClickListener{ startChalenge(item,binding.chalengeImg) }
-        binding.solved.setText("${item.nbPersonSolveded}/5")
+        binding.solved.setText("${item.nbPersonSolved}/5")
         binding.point.setText("${item.point} points")
         binding.nbQuestion.setText("${item.nbOfQuestions} questions")
         binding.arrow.rotation = 180f
-        Picasso.get().load(item.image).into(binding.chalengeImg)
+        Picasso.get().load(item.url).into(binding.chalengeImg)
     }
 
     override fun addAll(items: List<ChalengeGlobale>) {

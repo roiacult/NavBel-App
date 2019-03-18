@@ -39,7 +39,7 @@ class AutherntificationRepositoryImpl
     }
 
     /**
-     * this function will the userInfo in the server so it will compress the image and convert it to base64 then
+     * this function will the userInfo in the server so it will compress the url and convert it to base64 then
      * it will send the info to the server then if it goes well he will save it locally
      */
     override suspend fun saveUserInfo(user: UserInfo): Either<Failure.SaveInfoFaillure, None> {

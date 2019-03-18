@@ -19,7 +19,7 @@ class UserStateUseCase @Inject constructor(dispatchers : CouroutineDispatchers,
     override val ResultDispatcher= dispatchers.main
 
     override suspend fun invoke(executeParams: None): Boolean {
-//        return repo.userState()
-        return true
+        return repo.userState()
+//        return true
     }
 }

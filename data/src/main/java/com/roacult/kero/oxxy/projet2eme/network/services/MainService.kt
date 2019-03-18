@@ -11,9 +11,9 @@ interface MainService {
     @POST("?op=challenges")
     fun getAllchallenges(@Query("tooken")token :String
      , @Body request: Request):Call<GetAllChallengeReponse>
-    @POST("?op=detaille")
-    fun getChallengeDetaille(@Body id :ChallengeId):Call<ChallengeDetailleReponse>
-    @POST()
-    fun checkChallenge(@Body id :ChallengeId):Call<CheckChallengeReponse>
+    @POST("?op=questions")
+    fun getChallengeDetaille(@Body id :ChallengeId , @Query("tooken") token:String):Call<ChallengeDetailleReponse>
+    @POST("?op=nbsolved")
+    fun checkChallenge(@Body id :ChallengeId , @Query("tooken") token:String):Call<CheckChallengeReponse>
 
 }
