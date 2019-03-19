@@ -6,6 +6,10 @@ import com.roacult.kero.oxxy.domain.functional.CouroutineDispatchers
 import com.roacult.kero.oxxy.domain.functional.Either
 import javax.inject.Inject
 
+/**
+ * i will invoke this use case when ever user start chalenge
+ * just insert user id and chalnge id in try table
+ * */
 
 
 class SetUserTry @Inject constructor(dispatchers: CouroutineDispatchers , val repo:MainRepository): EitherInteractor<Int,None,Failure.UserTryFailure>{

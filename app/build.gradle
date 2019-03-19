@@ -61,6 +61,7 @@ dependencies {
     implementation deps.android.shimmer
     implementation deps.android.helper
     implementation deps.android.expand_layou
+
     implementation deps.dagger.core
     implementation deps.dagger.support
     kapt deps.dagger.kaptCompiler

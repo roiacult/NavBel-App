@@ -20,3 +20,12 @@ fun <D> SortedList<D>.toList() : List<D>{
     }
     return list
 }
+
+val MutableMap<Long,Long>.questionSolved : Int
+    get() {
+        var count = 0
+        for (id in this){
+            if(id.value != -1L) count++
+        }
+        return count
+    }
