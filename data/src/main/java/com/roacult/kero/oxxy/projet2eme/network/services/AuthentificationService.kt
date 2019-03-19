@@ -17,5 +17,5 @@ fun checkUserMail(@Body mail:Mail , @Query(value = "tooken" ) key:String):Call<M
     @POST("?op=login")
     fun logUserIn(@Body user:LoginParame , @Query(value = "tooken" ) key:String):Call<LoginResult>
     @POST("?op=reset")
-    fun resetePassword(@Body passwordParams: ResetPasswordParams, @Query(value = "tooken")key:String ):Call<Response>
+    fun resetePassword(@Body passwordParams: ResetPasswordParams, @Query(value = "tooken")key:String ):Call<Reponse>
 }

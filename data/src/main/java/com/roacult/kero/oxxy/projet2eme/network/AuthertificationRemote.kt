@@ -194,15 +194,16 @@ class AuthertificationRemote @Inject constructor( val service: AuthentificationS
      * this function will send a put request to the server to reset the password of the giving mail
      */
     suspend fun resetePassword(param:ResetPasswordParams):Either<Failure.ResetPasswordFailure , None> = suspendCoroutine {
-        service.resetePassword(param , token()).enqueue(object :Callback<com.roacult.kero.oxxy.projet2eme.network.entities.Response>{
-            override fun onFailure(call: Call<com.roacult.kero.oxxy.projet2eme.network.entities.Response>, t: Throwable) {
+        service.resetePassword(param , token()).enqueue(object :Callback<com.roacult.kero.oxxy.projet2eme.network.entities.Reponse>{
+            override fun onFailure(call: Call<com.roacult.kero.oxxy.projet2eme.network.entities.Reponse>, t: Throwable) {
                 it.resume(Either.Left(Failure.ResetPasswordFailure.OtherFailure(t)))
             }
 
-            override fun onResponse(call: Call<com.roacult.kero.oxxy.projet2eme.network.entities.Response>, response: Response<com.roacult.kero.oxxy.projet2eme.network.entities.Response>) {
+            override fun onResponse(call: Call<com.roacult.kero.oxxy.projet2eme.network.entities.Reponse>, response: Response<com.roacult.kero.oxxy.projet2eme.network.entities.Reponse>) {
                 if(response.body()?.reponse==1){
                     it.resume(Either.Right(None()))
                 }else{
+
                     it.resume(Either.Left(Failure.ResetPasswordFailure.OperationFailed()))
                 }
             }
