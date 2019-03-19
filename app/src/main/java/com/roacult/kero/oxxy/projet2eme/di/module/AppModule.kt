@@ -13,7 +13,7 @@ import com.roacult.kero.oxxy.projet2eme.utils.schedulers.AppCoroutineDispatchers
 import com.roacult.kero.oxxy.projet2eme.utils.schedulers.AppRxSchedulersImpl
 import javax.inject.Singleton
 
-@Module
+@Module(includes = [AppModuleBinds::class])
 class AppModule {
     @Provides
     @Singleton

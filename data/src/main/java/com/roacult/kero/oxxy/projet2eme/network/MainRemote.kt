@@ -77,7 +77,10 @@ class MainRemote @Inject constructor(private val service :MainService) {
                reponse.reponse==-1-> it.resume(Either.Left(Failure.GetChalengeDetailsFailure.ChallengeAlreadySolved))
                reponse.reponse==1->if((reponse.questions==null) or (reponse.resource==null))
                    it.resume(Either.Left(Failure.GetChalengeDetailsFailure.OtherFailrue(Throwable("reponse incorrect"))))
-               else it.resume(Either.Right(ChalengeDetailles(reponse.id!! , reponse.time!! , reponse.resource?.fromRessourceToPair()!! , reponse.questions?.mapToQuestion()!!)))
+               else it.resume(Either.Right(ChalengeDetailles(id
+                   , reponse.time!! ,
+                   reponse.resource?.fromRessourceToPair()!! ,
+                   reponse.questions?.mapToQuestion()!!)))
                reponse.reponse== 2-> it.resume(Either.Left(Failure.GetChalengeDetailsFailure.UserBannedTemp))
            }
        }
@@ -136,7 +139,7 @@ class MainRemote @Inject constructor(private val service :MainService) {
            if(response.body()?.reponse==1){
                it.resume(Either.Right(None()))
            }else{
-               it.resume(Either.Left(Failure.UserTryFailure.OperationFailed))
+               it.resume(Either.Left(Failure.UserTryFailure.ChallengeAlreadySolved))
            }
             }
         })

@@ -59,7 +59,7 @@ sealed class Failure {
     }
 
     sealed class UserTryFailure : Failure() {
-        object OperationFailed:UserTryFailure()
+        object ChallengeAlreadySolved:UserTryFailure()
         class OtherFailure(val t:Throwable):UserTryFailure()
     }
 }
