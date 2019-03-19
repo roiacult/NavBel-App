@@ -19,16 +19,7 @@ import kotlin.coroutines.suspendCoroutine
 import android.graphics.Bitmap
 import com.roacult.kero.oxxy.domain.interactors.*
 import com.roacult.kero.oxxy.projet2eme.network.entities.*
-import com.roacult.kero.oxxy.projet2eme.utils.toHexString
-import id.zelory.compressor.Compressor
-import io.reactivex.BackpressureStrategy
-import io.reactivex.Completable
-import io.reactivex.Observable
-import io.reactivex.subjects.BehaviorSubject
 import java.io.ByteArrayOutputStream
-import java.security.MessageDigest
-import java.util.concurrent.Future
-import java.util.concurrent.TimeUnit
 
 
 /**
@@ -203,12 +194,12 @@ class AuthertificationRemote @Inject constructor( val service: AuthentificationS
      * this function will send a put request to the server to reset the password of the giving mail
      */
     suspend fun resetePassword(param:ResetPasswordParams):Either<Failure.ResetPasswordFailure , None> = suspendCoroutine {
-        service.resetePassword(param , token()).enqueue(object :Callback<Reponse>{
-            override fun onFailure(call: Call<Reponse>, t: Throwable) {
+        service.resetePassword(param , token()).enqueue(object :Callback<com.roacult.kero.oxxy.projet2eme.network.entities.Response>{
+            override fun onFailure(call: Call<com.roacult.kero.oxxy.projet2eme.network.entities.Response>, t: Throwable) {
                 it.resume(Either.Left(Failure.ResetPasswordFailure.OtherFailure(t)))
             }
 
-            override fun onResponse(call: Call<Reponse>, response: Response<Reponse>) {
+            override fun onResponse(call: Call<com.roacult.kero.oxxy.projet2eme.network.entities.Response>, response: Response<com.roacult.kero.oxxy.projet2eme.network.entities.Response>) {
                 if(response.body()?.reponse==1){
                     it.resume(Either.Right(None()))
                 }else{

@@ -3,6 +3,7 @@ package com.roacult.kero.oxxy.projet2eme.repositories
 import com.roacult.kero.oxxy.domain.MainRepository
 import com.roacult.kero.oxxy.domain.exception.Failure
 import com.roacult.kero.oxxy.domain.functional.Either
+import com.roacult.kero.oxxy.domain.interactors.None
 import com.roacult.kero.oxxy.domain.modules.ChalengeDetailles
 import com.roacult.kero.oxxy.domain.modules.ChalengeGlobale
 import com.roacult.kero.oxxy.projet2eme.local.MainLocal
@@ -51,5 +52,9 @@ return remote.getChallengeDetaille(challengeId)
 
     override fun clearObservable() {
         remote.clear()
+    }
+
+    override suspend fun setUserTry(challengeId: Int): Either<Failure.UserTryFailure, None> {
+            return remote.setUserTry(local.getUserId() , challengeId)
     }
 }

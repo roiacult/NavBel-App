@@ -3,6 +3,7 @@ package com.roacult.kero.oxxy.projet2eme.network
 import android.util.Log
 import com.roacult.kero.oxxy.domain.exception.Failure
 import com.roacult.kero.oxxy.domain.functional.Either
+import com.roacult.kero.oxxy.domain.interactors.None
 import com.roacult.kero.oxxy.domain.modules.ChalengeDetailles
 import com.roacult.kero.oxxy.domain.modules.ChalengeGlobale
 import com.roacult.kero.oxxy.projet2eme.network.entities.*
@@ -32,7 +33,7 @@ class MainRemote @Inject constructor(private val service :MainService) {
      * this will be the bucket where we put all of ou observable
      * and then we clear them when we dont need them
      */
-    val compositeDisposable = CompositeDisposable()
+   private  val compositeDisposable = CompositeDisposable()
 
     /**
      * so this function will help us request for the challenge untried by the user defined with the userID given
@@ -118,5 +119,22 @@ class MainRemote @Inject constructor(private val service :MainService) {
      */
     fun clear(){
         compositeDisposable.clear()
+    }
+    suspend fun setUserTry(userId :Long , challengeId:Int ):Either<Failure.UserTryFailure,None> = suspendCoroutine{
+        service.setTryChallenge(SetUserTry(userId , challengeId), token()).enqueue(object :Callback<SetUserResponse>{
+            override fun onFailure(call: Call<SetUserResponse>, t: Throwable) {
+                it.resume(Either.Left(Failure.UserTryFailure.OtherFailure(t))) }
+
+            override fun onResponse(call: Call<SetUserResponse>, response: Response<SetUserResponse>) {
+           if(response.body()?.reponse==1){
+               it.resume(Either.Right(None()))
+           }else{
+               it.resume(Either.Left(Failure.UserTryFailure.OperationFailed))
+           }
+            }
+        })
+
+
+
     }
 }

@@ -59,6 +59,7 @@ sealed class Failure {
     }
 
     sealed class UserTryFailure : Failure() {
-        //TODO
+        object OperationFailed:UserTryFailure()
+        class OtherFailure(val t:Throwable):UserTryFailure()
     }
 }
