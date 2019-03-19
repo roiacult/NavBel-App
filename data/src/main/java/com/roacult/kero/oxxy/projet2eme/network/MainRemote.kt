@@ -120,6 +120,13 @@ class MainRemote @Inject constructor(private val service :MainService) {
     fun clear(){
         compositeDisposable.clear()
     }
+
+    /**
+     * this function will lunch a post request to the server teling him that the user withe
+     * @param userId has tried one time in the challenge with the
+     * @param challengeId so he cant retry next time
+     *
+     */
     suspend fun setUserTry(userId :Long , challengeId:Int ):Either<Failure.UserTryFailure,None> = suspendCoroutine{
         service.setTryChallenge(SetUserTry(userId , challengeId), token()).enqueue(object :Callback<SetUserResponse>{
             override fun onFailure(call: Call<SetUserResponse>, t: Throwable) {
