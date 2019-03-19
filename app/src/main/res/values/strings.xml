@@ -122,4 +122,6 @@
     <string name="chalneg_solved">challenge solved!!</string>
     <string name="continue_challenge">continue</string>
     <string name="time_finish">time finisg!!</string>
+    <string name="chalenge_solved">chalnge allredy solved !! plese try on another chanlenge</string>
+    <string name="try_auhet_fail">some thing went wrong please check your internet connection and try again</string>
 </resources>

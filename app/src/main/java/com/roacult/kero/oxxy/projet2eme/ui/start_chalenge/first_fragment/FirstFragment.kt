@@ -11,6 +11,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.roacult.kero.oxxy.domain.exception.Failure
+import com.roacult.kero.oxxy.domain.interactors.None
 import com.roacult.kero.oxxy.domain.modules.ChalengeDetailles
 import com.roacult.kero.oxxy.domain.modules.ChalengeGlobale
 import com.roacult.kero.oxxy.projet2eme.R
@@ -24,8 +25,6 @@ import com.roacult.kero.oxxy.projet2eme.utils.Success
 import com.roacult.kero.oxxy.projet2eme.utils.Fail
 import com.roacult.kero.oxxy.projet2eme.utils.extension.visible
 import com.roacult.kero.oxxy.projet2eme.utils.extension.invisible
-
-const val PERMITION_EXTRENAL_STORAGE = 145368
 
 class FirstFragment : BaseFragment(){
 
@@ -47,6 +46,7 @@ class FirstFragment : BaseFragment(){
 
         viewModel.observe(this){
             handleChelengeDetailesresult(it.getChalengeDetailles)
+            it.startChalenge?.apply{handleStartChalengeReesult(this)}
         }
 
         return binding.root
@@ -70,6 +70,29 @@ class FirstFragment : BaseFragment(){
                 }
             }
         }
+    }
+
+    private fun handleStartChalengeReesult(async: Async<None>) {
+        when (async){
+            is Loading -> showLoadingInButton(true)
+            is Fail<*,*> -> {
+                showLoadingInButton(false)
+                when(async.error){
+                    is Failure.UserTryFailure.ChallengeAlreadySolved -> onError(R.string.chalenge_solved)
+                    is Failure.UserTryFailure.OtherFailure -> onError(R.string.try_auhet_fail)
+                }
+            }
+            is Success -> {
+                showLoadingInButton(false)
+                callback.start()
+            }
+        }
+    }
+
+    private fun showLoadingInButton(show : Boolean) {
+        binding.start.isClickable = !show
+        if(show) binding.loadingFab.show()
+        else binding.loadingFab.hide()
     }
 
     private fun showFaile(msg: Int) {
@@ -166,5 +189,6 @@ class FirstFragment : BaseFragment(){
         fun saveData(chalengeGlobale: ChalengeGlobale)
         fun startChalenge()
         fun isItFirstTime(): Boolean
+        fun start()
     }
 }

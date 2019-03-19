@@ -4,6 +4,7 @@ import com.roacult.kero.oxxy.domain.MainRepository
 import com.roacult.kero.oxxy.domain.exception.Failure
 import com.roacult.kero.oxxy.domain.functional.CouroutineDispatchers
 import com.roacult.kero.oxxy.domain.functional.Either
+import kotlinx.coroutines.delay
 import javax.inject.Inject
 
 /**
@@ -17,6 +18,11 @@ class SetUserTry @Inject constructor(dispatchers: CouroutineDispatchers , val re
     override val ResultDispatcher= dispatchers.main
 
     override suspend fun invoke(executeParams: Int): Either<Failure.UserTryFailure, None> {
-return repo.setUserTry(executeParams)
-     }
+
+        //TODO don't forget this!!
+
+        delay(3000)
+        return Either.Right(None())
+        //return repo.setUserTry(executeParams)
+    }
 }
