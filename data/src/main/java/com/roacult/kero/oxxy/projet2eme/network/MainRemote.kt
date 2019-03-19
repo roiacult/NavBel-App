@@ -8,6 +8,7 @@ import com.roacult.kero.oxxy.domain.modules.ChalengeGlobale
 import com.roacult.kero.oxxy.projet2eme.network.entities.*
 import com.roacult.kero.oxxy.projet2eme.network.services.MainService
 import com.roacult.kero.oxxy.projet2eme.utils.fromRessourceToPair
+import com.roacult.kero.oxxy.projet2eme.utils.mapToQuestion
 import com.roacult.kero.oxxy.projet2eme.utils.token
 import io.reactivex.BackpressureStrategy
 import io.reactivex.Observable
@@ -75,7 +76,7 @@ class MainRemote @Inject constructor(private val service :MainService) {
                reponse.reponse==-1-> it.resume(Either.Left(Failure.GetChalengeDetailsFailure.ChallengeAlreadySolved))
                reponse.reponse==1->if((reponse.questions==null) or (reponse.resource==null))
                    it.resume(Either.Left(Failure.GetChalengeDetailsFailure.OtherFailrue(Throwable("reponse incorrect"))))
-               else it.resume(Either.Right(ChalengeDetailles(reponse.id!! , reponse.time!! , reponse.resource?.fromRessourceToPair()!! , reponse.questions!!)))
+               else it.resume(Either.Right(ChalengeDetailles(reponse.id!! , reponse.time!! , reponse.resource?.fromRessourceToPair()!! , reponse.questions?.mapToQuestion()!!)))
                reponse.reponse== 2-> it.resume(Either.Left(Failure.GetChalengeDetailsFailure.UserBannedTemp))
            }
        }
