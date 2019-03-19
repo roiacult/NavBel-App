@@ -5,21 +5,24 @@ import androidx.cardview.widget.CardView
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.CheckBox
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewpager.widget.PagerAdapter
+import com.roacult.kero.oxxy.domain.modules.Option
 import com.roacult.kero.oxxy.domain.modules.Question
 import com.roacult.kero.oxxy.projet2eme.R
 import com.roacult.kero.oxxy.projet2eme.base.BaseRecyclerAdapter
 import com.roacult.kero.oxxy.projet2eme.databinding.StartChalengeFragment2CardBinding
+import com.roacult.kero.oxxy.projet2eme.ui.start_chalenge.StartChelngeViewModel
 import kotlinx.android.synthetic.main.start_chalenge_pager_card.view.*
 
 
 class CardPagerAdapter constructor(private val questions : ArrayList<Question>,
                                    private val views : ArrayList<CardView?>,
-                                   private val getCurentPos: () ->Int/* ,
-                                   private val setAnswer : (Int,Int) -> Unit*/) : PagerAdapter() {
+                                   private val getCurentPos: () ->Int ,
+                                   private val viewModel :StartChelngeViewModel) : PagerAdapter() {
 
     //constructor for creating emmpty adapter
-    constructor(getCurentPos: () ->Int) : this(ArrayList<Question>(),ArrayList<CardView?>(),getCurentPos)
+    constructor(getCurentPos: () ->Int,vieModel :StartChelngeViewModel) : this(ArrayList<Question>(),ArrayList<CardView?>(),getCurentPos,vieModel )
 
     /**
      * this field will hold the elevation
@@ -42,7 +45,7 @@ class CardPagerAdapter constructor(private val questions : ArrayList<Question>,
     override fun instantiateItem(container: ViewGroup, position: Int): Any {
         val view = LayoutInflater.from(container.context).inflate(R.layout.start_chalenge_pager_card,container,false)
         container.addView(view)
-        upDateView(view,position)
+        upDateView(view,questions[position])
         val cardView = view.pager_card
         if(baseElevation == -1f) baseElevation =cardView.elevation
             if(position != getCurentPos()) {
@@ -62,32 +65,55 @@ class CardPagerAdapter constructor(private val questions : ArrayList<Question>,
 
     override fun isViewFromObject(view: View, obj: Any): Boolean = view == obj
 
-    private fun upDateView(view: View, position: Int) {
-        val  question = questions[position]
-        //TODO don't forget update view here
-        //TODO creat adapter recycler for eache page
+    private fun upDateView(view: View, question: Question) {
         view.question.text = question.question
-//        view.options_recycler.
+        view.options_recycler.adapter = OptionRecyclerAdapter(question)
+        view.options_recycler.layoutManager = LinearLayoutManager(view.context)
+        view.options_recycler.setHasFixedSize(true)
     }
 
-    inner class OptionRecyclerAdapter
-        : BaseRecyclerAdapter<String, StartChalengeFragment2CardBinding>(String::class.java,R.layout.start_chalenge_fragment2_card) {
+    inner class OptionRecyclerAdapter(val question : Question)
+        : BaseRecyclerAdapter<Option, StartChalengeFragment2CardBinding>(Option::class.java,R.layout.start_chalenge_fragment2_card) {
 
-        private var lastSelected : CheckBox? = null
+        private var lastChecked : CheckBox? = null
 
-        override fun areItemsTheSame(item1: String, item2: String) = item1 == item2
-        override fun compare(o1: String, o2: String)=o1.compareTo(o2)
-        override fun areContentsTheSame(oldItem: String, newItem: String) =oldItem == newItem
+        init{ addAll(question.options) }
 
-        override fun upDateView(item: String, binding: StartChalengeFragment2CardBinding) {
-            binding.checkBox.setText(item)
-            binding.checkBox.setOnClickListener {
-                if(binding.checkBox  == lastSelected){
-                    //deselct last item
-                }
+        override fun areItemsTheSame(item1: Option, item2: Option) = item1.id == item2.id
+
+        //we don't want to sort options so we retur 0
+        //means all options have same priority
+        override fun compare(o1: Option, o2: Option) = 0
+
+        override fun areContentsTheSame(oldItem: Option, newItem: Option) = oldItem.option == newItem.option
+
+        override fun upDateView(item: Option, binding: StartChalengeFragment2CardBinding) {
+            binding.checkBox.text = item.option
+
+            if(viewModel.answers.get(question.id) == item.id){
+
+                //if user alredy select this option
+
+                lastChecked = binding.checkBox
+                lastChecked?.isChecked = true
             }
+
+            binding.checkBox.setOnCheckedChangeListener { _,_ ->
+                if(binding.checkBox == lastChecked){
+                    //this mean user deselct his answer
+                    //set that user didn't answer this yet
+                    viewModel.setAnswer(question.id,-1L)
+                    lastChecked = null
+                    return@setOnCheckedChangeListener
+                }
+
+                viewModel.setAnswer(question.id,item.id)
+                lastChecked?.isChecked = false
+                lastChecked = binding.checkBox
+            }
+
         }
 
-        override fun onClickOnItem(item: String, view: View?, binding: StartChalengeFragment2CardBinding, adapterPostion: Int) {}
+        override fun onClickOnItem(item: Option, view: View?, binding: StartChalengeFragment2CardBinding, adapterPostion: Int) {}
     }
 }

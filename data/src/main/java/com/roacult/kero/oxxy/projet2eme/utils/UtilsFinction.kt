@@ -10,8 +10,8 @@ fun List<Ressource>.fromRessourceToPair():List<Pair<String , String>> = this.map
 }
 fun List<QuestionReponse>.mapToQuestion():List<Question>{
    return  this.map {
-        Question(it.id, it.question , it.options.map {
-            Option(it.id , it.trueoption)
+        Question(it.id.toLong(), it.question , it.options.map {
+            Option(it.id.toLong() , it.trueoption)
         })
     }
 }

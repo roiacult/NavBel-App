@@ -30,7 +30,8 @@ class SecondFragment :BaseFragment() {
         initialize()
         viewModel.observe(this){
             it.page.getContentIfNotHandled()?.apply { setUpPage(this) }
-            setSolvedNumbre(it.solved)
+            setSolvedNumbre(it.solvedBy)
+            setSolving(it.questionSolved)
         }
 
         return binding.root
@@ -39,7 +40,7 @@ class SecondFragment :BaseFragment() {
     private fun initialize() {
         viewModel.withState {
             val detailles = (it.getChalengeDetailles as Success)()
-            pagerAdapter= CardPagerAdapter(binding.questionsContainer::getCurrentItem)
+            pagerAdapter= CardPagerAdapter(binding.questionsContainer::getCurrentItem,viewModel)
             pagerAdapter.addAllCards(detailles.questions)
             val animationPager = ScallingPagerAnimation(pagerAdapter,viewModel::setPage)
             binding.questionsContainer.addOnPageChangeListener(animationPager)
@@ -77,6 +78,10 @@ class SecondFragment :BaseFragment() {
         if(solved >= 5) {
             showDialogueFinish(R.string.chalneg_solved,R.string.chalneg_solved_msg)
         }
+    }
+
+    private fun setSolving(questionSolved: Int) {
+        binding.queSolved.text = questionSolved.toString()+"/"+viewModel.size.toString()
     }
 
     private fun showDialogueFinish(@StringRes title : Int ,@StringRes msg : Int){

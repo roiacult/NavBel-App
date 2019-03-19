@@ -48,7 +48,6 @@ versions.compresser= '2.1.0'
 versions.shimmer = '0.4.0'
 versions.helper ='1.12.0'
 versions.expande_layout = '2.9.2'
-versions.custom_bottom_bar  ='0.1'
 
 
 def deps = [:]
@@ -69,7 +68,6 @@ android.compressor = "id.zelory:compressor:$versions.compresser"
 android.shimmer = "com.facebook.shimmer:shimmer:$versions.shimmer"
 android.helper ="com.getkeepsafe.taptargetview:taptargetview:$versions.helper"
 android.expand_layou = "net.cachapa.expandablelayout:expandablelayout:$versions.expande_layout"
-android.custom_bottom_bar = "com.github.iammert:ReadableBottomBar:$versions.custom_bottom_bar"
 deps.android = android
 
 
