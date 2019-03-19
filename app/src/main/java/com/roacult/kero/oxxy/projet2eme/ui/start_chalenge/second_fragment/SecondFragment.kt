@@ -81,7 +81,7 @@ class SecondFragment :BaseFragment() {
     }
 
     private fun setSolving(questionSolved: Int) {
-        binding.queSolved.text = questionSolved.toString()+"/"+viewModel.size.toString()
+        binding.quesSolved.text = questionSolved.toString()+"/"+viewModel.size.toString()
     }
 
     private fun showDialogueFinish(@StringRes title : Int ,@StringRes msg : Int){
