@@ -1,6 +1,7 @@
 package com.roacult.kero.oxxy.projet2eme.ui.start_chalenge
 
 import com.roacult.kero.oxxy.domain.exception.Failure
+import com.roacult.kero.oxxy.domain.interactors.CheckChallenge
 import com.roacult.kero.oxxy.domain.interactors.GetChalengeDetaills
 import com.roacult.kero.oxxy.domain.interactors.SetUserTry
 import com.roacult.kero.oxxy.domain.interactors.launchInteractor
@@ -17,7 +18,8 @@ import com.roacult.kero.oxxy.projet2eme.utils.extension.questionSolved
 import javax.inject.Inject
 
 class StartChelngeViewModel @Inject constructor(private val useCase : GetChalengeDetaills,
-                                                private val tryUseCase : SetUserTry) :
+                                                private val tryUseCase : SetUserTry,
+                                                private val checkUseCase : CheckChallenge) :
     BaseViewModel<StartChalengeState>(StartChalengeState(Event(STARTCHALENGE_FRAGMENT1),Loading(),null,Event(0),0,0)),
     FirstFragment.CallbackToViewModel {
 
@@ -60,6 +62,7 @@ class StartChelngeViewModel @Inject constructor(private val useCase : GetChaleng
 
     override fun startChalenge() {
         //set request to start fragment
+        setState{copy(startChalenge = Loading())}
         scope.launchInteractor(tryUseCase,chalengeGlobale.id){
             it.either({
                 setState{copy(startChalenge = Fail(it))}
@@ -72,6 +75,17 @@ class StartChelngeViewModel @Inject constructor(private val useCase : GetChaleng
     override fun start() {
         //go to second fragment
         setState { copy(selectedFragment =Event( STARTCHALENGE_FRAGMENT2 )) }
+        //now we should observe how many user solved
+        //this chalenge till now
+        launchSubjectInteractor(checkUseCase,chalengeGlobale.id,::CheckOnNext,{},::CheckOnComplte)
+
+    }
+    private fun CheckOnNext(numbre: Int) {
+        setState { copy(solvedBy = numbre) }
+    }
+
+    private fun CheckOnComplte() {
+        setState { copy(solvedBy = 5) }
     }
 
     fun setPage(page : Int){

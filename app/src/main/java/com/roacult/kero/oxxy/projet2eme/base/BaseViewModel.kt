@@ -8,7 +8,10 @@ import androidx.lifecycle.ViewModel
 import com.roacult.kero.oxxy.domain.exception.Failure
 import com.roacult.kero.oxxy.domain.interactors.ObservableCompleteInteractor
 import com.roacult.kero.oxxy.domain.interactors.ObservableInteractor
+import com.roacult.kero.oxxy.domain.interactors.SubjectInteractor
 import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.disposables.Disposable
+import io.reactivex.rxkotlin.addTo
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -20,9 +23,9 @@ abstract  class BaseViewModel<S:State>(initialState:S): androidx.lifecycle.ViewM
         liveData.value=initialState
         liveData
     }
-   private val job = Job()
+    private val job = Job()
     protected val scope  = CoroutineScope(Dispatchers.Main+job)
-     private  val disposable:CompositeDisposable = CompositeDisposable()
+    protected  val disposable:CompositeDisposable = CompositeDisposable()
 
     override fun onCleared() {
         super.onCleared()
@@ -41,6 +44,19 @@ abstract  class BaseViewModel<S:State>(initialState:S): androidx.lifecycle.ViewM
     }
     fun withState(chenger :(s:S)->Unit){
         chenger(state.value!!)
+    }
+
+    protected fun <P,Type> launchSubjectInteractor(interactor : SubjectInteractor<Type,P>,
+                                                   param :P,
+                                                   onNext : (Type)->Unit,
+                                                   onError : (Throwable)->Unit,
+                                                   onComplete: () -> Unit) :Disposable{
+
+        val dis = interactor.observe(param,onNext,onError,onComplete)
+        disposable.add(dis)
+        // i return this in case i wanted to dispose only this one
+        //and keep auther disposable inside compositeDisposable
+        return dis
     }
 
     protected fun  <P, Type> launchObservableInteractor(interactor: ObservableInteractor<Type, P>, p:P, errorHandler :(Throwable)->Unit
