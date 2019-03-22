@@ -5,6 +5,7 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'io.fabric'
+apply plugin: 'com.google.gms.google-services'
 kapt {
     correctErrorTypes = true
 }
@@ -91,4 +92,6 @@ dependencies {
         transitive = true;
     }
     implementation 'com.instabug.library:instabug:8.1.2'
+    implementation 'com.google.firebase:firebase-core:16.0.1'
+    implementation 'com.google.firebase:firebase-messaging:17.4.0'
 }
