@@ -105,7 +105,7 @@ class MainRemote @Inject constructor(private val service :MainService) {
                     val reponse = response.body()
                     if(reponse!=null){
                         if(reponse.reponse==1){
-                            subject.onNext(reponse.numberSolved)
+                            subject.onNext(reponse.nbPersonSolved!!)
                         }else if(reponse.reponse==-1){
                             subject.onComplete()
                         }
