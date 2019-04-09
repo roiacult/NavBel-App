@@ -18,11 +18,8 @@ import com.roacult.kero.oxxy.projet2eme.R
 import com.roacult.kero.oxxy.projet2eme.base.BaseFragment
 import com.roacult.kero.oxxy.projet2eme.databinding.StartChalengeFragment1Binding
 import com.roacult.kero.oxxy.projet2eme.ui.start_chalenge.*
-import com.roacult.kero.oxxy.projet2eme.utils.Async
+import com.roacult.kero.oxxy.projet2eme.utils.*
 import com.squareup.picasso.Picasso
-import com.roacult.kero.oxxy.projet2eme.utils.Loading
-import com.roacult.kero.oxxy.projet2eme.utils.Success
-import com.roacult.kero.oxxy.projet2eme.utils.Fail
 import com.roacult.kero.oxxy.projet2eme.utils.extension.visible
 import com.roacult.kero.oxxy.projet2eme.utils.extension.invisible
 

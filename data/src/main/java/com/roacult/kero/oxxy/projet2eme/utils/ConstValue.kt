@@ -16,3 +16,5 @@ const val RANK_TABLE= "RANKTABLE"
 const val USER_DATE = "DATE"
 const val NQSOLVED="QUESTION_NUMBER_SOLVED"
 const val CHALLENGE_NSOLVED= "Challnge_nsolved"
+
+const val LOG_TAG="fucking_error"

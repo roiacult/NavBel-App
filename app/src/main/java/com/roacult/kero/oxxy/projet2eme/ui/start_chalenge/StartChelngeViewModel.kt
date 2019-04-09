@@ -1,25 +1,20 @@
 package com.roacult.kero.oxxy.projet2eme.ui.start_chalenge
 
 import com.roacult.kero.oxxy.domain.exception.Failure
-import com.roacult.kero.oxxy.domain.interactors.CheckChallenge
-import com.roacult.kero.oxxy.domain.interactors.GetChalengeDetaills
-import com.roacult.kero.oxxy.domain.interactors.SetUserTry
-import com.roacult.kero.oxxy.domain.interactors.launchInteractor
+import com.roacult.kero.oxxy.domain.interactors.*
 import com.roacult.kero.oxxy.domain.modules.ChalengeDetailles
 import com.roacult.kero.oxxy.domain.modules.ChalengeGlobale
 import com.roacult.kero.oxxy.domain.modules.Question
 import com.roacult.kero.oxxy.projet2eme.base.BaseViewModel
 import com.roacult.kero.oxxy.projet2eme.ui.start_chalenge.first_fragment.FirstFragment
-import com.roacult.kero.oxxy.projet2eme.utils.Loading
-import com.roacult.kero.oxxy.projet2eme.utils.Success
-import com.roacult.kero.oxxy.projet2eme.utils.Fail
-import com.roacult.kero.oxxy.projet2eme.utils.Event
+import com.roacult.kero.oxxy.projet2eme.utils.*
 import com.roacult.kero.oxxy.projet2eme.utils.extension.questionSolved
 import javax.inject.Inject
 
 class StartChelngeViewModel @Inject constructor(private val useCase : GetChalengeDetaills,
                                                 private val tryUseCase : SetUserTry,
-                                                private val checkUseCase : CheckChallenge) :
+                                                private val checkUseCase : CheckChallenge,
+                                                private val submit : SubmitAnswer) :
     BaseViewModel<StartChalengeState>(StartChalengeState(Event(STARTCHALENGE_FRAGMENT1),Loading(),null,Event(0),0,0)),
     FirstFragment.CallbackToViewModel {
 
@@ -27,7 +22,7 @@ class StartChelngeViewModel @Inject constructor(private val useCase : GetChaleng
     val answers = mutableMapOf<Long,Long>()
 
     var firstTime = true
-    var lastTime : Int = 0
+    var lastTime : Long = 0
     var size = 0
 
     override fun isItFirstTime() = firstTime
@@ -49,7 +44,7 @@ class StartChelngeViewModel @Inject constructor(private val useCase : GetChaleng
 
 
     private fun handleSuccesss(chalengeDetailles: ChalengeDetailles) {
-        lastTime = chalengeDetailles.time
+        lastTime = chalengeDetailles.time.toLong()
         size = chalengeDetailles.questions.size
         //init map of answers
         for(question in chalengeDetailles.questions){ answers[question.id] = -1 }
@@ -74,11 +69,15 @@ class StartChelngeViewModel @Inject constructor(private val useCase : GetChaleng
 
     override fun start() {
         //go to second fragment
-        setState { copy(selectedFragment =Event( STARTCHALENGE_FRAGMENT2 )) }
+        withState {
+            val selectedFragmeent = it.selectedFragment.peekContent()
+            if(selectedFragmeent != STARTCHALENGE_FRAGMENT2){
+                setState { copy(selectedFragment =Event( STARTCHALENGE_FRAGMENT2 )) }
+            }
+        }
         //now we should observe how many user solved
         //this chalenge till now
-        launchObservableCompletedInteractor(checkUseCase,chalengeGlobale.id,{},::CheckOnNext, ::CheckOnComplte)
-
+        launchObservableCompletedInteractor(checkUseCase,chalengeGlobale.id,{},::CheckOnNext,::CheckOnComplte)
     }
     private fun CheckOnNext(numbre: Int) {
         setState { copy(solvedBy = numbre) }
@@ -96,5 +95,21 @@ class StartChelngeViewModel @Inject constructor(private val useCase : GetChaleng
     fun setAnswer(questionsId :Long ,optionId :Long){
         answers[questionsId] = optionId
         setState { copy(questionSolved = answers.questionSolved) }
+    }
+
+    override fun onCleared() {
+        checkUseCase.clear()
+        super.onCleared()
+    }
+
+    fun submitAnswer() {
+        setState { copy(submition = Loading()) }
+        scope.launchInteractor(submit,answers){
+            it.either({
+                setState{copy(submition = Fail(it))}
+            },{
+                setState { copy(submition = Success(it)) }
+            })
+        }
     }
 }

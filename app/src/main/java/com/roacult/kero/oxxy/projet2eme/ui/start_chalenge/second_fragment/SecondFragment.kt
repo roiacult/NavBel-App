@@ -2,6 +2,7 @@ package com.roacult.kero.oxxy.projet2eme.ui.start_chalenge.second_fragment
 
 import android.content.res.Configuration
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,11 +10,16 @@ import androidx.annotation.StringRes
 import androidx.appcompat.app.AlertDialog
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProviders
+import com.roacult.kero.oxxy.domain.interactors.SubmitionResult
 import com.roacult.kero.oxxy.projet2eme.R
 import com.roacult.kero.oxxy.projet2eme.base.BaseFragment
 import com.roacult.kero.oxxy.projet2eme.ui.start_chalenge.StartChelngeViewModel
 import com.roacult.kero.oxxy.projet2eme.databinding.StartChalengeFragmnt2Binding
+import com.roacult.kero.oxxy.projet2eme.utils.Async
+import com.roacult.kero.oxxy.projet2eme.utils.LOG_TAG
+import com.roacult.kero.oxxy.projet2eme.utils.Loading
 import com.roacult.kero.oxxy.projet2eme.utils.Success
+import com.roacult.kero.oxxy.projet2eme.utils.extension.questionSolved
 import com.roacult.kero.oxxy.projet2eme.utils.extension.setEnable
 
 class SecondFragment :BaseFragment() {
@@ -32,12 +38,20 @@ class SecondFragment :BaseFragment() {
             it.page.getContentIfNotHandled()?.apply { setUpPage(this) }
             setSolvedNumbre(it.solvedBy)
             setSolving(it.questionSolved)
+            handleSubmitionResult(it.submition)
         }
 
         return binding.root
     }
 
+//    private fun handleSubmitionResult(submition: Async<SubmitionResult>) {
+//        when(submition){
+//            is Loading ->
+//        }
+//    }
+
     private fun initialize() {
+        Log.v(LOG_TAG,"starting init")
         viewModel.withState {
             val detailles = (it.getChalengeDetailles as Success)()
             pagerAdapter= CardPagerAdapter(binding.questionsContainer::getCurrentItem,viewModel)
@@ -46,7 +60,7 @@ class SecondFragment :BaseFragment() {
             binding.questionsContainer.addOnPageChangeListener(animationPager)
             binding.questionsContainer.adapter = pagerAdapter
         }
-        binding.time.startTimer(viewModel.lastTime.toLong()){
+        binding.time.startTimer(viewModel.lastTime){
             showDialogueFinish(R.string.time_finish,R.string.time_finish_msg)
             //TODO unsubscribe observer
         }
@@ -70,7 +84,13 @@ class SecondFragment :BaseFragment() {
     }
 
     private fun performSubmition() {
-        showMessage("//TODO performing submition")
+        val answers = viewModel.answers
+        if(answers.questionSolved == viewModel.size){
+            //TODO start submition fragments
+//            viewModel.submitAnswer()
+        }else{
+            onError("please answer all questions first!!")
+        }
     }
 
     private fun setSolvedNumbre(solved: Int) {
@@ -98,6 +118,6 @@ class SecondFragment :BaseFragment() {
 
     override fun onConfigurationChanged(newConfig: Configuration?) {
         super.onConfigurationChanged(newConfig)
-        viewModel.lastTime = binding.time.time.toInt()
+        viewModel.lastTime = binding.time.time
     }
 }
