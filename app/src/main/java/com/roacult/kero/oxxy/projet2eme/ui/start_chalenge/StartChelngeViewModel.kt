@@ -15,7 +15,7 @@ class StartChelngeViewModel @Inject constructor(private val useCase : GetChaleng
                                                 private val tryUseCase : SetUserTry,
                                                 private val checkUseCase : CheckChallenge,
                                                 private val submit : SubmitAnswer) :
-    BaseViewModel<StartChalengeState>(StartChalengeState(Event(STARTCHALENGE_FRAGMENT1),Loading(),null,Event(0),0,0)),
+    BaseViewModel<StartChalengeState>(StartChalengeState(Event(STARTCHALENGE_FRAGMENT1),Loading(),null,Event(0),0,0,null)),
     FirstFragment.CallbackToViewModel {
 
     lateinit var chalengeGlobale: ChalengeGlobale

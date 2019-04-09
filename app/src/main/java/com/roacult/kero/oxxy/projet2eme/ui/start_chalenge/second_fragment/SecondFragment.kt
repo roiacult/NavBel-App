@@ -38,7 +38,7 @@ class SecondFragment :BaseFragment() {
             it.page.getContentIfNotHandled()?.apply { setUpPage(this) }
             setSolvedNumbre(it.solvedBy)
             setSolving(it.questionSolved)
-            handleSubmitionResult(it.submition)
+//            handleSubmitionResult(it.submition)s
         }
 
         return binding.root
