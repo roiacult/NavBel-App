@@ -77,7 +77,7 @@ class StartChelngeViewModel @Inject constructor(private val useCase : GetChaleng
         setState { copy(selectedFragment =Event( STARTCHALENGE_FRAGMENT2 )) }
         //now we should observe how many user solved
         //this chalenge till now
-        launchSubjectInteractor(checkUseCase,chalengeGlobale.id,::CheckOnNext,{},::CheckOnComplte)
+        launchObservableCompletedInteractor(checkUseCase,chalengeGlobale.id,{},::CheckOnNext, ::CheckOnComplte)
 
     }
     private fun CheckOnNext(numbre: Int) {

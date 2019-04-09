@@ -6,7 +6,7 @@ import io.reactivex.Observable
 import javax.inject.Inject
 
 class CheckChallenge @Inject constructor(private val mainRepository: MainRepository, schedulers: AppRxSchedulers)
-    :ObservableInteractor<Int , Int >(schedulers) {
+    :ObservableCompleteInteractor<Int , Int >(schedulers) {
     override fun buildObservable(p: Int): Observable<Int> {
         return mainRepository.checkChallenge(p)
     }
