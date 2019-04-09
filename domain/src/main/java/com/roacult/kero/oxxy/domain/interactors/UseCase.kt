@@ -23,17 +23,6 @@ interface Interactor<in P , out R >{
 }
 abstract  class SubjectInteractor<Type  , in Params>(private val schedulers:AppRxSchedulers){
     private val subject = BehaviorSubject.create<Type>()
-
-//    private val compositeDisposeable = CompositeDisposable()
-
-    //we don't need composite disposable here
-    //we have one in view model and
-    //from there i will dispose
-    //and why the hell you create CompositeDisposable
-    // to dispose one Disposable !!!
-    //and also you forget onComplete
-    //and onFail (this is a general class)
-
     protected abstract fun buildObservable(p:Params):Observable<Type>
     fun observe(p:Params ,  onNext:(t:Type)->Unit,onFail : (Throwable)->Unit,onComplte : ()->Unit) : Disposable{
         buildObservable(p).subscribe(subject)
@@ -41,12 +30,6 @@ abstract  class SubjectInteractor<Type  , in Params>(private val schedulers:AppR
             .observeOn(schedulers.main)
             .subscribe(onNext,onFail,onComplte)
     }
-
-    //check launchSubject in BaseViewModel class
-
-//    fun dispose(){
-//        compositeDisposeable.clear()
-//    }
 }
 
 abstract class ObservableInteractor<Type , in Params>(private val schedulers:AppRxSchedulers){

@@ -19,10 +19,10 @@ class SetUserTry @Inject constructor(dispatchers: CouroutineDispatchers , val re
 
     override suspend fun invoke(executeParams: Int): Either<Failure.UserTryFailure, None> {
 
-        //TODO don't forget this!!
-
-        delay(3000)
-        return Either.Right(None())
-        //return repo.setUserTry(executeParams)
+//        //TODO don't forget this!!
+//
+//        delay(3000)
+//        return Either.Right(None())
+        return repo.setUserTry(executeParams)
     }
 }
