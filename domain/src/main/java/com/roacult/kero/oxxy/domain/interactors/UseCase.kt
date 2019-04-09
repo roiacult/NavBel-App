@@ -26,7 +26,7 @@ abstract  class SubjectInteractor<Type  , in Params>(private val schedulers:AppR
     protected abstract fun buildObservable(p:Params):Observable<Type>
     fun observe(p:Params ,  onNext:(t:Type)->Unit,onFail : (Throwable)->Unit,onComplte : ()->Unit) : Disposable{
         buildObservable(p).subscribe(subject)
-        return subject.subscribeOn(schedulers.computation)
+        return subject.subscribeOn(schedulers.io)
             .observeOn(schedulers.main)
             .subscribe(onNext,onFail,onComplte)
     }

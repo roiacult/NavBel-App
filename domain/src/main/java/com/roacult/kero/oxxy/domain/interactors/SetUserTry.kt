@@ -21,8 +21,8 @@ class SetUserTry @Inject constructor(dispatchers: CouroutineDispatchers , val re
 
 //        //TODO don't forget this!!
 //
-//        delay(3000)
-//        return Either.Right(None())
-        return repo.setUserTry(executeParams)
+        delay(3000)
+        return Either.Right(None())
+//        return repo.setUserTry(executeParams)
     }
 }

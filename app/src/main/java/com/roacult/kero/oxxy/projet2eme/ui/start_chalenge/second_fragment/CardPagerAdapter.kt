@@ -90,10 +90,8 @@ class CardPagerAdapter constructor(private val questions : ArrayList<Question>,
         override fun upDateView(item: Option, binding: StartChalengeFragment2CardBinding) {
             binding.checkBox.text = item.option
 
-            if(viewModel.answers.get(question.id) == item.id){
-
+            if(viewModel.answers[question.id] == item.id){
                 //if user alredy select this option
-
                 lastChecked = binding.checkBox
                 lastChecked?.isChecked = true
             }
@@ -106,7 +104,6 @@ class CardPagerAdapter constructor(private val questions : ArrayList<Question>,
                     lastChecked = null
                     return@setOnCheckedChangeListener
                 }
-
                 viewModel.setAnswer(question.id,item.id)
                 lastChecked?.isChecked = false
                 lastChecked = binding.checkBox

@@ -62,4 +62,8 @@ sealed class Failure {
         object ChallengeAlreadySolved:UserTryFailure()
         class OtherFailure(val t:Throwable):UserTryFailure()
     }
+
+    sealed class SubmitionFailure : Failure(){
+        //TODO
+    }
 }
