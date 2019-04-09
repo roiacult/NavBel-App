@@ -16,7 +16,7 @@ interface MainService {
     @POST("?op=nbsolved")
     fun checkChallenge(@Body id :ChallengeId , @Query("tooken") token:String):Call<CheckChallengeReponse>
 
-    @POST("")
+    @POST("?op=trychallenge")
     fun setTryChallenge(@Body data :SetUserTry , @Query("tooken") token :String
     ):Call<SetUserResponse>
 
