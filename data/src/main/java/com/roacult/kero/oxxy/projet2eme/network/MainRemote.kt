@@ -98,7 +98,7 @@ class MainRemote @Inject constructor(private val service :MainService) {
           val observable = Observable.interval(30, TimeUnit.SECONDS).map {
             service.checkChallenge(ChallengeId(id) , token()).enqueue(object:Callback<CheckChallengeReponse>{
                 override fun onFailure(call: Call<CheckChallengeReponse>, t: Throwable) {
-                    Log.e("errr", "erorr happened")
+                    subject.onError(t)
                 }
 
                 override fun onResponse(call: Call<CheckChallengeReponse>, response: Response<CheckChallengeReponse>) {
