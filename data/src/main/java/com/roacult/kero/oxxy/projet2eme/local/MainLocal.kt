@@ -37,7 +37,7 @@ class MainLocal @Inject constructor( private val preferences: SharedPreferences)
 
 
     fun save(it: Int?) {
-    preferences.edit().putInt(CHALLENGE_NSOLVED, it?:0)
+    preferences.edit().putInt(CHALLENGE_NSOLVED, it?:0).commit()
     }
     fun getUserId():Long  = preferences.getLong(USER_ID , 0)
 }
