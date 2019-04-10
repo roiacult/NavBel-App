@@ -30,8 +30,8 @@ class SecondFragment :BaseFragment() {
     private val progressDialogue : ProgressDialog by lazy {
         ProgressDialog(context!!).apply {
             isIndeterminate = false
-            setTitle(R.string.subitting)
-            setMessage(R.string.subiting_msg)
+            setTitle(getString(R.string.subitting))
+            setMessage(getString(R.string.subiting_msg))
         }
     }
 
