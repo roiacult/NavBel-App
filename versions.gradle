@@ -77,6 +77,44 @@ android.circleProgress ="com.github.lzyzsd:circleprogress:$versions.circleProgre
 deps.android = android
 
 
+//
+//  /**
+//   * https://developer.android.com/testing */
+//  const val androidx_test_ext_junit: String = "androidx.test.ext:junit:" +
+//      Versions.androidx_test_ext
+//
+//  /**
+//   * https://developer.android.com/testing */
+//  const val androidx_test_ext_truth: String = "androidx.test.ext:truth:" +
+//      Versions.androidx_test_ext
+//
+//  /**
+//   * https://developer.android.com/testing */
+//  const val androidx_test_core: String = "androidx.test:core:" + Versions.androidx_test_core
+//
+//  /**
+//   * https://developer.android.com/testing */
+//  const val androidx_test_rules: String = "androidx.test:rules:" + Versions.androidx_test_rules
+//
+//  /**
+//   * https://developer.android.com/testing */
+//  const val androidx_test_runner: String = "androidx.test:runner:" + Versions.androidx_test_runner
+// /**
+//   * https://github.com/mockito/mockito */
+//  const val mockito_android: String = "org.mockito:mockito-android:" + Versions.org_mockito
+//
+//  /**
+//   * https://github.com/mockito/mockito */
+//  const val mockito_inline: String = "org.mockito:mockito-inline:" + Versions.org_mockito
+//
+//  /**
+//   * http://robolectric.org */
+//  const val robolectric: String = "org.robolectric:robolectric:" + Versions.robolectric
+
+
+//   * http://github.com/google/truth */
+//  const val com_google_truth_truth: String = "com.google.truth:truth:" +
+//      Versions.com_google_truth_truth
 def room = [:]
 room.runtime = "androidx.room:room-runtime:$versions.room"
 room.compiler = "androidx.room:room-compiler:$versions.room"
@@ -96,6 +134,9 @@ def test = [:]
 test.junit = "org.junit.jupiter:junit-jupiter-api:$versions.junit"
 test.kotlin_junit = "org.jetbrains.kotlin:kotlin-test-junit:$versions.kotlin"
 test.mockk = "io.mockk:mockk:1.8.9.kotlin13"
+test.espresso = "androidx.test.espresso:espresso-contrib:$versions.espresso"
+test.espresso_core = "androidx.test.espresso:espresso-core:$versions.espresso"
+
 deps.test = test
 def retrofit =[:]
 retrofit.core = "com.squareup.retrofit2:retrofit:$versions.retrofit"
@@ -106,6 +147,7 @@ retrofit.gson_retrofit = "com.squareup.retrofit2:converter-gson:$versions.retrof
 retrofit.okhttp3 = "com.squareup.okhttp3:okhttp:$versions.okhttp"
 retrofit.logging ="com.squareup.okhttp3:logging-interceptor:$versions.okhttp"
 retrofit.scalar_converter= "com.squareup.retrofit2:converter-scalars:$versions.scalars_converter"
+retrofit.mockweberver ="com.squareup.okhttp3:mockwebserver:$versions.okhttp"
 deps.retrofit = retrofit
 def kotlin = [:]
 kotlin.kotlin_jre = "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$versions.kotlin"
