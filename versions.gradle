@@ -49,6 +49,8 @@ versions.shimmer = '0.4.0'
 versions.helper ='1.12.0'
 versions.expande_layout = '2.9.2'
 versions.loading_lay ='1.01@aar'
+versions.lottieVersion ="3.0.0"
+versions.circleProgress = '1.2.1'
 
 
 def deps = [:]
@@ -70,6 +72,8 @@ android.shimmer = "com.facebook.shimmer:shimmer:$versions.shimmer"
 android.helper ="com.getkeepsafe.taptargetview:taptargetview:$versions.helper"
 android.expand_layou = "net.cachapa.expandablelayout:expandablelayout:$versions.expande_layout"
 android.loading_lay = "com.github.jorgecastilloprz:fabprogresscircle:$versions.loading_lay"
+android.lottie ="com.airbnb.android:lottie:$versions.lottieVersion"
+android.circleProgress ="com.github.lzyzsd:circleprogress:$versions.circleProgress"
 deps.android = android
 
 

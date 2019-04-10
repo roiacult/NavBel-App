@@ -63,6 +63,8 @@ dependencies {
     implementation deps.android.helper
     implementation deps.android.expand_layou
     implementation deps.android.loading_lay
+    implementation deps.android.lottie
+    implementation deps.android.circleProgress
 
     implementation deps.dagger.core
     implementation deps.dagger.support
