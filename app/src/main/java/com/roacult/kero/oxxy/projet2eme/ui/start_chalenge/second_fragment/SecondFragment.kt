@@ -1,8 +1,8 @@
 package com.roacult.kero.oxxy.projet2eme.ui.start_chalenge.second_fragment
 
+import android.app.ProgressDialog
 import android.content.res.Configuration
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,7 +16,7 @@ import com.roacult.kero.oxxy.projet2eme.base.BaseFragment
 import com.roacult.kero.oxxy.projet2eme.ui.start_chalenge.StartChelngeViewModel
 import com.roacult.kero.oxxy.projet2eme.databinding.StartChalengeFragmnt2Binding
 import com.roacult.kero.oxxy.projet2eme.utils.Async
-import com.roacult.kero.oxxy.projet2eme.utils.LOG_TAG
+import com.roacult.kero.oxxy.projet2eme.utils.Fail
 import com.roacult.kero.oxxy.projet2eme.utils.Loading
 import com.roacult.kero.oxxy.projet2eme.utils.Success
 import com.roacult.kero.oxxy.projet2eme.utils.extension.questionSolved
@@ -27,6 +27,13 @@ class SecondFragment :BaseFragment() {
     private val viewModel : StartChelngeViewModel by lazy { ViewModelProviders.of(activity!!,viewModelFactory)[StartChelngeViewModel::class.java]}
     private lateinit var binding : StartChalengeFragmnt2Binding
     private lateinit var pagerAdapter: CardPagerAdapter
+    private val progressDialogue : ProgressDialog by lazy {
+        ProgressDialog(context!!).apply {
+            isIndeterminate = false
+            setTitle(R.string.subitting)
+            setMessage(R.string.subiting_msg)
+        }
+    }
 
     companion object { fun getInstance() = SecondFragment() }
 
@@ -38,20 +45,27 @@ class SecondFragment :BaseFragment() {
             it.page.getContentIfNotHandled()?.apply { setUpPage(this) }
             setSolvedNumbre(it.solvedBy)
             setSolving(it.questionSolved)
-//            handleSubmitionResult(it.submition)s
+            it.submition?.apply { handleSubmissionResult(this)}
         }
 
         return binding.root
     }
 
-//    private fun handleSubmitionResult(submition: Async<SubmitionResult>) {
-//        when(submition){
-//            is Loading ->
-//        }
-//    }
+    private fun handleSubmissionResult(submition: Async<SubmitionResult>) {
+        when(submition){
+            is Loading ->{progressDialogue.show()}
+            is Success -> {
+                progressDialogue.hide()
+                //TODO go to result fragments
+            }
+            is Fail<*,*>->{
+                progressDialogue.hide()
+                //TODO handle different fails
+            }
+        }
+    }
 
     private fun initialize() {
-        Log.v(LOG_TAG,"starting init")
         viewModel.withState {
             val detailles = (it.getChalengeDetailles as Success)()
             pagerAdapter= CardPagerAdapter(binding.questionsContainer::getCurrentItem,viewModel)
@@ -62,7 +76,7 @@ class SecondFragment :BaseFragment() {
         }
         binding.time.startTimer(viewModel.lastTime){
             showDialogueFinish(R.string.time_finish,R.string.time_finish_msg)
-            //TODO unsubscribe observer
+            viewModel.unsubscribe()
         }
         binding.perv.setOnClickListener {
             binding.questionsContainer.setCurrentItem(binding.questionsContainer.currentItem-1,true)
@@ -86,8 +100,7 @@ class SecondFragment :BaseFragment() {
     private fun performSubmition() {
         val answers = viewModel.answers
         if(answers.questionSolved == viewModel.size){
-            //TODO start submition fragments
-//            viewModel.submitAnswer()
+            viewModel.submitAnswer(binding.time.time)
         }else{
             onError("please answer all questions first!!")
         }
@@ -110,7 +123,7 @@ class SecondFragment :BaseFragment() {
             setMessage(msg)
             setPositiveButton(R.string.continue_challenge) { _, _ -> }
             setNegativeButton(R.string.cancel) { _, _ ->
-                //TODO finish activity and go back to main
+                activity?.finish()
             }
             show()
         }

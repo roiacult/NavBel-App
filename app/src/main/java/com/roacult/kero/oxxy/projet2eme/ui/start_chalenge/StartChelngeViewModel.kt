@@ -9,6 +9,7 @@ import com.roacult.kero.oxxy.projet2eme.base.BaseViewModel
 import com.roacult.kero.oxxy.projet2eme.ui.start_chalenge.first_fragment.FirstFragment
 import com.roacult.kero.oxxy.projet2eme.utils.*
 import com.roacult.kero.oxxy.projet2eme.utils.extension.questionSolved
+import io.reactivex.disposables.Disposable
 import javax.inject.Inject
 
 class StartChelngeViewModel @Inject constructor(private val useCase : GetChalengeDetaills,
@@ -20,6 +21,7 @@ class StartChelngeViewModel @Inject constructor(private val useCase : GetChaleng
 
     lateinit var chalengeGlobale: ChalengeGlobale
     val answers = mutableMapOf<Long,Long>()
+    private var dispos : Disposable? = null
 
     var firstTime = true
     var lastTime : Long = 0
@@ -77,7 +79,7 @@ class StartChelngeViewModel @Inject constructor(private val useCase : GetChaleng
         }
         //now we should observe how many user solved
         //this chalenge till now
-        launchObservableCompletedInteractor(checkUseCase,chalengeGlobale.id,{},::CheckOnNext,::CheckOnComplte)
+        dispos = launchObservableCompletedInteractor(checkUseCase,chalengeGlobale.id,{},::CheckOnNext,::CheckOnComplte)
     }
     private fun CheckOnNext(numbre: Int) {
         setState { copy(solvedBy = numbre) }
@@ -102,14 +104,22 @@ class StartChelngeViewModel @Inject constructor(private val useCase : GetChaleng
         super.onCleared()
     }
 
-    fun submitAnswer() {
+    fun submitAnswer(time : Long) {
         setState { copy(submition = Loading()) }
-        scope.launchInteractor(submit,answers){
+        var challengeTime : Long = 0L
+        withState{
+            challengeTime = (it.getChalengeDetailles as? Success)?.invoke()?.time?.toLong() ?: 2000
+        }
+        scope.launchInteractor(submit,SubmitionParam(answers,challengeTime - time)){
             it.either({
                 setState{copy(submition = Fail(it))}
             },{
                 setState { copy(submition = Success(it)) }
             })
         }
+    }
+
+    fun unsubscribe(){
+        dispos?.dispose()
     }
 }

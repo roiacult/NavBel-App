@@ -64,8 +64,10 @@ abstract  class BaseViewModel<S:State>(initialState:S): androidx.lifecycle.ViewM
         disposable.add(interactor.observe(p, errorHandler, dataHandler))
     }
     protected fun  <P, Type> launchObservableCompletedInteractor(interactor: ObservableCompleteInteractor<Type, P>, p:P, errorHandler :(Throwable)->Unit
-                                                                 , dataHandler:(Type)->Unit, onComplete:()->Unit){
-        disposable.add(interactor.observe(p, errorHandler, dataHandler, onComplete))
+                                                                 , dataHandler:(Type)->Unit, onComplete:()->Unit) : Disposable{
+        val dispos =interactor.observe(p, errorHandler, dataHandler, onComplete)
+        disposable.add(dispos)
+        return dispos
     }
 
 }
