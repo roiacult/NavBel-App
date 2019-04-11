@@ -112,7 +112,7 @@ class StartChelngeViewModel @Inject constructor(private val useCase : GetChaleng
         withState{
             challengeTime = (it.getChalengeDetailles as? Success)?.invoke()?.time?.toLong() ?: 2000
         }
-        scope.launchInteractor(submit,SubmitionParam(answers,challengeTime - time)){
+        scope.launchInteractor(submit,SubmitionParam(answers,challengeTime - time,chalengeGlobale.id)){
             it.either({
                 setState{copy(submition = Fail(it))}
             },{
