@@ -111,6 +111,7 @@ class MainActivity : BaseActivity() {
                 }
                 activeFragment = chalengeFragment
                 callback = chalengeFragment
+                supportActionBar.show()
             }
             1 ->{
                 if(activeFragment is ForumeFragment) return
@@ -119,6 +120,7 @@ class MainActivity : BaseActivity() {
                 }
                 activeFragment = forumFragment
                 callback = forumFragment
+                supportActionBar.show()
             }
             2 ->{
                 if(activeFragment is AwardFragment) return
@@ -127,6 +129,7 @@ class MainActivity : BaseActivity() {
                 }
                 activeFragment = awardFragment
                 callback = awardFragment
+                supportActionBar.show()
             }
             3 ->{
                 if(activeFragment is ProfileFragment) return
@@ -135,6 +138,7 @@ class MainActivity : BaseActivity() {
                 }
                 activeFragment = profileFragment
                 callback = profileFragment
+                supportActionBar.hide()
             }
         }
         invalidateOptionsMenu()
