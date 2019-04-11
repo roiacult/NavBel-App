@@ -1,6 +1,8 @@
 package com.roacult.kero.oxxy.projet2eme.ui.main.fragments.chalenge_fragment
 
 import android.animation.Animator
+import android.app.Activity.RESULT_OK
+import android.content.Intent
 import android.os.Bundle
 import android.view.*
 import android.widget.ArrayAdapter
@@ -33,7 +35,10 @@ import com.roacult.kero.oxxy.projet2eme.utils.getFilter
 import net.cachapa.expandablelayout.ExpandableLayout
 
 class ChalengeFragment : BaseFragment() , CallbackFromActivity {
-    companion object { fun getInstance() = ChalengeFragment() }
+    companion object {
+        const val REQUEST_CODE = 17823
+        fun getInstance() = ChalengeFragment()
+    }
     private lateinit var binding : MainChalengesBinding
     private val viewModel by lazy { ViewModelProviders.of(this,viewModelFactory)[ChalengeViewModel::class.java] }
     private val callback : CallbackFromViewModel by lazy { viewModel }
@@ -141,10 +146,19 @@ class ChalengeFragment : BaseFragment() , CallbackFromActivity {
         }.start()
     }
 
-    fun startChaleng(chalengeGlobale: ChalengeGlobale,sharedElement : View) {
+    fun startChaleng(chalengeGlobale: ChalengeGlobale) {
         val intent = StartChalengeActivity.getIntent(context!!,chalengeGlobale)
-        val options = ActivityOptionsCompat.makeSceneTransitionAnimation(activity!!,sharedElement,getString(R.string.start_chalenge_trans))
-        activity?.startActivity(intent,options.toBundle())
+        startActivityForResult(intent, REQUEST_CODE)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if(requestCode == REQUEST_CODE){
+            if(resultCode == RESULT_OK){
+                //go to reward fragments
+                (activity as? MainActivity)?.setSelectedItem(2)
+            }
+        }
     }
 
     override fun showFilter() {

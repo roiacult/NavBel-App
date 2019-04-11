@@ -190,6 +190,10 @@ class MainActivity : BaseActivity() {
         }).start()
     }
 
+    fun setSelectedItem(position: Int){
+        bottom_nav.setSelectedItem(position)
+    }
+
     override fun onBackPressed() {
         if(selectedFragment != 0) bottom_nav.setSelectedItem(0)
         else super.onBackPressed()

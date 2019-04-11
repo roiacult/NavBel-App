@@ -15,5 +15,6 @@ data class StartChalengeState(val selectedFragment : Event<Int>,
                               val questionSolved :Int,
                               val submition : Async<SubmitionResult>?) : State
 
-const val STARTCHALENGE_FRAGMENT1 = 0
-const val STARTCHALENGE_FRAGMENT2 = 1
+const val STARTCHALENGE_RESOURCE = 0
+const val STARTCHALENGE_CHALENGE = 1
+const val STARTCHALENGE_RESULT= 3

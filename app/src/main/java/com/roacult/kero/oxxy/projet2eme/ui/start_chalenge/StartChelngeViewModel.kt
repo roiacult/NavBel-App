@@ -4,9 +4,8 @@ import com.roacult.kero.oxxy.domain.exception.Failure
 import com.roacult.kero.oxxy.domain.interactors.*
 import com.roacult.kero.oxxy.domain.modules.ChalengeDetailles
 import com.roacult.kero.oxxy.domain.modules.ChalengeGlobale
-import com.roacult.kero.oxxy.domain.modules.Question
 import com.roacult.kero.oxxy.projet2eme.base.BaseViewModel
-import com.roacult.kero.oxxy.projet2eme.ui.start_chalenge.first_fragment.FirstFragment
+import com.roacult.kero.oxxy.projet2eme.ui.start_chalenge.resourefragment.ResourceFragment
 import com.roacult.kero.oxxy.projet2eme.utils.*
 import com.roacult.kero.oxxy.projet2eme.utils.extension.questionSolved
 import io.reactivex.disposables.Disposable
@@ -16,12 +15,14 @@ class StartChelngeViewModel @Inject constructor(private val useCase : GetChaleng
                                                 private val tryUseCase : SetUserTry,
                                                 private val checkUseCase : CheckChallenge,
                                                 private val submit : SubmitAnswer) :
-    BaseViewModel<StartChalengeState>(StartChalengeState(Event(STARTCHALENGE_FRAGMENT1),Loading(),null,Event(0),0,0,null)),
-    FirstFragment.CallbackToViewModel {
+    BaseViewModel<StartChalengeState>(StartChalengeState(Event(STARTCHALENGE_RESOURCE),Loading(),null,Event(0),0,0,null)),
+    ResourceFragment.CallbackToViewModel {
 
     lateinit var chalengeGlobale: ChalengeGlobale
     val answers = mutableMapOf<Long,Long>()
     private var dispos : Disposable? = null
+    lateinit var submitionResult  :SubmitionResult
+    var time = 0L
 
     var firstTime = true
     var lastTime : Long = 0
@@ -73,8 +74,8 @@ class StartChelngeViewModel @Inject constructor(private val useCase : GetChaleng
         //go to second fragment
         withState {
             val selectedFragmeent = it.selectedFragment.peekContent()
-            if(selectedFragmeent != STARTCHALENGE_FRAGMENT2){
-                setState { copy(selectedFragment =Event( STARTCHALENGE_FRAGMENT2 )) }
+            if(selectedFragmeent != STARTCHALENGE_CHALENGE){
+                setState { copy(selectedFragment =Event( STARTCHALENGE_CHALENGE )) }
             }
         }
         //now we should observe how many user solved
@@ -105,6 +106,7 @@ class StartChelngeViewModel @Inject constructor(private val useCase : GetChaleng
     }
 
     fun submitAnswer(time : Long) {
+        this.time = time
         setState { copy(submition = Loading()) }
         var challengeTime : Long = 0L
         withState{
@@ -114,9 +116,18 @@ class StartChelngeViewModel @Inject constructor(private val useCase : GetChaleng
             it.either({
                 setState{copy(submition = Fail(it))}
             },{
+                submitionResult = it
                 setState { copy(submition = Success(it)) }
             })
         }
+    }
+
+    fun gotoResultFragment(){
+        withState{
+            if(it.selectedFragment.peekContent() != STARTCHALENGE_RESULT)
+                setState{copy(selectedFragment = Event(STARTCHALENGE_RESULT))}
+        }
+
     }
 
     fun unsubscribe(){
