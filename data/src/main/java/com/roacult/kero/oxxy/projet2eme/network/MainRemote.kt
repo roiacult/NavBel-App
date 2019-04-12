@@ -1,6 +1,5 @@
 package com.roacult.kero.oxxy.projet2eme.network
 
-import android.util.Log
 import com.roacult.kero.oxxy.domain.exception.Failure
 import com.roacult.kero.oxxy.domain.functional.Either
 import com.roacult.kero.oxxy.domain.interactors.None
@@ -8,9 +7,7 @@ import com.roacult.kero.oxxy.domain.modules.ChalengeDetailles
 import com.roacult.kero.oxxy.domain.modules.ChalengeGlobale
 import com.roacult.kero.oxxy.projet2eme.network.entities.*
 import com.roacult.kero.oxxy.projet2eme.network.services.MainService
-import com.roacult.kero.oxxy.projet2eme.utils.fromRessourceToPair
-import com.roacult.kero.oxxy.projet2eme.utils.mapToQuestion
-import com.roacult.kero.oxxy.projet2eme.utils.token
+import com.roacult.kero.oxxy.projet2eme.utils.*
 import io.reactivex.BackpressureStrategy
 import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
@@ -144,7 +141,55 @@ class MainRemote @Inject constructor(private val service :MainService) {
             }
         })
 
-
-
     }
+
+    /**
+     * this function will handle the action of getting the true options of a particular challenge
+     * a true option object is composed of the questionId  , optionId , point that will gain a user if he got the correct option
+     * @param challengeId is the id of the challenge we want to get its trueOptions
+     */
+    suspend fun getTrueOptionOfChallenge(challengeId :Int ):Either<Failure.SubmitionFailure ,TrueOptions > =
+            service.getTrueOptions(TrueOptionParam(challengeId) , token())
+                .lambdaEnqueue(
+                {
+                    Either.Left(Failure.SubmitionFailure.UknownFailure(it))
+                }
+            ){
+                val response = it.body()
+                if(response!=null){
+                    if(response.repoonse!=1){
+                        Either.Left(Failure.SubmitionFailure.GetTrueOptionOperationFailure)
+                    }else{
+                        if(response.options!=null){
+                            Either.Right(response)
+                        }else{
+                            Either.Left(Failure.SubmitionFailure.GetTrueOptionOperationFailure)
+                        }
+                    }
+                }else{
+                    Either.Left(Failure.SubmitionFailure.GetTrueOptionOperationFailure)
+                }
+            }
+
+    /**
+     * adding point to the user
+     * @param userId id of the user
+     * @param point number of point accumulated
+     */
+    suspend fun addPointToUser(userId:Long ,point :Long ):Either<Failure.SubmitionFailure , None> =
+        service.addPointToUser(AddPointParam(userId, point) , token()).lambdaEnqueue({
+                      Either.Left(Failure.SubmitionFailure.UknownFailure(it))
+        }){
+            val body = it.body()
+          if(body!=null){
+              if(body.reponse!=1){
+                  Either.Left(Failure.SubmitionFailure.AddPointToUserFailure)
+              }else{
+                  Either.Right(None())
+              }
+          }else{
+              Either.Left(Failure.SubmitionFailure.AddPointToUserFailure)
+          }
+        }
+
 }
