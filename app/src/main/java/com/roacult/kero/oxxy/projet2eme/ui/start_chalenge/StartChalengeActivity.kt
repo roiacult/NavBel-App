@@ -3,15 +3,14 @@ package com.roacult.kero.oxxy.projet2eme.ui.start_chalenge
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import com.roacult.kero.oxxy.domain.modules.ChalengeGlobale
 import com.roacult.kero.oxxy.projet2eme.R
 import com.roacult.kero.oxxy.projet2eme.base.BaseActivity
-import com.roacult.kero.oxxy.projet2eme.ui.start_chalenge.first_fragment.FirstFragment
-import com.roacult.kero.oxxy.projet2eme.ui.start_chalenge.second_fragment.SecondFragment
-import com.roacult.kero.oxxy.projet2eme.utils.LOG_TAG
+import com.roacult.kero.oxxy.projet2eme.ui.start_chalenge.resourefragment.ResourceFragment
+import com.roacult.kero.oxxy.projet2eme.ui.start_chalenge.resultfragments.ResultFragment
+import com.roacult.kero.oxxy.projet2eme.ui.start_chalenge.chalengefragment.ChalengeFragment
 import com.roacult.kero.oxxy.projet2eme.utils.extension.inTransaction
 import javax.inject.Inject
 
@@ -56,16 +55,19 @@ class StartChalengeActivity : BaseActivity(){
 
     private fun loadFragment(fra : Int) {
         when(fra){
-            STARTCHALENGE_FRAGMENT1 -> supportFragmentManager.inTransaction{
-                val fragment = FirstFragment.getInstance()
+            STARTCHALENGE_RESOURCE -> supportFragmentManager.inTransaction{
+                val fragment = ResourceFragment.getInstance()
                 fragment.arguments = intent.extras
                 add(R.id.fragment_container,fragment)
             }
 
-            STARTCHALENGE_FRAGMENT2 ->supportFragmentManager.inTransaction{
-                Log.v(LOG_TAG,"satrting  second fragment")
+            STARTCHALENGE_CHALENGE ->supportFragmentManager.inTransaction{
                 setCustomAnimations ( R.anim.entre_from_right,R.anim.exit_to_left,R.anim.entre_from_left,R.anim.exit_to_right )
-                replace(R.id.fragment_container,SecondFragment.getInstance())
+                replace(R.id.fragment_container,ChalengeFragment.getInstance())
+            }
+            STARTCHALENGE_RESULT ->supportFragmentManager.inTransaction{
+                setCustomAnimations ( R.anim.entre_from_right,R.anim.exit_to_left,R.anim.entre_from_left,R.anim.exit_to_right )
+                replace(R.id.fragment_container,ResultFragment.getInstance())
             }
         }
     }

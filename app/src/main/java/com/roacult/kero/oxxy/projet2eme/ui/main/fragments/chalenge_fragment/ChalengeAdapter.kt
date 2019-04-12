@@ -8,7 +8,7 @@ import com.roacult.kero.oxxy.projet2eme.databinding.MainChalengesCardBinding
 import com.roacult.kero.oxxy.projet2eme.utils.Success
 import com.squareup.picasso.Picasso
 
-class ChalengeAdapter(val viewModel : ChalengeViewModel,val startChalenge : (ChalengeGlobale,View) ->Unit )
+class ChalengeAdapter(val viewModel : ChalengeViewModel,val startChalenge : (ChalengeGlobale) ->Unit )
     : BaseRecyclerAdapter<ChalengeGlobale, MainChalengesCardBinding>(ChalengeGlobale::class.java, R.layout.main_chalenges_card){
 
     var filter : Filter = Filter()
@@ -30,12 +30,12 @@ class ChalengeAdapter(val viewModel : ChalengeViewModel,val startChalenge : (Cha
             oldItem.point == newItem.point
 
     override fun upDateView(item: ChalengeGlobale, binding: MainChalengesCardBinding) {
-        binding.textView7.setText(item.story)
-        binding.textView6.setText(item.module)
-        binding.start.setOnClickListener{ startChalenge(item,binding.chalengeImg) }
-        binding.solved.setText("${item.nbPersonSolved}/5")
-        binding.point.setText("${item.point} points")
-        binding.nbQuestion.setText("${item.nbOfQuestions} questions")
+        binding.textView7.text = item.story
+        binding.textView6.text = item.module
+        binding.start.setOnClickListener{ startChalenge(item) }
+        binding.solved.text = "${item.nbPersonSolved}/5"
+        binding.point.text = "${item.point} points"
+        binding.nbQuestion.text = "${item.nbOfQuestions} questions"
         binding.arrow.rotation = 180f
         Picasso.get().load(item.url).into(binding.chalengeImg)
     }

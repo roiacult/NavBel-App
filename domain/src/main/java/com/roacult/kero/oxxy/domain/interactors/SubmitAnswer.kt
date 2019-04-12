@@ -12,8 +12,8 @@ class SubmitAnswer @Inject constructor(dispatchers: CouroutineDispatchers) : Eit
 
     override suspend fun invoke(executeParams: SubmitionParam): Either<Failure.SubmitionFailure, SubmitionResult> {
         delay(3000)
-        return Either.Right(SubmitionResult(true,1500))
+        return Either.Right(SubmitionResult(true,80))
     }
 }
-data class SubmitionParam(val answers : Map<Long,Long>,val time : Long)
+data class SubmitionParam(val answers : Map<Long,Long>,val time : Long,val chalengeId : Int)
 data class SubmitionResult(val success : Boolean, val points : Long)

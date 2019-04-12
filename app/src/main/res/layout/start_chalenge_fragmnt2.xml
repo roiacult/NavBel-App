@@ -42,7 +42,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 android:layout_marginTop="8dp" android:id="@+id/linearLayout5">
-            <com.roacult.kero.oxxy.projet2eme.ui.start_chalenge.second_fragment.TimeView
+            <com.roacult.kero.oxxy.projet2eme.ui.start_chalenge.chalengefragment.TimeView
                     tools:text="17:58"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
