@@ -1,7 +1,6 @@
 package com.roacult.kero.oxxy.projet2eme.ui.main.fragments.profile_fragment
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -80,6 +79,17 @@ class ProfileFragment : BaseFragment() ,CallbackFromActivity {
     }
 
     private fun initViews() {
+        binding.toolbar.inflateMenu(R.menu.profile_menu)
+        binding.toolbar.setOnMenuItemClickListener {
+            when(it.itemId){
+                R.id.settings -> {
+                    //TODO open settings page
+                    showMessage("//TODO open settings page")
+                }
+            }
+            true
+        }
+
         binding.graphView.setTouchEnabled(false)
         binding.graphView.xAxis.setDrawAxisLine(false)
         binding.graphView.setDrawBarShadow(true)
