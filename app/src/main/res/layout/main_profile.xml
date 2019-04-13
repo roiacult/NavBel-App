@@ -53,7 +53,7 @@
                     <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:id="@+id/textView18"
+                            android:id="@+id/name"
                             android:layout_marginTop="8dp" app:layout_constraintTop_toTopOf="@+id/guideline27"
                             android:textColor="@color/primaryTextLight" tools:text="@tools:sample/full_names"
                             android:textSize="24sp" android:layout_marginStart="8dp"
@@ -63,8 +63,8 @@
                     <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:id="@+id/textView21"
-                            android:layout_marginTop="2dp" app:layout_constraintTop_toBottomOf="@+id/textView18"
+                            android:id="@+id/year"
+                            android:layout_marginTop="2dp" app:layout_constraintTop_toBottomOf="@+id/name"
                             app:layout_constraintEnd_toStartOf="@+id/guideline30" android:layout_marginEnd="8dp"
                             app:layout_constraintStart_toStartOf="@+id/guideline29" android:layout_marginStart="8dp"
                             tools:text="2 Cpi" android:textSize="17sp" android:textColor="@color/secondaryTextLight"
@@ -97,6 +97,15 @@
                         android:layout_marginStart="8dp"
                         android:textColor="@color/primaryTextDark"
                         android:textSize="20sp"/>
+                <ProgressBar
+                        style="?android:attr/progressBarStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/rankLoading"
+                        app:layout_constraintTop_toTopOf="@+id/graphScroll" android:layout_marginBottom="8dp"
+                        app:layout_constraintBottom_toBottomOf="@+id/graphScroll"
+                        app:layout_constraintEnd_toEndOf="@+id/graphScroll"
+                        app:layout_constraintStart_toStartOf="@+id/graphScroll" android:layout_marginStart="8dp"/>
                 <HorizontalScrollView
                         android:layout_width="match_parent"
                         android:layout_height="340dp"
@@ -144,7 +153,7 @@
                             android:gravity="center"
                             android:layout_weight="1" android:textStyle="bold" android:textSize="18sp"
                             android:textColor="@color/primaryTextLight"
-                            android:layout_marginBottom="4dp" android:text="04"/>
+                            android:layout_marginBottom="4dp" android:id="@+id/challenges"/>
                     <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -166,7 +175,7 @@
                             android:gravity="center"
                             android:layout_weight="1" android:textStyle="bold" android:textSize="18sp"
                             android:textColor="@color/primaryTextLight"
-                            android:layout_marginBottom="4dp" android:text="1200"/>
+                            android:layout_marginBottom="4dp" android:id="@+id/points"/>
                     <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -188,7 +197,7 @@
                             android:gravity="center"
                             android:layout_weight="1" android:textStyle="bold" android:textSize="18sp"
                             android:textColor="@color/primaryTextLight"
-                            android:layout_marginBottom="4dp" android:text="12"/>
+                            android:layout_marginBottom="4dp" android:text="12" android:id="@+id/rank"/>
                     <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"

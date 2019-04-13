@@ -66,4 +66,8 @@ sealed class Failure {
     sealed class SubmitionFailure : Failure(){
         //TODO
     }
+
+    sealed class GetUserInfoFailure : Failure(){
+        //TODO
+    }
 }
