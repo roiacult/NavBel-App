@@ -5,53 +5,87 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.ViewModelProviders
 import com.github.mikephil.charting.data.BarData
 import com.github.mikephil.charting.data.BarDataSet
 import com.github.mikephil.charting.data.BarEntry
+import com.roacult.kero.oxxy.domain.modules.User
 import com.roacult.kero.oxxy.projet2eme.R
 import com.roacult.kero.oxxy.projet2eme.base.BaseFragment
 import com.roacult.kero.oxxy.projet2eme.databinding.MainProfileBinding
 import com.roacult.kero.oxxy.projet2eme.ui.main.CallbackFromActivity
-import com.roacult.kero.oxxy.projet2eme.utils.LOG_TAG
+import com.roacult.kero.oxxy.projet2eme.utils.*
+import com.roacult.kero.oxxy.projet2eme.utils.extension.visible
+import com.squareup.picasso.Picasso
 
 class ProfileFragment : BaseFragment() ,CallbackFromActivity {
     companion object { fun getInstance() = ProfileFragment() }
 
+    private val viewModel by lazy{ViewModelProviders.of(this,viewModelFactory)[ProfileViewModel::class.java]}
     private lateinit var binding : MainProfileBinding
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = MainProfileBinding.inflate(inflater,container,false)
 
-        Log.v(LOG_TAG,"starting profile ...")
+        initViews()
 
+        viewModel.observe(this){
+            handleUserInfo(it.userInfo)
+        }
+
+        return binding.root
+    }
+
+    private fun handleUserInfo(userInfo: Async<User>) {
+        when(userInfo){
+            is Loading -> showLoading(true)
+            is Fail<*, *> -> {
+                showLoading(false)
+                //TODO handle errors
+            }
+            is Success -> {
+                showLoading(false)
+                setUpUserData(userInfo())
+            }
+        }
+    }
+
+    private fun setUpUserData(userInfo: User) {
+        if(userInfo.picture != null && userInfo.picture!!.isNotEmpty())
+            Picasso.get().load(userInfo.picture).into(binding.image)
+        binding.name.text = userInfo.fname + ", "+userInfo.lName
+        binding.year.text = if(userInfo.year<2) (userInfo.year+1).toString()+" CPI"
+        else (userInfo.year-1).toString()+" CS"
+        binding.challenges.text = userInfo.nbSolved.toString()
+        binding.points.text = userInfo.point.toString()
+        binding.rank.text = userInfo.currentRank.toString()
+        binding.graphView.data = getBarData(userInfo.ranks)
+        binding.graphView.invalidate()
+    }
+
+    private fun getBarData(ranks: ArrayList<Int>) :BarData{
         val data = ArrayList<BarEntry>()
-        data.add(BarEntry(9F, 30F))
-        data.add(BarEntry(8F, 40F))
-        data.add(BarEntry(7F, 50F))
-        data.add(BarEntry(6F, 20F))
-        data.add(BarEntry(5F, 60F))
-        data.add(BarEntry(4F, 10F))
-        data.add(BarEntry(3F, 0F))
-        data.add(BarEntry(2F, 15F))
-        data.add(BarEntry(1F, 70F))
+        for(rk in 0 until ranks.size){
+            val rank =ranks[rk]
+            data.add(BarEntry(rk.toFloat(),rank.toFloat()))
+        }
+        val barData = BarData(BarDataSet(data,null))
+        barData.barWidth = 0.7f
+        return barData
+    }
 
-        val barSet = BarDataSet(data,null)
-        val barData = BarData(barSet)
-        barData.barWidth = 0.7F
+    private fun showLoading(show: Boolean) {
+        binding.graphView.visible(!show)
+        binding.rankLoading.visible(show)
+    }
 
-
+    private fun initViews() {
         binding.graphView.setTouchEnabled(false)
         binding.graphView.xAxis.setDrawAxisLine(false)
         binding.graphView.setDrawBarShadow(true)
         binding.graphView.setDrawValueAboveBar(true)
-//        binding.graphView.setDrawHighlightArrow(true)
         binding.graphView.axisLeft.axisMinimum = 0f
         binding.graphView.axisRight.axisMinimum = 0f
-        binding.graphView.data = barData
-        binding.graphView.invalidate()
-        binding.graphScroll.fullScroll(View.FOCUS_RIGHT)
-
-        return binding.root
     }
 
     override fun showHelp(){}
