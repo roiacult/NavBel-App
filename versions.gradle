@@ -52,7 +52,7 @@ versions.loading_lay ='1.01@aar'
 versions.lottieVersion ="3.0.0"
 versions.circleProgress = '1.2.1'
 versions.scaleLayout = '1.2.1'
-versions.graph = '1.1.2'
+versions.graph = '3.1.0'
 
 
 def deps = [:]
@@ -77,7 +77,7 @@ android.loading_lay = "com.github.jorgecastilloprz:fabprogresscircle:$versions.l
 android.lottie ="com.airbnb.android:lottie:$versions.lottieVersion"
 android.circleProgress ="com.github.lzyzsd:circleprogress:$versions.circleProgress"
 android.scalLayout = "com.github.iammert:ScalingLayout:$versions.scaleLayout"
-android.graph = "com.github.AnyChart:AnyChart-Android:$versions.graph"
+android.graph = "com.github.PhilJay:MPAndroidChart:v$versions.graph"
 deps.android = android
 
 
