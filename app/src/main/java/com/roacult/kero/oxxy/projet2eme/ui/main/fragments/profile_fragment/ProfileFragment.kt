@@ -13,6 +13,7 @@ import com.roacult.kero.oxxy.projet2eme.R
 import com.roacult.kero.oxxy.projet2eme.base.BaseFragment
 import com.roacult.kero.oxxy.projet2eme.databinding.MainProfileBinding
 import com.roacult.kero.oxxy.projet2eme.ui.main.CallbackFromActivity
+import com.roacult.kero.oxxy.projet2eme.ui.setting.SettingActivity
 import com.roacult.kero.oxxy.projet2eme.utils.*
 import com.roacult.kero.oxxy.projet2eme.utils.extension.visible
 import com.squareup.picasso.Picasso
@@ -85,6 +86,11 @@ class ProfileFragment : BaseFragment() ,CallbackFromActivity {
                 R.id.settings -> {
                     //TODO open settings page
                     showMessage("//TODO open settings page")
+                    viewModel.withState {
+                        val user = it.userInfo
+                        if(user is Success)
+                            startActivity(SettingActivity.getIntent(context!!,user()))
+                    }
                 }
             }
             true

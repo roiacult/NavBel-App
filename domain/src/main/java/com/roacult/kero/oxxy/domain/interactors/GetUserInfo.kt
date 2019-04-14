@@ -18,6 +18,6 @@ class GetUserInfo @Inject constructor(couroutineDispatchers: CouroutineDispatche
         for (i in 0..15 ) list.add(Random.nextInt(0,50))
 
         delay(3000)
-        return Either.Right(User(1,"bla@email.com","djawed","benahmed",null,1,"2014",6,1200,14,list))
+        return Either.Right(User(1,"bla@email.com","djawed","benahmed",true,null,1,"2014",6,1200,14,list))
     }
 }
