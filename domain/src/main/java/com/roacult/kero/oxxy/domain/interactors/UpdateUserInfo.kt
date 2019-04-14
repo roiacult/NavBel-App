@@ -17,4 +17,4 @@ class UpdateUserInfo @Inject constructor(couroutineDispatchers: CouroutineDispat
     }
 }
 
-data class UpdateUserInfoParam(val fname :String,val lName :String,val picture : String,val public :Boolean)
+data class UpdateUserInfoParam(val fname :String,val lName :String,val picture : String?,val public :Boolean)
