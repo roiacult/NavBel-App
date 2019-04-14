@@ -1,14 +1,15 @@
 package com.roacult.kero.oxxy.projet2eme.ui.setting
 
 import com.roacult.kero.oxxy.domain.interactors.None
+import com.roacult.kero.oxxy.domain.interactors.UpdateUserInfo
 import com.roacult.kero.oxxy.projet2eme.base.BaseViewModel
 import com.roacult.kero.oxxy.projet2eme.base.State
 import com.roacult.kero.oxxy.projet2eme.utils.Async
 import javax.inject.Inject
 
-class SettingViewModel @Inject constructor()  : BaseViewModel<SettingState>(SettingState()){
+class SettingViewModel @Inject constructor(val updateUserInfo: UpdateUserInfo)  : BaseViewModel<SettingState>(SettingState()){
 
-    var firestTime =true
+    private var firestTime =true
 
 
     var fName : String? = null
@@ -25,6 +26,9 @@ class SettingViewModel @Inject constructor()  : BaseViewModel<SettingState>(Sett
             firestTime = false
         }
     }
+
+    fun save()
+
 }
 
 data class SettingState(val saveOp : Async<None>? = null) : State
