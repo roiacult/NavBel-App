@@ -51,6 +51,8 @@ versions.expande_layout = '2.9.2'
 versions.loading_lay ='1.01@aar'
 versions.lottieVersion ="3.0.0"
 versions.circleProgress = '1.2.1'
+versions.scaleLayout = '1.2.1'
+versions.graph = '3.1.0'
 
 
 def deps = [:]
@@ -74,6 +76,8 @@ android.expand_layou = "net.cachapa.expandablelayout:expandablelayout:$versions.
 android.loading_lay = "com.github.jorgecastilloprz:fabprogresscircle:$versions.loading_lay"
 android.lottie ="com.airbnb.android:lottie:$versions.lottieVersion"
 android.circleProgress ="com.github.lzyzsd:circleprogress:$versions.circleProgress"
+android.scalLayout = "com.github.iammert:ScalingLayout:$versions.scaleLayout"
+android.graph = "com.github.PhilJay:MPAndroidChart:v$versions.graph"
 deps.android = android
 
 

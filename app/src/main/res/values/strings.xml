@@ -128,4 +128,5 @@
     <string name="subiting_msg">we are calculating your note please wait!!</string>
     <string name="chalenge_fail">Good luck next time</string>
     <string name="congrat">Congratulation</string>
+    <string name="settings">Settings</string>
 </resources>

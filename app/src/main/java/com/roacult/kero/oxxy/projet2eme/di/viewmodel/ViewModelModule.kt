@@ -3,6 +3,7 @@ package com.roacult.kero.oxxy.projet2eme.di.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.roacult.kero.oxxy.projet2eme.ui.main.fragments.chalenge_fragment.ChalengeViewModel
+import com.roacult.kero.oxxy.projet2eme.ui.main.fragments.profile_fragment.ProfileViewModel
 import com.roacult.kero.oxxy.projet2eme.ui.registration_feature.fragment_saveinfo.SaveInfoViewModel
 import com.roacult.kero.oxxy.projet2eme.ui.registration_feature.fragment_signin_login.RegistrationViewModel
 import com.roacult.kero.oxxy.projet2eme.ui.registration_feature.reset_password.RestPasswordViewModel
@@ -47,4 +48,9 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(StartChelngeViewModel::class)
     internal abstract fun startChalengesViewModel(viewModel : StartChelngeViewModel) : ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(ProfileViewModel::class)
+    internal abstract fun provideProfileViewMode(viewModel : ProfileViewModel) : ViewModel
 }

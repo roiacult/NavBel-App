@@ -68,4 +68,8 @@ sealed class Failure {
         object AddPointToUserFailure:SubmitionFailure()
         class UknownFailure(val t:Throwable):SubmitionFailure()
     }
+
+    sealed class GetUserInfoFailure : Failure(){
+        //TODO
+    }
 }
