@@ -7,6 +7,7 @@ import com.roacult.kero.oxxy.projet2eme.ui.main.fragments.profile_fragment.Profi
 import com.roacult.kero.oxxy.projet2eme.ui.registration_feature.fragment_saveinfo.SaveInfoViewModel
 import com.roacult.kero.oxxy.projet2eme.ui.registration_feature.fragment_signin_login.RegistrationViewModel
 import com.roacult.kero.oxxy.projet2eme.ui.registration_feature.reset_password.RestPasswordViewModel
+import com.roacult.kero.oxxy.projet2eme.ui.setting.SettingViewModel
 import com.roacult.kero.oxxy.projet2eme.ui.splash.SplashViewModel
 import com.roacult.kero.oxxy.projet2eme.ui.start_chalenge.StartChelngeViewModel
 import dagger.Binds
@@ -53,4 +54,9 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(ProfileViewModel::class)
     internal abstract fun provideProfileViewMode(viewModel : ProfileViewModel) : ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(SettingViewModel::class)
+    internal abstract fun provideSettingViewModel(viewModel:SettingViewModel) : ViewModel
 }

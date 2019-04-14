@@ -4,6 +4,8 @@ import com.roacult.kero.oxxy.projet2eme.ui.main.MainActivity
 import com.roacult.kero.oxxy.projet2eme.ui.main.fragments.MainFragmentBuilder
 import com.roacult.kero.oxxy.projet2eme.ui.registration_feature.RegistrationFragmentBuilder
 import com.roacult.kero.oxxy.projet2eme.ui.registration_feature.RegistrationActivity
+import com.roacult.kero.oxxy.projet2eme.ui.setting.SettingActivity
+import com.roacult.kero.oxxy.projet2eme.ui.setting.SettingBuilder
 import com.roacult.kero.oxxy.projet2eme.ui.splash.SplashActivity
 import com.roacult.kero.oxxy.projet2eme.ui.splash.SplashFragment
 import com.roacult.kero.oxxy.projet2eme.ui.splash.SplashFragmentBuilder
@@ -26,4 +28,8 @@ abstract class ActivityBuilder {
 
     @ContributesAndroidInjector(modules = [StartChalengeFragmentBuilder::class])
     abstract fun provideStartChalenge() : StartChalengeActivity
+
+    @ContributesAndroidInjector(modules = [SettingBuilder::class])
+    abstract  fun provideSettings() : SettingActivity
+
 }

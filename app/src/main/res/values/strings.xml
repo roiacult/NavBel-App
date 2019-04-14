@@ -129,4 +129,9 @@
     <string name="chalenge_fail">Good luck next time</string>
     <string name="congrat">Congratulation</string>
     <string name="settings">Settings</string>
+    <string name="first_name">First Name</string>
+    <string name="last_name">Last Name</string>
+    <string name="make_your_acount_private">make your acount private</string>
+    <string name="save">Save</string>
+    <string name="change_avater">Change Avater</string>
 </resources>
