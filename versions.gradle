@@ -21,6 +21,7 @@ versions.room = "2.1.0-alpha03"
 versions.navigation = "1.0.0-alpha06"
 versions.espresso = "3.0.1"
 versions.mockito = "2.13.0"
+versions.kotlin_mockito= "1.5.0"
 versions.dagger = "2.16"
 versions.support_test = "1.0.1"
 versions.design = "28.0.0"
@@ -81,44 +82,7 @@ android.graph = "com.github.PhilJay:MPAndroidChart:v$versions.graph"
 deps.android = android
 
 
-//
-//  /**
-//   * https://developer.android.com/testing */
-//  const val androidx_test_ext_junit: String = "androidx.test.ext:junit:" +
-//      Versions.androidx_test_ext
-//
-//  /**
-//   * https://developer.android.com/testing */
-//  const val androidx_test_ext_truth: String = "androidx.test.ext:truth:" +
-//      Versions.androidx_test_ext
-//
-//  /**
-//   * https://developer.android.com/testing */
-//  const val androidx_test_core: String = "androidx.test:core:" + Versions.androidx_test_core
-//
-//  /**
-//   * https://developer.android.com/testing */
-//  const val androidx_test_rules: String = "androidx.test:rules:" + Versions.androidx_test_rules
-//
-//  /**
-//   * https://developer.android.com/testing */
-//  const val androidx_test_runner: String = "androidx.test:runner:" + Versions.androidx_test_runner
-// /**
-//   * https://github.com/mockito/mockito */
-//  const val mockito_android: String = "org.mockito:mockito-android:" + Versions.org_mockito
-//
-//  /**
-//   * https://github.com/mockito/mockito */
-//  const val mockito_inline: String = "org.mockito:mockito-inline:" + Versions.org_mockito
-//
-//  /**
-//   * http://robolectric.org */
-//  const val robolectric: String = "org.robolectric:robolectric:" + Versions.robolectric
 
-
-//   * http://github.com/google/truth */
-//  const val com_google_truth_truth: String = "com.google.truth:truth:" +
-//      Versions.com_google_truth_truth
 def room = [:]
 room.runtime = "androidx.room:room-runtime:$versions.room"
 room.compiler = "androidx.room:room-compiler:$versions.room"
@@ -138,6 +102,7 @@ def test = [:]
 test.junit = "org.junit.jupiter:junit-jupiter-api:$versions.junit"
 test.kotlin_junit = "org.jetbrains.kotlin:kotlin-test-junit:$versions.kotlin"
 test.mockk = "io.mockk:mockk:1.8.9.kotlin13"
+test.mockito = "com.nhaarman:mockito-kotlin-kt1.1:$versions.kotlin_mockito"
 test.espresso = "androidx.test.espresso:espresso-contrib:$versions.espresso"
 test.espresso_core = "androidx.test.espresso:espresso-core:$versions.espresso"
 

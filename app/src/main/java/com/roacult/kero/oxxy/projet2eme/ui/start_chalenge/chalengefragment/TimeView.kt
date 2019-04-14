@@ -20,20 +20,20 @@ class TimeView : TextView{
 
     /**
      * itsAlredyStart to avoid subscibing handler
-     * multiple time we need to subsribe runnable
+     * multiple timeTakenPercentage we need to subsribe runnable
      * to handler only one
      * */
     private var itsAlredyStart = false
 
     /**
-     * this field  will hold the curent time
+     * this field  will hold the curent timeTakenPercentage
      *
      * */
 
     var time: Long = 0
 
     /**
-     * callback when time finish
+     * callback when timeTakenPercentage finish
      * */
     var onTimeFinishlistner : () ->Unit?  = {}
 
@@ -44,19 +44,19 @@ class TimeView : TextView{
 
     /**
      * once we registred this Runnable with handler he will keep call
-     * onTimeChanged() every second till time finish
+     * onTimeChanged() every second till timeTakenPercentage finish
      * */
     private val timeHandler  =Handler()
 
     private val ticker = object : Runnable {
         override fun run() {
             if(time>0) {
-                //time didn't finish yet
+                //timeTakenPercentage didn't finish yet
                 onTimeChanged()
                 time-=1
                 timeHandler.postAtTime(this, SystemClock.uptimeMillis() + 1000)
             }else{
-                //time finish
+                //timeTakenPercentage finish
                 time = 0
                 onTimeChanged()
                 //callback

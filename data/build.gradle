@@ -87,6 +87,7 @@ dependencies {
     testImplementation deps.room.testing
     testImplementation deps.test.junit
     testImplementation deps.test.mockk
+    testImplementation deps.test.mockito
     testImplementation deps.test.kotlin_junit
     androidTestImplementation 'junit:junit:4.12'
     testImplementation 'junit:junit:4.12'

@@ -24,7 +24,7 @@ import kotlin.coroutines.suspendCoroutine
  * this class will handle the request from the main view it will get challenge launch challenge check a challenge if he is one or not
  * ..etc
  */
-class MainRemote @Inject constructor(private val service :MainService) {
+open class MainRemote @Inject constructor(private val service :MainService) {
 
     /**
      * this will be the bucket where we put all of ou observable
@@ -58,7 +58,7 @@ class MainRemote @Inject constructor(private val service :MainService) {
   }
 
     /**
-     * this funtion will send request to get the challenge detaille a challenge detaille is the time that  a challenge can take
+     * this funtion will send request to get the challenge detaille a challenge detaille is the timeTakenPercentage that  a challenge can take
      * and the id of the challenge and the ressources with this challenges
      */
     suspend  fun getChallengeDetaille(id:Int ):Either<Failure.GetChalengeDetailsFailure , ChalengeDetailles> = suspendCoroutine{
@@ -123,8 +123,8 @@ class MainRemote @Inject constructor(private val service :MainService) {
 
     /**
      * this function will lunch a post request to the server teling him that the user withe
-     * @param userId has tried one time in the challenge with the
-     * @param challengeId so he cant retry next time
+     * @param userId has tried one timeTakenPercentage in the challenge with the
+     * @param challengeId so he cant retry next timeTakenPercentage
      *
      */
     suspend fun setUserTry(userId :Long , challengeId:Int ):Either<Failure.UserTryFailure,None> = suspendCoroutine{

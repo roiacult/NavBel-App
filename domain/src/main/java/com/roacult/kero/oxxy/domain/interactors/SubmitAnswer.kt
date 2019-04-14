@@ -15,5 +15,5 @@ class SubmitAnswer @Inject constructor(dispatchers: CouroutineDispatchers) : Eit
         return Either.Right(SubmitionResult(true,80))
     }
 }
-data class SubmitionParam(val answers : Map<Long,Long>,val time : Float,val chalengeId : Int)
+data class SubmitionParam(val answers : Map<Long,Long>, val timeTakenPercentage : Float, val chalengeId : Int)
 data class SubmitionResult(val success : Boolean, val points : Long)
