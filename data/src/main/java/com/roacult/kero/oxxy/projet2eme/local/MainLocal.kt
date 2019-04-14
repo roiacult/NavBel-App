@@ -40,4 +40,7 @@ open class MainLocal @Inject constructor( private val preferences: SharedPrefere
     preferences.edit().putInt(CHALLENGE_NSOLVED, it?:0).commit()
     }
     fun getUserId():Long  = preferences.getLong(USER_ID , 0)
+    fun addPointToUser(points: Long) {
+      preferences.edit().putLong(USER_POINT , preferences.getLong(USER_POINT , 0L)+points).apply()
+    }
 }

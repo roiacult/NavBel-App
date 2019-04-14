@@ -84,6 +84,7 @@ return remote.getChallengeDetaille(challengeId)
                 if(addingPointToUser.isLeft){
                     return addingPointToUser as Either.Left<Failure.SubmitionFailure >
                 }else{
+                    local.addPointToUser(result.points)
                     return Either.Right(result)
                 }
             }else{
