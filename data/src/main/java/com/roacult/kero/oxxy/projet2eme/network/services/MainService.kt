@@ -19,5 +19,12 @@ interface MainService {
     @POST("?op=trychallenge")
     fun setTryChallenge(@Body data :SetUserTry , @Query("tooken") token :String
     ):Call<SetUserResponse>
+     @POST()
+     fun getTrueOptions(@Body data :TrueOptionParam , @Query("tooken") token :String):Call<TrueOptions>
 
+
+
+
+    @POST()
+    fun addPointToUser(@Body data :AddPointParam , @Query("tooken") token :String):Call<Reponse>
 }

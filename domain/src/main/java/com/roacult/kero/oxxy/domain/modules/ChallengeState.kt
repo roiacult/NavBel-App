@@ -12,10 +12,10 @@ sealed class ChallengeState{
     data class ChallengeNotSolvedYet(val hour :Int , val Minute:Int )
 
     /**
-     * this happen when he is trying to solve it but the challenge has been solved at this time
+     * this happen when he is trying to solve it but the challenge has been solved at this timeTakenPercentage
      */
     object ChallengeSolved
     /**
-     * in the onComplete of the observable that when the time is over
+     * in the onComplete of the observable that when the timeTakenPercentage is over
      */
 }

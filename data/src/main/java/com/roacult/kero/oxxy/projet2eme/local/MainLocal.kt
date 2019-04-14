@@ -5,7 +5,7 @@ import com.roacult.kero.oxxy.projet2eme.network.entities.Request
 import com.roacult.kero.oxxy.projet2eme.utils.*
 import javax.inject.Inject
 
-class MainLocal @Inject constructor( private val preferences: SharedPreferences){
+open class MainLocal @Inject constructor( private val preferences: SharedPreferences){
     fun getChallengeRequest():Request{
        return Request( year =  preferences.getInt(USER_YEAR, 0) ,
            id = preferences.getLong(
@@ -40,4 +40,7 @@ class MainLocal @Inject constructor( private val preferences: SharedPreferences)
     preferences.edit().putInt(CHALLENGE_NSOLVED, it?:0).commit()
     }
     fun getUserId():Long  = preferences.getLong(USER_ID , 0)
+    fun addPointToUser(points: Long) {
+      preferences.edit().putLong(USER_POINT , preferences.getLong(USER_POINT , 0L)+points).apply()
+    }
 }

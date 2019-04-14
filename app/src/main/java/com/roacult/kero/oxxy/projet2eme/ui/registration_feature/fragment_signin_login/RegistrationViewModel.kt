@@ -10,7 +10,7 @@ import com.roacult.kero.oxxy.projet2eme.utils.Success
 import javax.inject.Inject
 
     /**
-     * constant time for resending email 3 min
+     * constant timeTakenPercentage for resending email 3 min
      * user must wait
      * @param RESEND_EMAIL_TIME miliseconds
      * to performe resending confirmation email

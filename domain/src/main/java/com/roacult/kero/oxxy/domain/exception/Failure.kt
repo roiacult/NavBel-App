@@ -64,7 +64,9 @@ sealed class Failure {
     }
 
     sealed class SubmitionFailure : Failure(){
-        //TODO
+      object GetTrueOptionOperationFailure:SubmitionFailure()
+        object AddPointToUserFailure:SubmitionFailure()
+        class UknownFailure(val t:Throwable):SubmitionFailure()
     }
 
     sealed class GetUserInfoFailure : Failure(){

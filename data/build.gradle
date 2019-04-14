@@ -81,11 +81,13 @@ dependencies {
     implementation deps.retrofit.okhttp3
     implementation deps.retrofit.logging
     implementation deps.retrofit.scalar_converter
+    testImplementation deps.retrofit.mockweberver
     implementation deps.android.compressor
 
     testImplementation deps.room.testing
     testImplementation deps.test.junit
     testImplementation deps.test.mockk
+    testImplementation deps.test.mockito
     testImplementation deps.test.kotlin_junit
     androidTestImplementation 'junit:junit:4.12'
     testImplementation 'junit:junit:4.12'
