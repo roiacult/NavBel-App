@@ -17,6 +17,8 @@ class SettingViewModel @Inject constructor(val updateUserInfo: UpdateUserInfo)  
     private var firestTime =true
 
 
+    var newPic :String? = null
+
     var fName : String? = null
     var lName : String? = null
     var picture : String? = null
@@ -34,7 +36,7 @@ class SettingViewModel @Inject constructor(val updateUserInfo: UpdateUserInfo)  
 
     fun save() {
         setState { copy(saveOp = Loading()) }
-        scope.launchInteractor(updateUserInfo, UpdateUserInfoParam(fName!!,lName!!,picture,public)){
+        scope.launchInteractor(updateUserInfo, UpdateUserInfoParam(fName!!,lName!!,newPic,public)){
             it.either({
                 setState { copy(saveOp = Fail(it)) }
             },{
@@ -42,7 +44,6 @@ class SettingViewModel @Inject constructor(val updateUserInfo: UpdateUserInfo)  
             })
         }
     }
-
 }
 
 data class SettingState(val saveOp : Async<None>? = null) : State

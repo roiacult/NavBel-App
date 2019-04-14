@@ -3,6 +3,7 @@ package com.roacult.kero.oxxy.projet2eme.ui.setting
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.view.MenuItem
 import com.roacult.kero.oxxy.domain.modules.User
 import com.roacult.kero.oxxy.projet2eme.R
 import com.roacult.kero.oxxy.projet2eme.base.BaseActivity
@@ -35,5 +36,10 @@ class SettingActivity : BaseActivity(){
             supportFragmentManager.inTransaction {
                 add(R.id.fragment_container,SettingFragment.getInstance(intent.extras!!))
             }
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        finish()
+        return true
     }
 }

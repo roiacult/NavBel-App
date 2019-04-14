@@ -134,4 +134,5 @@
     <string name="make_your_acount_private">make your acount private</string>
     <string name="save">Save</string>
     <string name="change_avater">Change Avater</string>
+    <string name="saved_succ">information saved successfully</string>
 </resources>
