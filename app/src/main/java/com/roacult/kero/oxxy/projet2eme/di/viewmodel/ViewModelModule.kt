@@ -2,6 +2,7 @@ package com.roacult.kero.oxxy.projet2eme.di.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.roacult.kero.oxxy.projet2eme.ui.main.fragments.award_fragment.AwardViewModel
 import com.roacult.kero.oxxy.projet2eme.ui.main.fragments.chalenge_fragment.ChalengeViewModel
 import com.roacult.kero.oxxy.projet2eme.ui.main.fragments.profile_fragment.ProfileViewModel
 import com.roacult.kero.oxxy.projet2eme.ui.registration_feature.fragment_saveinfo.SaveInfoViewModel
@@ -59,4 +60,9 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(SettingViewModel::class)
     internal abstract fun provideSettingViewModel(viewModel:SettingViewModel) : ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(AwardViewModel::class)
+    internal abstract fun provideAwardViewModel(viewModel:AwardViewModel) : ViewModel
 }
