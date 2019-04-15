@@ -61,10 +61,12 @@
                     android:layout_width="match_parent" android:layout_height="match_parent"
                     android:orientation="vertical">
                 <LinearLayout
+                        android:paddingTop="8dp"
+                        android:paddingBottom="8dp"
                         android:foreground="?android:attr/selectableItemBackground"
                         android:orientation="horizontal"
                         android:layout_width="match_parent"
-                        android:layout_height="50dp" android:id="@+id/getreward">
+                        android:layout_height="60dp" android:id="@+id/getreward">
                     <de.hdodenhof.circleimageview.CircleImageView
                             android:layout_gravity="center"
                             android:src="@color/colorPrimaryDark"
@@ -91,11 +93,11 @@
 
                 </LinearLayout>
                 <LinearLayout
+                        android:paddingBottom="8dp"
                         android:foreground="?android:attr/selectableItemBackground"
-                        android:layout_marginTop="8dp"
                         android:orientation="horizontal"
                         android:layout_width="match_parent"
-                        android:layout_height="50dp" android:id="@+id/description">
+                        android:layout_height="60dp" android:id="@+id/description">
                     <de.hdodenhof.circleimageview.CircleImageView
                             android:layout_gravity="center"
                             android:src="@color/colorPrimary"
