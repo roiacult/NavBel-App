@@ -1,6 +1,5 @@
 package com.roacult.kero.oxxy.projet2eme.ui.main.fragments.award_fragment
 
-import android.app.Activity
 import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -14,6 +13,7 @@ import com.roacult.kero.oxxy.projet2eme.R
 import com.roacult.kero.oxxy.projet2eme.base.BaseFragment
 import com.roacult.kero.oxxy.projet2eme.databinding.MainAwardPageBinding
 import com.roacult.kero.oxxy.projet2eme.ui.main.CallbackFromActivity
+import com.roacult.kero.oxxy.projet2eme.ui.main.fragments.award_fragment.getgift.GetGiftFragment
 import com.roacult.kero.oxxy.projet2eme.utils.Async
 import com.roacult.kero.oxxy.projet2eme.utils.Fail
 import com.roacult.kero.oxxy.projet2eme.utils.Loading
@@ -21,7 +21,9 @@ import com.roacult.kero.oxxy.projet2eme.utils.Success
 import com.roacult.kero.oxxy.projet2eme.utils.extension.visible
 
 class AwardFragment  : BaseFragment() , CallbackFromActivity {
-    companion object { fun getInstance() = AwardFragment() }
+    companion object {
+        fun getInstance() = AwardFragment()
+    }
 
     private lateinit var binding : MainAwardPageBinding
 
@@ -46,6 +48,7 @@ class AwardFragment  : BaseFragment() , CallbackFromActivity {
                 //TODO handle errors
             }
             is Success -> {
+                binding.indicator.setViewPager(binding.awards)
                 binding.awards.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
                     override fun onPageScrollStateChanged(state: Int) {}
                     override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {}
@@ -56,6 +59,9 @@ class AwardFragment  : BaseFragment() , CallbackFromActivity {
                         }
                     }
                 })
+                binding.userPoints.setOnClickListener {
+                    //TODO show user info
+                }
             }
         }
     }
@@ -75,6 +81,7 @@ class AwardFragment  : BaseFragment() , CallbackFromActivity {
     }
 
     private fun setViewWithData(awards: List<Award>) {
+        binding.indicator.setViewPager(binding.awards)
         binding.awards.adapter = AwardAdapter(awards.map { it.picture })
         binding.awards.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
             override fun onPageScrollStateChanged(state: Int) {}
@@ -93,16 +100,19 @@ class AwardFragment  : BaseFragment() , CallbackFromActivity {
             binding.points.setTextColor(if(userInfo.point >= award.points) Color.GREEN else Color.RED)
             binding.getreward.setOnClickListener {
                 //TODO show alert dialogue to get rewards
+                if(userInfo.point>=award.points)
+                    GetGiftFragment.getInstance(award).show(activity?.supportFragmentManager, GetGiftFragment.GET_GIFT_TAG)
+                else onError(R.string.no_enough_points)
             }
             binding.description.setOnClickListener {
                 //TODO show description
             }
+
         }
-        binding.indicator.setViewPager(binding.awards)
     }
 
     private fun showLoading(show: Boolean) {
-        binding.awards.visible(!show)
+        binding.awards.visibility = if(show) View.INVISIBLE else View.VISIBLE
         binding.loading.visible(show)
     }
 

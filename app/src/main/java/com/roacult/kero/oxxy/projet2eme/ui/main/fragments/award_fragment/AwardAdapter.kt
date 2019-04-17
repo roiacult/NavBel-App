@@ -22,7 +22,6 @@ class AwardAdapter(private val images : List<String>) : PagerAdapter(){
     }
 
     override fun destroyItem(container: ViewGroup, position: Int, card: Any) {
-        super.destroyItem(container, position, card)
         container.removeView(card as View)
     }
 }

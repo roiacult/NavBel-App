@@ -15,8 +15,8 @@ class GetAwards @Inject constructor(dispatchers: CouroutineDispatchers)  : Eithe
 
         delay(3000)
         val list = ArrayList<Award>()
-        list.add(Award("https://i.ibb.co/34BmB25/award1.png",1200,"blabla bla bla"))
-        list.add(Award("https://i.ibb.co/W6tFdMG/award2.png",500,"bla bka ba njhbhjbc"))
+        list.add(Award("001","https://i.ibb.co/34BmB25/award1.png",1200,"blabla bla bla"))
+        list.add(Award("002","https://i.ibb.co/W6tFdMG/award2.png",500,"bla bka ba njhbhjbc"))
         return Either.Right(list)
     }
 }

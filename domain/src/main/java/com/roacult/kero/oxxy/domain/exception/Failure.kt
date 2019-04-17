@@ -78,4 +78,7 @@ sealed class Failure {
     sealed class GetAwardsFailure: Failure(){
         //TODO
     }
+    sealed class GetGift: Failure(){
+        //TODO
+    }
 }

@@ -59,6 +59,7 @@
                         android:gravity="center"
                         android:orientation="vertical">
                     <LinearLayout
+                            android:foreground="?android:attr/selectableItemBackground"
                             android:paddingStart="16dp"
                             android:paddingEnd="16dp"
                             android:paddingTop="8dp"
@@ -93,6 +94,7 @@
 
                     </LinearLayout>
                     <LinearLayout
+                            android:foreground="?android:attr/selectableItemBackground"
                             android:paddingStart="16dp"
                             android:paddingEnd="16dp"
                             android:paddingBottom="8dp"
@@ -126,6 +128,7 @@
 
                     </LinearLayout>
                     <LinearLayout
+                            android:foreground="?android:attr/selectableItemBackground"
                             android:paddingStart="16dp"
                             android:paddingEnd="16dp"
                             android:paddingBottom="8dp"
@@ -164,3 +167,4 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.core.widget.NestedScrollView>
 </layout>
+

@@ -135,4 +135,10 @@
     <string name="save">Save</string>
     <string name="change_avater">Change Avater</string>
     <string name="saved_succ">information saved successfully</string>
+    <string name="total_points">total points :</string>
+    <string name="change_your_points_with_this_gift">exchange your points with this gift?</string>
+    <string name="confirme">Confirme</string>
+    <string name="no_enough_points">you don\'t have enough points ,solve more challenges to get more points</string>
+    <string name="close">close</string>
+    <string name="chek_email">check your email to get your award</string>
 </resources>
