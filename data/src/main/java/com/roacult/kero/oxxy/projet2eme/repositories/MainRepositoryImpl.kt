@@ -65,7 +65,6 @@ return remote.getChallengeDetaille(challengeId)
     override suspend fun setUserTry(challengeId: Int): Either<Failure.UserTryFailure, None> {
             return remote.setUserTry(local.getUserId() , challengeId)
     }
-//todo dont forget to add it to local
     override suspend fun checkSubmit(answer: SubmitionParam): Either<Failure.SubmitionFailure, SubmitionResult> {
         //getting all true options for the challenge
              val gettingTrueOptionOperation = remote.getTrueOptionOfChallenge(answer.chalengeId)
@@ -78,19 +77,19 @@ return remote.getChallengeDetaille(challengeId)
            val result = correctChallenge(answer = answer.answers, timeTakenPercent =answer.timeTakenPercentage
                    , bareme =
                    (gettingTrueOptionOperation as Either.Right<TrueOptions>).b.options!!)
-            if(result.success){
+            return if(result.success){
                 //if he succed we add the number he got
-               val addingPointToUser =  remote.addPointToUser(local.getUserId() , result.points)
+                val addingPointToUser =  remote.addPointToUser(local.getUserId() , result.points)
                 if(addingPointToUser.isLeft){
-                    return addingPointToUser as Either.Left<Failure.SubmitionFailure >
+                    addingPointToUser as Either.Left<Failure.SubmitionFailure >
                 }else{
                     local.addPointToUser(result.points)
 
-                    return Either.Right(result)
+                    Either.Right(result)
                 }
             }else{
                 //if not we return directly
-                return Either.Right(result)
+                Either.Right(result)
             }
 
         }
