@@ -75,4 +75,10 @@ sealed class Failure {
     sealed class UpDateUserInfo : Failure() {
         //TODO
     }
+    sealed class GetAwardsFailure: Failure(){
+        //TODO
+    }
+    sealed class GetGift: Failure(){
+        //TODO
+    }
 }

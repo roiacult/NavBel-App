@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools">
+    <androidx.cardview.widget.CardView
+            app:cardCornerRadius="8dp"
+            android:layout_width="match_parent"
+            android:layout_height="400dp">
+        <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/bottom_sheet_award"
+                android:background="#fff"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+            <View
+                    android:background="@drawable/bottomsheet_hand"
+                    android:layout_width="40dp"
+                    android:layout_height="6dp"
+                    android:layout_marginTop="6dp"
+                    app:layout_constraintTop_toTopOf="parent" app:layout_constraintStart_toStartOf="parent"
+                    android:layout_marginStart="8dp" app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_marginEnd="8dp" android:id="@+id/view7"/>
+
+            <TextView
+                    android:text="@string/total_points"
+                    android:layout_width="wrap_content"
+                    android:layout_height="24dp" android:id="@+id/textView21"
+                    android:textSize="17sp" android:textColor="@color/secondaryTextDark"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginStart="8dp"
+                    app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toBottomOf="@+id/view7"/>
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" android:id="@+id/textView23"
+                    app:layout_constraintBaseline_toBaselineOf="@+id/textView21"
+                    app:layout_constraintStart_toEndOf="@+id/textView21" android:layout_marginStart="4dp"
+                    android:textSize="17sp" tools:text="1200"/>
+            <TextView
+                    android:text="@string/change_your_points_with_this_gift"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/textView25" app:layout_constraintStart_toStartOf="parent"
+                    android:layout_marginStart="8dp" app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp"
+                    android:layout_marginTop="8dp" app:layout_constraintTop_toBottomOf="@+id/textView21"
+                    android:textSize="18sp" android:textColor="@color/primaryTextDark"/>
+            <com.airbnb.lottie.LottieAnimationView
+                    android:layout_width="80dp"
+                    android:layout_height="78dp"
+                    app:lottie_progress="0.9"
+                    app:lottie_rawRes="@raw/question"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:layout_marginStart="8dp" app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_marginEnd="8dp" app:layout_constraintHorizontal_bias="0.498"
+                    android:id="@+id/lottieAnimationView" android:layout_marginBottom="8dp"
+                    android:layout_marginTop="8dp"
+                    app:layout_constraintTop_toBottomOf="@+id/textView25"
+                    app:layout_constraintBottom_toTopOf="@+id/button"/>
+            <Button
+                    android:textColor="#fff"
+                    android:background="@drawable/button_background"
+                    android:text="@string/confirme"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/button"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_marginEnd="24dp" app:layout_constraintStart_toStartOf="parent"
+                    android:layout_marginStart="24dp" android:layout_marginBottom="16dp"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
+            <ProgressBar
+                    android:visibility="gone"
+                    style="?android:attr/progressBarStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/progressBar2" android:layout_marginTop="8dp"
+                    app:layout_constraintTop_toBottomOf="@+id/textView25" android:layout_marginBottom="8dp"
+                    app:layout_constraintBottom_toTopOf="@+id/button" app:layout_constraintStart_toStartOf="parent"
+                    android:layout_marginStart="8dp" app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_marginEnd="8dp"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+</layout>

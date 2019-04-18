@@ -67,6 +67,7 @@ dependencies {
     implementation deps.android.circleProgress
     implementation deps.android.scalLayout
     implementation deps.android.graph
+    implementation deps.android.indicator
 
     implementation deps.dagger.core
     implementation deps.dagger.support
