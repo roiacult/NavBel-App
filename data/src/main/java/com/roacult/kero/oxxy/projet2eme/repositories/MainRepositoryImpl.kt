@@ -6,6 +6,7 @@ import com.roacult.kero.oxxy.domain.functional.Either
 import com.roacult.kero.oxxy.domain.interactors.None
 import com.roacult.kero.oxxy.domain.interactors.SubmitionParam
 import com.roacult.kero.oxxy.domain.interactors.SubmitionResult
+import com.roacult.kero.oxxy.domain.interactors.UpdateUserInfoParam
 import com.roacult.kero.oxxy.domain.modules.ChalengeDetailles
 import com.roacult.kero.oxxy.domain.modules.ChalengeGlobale
 import com.roacult.kero.oxxy.domain.modules.User
@@ -90,15 +91,18 @@ return remote.getChallengeDetaille(challengeId)
         return local.getUser()
     }
 
+    override suspend fun updateUserInfo(userInfoParam: UpdateUserInfoParam): Either<Failure.UpDateUserInfo, None> {
+        val updatingUserInfo = remote.updateUserInfo(userInfoParam , local.getUserId())
+          return if(updatingUserInfo is Either.Right){
+             local.updateUserData(userInfoParam.lName , userInfoParam.fname , userInfoParam.public , if(userInfoParam.picture==null) null else updatingUserInfo.b)
+              Either.Right(None())
+          }else{
+              updatingUserInfo as Either.Left<Failure.UpDateUserInfo>
+          }
+    }
 
 
-
-
-
-
-
-
-    //    override suspend fun checkSubmit(answer: SubmitionParam): Either<Failure.SubmitionFailure, SubmitionResult> {
+//    override suspend fun checkSubmit(answer: SubmitionParam): Either<Failure.SubmitionFailure, SubmitionResult> {
 //        //getting all true options for the challenge
 //             val gettingTrueOptionOperation = remote.getTrueOptionOfChallenge(answer.chalengeId)
 //        //checking for errors

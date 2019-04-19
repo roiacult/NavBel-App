@@ -19,6 +19,15 @@ open class MainLocal @Inject constructor( private val preferences: SharedPrefere
         ,
         getInt(USER_RANK , 0) , ArrayList(getStringSet(RANK_TABLE , emptySet()).map { it.toInt() }.toList()))
     }
+    fun updateUserData(lname:String , fname:String , ispublic:Boolean , imageUrl:String? ){
+        preferences.edit().apply{
+            putString(USER_NAME , fname)
+            putString(USER_PRENAME , lname)
+            putBoolean(IS_PUBLIC, ispublic)
+            if(imageUrl !=null) putString(USER_IMAGEURL , imageUrl)
+            commit()
+        }
+    }
 
     fun logOut(){
         preferences.edit().apply{

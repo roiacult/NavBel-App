@@ -1,15 +1,18 @@
 package com.roacult.kero.oxxy.projet2eme.network
 
+import android.content.Context
+import android.graphics.Bitmap
+import android.net.Uri
+import android.provider.MediaStore
+import android.util.Base64
 import com.roacult.kero.oxxy.domain.exception.Failure
 import com.roacult.kero.oxxy.domain.functional.Either
-import com.roacult.kero.oxxy.domain.interactors.Login
-import com.roacult.kero.oxxy.domain.interactors.None
-import com.roacult.kero.oxxy.domain.interactors.SubmitionParam
-import com.roacult.kero.oxxy.domain.interactors.SubmitionResult
+import com.roacult.kero.oxxy.domain.interactors.*
 import com.roacult.kero.oxxy.domain.modules.ChalengeDetailles
 import com.roacult.kero.oxxy.domain.modules.ChalengeGlobale
 import com.roacult.kero.oxxy.domain.modules.User
 import com.roacult.kero.oxxy.projet2eme.network.entities.*
+import com.roacult.kero.oxxy.projet2eme.network.entities.SetUserTry
 import com.roacult.kero.oxxy.projet2eme.network.services.MainService
 import com.roacult.kero.oxxy.projet2eme.utils.*
 import io.reactivex.BackpressureStrategy
@@ -19,6 +22,8 @@ import io.reactivex.subjects.BehaviorSubject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.io.ByteArrayOutputStream
+import java.io.File
 import java.util.ArrayList
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
@@ -30,7 +35,7 @@ import kotlin.math.E
  * this class will handle the request from the main view it will get challenge launch challenge check a challenge if he is one or not
  * ..etc
  */
-open class MainRemote @Inject constructor(private val service :MainService) {
+open class MainRemote @Inject constructor(private val service :MainService , private  val context: Context) {
 
     /**
      * this will be the bucket where we put all of ou observable
@@ -231,4 +236,35 @@ open class MainRemote @Inject constructor(private val service :MainService) {
         }
     }
 
+    suspend  fun updateUserInfo(updateUserInfoParam: UpdateUserInfoParam , userId: Long):Either<Failure.UpDateUserInfo , String>
+       = service.updateUserInfo(
+        UpdateUserParam(userId , updateUserInfoParam.fname , updateUserInfoParam.lName
+        , updateUserInfoParam.picture?.run {
+                val baos = ByteArrayOutputStream()
+                val file = File(this)
+                val bitmap =  MediaStore.Images.Media.getBitmap(context.contentResolver , Uri.fromFile(file))
+                bitmap.compress(
+                    Bitmap.CompressFormat.JPEG,
+                    50, baos)
+                val b = baos.toByteArray()
+                //picture encoded to bas64
+                Base64.encodeToString(b, Base64.DEFAULT)
+            }   ?: "" , updateUserInfoParam.public , updateUserInfoParam.password), token())
+        .lambdaEnqueue({
+            it.printStackTrace()
+            return@lambdaEnqueue  Either.Left(Failure.UpDateUserInfo.OperationFailed)
+        }){
+            val responseBody =  it.body()
+           if(responseBody==null) {
+               return@lambdaEnqueue  Either.Left(Failure.UpDateUserInfo.OperationFailed)
+             }else{
+                 if(responseBody.reponse==1){
+                     return@lambdaEnqueue Either.Right(responseBody.picture)
+                 }else{
+                     return@lambdaEnqueue Either.Left(Failure.UpDateUserInfo.OperationFailed)
+                 }
+             }
+
+
+        }
 }

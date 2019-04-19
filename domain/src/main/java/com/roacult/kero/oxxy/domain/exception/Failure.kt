@@ -73,7 +73,7 @@ sealed class Failure {
         object OperationFailed:GetUserInfoFailure()
     }
     sealed class UpDateUserInfo : Failure() {
-        //TODO
+        object OperationFailed:UpDateUserInfo()
     }
     sealed class GetAwardsFailure: Failure(){
         //TODO

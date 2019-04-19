@@ -5,6 +5,7 @@ import com.roacult.kero.oxxy.domain.functional.Either
 import com.roacult.kero.oxxy.domain.interactors.None
 import com.roacult.kero.oxxy.domain.interactors.SubmitionParam
 import com.roacult.kero.oxxy.domain.interactors.SubmitionResult
+import com.roacult.kero.oxxy.domain.interactors.UpdateUserInfoParam
 import com.roacult.kero.oxxy.domain.modules.ChalengeDetailles
 import com.roacult.kero.oxxy.domain.modules.ChalengeGlobale
 import com.roacult.kero.oxxy.domain.modules.User
@@ -19,4 +20,5 @@ interface MainRepository {
     suspend fun setUserTry(challengeId: Int):Either<Failure.UserTryFailure , None>
     suspend fun checkSubmit(answer:SubmitionParam ):Either<Failure.SubmitionFailure , SubmitionResult>
     suspend  fun getUserInfo():User
+    suspend fun updateUserInfo(userInfoParam: UpdateUserInfoParam):Either<Failure.UpDateUserInfo , None>
 }

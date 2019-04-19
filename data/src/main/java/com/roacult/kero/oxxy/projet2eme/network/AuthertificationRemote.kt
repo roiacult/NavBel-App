@@ -131,11 +131,7 @@ class AuthertificationRemote @Inject constructor( val service: AuthentificationS
         }
         it.resume( SaveInfo(userInfo.email , userInfo.fName ,userInfo.lName ,userInfo.pass ,
             if(picture.isEmpty()) "" else picture
-
-
-
-
-            , userInfo.year))
+            , userInfo.year,true  ))
     }
 
 

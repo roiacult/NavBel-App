@@ -25,4 +25,6 @@ interface MainService {
     @POST("?op=profile")
     fun getUserInfo(@Body userId:UserId , @Query("tooken") token: String):Call<LoginResult>
 
+    @POST("?op=update")
+    fun updateUserInfo(@Body userInfo :UpdateUserParam , @Query("tooken") token: String):Call<UpdateUserResult>
 }
