@@ -2,6 +2,7 @@ package com.roacult.kero.oxxy.projet2eme.network
 
 import com.roacult.kero.oxxy.domain.exception.Failure
 import com.roacult.kero.oxxy.domain.functional.Either
+import com.roacult.kero.oxxy.domain.interactors.Login
 import com.roacult.kero.oxxy.domain.interactors.None
 import com.roacult.kero.oxxy.domain.interactors.SubmitionParam
 import com.roacult.kero.oxxy.domain.interactors.SubmitionResult
@@ -18,10 +19,12 @@ import io.reactivex.subjects.BehaviorSubject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.util.ArrayList
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
+import kotlin.math.E
 
 /**
  * this class will handle the request from the main view it will get challenge launch challenge check a challenge if he is one or not
@@ -201,6 +204,31 @@ open class MainRemote @Inject constructor(private val service :MainService) {
     private fun mapPercentageToLong(percent :Float)=(percent*10).toLong()
     private fun mapAnwersToList(map:Map<Long , Long >)= map.toList().map {
         QuestionAnswer(it.first , it.second)
+    }
+
+
+    suspend fun getUserInfoFromRemote(userId: Long):Either<Failure.GetUserInfoFailure , LoginResult>
+           = service.getUserInfo(UserId(userId) , token())
+        .lambdaEnqueue({
+           Either.Left(Failure.GetUserInfoFailure.OperationFailed)
+
+                       })
+             {
+                 mapServerRestoUsrInfoResp(it)
+
+             }
+    private fun mapServerRestoUsrInfoResp(response: Response<LoginResult>) :Either<Failure.GetUserInfoFailure , LoginResult>{
+        val reponseBody  = response.body()
+       return  if(reponseBody!=null){
+            if(reponseBody.reponse==1){
+            Either.Right(reponseBody)
+            }else{
+                Either.Left(Failure.GetUserInfoFailure.OperationFailed)
+
+            }
+        }else{
+             Either.Left(Failure.GetUserInfoFailure.OperationFailed)
+        }
     }
 
 }

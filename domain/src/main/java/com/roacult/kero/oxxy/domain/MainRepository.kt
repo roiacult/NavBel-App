@@ -7,6 +7,7 @@ import com.roacult.kero.oxxy.domain.interactors.SubmitionParam
 import com.roacult.kero.oxxy.domain.interactors.SubmitionResult
 import com.roacult.kero.oxxy.domain.modules.ChalengeDetailles
 import com.roacult.kero.oxxy.domain.modules.ChalengeGlobale
+import com.roacult.kero.oxxy.domain.modules.User
 import io.reactivex.Observable
 
 interface MainRepository {
@@ -17,4 +18,5 @@ interface MainRepository {
     fun clearObservable()
     suspend fun setUserTry(challengeId: Int):Either<Failure.UserTryFailure , None>
     suspend fun checkSubmit(answer:SubmitionParam ):Either<Failure.SubmitionFailure , SubmitionResult>
+    suspend  fun getUserInfo():User
 }

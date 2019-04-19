@@ -70,7 +70,7 @@ sealed class Failure {
     }
 
     sealed class GetUserInfoFailure : Failure(){
-        //TODO
+        object OperationFailed:GetUserInfoFailure()
     }
     sealed class UpDateUserInfo : Failure() {
         //TODO

@@ -1,6 +1,7 @@
 package com.roacult.kero.oxxy.projet2eme.local
 
 import android.content.SharedPreferences
+import com.roacult.kero.oxxy.domain.modules.User
 import com.roacult.kero.oxxy.projet2eme.network.entities.Request
 import com.roacult.kero.oxxy.projet2eme.utils.*
 import javax.inject.Inject
@@ -11,6 +12,14 @@ open class MainLocal @Inject constructor( private val preferences: SharedPrefere
            id = preferences.getLong(
            USER_ID , 0))
     }
+    fun getUser() = preferences.run {
+        User(getInt(USER_ID  , 0) ,getString(USER_EMAIL, "") , getString(USER_NAME , "") ,
+            getString(USER_PRENAME , "") , getBoolean(IS_PUBLIC , true) , getString(USER_IMAGEURL ,""),
+            getInt(USER_YEAR , 0), getString(USER_DATE, "") , getInt(NQSOLVED , 0), getInt(USER_POINT , 0)
+        ,
+        getInt(USER_RANK , 0) , ArrayList(getStringSet(RANK_TABLE , emptySet()).map { it.toInt() }.toList()))
+    }
+
     fun logOut(){
         preferences.edit().apply{
             remove(USER_ID)

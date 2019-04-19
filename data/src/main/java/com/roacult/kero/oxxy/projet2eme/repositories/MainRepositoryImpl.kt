@@ -8,6 +8,8 @@ import com.roacult.kero.oxxy.domain.interactors.SubmitionParam
 import com.roacult.kero.oxxy.domain.interactors.SubmitionResult
 import com.roacult.kero.oxxy.domain.modules.ChalengeDetailles
 import com.roacult.kero.oxxy.domain.modules.ChalengeGlobale
+import com.roacult.kero.oxxy.domain.modules.User
+import com.roacult.kero.oxxy.projet2eme.local.AuthentificationLocal
 import com.roacult.kero.oxxy.projet2eme.local.MainLocal
 import com.roacult.kero.oxxy.projet2eme.network.MainRemote
 
@@ -18,7 +20,8 @@ import javax.inject.Inject
  * this is our main repository he will handle all business logic in the main feature local and remote
  * he implement the interface defined in the domaain layer
  */
-class MainRepositoryImpl @Inject constructor( private val remote :MainRemote  ,private val local :MainLocal):MainRepository {
+class MainRepositoryImpl @Inject constructor( private val remote :MainRemote  ,private val local :MainLocal,
+                                              private val authLocal:AuthentificationLocal):MainRepository {
     override suspend fun getAllChallenges(): Either< Failure.GetAllChalengesFailure  , List<ChalengeGlobale>> {
     return remote.getChallenges(local.getChallengeRequest())
     }
@@ -78,6 +81,21 @@ return remote.getChallengeDetaille(challengeId)
 
         return correctionOperationResult
     }
+
+    override suspend fun getUserInfo(): User {
+          val gettingUserInfoFromRemote = remote.getUserInfoFromRemote(local.getUserId())
+        if(gettingUserInfoFromRemote is Either.Right){
+              authLocal.saveUserLogged(gettingUserInfoFromRemote.b)
+        }
+        return local.getUser()
+    }
+
+
+
+
+
+
+
 
 
     //    override suspend fun checkSubmit(answer: SubmitionParam): Either<Failure.SubmitionFailure, SubmitionResult> {

@@ -21,7 +21,8 @@ interface MainService {
     ):Call<SetUserResponse>
      @POST("?op=solve")
      fun correctChallenge(@Body userAnswers: UserAnswers , @Query("tooken") token :String):Call<CorrectionResult>
+
     @POST("?op=profile")
-    fun getUserInfo(@Body userId:UserId , @Query("tooken") token: String):Call<User>
+    fun getUserInfo(@Body userId:UserId , @Query("tooken") token: String):Call<LoginResult>
 
 }

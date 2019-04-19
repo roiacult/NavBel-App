@@ -31,7 +31,8 @@ class AuthentificationLocal @Inject constructor(val preference:SharedPreferences
              putString(USER_DATE , user.date)
              putInt(USER_YEAR , user.year ?:0)
              putLong(USER_ID  , user.id ?:0)
-             //todo rank table
+             putStringSet(RANK_TABLE , emptySet())
+             putBoolean(IS_PUBLIC , true)
             commit()
          }
         it.resume(Either.Right(None()))
@@ -76,7 +77,8 @@ class AuthentificationLocal @Inject constructor(val preference:SharedPreferences
             putString(USER_DATE , info.date)
             putLong(USER_ID , info.id ?:0)
             putInt(USER_YEAR , info.year ?:0)
-//            putStringSet()
+            putBoolean(IS_PUBLIC , info.ispublic)
+            putStringSet(RANK_TABLE , info.ranks?.map { it.toString() }?.toSet() ?: emptyArray<String>().toSet())
             commit()
         }
     }
