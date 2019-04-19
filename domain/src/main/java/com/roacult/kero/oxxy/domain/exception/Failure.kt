@@ -65,7 +65,7 @@ sealed class Failure {
 
     sealed class SubmitionFailure : Failure(){
       object GetTrueOptionOperationFailure:SubmitionFailure()
-        object AddPointToUserFailure:SubmitionFailure()
+        object CheaterFailure:SubmitionFailure()
         class UknownFailure(val t:Throwable):SubmitionFailure()
     }
 

@@ -64,7 +64,6 @@ class AuthentificationLocal @Inject constructor(val preference:SharedPreferences
         }
     }
     fun saveUserLogged(info:LoginResult){
-        Log.e("errr", "saving")
         preference.edit().apply{
             putString(USER_EMAIL , info.email)
             putString(USER_IMAGEURL , info.picture)

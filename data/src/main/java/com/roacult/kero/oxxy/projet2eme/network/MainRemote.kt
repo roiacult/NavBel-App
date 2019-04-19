@@ -3,8 +3,11 @@ package com.roacult.kero.oxxy.projet2eme.network
 import com.roacult.kero.oxxy.domain.exception.Failure
 import com.roacult.kero.oxxy.domain.functional.Either
 import com.roacult.kero.oxxy.domain.interactors.None
+import com.roacult.kero.oxxy.domain.interactors.SubmitionParam
+import com.roacult.kero.oxxy.domain.interactors.SubmitionResult
 import com.roacult.kero.oxxy.domain.modules.ChalengeDetailles
 import com.roacult.kero.oxxy.domain.modules.ChalengeGlobale
+import com.roacult.kero.oxxy.domain.modules.User
 import com.roacult.kero.oxxy.projet2eme.network.entities.*
 import com.roacult.kero.oxxy.projet2eme.network.services.MainService
 import com.roacult.kero.oxxy.projet2eme.utils.*
@@ -144,52 +147,60 @@ open class MainRemote @Inject constructor(private val service :MainService) {
     }
 
     /**
-     * this function will handle the action of getting the true options of a particular challenge
-     * a true option object is composed of the questionId  , optionId , point that will gain a user if he got the correct option
-     * @param challengeId is the id of the challenge we want to get its trueOptions
+     *sending request to correct challenges
+     * @param submitionResult will hold the challengeId  and the user answers of the challenge questions
+     * @param userId the userId that refer to the user who has solved this challenge
+     * @author akram09
      */
-    suspend fun getTrueOptionOfChallenge(challengeId :Int ):Either<Failure.SubmitionFailure ,TrueOptions > =
-            service.getTrueOptions(TrueOptionParam(challengeId) , token())
-                .lambdaEnqueue(
-                {
-                    Either.Left(Failure.SubmitionFailure.UknownFailure(it))
-                }
-            ){
-                val response = it.body()
-                if(response!=null){
-                    if(response.repoonse!=1){
-                        Either.Left(Failure.SubmitionFailure.GetTrueOptionOperationFailure)
-                    }else{
-                        if(response.options!=null){
-                            Either.Right(response)
-                        }else{
-                            Either.Left(Failure.SubmitionFailure.GetTrueOptionOperationFailure)
-                        }
-                    }
-                }else{
-                    Either.Left(Failure.SubmitionFailure.GetTrueOptionOperationFailure)
-                }
-            }
+    suspend fun correctChallenge( submitionResult: SubmitionParam , userId: Long):
+            Either<Failure.SubmitionFailure , SubmitionResult> =
+        service.correctChallenge(mapDomainParamToDataEntities(submitionResult, userId)
+            , token()).lambdaEnqueue(
+            {
+                it.printStackTrace()
+        Either.Left(Failure.SubmitionFailure.UknownFailure(it))
+            })
+        {
+            mapApiResponseToDomainResponse(it)
+        }
 
     /**
-     * adding point to the user
-     * @param userId id of the user
-     * @param point number of point accumulated
+     * map api response to domain entity
      */
-    suspend fun addPointToUser(userId:Long ,point :Long ):Either<Failure.SubmitionFailure , None> =
-        service.addPointToUser(AddPointParam(userId, point) , token()).lambdaEnqueue({
-                      Either.Left(Failure.SubmitionFailure.UknownFailure(it))
-        }){
-            val body = it.body()
-          if(body!=null){
-              if(body.reponse!=1){
-                  Either.Left(Failure.SubmitionFailure.AddPointToUserFailure)
-              }else{
-                  Either.Right(None())
-              }
-          }else{
-              Either.Left(Failure.SubmitionFailure.AddPointToUserFailure)
-          }
+    private fun mapApiResponseToDomainResponse(response: Response<CorrectionResult>)
+    :Either<Failure.SubmitionFailure, SubmitionResult>{
+        val reponse = response.body()
+        return if(reponse==null){
+            Either.Left(Failure.SubmitionFailure.UknownFailure(Throwable("empty response")))
+        }else{
+            mapCorrResToSubmitRes(reponse)
         }
+    }
+
+    /**
+     * map response  to domain entity
+     * response 0 ->  the user has cheated
+     * 1 -> valid operation everything got well
+     * -1 -> backend problem
+     */
+    private fun mapCorrResToSubmitRes(correctionResult: CorrectionResult):Either<Failure.SubmitionFailure , SubmitionResult>{
+       return when(correctionResult.reponse){
+            0-> Either.Left(Failure.SubmitionFailure.CheaterFailure)
+            1->Either.Right(SubmitionResult(correctionResult.playerPoint!=0L ,correctionResult.playerPoint))
+            -1->Either.Left(Failure.SubmitionFailure.GetTrueOptionOperationFailure)
+            else->Either.Left(Failure.SubmitionFailure.UknownFailure(Throwable("Invalid response")))
+        }
+    }
+
+    /**
+     * map domain param to api body request
+     */
+    private fun mapDomainParamToDataEntities(submitionResult: SubmitionParam , userId: Long) = UserAnswers(submitionResult.chalengeId.toLong() ,
+        userId , mapPercentageToLong(submitionResult.timeTakenPercentage), mapAnwersToList(submitionResult.answers)
+        )
+    private fun mapPercentageToLong(percent :Float)=(percent*10).toLong()
+    private fun mapAnwersToList(map:Map<Long , Long >)= map.toList().map {
+        QuestionAnswer(it.first , it.second)
+    }
 
 }

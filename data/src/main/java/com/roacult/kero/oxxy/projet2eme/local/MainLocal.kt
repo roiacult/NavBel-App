@@ -25,6 +25,7 @@ open class MainLocal @Inject constructor( private val preferences: SharedPrefere
             remove(USER_NAME)
             remove(USER_IMAGEURL)
             remove(USER_CONNECTED)
+            remove(IS_PUBLIC)
         }
     }
     fun getMail():String  = preferences.getString(USER_EMAIL , "")
