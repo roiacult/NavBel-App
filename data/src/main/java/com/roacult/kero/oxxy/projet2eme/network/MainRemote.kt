@@ -208,7 +208,10 @@ open class MainRemote @Inject constructor(private val service :MainService , pri
         QuestionAnswer(it.first , it.second)
     }
 
-
+    /**
+     * getting user Info from api
+     * @param userId the  id of the user
+     */
     suspend fun getUserInfoFromRemote(userId: Long):Either<Failure.GetUserInfoFailure , LoginResult>
            = service.getUserInfo(UserId(userId) , token())
         .lambdaEnqueue({
@@ -233,10 +236,14 @@ open class MainRemote @Inject constructor(private val service :MainService , pri
         }
     }
 
+    /**
+     * updating user info
+     */
     suspend  fun updateUserInfo(updateUserInfoParam: UpdateUserInfoParam , userId: Long):Either<Failure.UpDateUserInfo , String>
        = service.updateUserInfo(
         UpdateUserParam(userId , updateUserInfoParam.fname , updateUserInfoParam.lName
-        , updateUserInfoParam.picture?.run {
+        ,  //  if the user hasnt changed his image then  the picture will be null
+             updateUserInfoParam.picture?.run {
                 val baos = ByteArrayOutputStream()
                 val file = File(this)
                 val bitmap =  MediaStore.Images.Media.getBitmap(context.contentResolver , Uri.fromFile(file))

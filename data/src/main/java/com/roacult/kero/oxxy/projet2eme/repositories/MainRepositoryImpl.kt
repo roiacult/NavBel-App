@@ -83,6 +83,10 @@ return remote.getChallengeDetaille(challengeId)
         return correctionOperationResult
     }
 
+    /**
+     *  get user info we get frst from the remote if ther is error we get from local if not we update the local first before getting
+     * from local
+     */
     override suspend fun getUserInfo(): User {
           val gettingUserInfoFromRemote = remote.getUserInfoFromRemote(local.getUserId())
         if(gettingUserInfoFromRemote is Either.Right){
@@ -91,6 +95,9 @@ return remote.getChallengeDetaille(challengeId)
         return local.getUser()
     }
 
+    /**
+     * update user Info if the user has change his image then we update the local with the url we got from the server
+     */
     override suspend fun updateUserInfo(userInfoParam: UpdateUserInfoParam): Either<Failure.UpDateUserInfo, None> {
         val updatingUserInfo = remote.updateUserInfo(userInfoParam , local.getUserId())
           return if(updatingUserInfo is Either.Right){
