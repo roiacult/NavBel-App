@@ -28,14 +28,11 @@ class AwardViewModel @Inject constructor(val getAwards: GetAwards,val getUserInf
             })
         }
         scope.launchInteractor(getUserInfo,None()){
-            it.either({
-                setState { copy(userInfo = Fail(it)) }
-            },{
                 setState{copy(userInfo = Success(it))}
-            })
+            }
         }
     }
-}
+
 
 
 data class AwardState(val awards : Async<List<Award>> = Loading(),val userInfo :  Async<User> = Loading()) : State

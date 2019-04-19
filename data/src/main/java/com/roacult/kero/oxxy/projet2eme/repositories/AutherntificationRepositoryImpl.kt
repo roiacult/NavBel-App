@@ -17,7 +17,7 @@ import javax.inject.Inject
  *
  */
 class AutherntificationRepositoryImpl
-    @Inject constructor(val remote :AuthertificationRemote , val local :AuthentificationLocal):AuthentificationRepository {
+    @Inject constructor( private val remote :AuthertificationRemote  ,private  val local :AuthentificationLocal):AuthentificationRepository {
     var fname :String? = null
     /**
      * this will check the mail  and if it exist then it will send a confirmation code to the mail

@@ -17,7 +17,7 @@ class ProfileViewModel @Inject constructor(userInfo : GetUserInfo) :BaseViewMode
 
     init {
         scope.launchInteractor(userInfo, None()){
-            it.either(::handleFaile,::handleSuccess)
+            handleSuccess(it)
         }
     }
 
