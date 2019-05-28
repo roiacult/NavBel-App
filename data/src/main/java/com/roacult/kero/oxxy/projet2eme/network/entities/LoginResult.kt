@@ -1,7 +1,7 @@
 package com.roacult.kero.oxxy.projet2eme.network.entities
 
 data class  LoginResult(val reponse:Int, val email :String?, val fname:String?, val lname:String?,
-                            val year:Int?, val id:Long?
+                            val year:Int?, val id:Int?
                             ,
                             val picture:String?, val currentrank:Int?
                             , val nbsolved:Int?, val date:String?,

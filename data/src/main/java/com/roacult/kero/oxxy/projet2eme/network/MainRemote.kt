@@ -135,7 +135,7 @@ open class MainRemote @Inject constructor(private val service :MainService , pri
      * @param challengeId so he cant retry next timeTakenPercentage
      *
      */
-    suspend fun setUserTry(userId :Long , challengeId:Int ):Either<Failure.UserTryFailure,None> = suspendCoroutine{
+    suspend fun setUserTry(userId :Int , challengeId:Int ):Either<Failure.UserTryFailure,None> = suspendCoroutine{
         service.setTryChallenge(SetUserTry(userId , challengeId), token()).enqueue(object :Callback<SetUserResponse>{
             override fun onFailure(call: Call<SetUserResponse>, t: Throwable) {
                 it.resume(Either.Left(Failure.UserTryFailure.OtherFailure(t))) }
@@ -157,7 +157,7 @@ open class MainRemote @Inject constructor(private val service :MainService , pri
      * @param userId the userId that refer to the user who has solved this challenge
      * @author akram09
      */
-    suspend fun correctChallenge( submitionResult: SubmitionParam , userId: Long):
+    suspend fun correctChallenge( submitionResult: SubmitionParam , userId: Int):
             Either<Failure.SubmitionFailure , SubmitionResult> =
         service.correctChallenge(mapDomainParamToDataEntities(submitionResult, userId)
             , token()).lambdaEnqueue(
@@ -200,7 +200,7 @@ open class MainRemote @Inject constructor(private val service :MainService , pri
     /**
      * map domain param to api body request
      */
-    private fun mapDomainParamToDataEntities(submitionResult: SubmitionParam , userId: Long) = UserAnswers(submitionResult.chalengeId.toLong() ,
+    private fun mapDomainParamToDataEntities(submitionResult: SubmitionParam , userId: Int) = UserAnswers(submitionResult.chalengeId.toLong() ,
         userId , mapPercentageToLong(submitionResult.timeTakenPercentage), mapAnwersToList(submitionResult.answers)
         )
     private fun mapPercentageToLong(percent :Float)=(percent*10).toLong()
@@ -212,7 +212,7 @@ open class MainRemote @Inject constructor(private val service :MainService , pri
      * getting user Info from api
      * @param userId the  id of the user
      */
-    suspend fun getUserInfoFromRemote(userId: Long):Either<Failure.GetUserInfoFailure , LoginResult>
+    suspend fun getUserInfoFromRemote(userId: Int):Either<Failure.GetUserInfoFailure , LoginResult>
            = service.getUserInfo(UserId(userId) , token())
         .lambdaEnqueue({
            Either.Left(Failure.GetUserInfoFailure.OperationFailed)
@@ -239,7 +239,7 @@ open class MainRemote @Inject constructor(private val service :MainService , pri
     /**
      * updating user info
      */
-    suspend  fun updateUserInfo(updateUserInfoParam: UpdateUserInfoParam , userId: Long):Either<Failure.UpDateUserInfo , String>
+    suspend  fun updateUserInfo(updateUserInfoParam: UpdateUserInfoParam , userId: Int):Either<Failure.UpDateUserInfo , String>
        = service.updateUserInfo(
         UpdateUserParam(userId , updateUserInfoParam.fname , updateUserInfoParam.lName
         ,  //  if the user hasnt changed his image then  the picture will be null

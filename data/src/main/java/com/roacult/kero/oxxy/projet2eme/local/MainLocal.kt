@@ -9,7 +9,7 @@ import javax.inject.Inject
 open class MainLocal @Inject constructor( private val preferences: SharedPreferences){
     fun getChallengeRequest():Request{
        return Request( year =  preferences.getInt(USER_YEAR, 0) ,
-           id = preferences.getLong(
+           id = preferences.getInt(
            USER_ID , 0))
     }
     fun getUser() = preferences.run {
@@ -58,7 +58,7 @@ open class MainLocal @Inject constructor( private val preferences: SharedPrefere
     fun save(it: Int?) {
     preferences.edit().putInt(CHALLENGE_NSOLVED, it?:0).commit()
     }
-    fun getUserId():Long  = preferences.getLong(USER_ID , 0)
+    fun getUserId():Int  = preferences.getInt(USER_ID , 0)
     fun addPointToUser(points: Long) {
       preferences.edit().putLong(USER_POINT , preferences.getLong(USER_POINT , 0L)+points).apply()
     }

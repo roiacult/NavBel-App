@@ -16,6 +16,7 @@ import com.roacult.kero.oxxy.projet2eme.network.MainRemote
 
 import io.reactivex.Observable
 import javax.inject.Inject
+import kotlin.random.Random
 
 /**
  * this is our main repository he will handle all business logic in the main feature local and remote
@@ -90,7 +91,9 @@ return remote.getChallengeDetaille(challengeId)
     override suspend fun getUserInfo(): User {
           val gettingUserInfoFromRemote = remote.getUserInfoFromRemote(local.getUserId())
         if(gettingUserInfoFromRemote is Either.Right){
-              authLocal.saveUserLogged(gettingUserInfoFromRemote.b)
+             val list = emptyList<Int>().toMutableList()
+            for (i in 0..15 ) list += Random.nextInt(0,50)
+              authLocal.saveUserLogged(gettingUserInfoFromRemote.b.copy(ranks = list.toTypedArray()))
         }
         return local.getUser()
     }

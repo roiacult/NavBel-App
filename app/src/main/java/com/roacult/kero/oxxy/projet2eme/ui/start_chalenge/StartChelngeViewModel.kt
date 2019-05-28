@@ -1,5 +1,6 @@
 package com.roacult.kero.oxxy.projet2eme.ui.start_chalenge
 
+import android.util.Log
 import com.roacult.kero.oxxy.domain.exception.Failure
 import com.roacult.kero.oxxy.domain.interactors.*
 import com.roacult.kero.oxxy.domain.modules.ChalengeDetailles
@@ -60,12 +61,16 @@ class StartChelngeViewModel @Inject constructor(private val useCase : GetChaleng
 
     override fun startChalenge() {
         //set request to start fragment
+        Log.e("errr", "start challenge")
         setState{copy(startChalenge = Loading())}
+        Log.e("errr", "loading ")
         scope.launchInteractor(tryUseCase,chalengeGlobale.id){
             it.either({
                 setState{copy(startChalenge = Fail(it))}
+                Log.e("errr", "Fail ")
             },{
                 setState{copy(startChalenge = Success(it))}
+                Log.e("errr", "Success ")
             })
         }
     }

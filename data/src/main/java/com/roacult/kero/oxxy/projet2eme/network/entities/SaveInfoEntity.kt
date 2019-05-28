@@ -6,5 +6,5 @@ data class SaveInfo(val email:String , val fname:String , val lname:String , val
 data class SaveInfoResult(val email: String? ,val fname:String? , val lname:String? ,  val picture:String? ,
                           val year :Int? ,
                           val date:String?,
-                          val id:Long?,
+                          val id:Int?,
                           val reponse:Int)
