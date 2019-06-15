@@ -15,9 +15,9 @@
 * Dagger (dependency injection)
 *  Retrofit (Type-safe HTTP client)
 ## developed by
- - [Djawed Benahmed]([https://github.com/roiacult](https://github.com/roiacult))
- - [Boutouchent Akram]([https://github.com/akram09](https://github.com/akram09))
- - [Seyf Eddine Hasnaoui]([https://www.facebook.com/profile.php?id=100009666612144](https://www.facebook.com/profile.php?id=100009666612144))
+ - [Djawed Benahmed](https://github.com/roiacult)
+ - [Boutouchent Akram](https://github.com/akram09)
+ - [Seyf Eddine Hasnaoui](https://www.facebook.com/profile.php?id=100009666612144)
  - [Sara Hasbellaoui]()
- - [Moussa Khodja]([https://www.facebook.com/profile.php?id=100010133222789](https://www.facebook.com/profile.php?id=100010133222789))
+ - [Moussa Khodja](https://www.facebook.com/profile.php?id=100010133222789)
 #### this project is still under development ...
