@@ -10,7 +10,7 @@
 ## Base libraries used
 * RxAndroid
 * Kotlin coroutines
-* Androidx ifecycle (ViewModel , LiveData)
+* Androidx lifecycle (ViewModel , LiveData)
 * Room (local database)
 * Dagger (dependency injection)
 *  Retrofit (Type-safe HTTP client)
