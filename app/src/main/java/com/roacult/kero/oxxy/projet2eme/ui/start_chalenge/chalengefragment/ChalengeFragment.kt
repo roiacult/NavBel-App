@@ -73,6 +73,7 @@ class ChalengeFragment :BaseFragment() {
                 addUpdateListener {
                     if(it.animatedValue as Int == 1){
                         binding.questionsContainer.setCurrentItem(binding.questionsContainer.currentItem+1,true)
+                        startTimer()
                     }
                 }
                 start()
@@ -103,10 +104,7 @@ class ChalengeFragment :BaseFragment() {
             binding.questionsContainer.addOnPageChangeListener(animationPager)
             binding.questionsContainer.adapter = pagerAdapter
         }
-        binding.time.startTimer(viewModel.lastTime){
-            showDialogueFinish(R.string.time_finish, com.roacult.kero.oxxy.projet2eme.R.string.time_finish_msg)
-            viewModel.unsubscribe()
-        }
+        startTimer()
         binding.next.setOnClickListener {
             if ( viewModel.curentQuestion == null ) {
                 //TODO
@@ -115,6 +113,13 @@ class ChalengeFragment :BaseFragment() {
             }
 //            enableDisableViewGroup(binding.root as ViewGroup,false)
             viewModel.compare()
+        }
+    }
+
+    private fun startTimer() {
+        binding.time.startTimer(viewModel.lastTime){
+            showDialogueFinish(R.string.time_finish, R.string.time_finish_msg)
+            viewModel.unsubscribe()
         }
     }
 

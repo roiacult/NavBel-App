@@ -72,6 +72,7 @@ class TimeView : TextView{
      * (registring our tiker)
      * */
     fun startTimer(time : Long,onFinish : ()->Unit){
+        pauseTime = false
         onTimeFinishlistner = onFinish
         setTextColor(Color.BLACK)
         if(!itsAlredyStart){
