@@ -78,6 +78,7 @@ class TimeView : TextView{
             pauseTime = false
             this.time = time
             itsAlredyStart = true
+            timeHandler.removeCallbacks(ticker)
             timeHandler.post(ticker)
         }
     }

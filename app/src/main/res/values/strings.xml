@@ -143,4 +143,6 @@
     <string name="chek_email">check your email to get your award</string>
     <string name="not_answerd_title">Not answered !!</string>
     <string name="not_answerd_msg">please answer this question befor passing to next one</string>
+    <string name="your_points_desc">here you can find your points</string>
+    <string name="your_points_title">Points</string>
 </resources>

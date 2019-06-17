@@ -67,6 +67,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="60dp" android:id="@+id/getreward">
                         <de.hdodenhof.circleimageview.CircleImageView
+                                android:id="@+id/rewaedTarget"
                                 android:layout_gravity="center"
                                 android:src="@color/colorPrimaryDark"
                                 android:layout_width="40dp"
@@ -100,6 +101,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="60dp" android:id="@+id/description">
                         <de.hdodenhof.circleimageview.CircleImageView
+                                android:id="@+id/descTarget"
                                 android:layout_gravity="center"
                                 android:src="@color/colorPrimary"
                                 android:layout_width="40dp"
@@ -133,6 +135,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="60dp" android:id="@+id/userPoints" android:layout_marginBottom="16dp">
                         <de.hdodenhof.circleimageview.CircleImageView
+                                android:id="@+id/userPointsTarget"
                                 android:layout_gravity="center"
                                 android:src="@color/colorPrimaryDark"
                                 android:layout_width="40dp"
