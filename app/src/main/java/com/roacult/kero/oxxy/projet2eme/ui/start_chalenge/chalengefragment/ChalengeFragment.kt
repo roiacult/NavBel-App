@@ -5,7 +5,6 @@ import android.app.ProgressDialog
 import android.content.res.Configuration
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.StringRes
@@ -22,7 +21,6 @@ import com.roacult.kero.oxxy.projet2eme.utils.Fail
 import com.roacult.kero.oxxy.projet2eme.utils.Loading
 import com.roacult.kero.oxxy.projet2eme.utils.Success
 import com.roacult.kero.oxxy.projet2eme.utils.extension.questionSolved
-import com.roacult.kero.oxxy.projet2eme.utils.extension.setEnable
 import kotlinx.android.synthetic.main.start_chalenge_pager_card.view.*
 
 
@@ -73,6 +71,7 @@ class ChalengeFragment :BaseFragment() {
                 addUpdateListener {
                     if(it.animatedValue as Int == 1){
                         binding.questionsContainer.setCurrentItem(binding.questionsContainer.currentItem+1,true)
+                        startTimer()
                     }
                 }
                 start()
@@ -103,10 +102,7 @@ class ChalengeFragment :BaseFragment() {
             binding.questionsContainer.addOnPageChangeListener(animationPager)
             binding.questionsContainer.adapter = pagerAdapter
         }
-        binding.time.startTimer(viewModel.lastTime){
-            showDialogueFinish(R.string.time_finish, com.roacult.kero.oxxy.projet2eme.R.string.time_finish_msg)
-            viewModel.unsubscribe()
-        }
+        startTimer()
         binding.next.setOnClickListener {
             if ( viewModel.curentQuestion == null ) {
                 //TODO
@@ -118,16 +114,13 @@ class ChalengeFragment :BaseFragment() {
         }
     }
 
-    fun enableDisableViewGroup(viewGroup: ViewGroup, enabled: Boolean) {
-        val childCount = viewGroup.childCount
-        for (i in 0 until childCount) {
-            val view = viewGroup.getChildAt(i)
-            view.isEnabled = enabled
-            if (view is ViewGroup) {
-                enableDisableViewGroup(view, enabled)
-            }
+    private fun startTimer() {
+        binding.time.startTimer(viewModel.lastTime){
+            showDialogueFinish(R.string.time_finish, R.string.time_finish_msg)
+            viewModel.onTimeFinished()
         }
     }
+
     private fun setUpPage(page: Int) {
         if(page == viewModel.size-1) {
             binding.next.setText(R.string.submit)
@@ -136,6 +129,7 @@ class ChalengeFragment :BaseFragment() {
     }
 
     private fun performSubmition() {
+        viewModel.unsubscribe()
         val answers = viewModel.userAnswers
         if(answers.questionSolved == viewModel.size){
             viewModel.submitAnswer(binding.time.time)

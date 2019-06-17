@@ -95,15 +95,15 @@ class CardPagerAdapter constructor(private val questions : ArrayList<Question>,
         override fun upDateView(item: Option, binding: StartChalengeFragment2CardBinding) {
             binding.checkBox.text = item.option
 
-            if(viewModel.userAnswers[question.id] == item.id){
+            if(viewModel.userAnswers[question.id]?.optionId == item.id){
                 //if user alredy select this option
                 lastChecked = binding.checkBox
                 lastChecked?.isChecked = true
             }
 
             if (writeAnswer != -1L ){
-                lastChecked = null
-                binding.checkBox.isClickable = false
+                binding.checkBox.setOnCheckedChangeListener(null)
+                binding.checkBox.isEnabled = false
                 if( item.id == writeAnswer ){
                     binding.checkBox.isChecked = true
                     CompoundButtonCompat.setButtonTintList(binding.checkBox, ColorStateList.valueOf(Color.GREEN))

@@ -8,6 +8,7 @@ import android.util.Base64
 import com.roacult.kero.oxxy.domain.exception.Failure
 import com.roacult.kero.oxxy.domain.functional.Either
 import com.roacult.kero.oxxy.domain.interactors.*
+import com.roacult.kero.oxxy.domain.interactors.QuestionAnswer
 import com.roacult.kero.oxxy.domain.modules.ChalengeDetailles
 import com.roacult.kero.oxxy.domain.modules.ChalengeGlobale
 import com.roacult.kero.oxxy.projet2eme.network.entities.*
@@ -83,7 +84,7 @@ open class MainRemote @Inject constructor(private val service :MainService , pri
                reponse.reponse==1->if((reponse.questions==null) or (reponse.resource==null))
                    it.resume(Either.Left(Failure.GetChalengeDetailsFailure.OtherFailrue(Throwable("reponse incorrect"))))
                else it.resume(Either.Right(ChalengeDetailles(id
-                   ,
+                   , reponse.time!! ,
                    reponse.resource?.fromRessourceToPair()!! ,
                    reponse.questions?.mapToQuestion()!!)))
                reponse.reponse== 2-> it.resume(Either.Left(Failure.GetChalengeDetailsFailure.UserBannedTemp))
@@ -201,11 +202,10 @@ open class MainRemote @Inject constructor(private val service :MainService , pri
      * map domain param to api body request
      */
     private fun mapDomainParamToDataEntities(submitionResult: SubmitionParam , userId: Int) = UserAnswers(submitionResult.chalengeId.toLong() ,
-        userId ,  mapAnwersToList(submitionResult.answers)
+        userId ,/*TODO*/0L, mapAnwersToList(submitionResult.answers)
         )
-    private fun mapPercentageToLong(percent :Float)=(percent*10).toLong()
-    private fun mapAnwersToList(map:Map<Long , Answer >)= map.toList().map {
-        QuestionAnswer(it.first , it.second)
+    private fun mapAnwersToList(map:Map<Long , QuestionAnswer >)= map.toList().map {
+        com.roacult.kero.oxxy.projet2eme.network.entities.QuestionAnswer(it.first , it.second.optionId)
     }
 
     /**

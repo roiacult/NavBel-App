@@ -168,8 +168,8 @@ return remote.getChallengeDetaille(challengeId)
 //    }
 //
 //    /**
-//     * we calculate the time penalty if the user solve it in <60% of the given time  he got all the
-//     * point dedicated to the challenge else for each 10%time taken mor than 60% he will be
+//     * we calculate the isFinished penalty if the user solve it in <60% of the given isFinished  he got all the
+//     * point dedicated to the challenge else for each 10%isFinished taken mor than 60% he will be
 //     * cut 20% of his point
 //     */
 //    private fun calculateTimePenalty(timeTakenPercent: Float , pointGot :Long) = when {
