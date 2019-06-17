@@ -44,7 +44,7 @@ class ResultFragment  : BaseFragment(){
         val note = (result.points*100)/viewModel.chalengeGlobale.point
         var time : Int = 0
         viewModel.withState {
-            time = viewModel.time.toInt()*100 /(it.getChalengeDetailles as Success).invoke().time
+            time = viewModel.time.toInt()*100 /(it.getChalengeDetailles as Success).invoke().questions.sumBy { it.time.toInt() }
         }
         binding.noteProg.progress = note.toInt()
         binding.timeProg.progress = time

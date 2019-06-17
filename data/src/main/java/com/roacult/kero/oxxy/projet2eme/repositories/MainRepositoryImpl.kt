@@ -66,7 +66,7 @@ return remote.getChallengeDetaille(challengeId)
      * so this function will get the userID from local and run the request with the
      * @param challengeId
      */
-    override suspend fun setUserTry(challengeId: Int): Either<Failure.UserTryFailure, None> {
+    override suspend fun setUserTry(challengeId: Int): Either<Failure.UserTryFailure, Map<Long , Long>> {
             return remote.setUserTry(local.getUserId() , challengeId)
     }
 

@@ -84,7 +84,7 @@ open class MainRemote @Inject constructor(private val service :MainService , pri
                reponse.reponse==1->if((reponse.questions==null) or (reponse.resource==null))
                    it.resume(Either.Left(Failure.GetChalengeDetailsFailure.OtherFailrue(Throwable("reponse incorrect"))))
                else it.resume(Either.Right(ChalengeDetailles(id
-                   , reponse.time!! ,
+                    ,
                    reponse.resource?.fromRessourceToPair()!! ,
                    reponse.questions?.mapToQuestion()!!)))
                reponse.reponse== 2-> it.resume(Either.Left(Failure.GetChalengeDetailsFailure.UserBannedTemp))
@@ -136,14 +136,15 @@ open class MainRemote @Inject constructor(private val service :MainService , pri
      * @param challengeId so he cant retry next timeTakenPercentage
      *
      */
-    suspend fun setUserTry(userId :Int , challengeId:Int ):Either<Failure.UserTryFailure,None> = suspendCoroutine{
+    suspend fun setUserTry(userId :Int , challengeId:Int ):Either<Failure.UserTryFailure,Map<Long , Long >> = suspendCoroutine{
         service.setTryChallenge(SetUserTry(userId , challengeId), token()).enqueue(object :Callback<SetUserResponse>{
             override fun onFailure(call: Call<SetUserResponse>, t: Throwable) {
                 it.resume(Either.Left(Failure.UserTryFailure.OtherFailure(t))) }
 
             override fun onResponse(call: Call<SetUserResponse>, response: Response<SetUserResponse>) {
-           if(response.body()?.reponse==1){
-               it.resume(Either.Right(None()))
+                val reponse = response.body()
+           if(reponse?.reponse==1){
+               it.resume(Either.Right(reponse.answers.mapRemoteAnswersToDomain()))
            }else{
                it.resume(Either.Left(Failure.UserTryFailure.ChallengeAlreadySolved))
            }
@@ -202,10 +203,10 @@ open class MainRemote @Inject constructor(private val service :MainService , pri
      * map domain param to api body request
      */
     private fun mapDomainParamToDataEntities(submitionResult: SubmitionParam , userId: Int) = UserAnswers(submitionResult.chalengeId.toLong() ,
-        userId ,/*TODO*/0L, mapAnwersToList(submitionResult.answers)
+        userId , mapAnwersToList(submitionResult.answers)
         )
     private fun mapAnwersToList(map:Map<Long , QuestionAnswer >)= map.toList().map {
-        com.roacult.kero.oxxy.projet2eme.network.entities.QuestionAnswer(it.first , it.second.optionId)
+        com.roacult.kero.oxxy.projet2eme.network.entities.RemoteQuestionAnswer(it.first , it.second.optionId , it.second.isFinished)
     }
 
     /**

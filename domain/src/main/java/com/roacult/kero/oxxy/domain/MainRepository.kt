@@ -17,7 +17,7 @@ interface MainRepository {
     suspend  fun getChallengeDetaille(challengeId:Int):Either<Failure.GetChalengeDetailsFailure ,ChalengeDetailles>
     fun checkChallenge(id:Int):Observable<Int>
     fun clearObservable()
-    suspend fun setUserTry(challengeId: Int):Either<Failure.UserTryFailure , None>
+    suspend fun setUserTry(challengeId: Int):Either<Failure.UserTryFailure , Map<Long  , Long>>
     suspend fun checkSubmit(answer:SubmitionParam ):Either<Failure.SubmitionFailure , SubmitionResult>
     suspend  fun getUserInfo():User
     suspend fun updateUserInfo(userInfoParam: UpdateUserInfoParam):Either<Failure.UpDateUserInfo , None>
