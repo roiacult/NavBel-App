@@ -17,5 +17,5 @@ class SubmitAnswer @Inject constructor(dispatchers: CouroutineDispatchers ,
     }
 }
 data class SubmitionParam(val answers : Map<Long,QuestionAnswer>, val chalengeId : Int)
-data class QuestionAnswer(var optionId : Long, var time : Long)
+data class QuestionAnswer(var optionId : Long, var isFinished : Boolean)
 data class SubmitionResult(val success : Boolean, val points : Long)

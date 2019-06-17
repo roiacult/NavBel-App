@@ -8,6 +8,7 @@ import android.util.Base64
 import com.roacult.kero.oxxy.domain.exception.Failure
 import com.roacult.kero.oxxy.domain.functional.Either
 import com.roacult.kero.oxxy.domain.interactors.*
+import com.roacult.kero.oxxy.domain.interactors.QuestionAnswer
 import com.roacult.kero.oxxy.domain.modules.ChalengeDetailles
 import com.roacult.kero.oxxy.domain.modules.ChalengeGlobale
 import com.roacult.kero.oxxy.projet2eme.network.entities.*
@@ -201,11 +202,10 @@ open class MainRemote @Inject constructor(private val service :MainService , pri
      * map domain param to api body request
      */
     private fun mapDomainParamToDataEntities(submitionResult: SubmitionParam , userId: Int) = UserAnswers(submitionResult.chalengeId.toLong() ,
-        userId , mapPercentageToLong(submitionResult.timeTakenPercentage), mapAnwersToList(submitionResult.answers)
+        userId ,/*TODO*/0L, mapAnwersToList(submitionResult.answers)
         )
-    private fun mapPercentageToLong(percent :Float)=(percent*10).toLong()
-    private fun mapAnwersToList(map:Map<Long , Long >)= map.toList().map {
-        QuestionAnswer(it.first , it.second)
+    private fun mapAnwersToList(map:Map<Long , QuestionAnswer >)= map.toList().map {
+        com.roacult.kero.oxxy.projet2eme.network.entities.QuestionAnswer(it.first , it.second.optionId)
     }
 
     /**

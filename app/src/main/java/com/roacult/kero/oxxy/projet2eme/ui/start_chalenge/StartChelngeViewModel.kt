@@ -55,7 +55,7 @@ class StartChelngeViewModel @Inject constructor(
         lastTime = chalengeDetailles.questions.getOrNull(0)?.time ?: 0L
         size = chalengeDetailles.questions.size
         //init map of userAnswers
-        for(question in chalengeDetailles.questions){ userAnswers[question.id] = QuestionAnswer(-1L,-1L) }
+        for(question in chalengeDetailles.questions){ userAnswers[question.id] = QuestionAnswer(-1L,true) }
         setState { copy(getChalengeDetailles = Success(chalengeDetailles),questionSolved =userAnswers.questionSolved ) }
     }
 
@@ -146,6 +146,6 @@ class StartChelngeViewModel @Inject constructor(
 
     fun onTimeFinished() {
         val questionId = (state.value!!.getChalengeDetailles as Success).invoke().questions[state.value!!.page.peekContent()].id
-        userAnswers[questionId]?.time = 0L
+        userAnswers[questionId]?.isFinished = false
     }
 }
