@@ -6,7 +6,7 @@ import com.roacult.kero.oxxy.domain.functional.CouroutineDispatchers
 import com.roacult.kero.oxxy.domain.functional.Either
 import kotlinx.coroutines.delay
 import javax.inject.Inject
-
+data class Answer(val optionId:Long , val time:Long )
 class SubmitAnswer @Inject constructor(dispatchers: CouroutineDispatchers ,
                                        val repo:MainRepository) : EitherInteractor<SubmitionParam,SubmitionResult, Failure.SubmitionFailure> {
     override val dispatcher =dispatchers.computaion
@@ -16,5 +16,5 @@ class SubmitAnswer @Inject constructor(dispatchers: CouroutineDispatchers ,
        return repo.checkSubmit(executeParams)
     }
 }
-data class SubmitionParam(val answers : Map<Long,Long>, val timeTakenPercentage : Float, val chalengeId : Int)
+data class SubmitionParam(val answers : Map<Long,Answer>,  val chalengeId : Int)
 data class SubmitionResult(val success : Boolean, val points : Long)

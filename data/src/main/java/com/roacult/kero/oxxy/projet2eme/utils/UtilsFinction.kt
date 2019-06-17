@@ -20,7 +20,7 @@ fun List<QuestionReponse>.mapToQuestion():List<Question>{
    return  this.map {
         Question(it.id.toLong(), it.question , it.options.map {
             Option(it.id.toLong() , it.trueoption)
-        },/*TODO change this*/1000)
+        },it.time)
     }
 }
 suspend  fun  <T , F: Failure, R> Call<R>.lambdaEnqueue( onFailure:(t:Throwable)->Either<F , T>
