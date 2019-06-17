@@ -40,7 +40,7 @@ class ChalengeFragment :BaseFragment() {
 
     companion object {
         fun getInstance() = ChalengeFragment()
-        const val TIME_FOR_QUESTION = 3000L
+        const val TIME_FOR_QUESTION = 2000L
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -65,7 +65,6 @@ class ChalengeFragment :BaseFragment() {
             adapter?.writeAnswer = answer
             adapter?.notifyDataSetChanged()
             viewModel.curentQuestion = null
-            showMessage("start timer to pass to another question")
             ValueAnimator.ofInt(0,1).apply{
                 duration = TIME_FOR_QUESTION
                 addUpdateListener {

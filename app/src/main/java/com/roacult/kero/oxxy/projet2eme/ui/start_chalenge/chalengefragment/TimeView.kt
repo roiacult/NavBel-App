@@ -72,10 +72,10 @@ class TimeView : TextView{
      * (registring our tiker)
      * */
     fun startTimer(time : Long,onFinish : ()->Unit){
-        pauseTime = false
         onTimeFinishlistner = onFinish
         setTextColor(Color.BLACK)
-        if(!itsAlredyStart){
+        if(!itsAlredyStart || pauseTime){
+            pauseTime = false
             this.time = time
             itsAlredyStart = true
             timeHandler.post(ticker)
