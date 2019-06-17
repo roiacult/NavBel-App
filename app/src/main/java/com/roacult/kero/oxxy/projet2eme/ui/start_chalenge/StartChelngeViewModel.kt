@@ -22,7 +22,7 @@ class StartChelngeViewModel @Inject constructor(
 ), ResourceFragment.CallbackToViewModel {
 
     lateinit var chalengeGlobale: ChalengeGlobale
-    val userAnswers = mutableMapOf<Long,Long>()
+    val userAnswers = mutableMapOf<Long,QuestionAnswer>()
     lateinit var writeAnswers : Map<Long,Long>
     private var dispos : Disposable? = null
     lateinit var submitionResult  :SubmitionResult
@@ -55,7 +55,7 @@ class StartChelngeViewModel @Inject constructor(
         lastTime = chalengeDetailles.questions.getOrNull(0)?.time ?: 0L
         size = chalengeDetailles.questions.size
         //init map of userAnswers
-        for(question in chalengeDetailles.questions){ userAnswers[question.id] = -1 }
+        for(question in chalengeDetailles.questions){ userAnswers[question.id] = QuestionAnswer(-1L,-1L) }
         setState { copy(getChalengeDetailles = Success(chalengeDetailles),questionSolved =userAnswers.questionSolved ) }
     }
 
@@ -104,7 +104,7 @@ class StartChelngeViewModel @Inject constructor(
 
     fun setAnswer(questions : Question ,optionId :Long){
         curentQuestion = questions
-        userAnswers[questions.id] = optionId
+        userAnswers[questions.id]?.optionId = optionId
         setState { copy(questionSolved = userAnswers.questionSolved) }
     }
 
@@ -116,12 +116,7 @@ class StartChelngeViewModel @Inject constructor(
     fun submitAnswer(time : Long) {
         this.time = time
         setState { copy(submition = Loading()) }
-        var challengeTime : Long = 0L
-        withState{
-            challengeTime = (it.getChalengeDetailles as? Success)?.invoke()?.time?.toLong() ?: 2000
-        }
-        val timePercent = challengeTime.toFloat()/time.toFloat()
-        scope.launchInteractor(submit,SubmitionParam(userAnswers,timePercent,chalengeGlobale.id)){
+        scope.launchInteractor(submit,SubmitionParam(userAnswers,chalengeGlobale.id)){
             it.either({
                 setState{copy(submition = Fail(it))}
             },{
@@ -147,5 +142,10 @@ class StartChelngeViewModel @Inject constructor(
         lastTime = questions.getOrNull((state.value!!.page.peekContent()+1))?.time ?: 0L
         val writeAnswer = writeAnswers.getOrElse(curentQuestion!!.id) { -1 }
         setState { copy(writeAnswer = Event(writeAnswer))}
+    }
+
+    fun onTimeFinished() {
+        val questionId = (state.value!!.getChalengeDetailles as Success).invoke().questions[state.value!!.page.peekContent()].id
+        userAnswers[questionId]?.time = 0L
     }
 }

@@ -16,5 +16,6 @@ class SubmitAnswer @Inject constructor(dispatchers: CouroutineDispatchers ,
        return repo.checkSubmit(executeParams)
     }
 }
-data class SubmitionParam(val answers : Map<Long,Long>, val timeTakenPercentage : Float, val chalengeId : Int)
+data class SubmitionParam(val answers : Map<Long,QuestionAnswer>, val chalengeId : Int)
+data class QuestionAnswer(var optionId : Long, var time : Long)
 data class SubmitionResult(val success : Boolean, val points : Long)

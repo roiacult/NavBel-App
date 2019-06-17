@@ -1,6 +1,7 @@
 package com.roacult.kero.oxxy.projet2eme.utils.extension
 
 import androidx.recyclerview.widget.SortedList
+import com.roacult.kero.oxxy.domain.interactors.QuestionAnswer
 import com.roacult.kero.oxxy.domain.modules.Question
 import java.util.regex.Matcher
 import java.util.regex.Pattern
@@ -22,11 +23,11 @@ fun <D> SortedList<D>.toList() : List<D>{
     return list
 }
 
-val MutableMap<Long,Long>.questionSolved : Int
+val MutableMap<Long,QuestionAnswer>.questionSolved : Int
     get() {
         var count = 0
         for (id in this){
-            if(id.value != -1L) count++
+            if(id.value.optionId != -1L) count++
         }
         return count
     }
