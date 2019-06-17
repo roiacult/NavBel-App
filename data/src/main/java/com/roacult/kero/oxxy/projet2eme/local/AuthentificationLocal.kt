@@ -30,8 +30,9 @@ class AuthentificationLocal @Inject constructor(val preference:SharedPreferences
              putInt(NQSOLVED , 0)
              putString(USER_DATE , user.date)
              putInt(USER_YEAR , user.year ?:0)
-             putLong(USER_ID  , user.id ?:0)
-             //todo rank table
+             putInt(USER_ID  , user.id ?:0)
+             putStringSet(RANK_TABLE , emptySet())
+             putBoolean(IS_PUBLIC , true)
             commit()
          }
         it.resume(Either.Right(None()))
@@ -64,7 +65,6 @@ class AuthentificationLocal @Inject constructor(val preference:SharedPreferences
         }
     }
     fun saveUserLogged(info:LoginResult){
-        Log.e("errr", "saving")
         preference.edit().apply{
             putString(USER_EMAIL , info.email)
             putString(USER_IMAGEURL , info.picture)
@@ -75,9 +75,10 @@ class AuthentificationLocal @Inject constructor(val preference:SharedPreferences
             putInt(USER_RANK ,info.currentrank ?: 0)
             putInt(NQSOLVED , info.nbsolved ?: 0)
             putString(USER_DATE , info.date)
-            putLong(USER_ID , info.id ?:0)
+            putInt(USER_ID , info.id ?:0)
             putInt(USER_YEAR , info.year ?:0)
-//            putStringSet()
+            putBoolean(IS_PUBLIC , info.ispublic)
+            putStringSet(RANK_TABLE , info.ranks?.map { it.toString() }?.toSet() ?: emptyArray<String>().toSet())
             commit()
         }
     }

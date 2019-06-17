@@ -65,15 +65,15 @@ sealed class Failure {
 
     sealed class SubmitionFailure : Failure(){
       object GetTrueOptionOperationFailure:SubmitionFailure()
-        object AddPointToUserFailure:SubmitionFailure()
+        object CheaterFailure:SubmitionFailure()
         class UknownFailure(val t:Throwable):SubmitionFailure()
     }
 
     sealed class GetUserInfoFailure : Failure(){
-        //TODO
+        object OperationFailed:GetUserInfoFailure()
     }
     sealed class UpDateUserInfo : Failure() {
-        //TODO
+        object OperationFailed:UpDateUserInfo()
     }
     sealed class GetAwardsFailure: Failure(){
         //TODO

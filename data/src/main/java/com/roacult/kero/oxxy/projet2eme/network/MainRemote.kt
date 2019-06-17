@@ -1,11 +1,17 @@
 package com.roacult.kero.oxxy.projet2eme.network
 
+import android.content.Context
+import android.graphics.Bitmap
+import android.net.Uri
+import android.provider.MediaStore
+import android.util.Base64
 import com.roacult.kero.oxxy.domain.exception.Failure
 import com.roacult.kero.oxxy.domain.functional.Either
-import com.roacult.kero.oxxy.domain.interactors.None
+import com.roacult.kero.oxxy.domain.interactors.*
 import com.roacult.kero.oxxy.domain.modules.ChalengeDetailles
 import com.roacult.kero.oxxy.domain.modules.ChalengeGlobale
 import com.roacult.kero.oxxy.projet2eme.network.entities.*
+import com.roacult.kero.oxxy.projet2eme.network.entities.SetUserTry
 import com.roacult.kero.oxxy.projet2eme.network.services.MainService
 import com.roacult.kero.oxxy.projet2eme.utils.*
 import io.reactivex.BackpressureStrategy
@@ -15,6 +21,8 @@ import io.reactivex.subjects.BehaviorSubject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.io.ByteArrayOutputStream
+import java.io.File
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import kotlin.coroutines.resume
@@ -24,7 +32,7 @@ import kotlin.coroutines.suspendCoroutine
  * this class will handle the request from the main view it will get challenge launch challenge check a challenge if he is one or not
  * ..etc
  */
-open class MainRemote @Inject constructor(private val service :MainService) {
+open class MainRemote @Inject constructor(private val service :MainService , private  val context: Context) {
 
     /**
      * this will be the bucket where we put all of ou observable
@@ -127,7 +135,7 @@ open class MainRemote @Inject constructor(private val service :MainService) {
      * @param challengeId so he cant retry next timeTakenPercentage
      *
      */
-    suspend fun setUserTry(userId :Long , challengeId:Int ):Either<Failure.UserTryFailure,None> = suspendCoroutine{
+    suspend fun setUserTry(userId :Int , challengeId:Int ):Either<Failure.UserTryFailure,None> = suspendCoroutine{
         service.setTryChallenge(SetUserTry(userId , challengeId), token()).enqueue(object :Callback<SetUserResponse>{
             override fun onFailure(call: Call<SetUserResponse>, t: Throwable) {
                 it.resume(Either.Left(Failure.UserTryFailure.OtherFailure(t))) }
@@ -144,52 +152,123 @@ open class MainRemote @Inject constructor(private val service :MainService) {
     }
 
     /**
-     * this function will handle the action of getting the true options of a particular challenge
-     * a true option object is composed of the questionId  , optionId , point that will gain a user if he got the correct option
-     * @param challengeId is the id of the challenge we want to get its trueOptions
+     *sending request to correct challenges
+     * @param submitionResult will hold the challengeId  and the user answers of the challenge questions
+     * @param userId the userId that refer to the user who has solved this challenge
+     * @author akram09
      */
-    suspend fun getTrueOptionOfChallenge(challengeId :Int ):Either<Failure.SubmitionFailure ,TrueOptions > =
-            service.getTrueOptions(TrueOptionParam(challengeId) , token())
-                .lambdaEnqueue(
-                {
-                    Either.Left(Failure.SubmitionFailure.UknownFailure(it))
-                }
-            ){
-                val response = it.body()
-                if(response!=null){
-                    if(response.repoonse!=1){
-                        Either.Left(Failure.SubmitionFailure.GetTrueOptionOperationFailure)
-                    }else{
-                        if(response.options!=null){
-                            Either.Right(response)
-                        }else{
-                            Either.Left(Failure.SubmitionFailure.GetTrueOptionOperationFailure)
-                        }
-                    }
-                }else{
-                    Either.Left(Failure.SubmitionFailure.GetTrueOptionOperationFailure)
-                }
-            }
-
-    /**
-     * adding point to the user
-     * @param userId id of the user
-     * @param point number of point accumulated
-     */
-    suspend fun addPointToUser(userId:Long ,point :Long ):Either<Failure.SubmitionFailure , None> =
-        service.addPointToUser(AddPointParam(userId, point) , token()).lambdaEnqueue({
-                      Either.Left(Failure.SubmitionFailure.UknownFailure(it))
-        }){
-            val body = it.body()
-          if(body!=null){
-              if(body.reponse!=1){
-                  Either.Left(Failure.SubmitionFailure.AddPointToUserFailure)
-              }else{
-                  Either.Right(None())
-              }
-          }else{
-              Either.Left(Failure.SubmitionFailure.AddPointToUserFailure)
-          }
+    suspend fun correctChallenge( submitionResult: SubmitionParam , userId: Int):
+            Either<Failure.SubmitionFailure , SubmitionResult> =
+        service.correctChallenge(mapDomainParamToDataEntities(submitionResult, userId)
+            , token()).lambdaEnqueue(
+            {
+                it.printStackTrace()
+        Either.Left(Failure.SubmitionFailure.UknownFailure(it))
+            })
+        {
+            mapApiResponseToDomainResponse(it)
         }
 
+    /**
+     * map api response to domain entity
+     */
+    private fun mapApiResponseToDomainResponse(response: Response<CorrectionResult>)
+    :Either<Failure.SubmitionFailure, SubmitionResult>{
+        val reponse = response.body()
+        return if(reponse==null){
+            Either.Left(Failure.SubmitionFailure.UknownFailure(Throwable("empty response")))
+        }else{
+            mapCorrResToSubmitRes(reponse)
+        }
+    }
+
+    /**
+     * map response  to domain entity
+     * response 0 ->  the user has cheated
+     * 1 -> valid operation everything got well
+     * -1 -> backend problem
+     */
+    private fun mapCorrResToSubmitRes(correctionResult: CorrectionResult):Either<Failure.SubmitionFailure , SubmitionResult>{
+       return when(correctionResult.reponse){
+            0-> Either.Left(Failure.SubmitionFailure.CheaterFailure)
+            1->Either.Right(SubmitionResult(correctionResult.playerPoint!=0L ,correctionResult.playerPoint))
+            -1->Either.Left(Failure.SubmitionFailure.GetTrueOptionOperationFailure)
+            else->Either.Left(Failure.SubmitionFailure.UknownFailure(Throwable("Invalid response")))
+        }
+    }
+
+    /**
+     * map domain param to api body request
+     */
+    private fun mapDomainParamToDataEntities(submitionResult: SubmitionParam , userId: Int) = UserAnswers(submitionResult.chalengeId.toLong() ,
+        userId , mapPercentageToLong(submitionResult.timeTakenPercentage), mapAnwersToList(submitionResult.answers)
+        )
+    private fun mapPercentageToLong(percent :Float)=(percent*10).toLong()
+    private fun mapAnwersToList(map:Map<Long , Long >)= map.toList().map {
+        QuestionAnswer(it.first , it.second)
+    }
+
+    /**
+     * getting user Info from api
+     * @param userId the  id of the user
+     */
+    suspend fun getUserInfoFromRemote(userId: Int):Either<Failure.GetUserInfoFailure , LoginResult>
+           = service.getUserInfo(UserId(userId) , token())
+        .lambdaEnqueue({
+           Either.Left(Failure.GetUserInfoFailure.OperationFailed)
+
+                       })
+             {
+                 mapServerRestoUsrInfoResp(it)
+
+             }
+    private fun mapServerRestoUsrInfoResp(response: Response<LoginResult>) :Either<Failure.GetUserInfoFailure , LoginResult>{
+        val reponseBody  = response.body()
+       return  if(reponseBody!=null){
+            if(reponseBody.reponse==1){
+            Either.Right(reponseBody)
+            }else{
+                Either.Left(Failure.GetUserInfoFailure.OperationFailed)
+
+            }
+        }else{
+             Either.Left(Failure.GetUserInfoFailure.OperationFailed)
+        }
+    }
+
+    /**
+     * updating user info
+     */
+    suspend  fun updateUserInfo(updateUserInfoParam: UpdateUserInfoParam , userId: Int):Either<Failure.UpDateUserInfo , String>
+       = service.updateUserInfo(
+        UpdateUserParam(userId , updateUserInfoParam.fname , updateUserInfoParam.lName
+        ,  //  if the user hasnt changed his image then  the picture will be null
+             updateUserInfoParam.picture?.run {
+                val baos = ByteArrayOutputStream()
+                val file = File(this)
+                val bitmap =  MediaStore.Images.Media.getBitmap(context.contentResolver , Uri.fromFile(file))
+                bitmap.compress(
+                    Bitmap.CompressFormat.JPEG,
+                    50, baos)
+                val b = baos.toByteArray()
+                //picture encoded to bas64
+                Base64.encodeToString(b, Base64.DEFAULT)
+            }   ?: "" , updateUserInfoParam.public , updateUserInfoParam.password), token())
+        .lambdaEnqueue({
+            it.printStackTrace()
+            return@lambdaEnqueue  Either.Left(Failure.UpDateUserInfo.OperationFailed)
+        }){
+            val responseBody =  it.body()
+           if(responseBody==null) {
+               return@lambdaEnqueue  Either.Left(Failure.UpDateUserInfo.OperationFailed)
+             }else{
+                 if(responseBody.reponse==1){
+                     return@lambdaEnqueue Either.Right(responseBody.picture)
+                 }else{
+                     return@lambdaEnqueue Either.Left(Failure.UpDateUserInfo.OperationFailed)
+                 }
+             }
+
+
+        }
 }

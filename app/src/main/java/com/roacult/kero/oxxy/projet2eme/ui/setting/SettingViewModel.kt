@@ -36,7 +36,7 @@ class SettingViewModel @Inject constructor(val updateUserInfo: UpdateUserInfo)  
 
     fun save() {
         setState { copy(saveOp = Loading()) }
-        scope.launchInteractor(updateUserInfo, UpdateUserInfoParam(fName!!,lName!!,newPic,public)){
+        scope.launchInteractor(updateUserInfo, UpdateUserInfoParam(fName!!,lName!!,newPic,public , null)){
             it.either({
                 setState { copy(saveOp = Fail(it)) }
             },{
