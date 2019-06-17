@@ -25,6 +25,8 @@ class TimeView : TextView{
      * */
     private var itsAlredyStart = false
 
+    var pauseTime = false
+
     /**
      * this field  will hold the curent timeTakenPercentage
      *
@@ -53,7 +55,7 @@ class TimeView : TextView{
             if(time>0) {
                 //timeTakenPercentage didn't finish yet
                 onTimeChanged()
-                time-=1
+                if( !pauseTime ) time-=1
                 timeHandler.postAtTime(this, SystemClock.uptimeMillis() + 1000)
             }else{
                 //timeTakenPercentage finish

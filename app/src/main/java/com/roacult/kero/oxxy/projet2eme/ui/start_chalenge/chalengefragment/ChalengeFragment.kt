@@ -1,9 +1,11 @@
 package com.roacult.kero.oxxy.projet2eme.ui.start_chalenge.chalengefragment
 
+import android.animation.ValueAnimator
 import android.app.ProgressDialog
 import android.content.res.Configuration
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.StringRes
@@ -21,6 +23,9 @@ import com.roacult.kero.oxxy.projet2eme.utils.Loading
 import com.roacult.kero.oxxy.projet2eme.utils.Success
 import com.roacult.kero.oxxy.projet2eme.utils.extension.questionSolved
 import com.roacult.kero.oxxy.projet2eme.utils.extension.setEnable
+import kotlinx.android.synthetic.main.start_chalenge_pager_card.view.*
+
+
 
 class ChalengeFragment :BaseFragment() {
 
@@ -35,7 +40,10 @@ class ChalengeFragment :BaseFragment() {
         }
     }
 
-    companion object { fun getInstance() = ChalengeFragment() }
+    companion object {
+        fun getInstance() = ChalengeFragment()
+        const val TIME_FOR_QUESTION = 3000L
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.start_chalenge_fragmnt2,container,false)
@@ -46,9 +54,30 @@ class ChalengeFragment :BaseFragment() {
             setSolvedNumbre(it.solvedBy)
             setSolving(it.questionSolved)
             it.submition?.apply { handleSubmissionResult(this)}
+            it.writeAnswer?.getContentIfNotHandled()?.apply { handleComparison(this) }
         }
-
         return binding.root
+    }
+
+    private fun handleComparison(answer: Long) {
+        if(answer == -1L ) return
+        binding.time.pauseTime = true
+        viewModel.withState {
+            val adapter = pagerAdapter.getCardViewAt(it.page.peekContent())?.options_recycler?.adapter as? CardPagerAdapter.OptionRecyclerAdapter
+            adapter?.writeAnswer = answer
+            adapter?.notifyDataSetChanged()
+            viewModel.curentQuestion = null
+            showMessage("start timer to pass to another question")
+            ValueAnimator.ofInt(0,1).apply{
+                duration = TIME_FOR_QUESTION
+                addUpdateListener {
+                    if(it.animatedValue as Int == 1){
+                        binding.questionsContainer.setCurrentItem(binding.questionsContainer.currentItem+1,true)
+                    }
+                }
+                start()
+            }
+        }
     }
 
     private fun handleSubmissionResult(submition: Async<SubmitionResult>) {
@@ -75,30 +104,39 @@ class ChalengeFragment :BaseFragment() {
             binding.questionsContainer.adapter = pagerAdapter
         }
         binding.time.startTimer(viewModel.lastTime){
-            showDialogueFinish(R.string.time_finish,R.string.time_finish_msg)
+            showDialogueFinish(R.string.time_finish, com.roacult.kero.oxxy.projet2eme.R.string.time_finish_msg)
             viewModel.unsubscribe()
         }
-        binding.perv.setOnClickListener {
-            binding.questionsContainer.setCurrentItem(binding.questionsContainer.currentItem-1,true)
+        binding.next.setOnClickListener {
+            if ( viewModel.curentQuestion == null ) {
+                //TODO
+                showDialogueFinish(R.string.not_answerd_title, R.string.not_answerd_msg)
+                return@setOnClickListener
+            }
+//            enableDisableViewGroup(binding.root as ViewGroup,false)
+            viewModel.compare()
         }
     }
 
+    fun enableDisableViewGroup(viewGroup: ViewGroup, enabled: Boolean) {
+        val childCount = viewGroup.childCount
+        for (i in 0 until childCount) {
+            val view = viewGroup.getChildAt(i)
+            view.isEnabled = enabled
+            if (view is ViewGroup) {
+                enableDisableViewGroup(view, enabled)
+            }
+        }
+    }
     private fun setUpPage(page: Int) {
-        if(page == 0) binding.perv.setEnable(false)
-        else binding.perv.setEnable(true)
         if(page == viewModel.size-1) {
             binding.next.setText(R.string.submit)
             binding.next.setOnClickListener { performSubmition() }
-        }else{
-            binding.next.setText(R.string.next)
-            binding.next.setOnClickListener {
-                binding.questionsContainer.setCurrentItem(binding.questionsContainer.currentItem+1,true)
-            }
         }
     }
 
     private fun performSubmition() {
-        val answers = viewModel.answers
+        val answers = viewModel.userAnswers
         if(answers.questionSolved == viewModel.size){
             viewModel.submitAnswer(binding.time.time)
         }else{

@@ -83,18 +83,18 @@ class AwardFragment  : BaseFragment() , CallbackFromActivity {
     private fun setViewWithData(awards: List<Award>) {
         binding.indicator.setViewPager(binding.awards)
         binding.awards.adapter = AwardAdapter(awards.map { it.picture })
+        if( awards.isNotEmpty() ) changeData( awards[0] )
         binding.awards.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
             override fun onPageScrollStateChanged(state: Int) {}
             override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {}
             override fun onPageSelected(position: Int) {
-                val award = awards[position]
-                binding.points.text = award.points.toString()
-                changeData(award)
+                changeData(awards[position])
             }
         })
     }
 
     private fun changeData(award: Award) {
+        binding.points.text = award.points.toString()
         viewModel.withState {
             val userInfo = (it.userInfo as? Success)?.invoke() ?: return@withState
             binding.points.setTextColor(if(userInfo.point >= award.points) Color.GREEN else Color.RED)

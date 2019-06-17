@@ -141,4 +141,6 @@
     <string name="no_enough_points">you don\'t have enough points ,solve more challenges to get more points</string>
     <string name="close">close</string>
     <string name="chek_email">check your email to get your award</string>
+    <string name="not_answerd_title">Not answered !!</string>
+    <string name="not_answerd_msg">please answer this question befor passing to next one</string>
 </resources>

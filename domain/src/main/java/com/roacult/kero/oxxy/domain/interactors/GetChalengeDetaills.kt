@@ -26,11 +26,11 @@ class GetChalengeDetaills @Inject constructor(dispatchers: CouroutineDispatchers
         res.add(Pair("resource 4 ","http://www.buds.com.ua/images/Lorem_ipsum.pdf"))
 
         val questions  =ArrayList<Question>()
-        questions.add(Question(0,"bla bla bla 1 ?", arrayListOf(Option(0,"option1"),Option(1,"option2"),Option(2,"option3"))))
-        questions.add(Question(1,"bla bla bla 2 ?",arrayListOf(Option(3,"option1"),Option(4,"option2"),Option(5,"option3"))))
-        questions.add(Question(2,"bla bla bla 3 ?",arrayListOf(Option(6,"option1"),Option(7,"option2"),Option(8,"option3"))))
-        questions.add(Question(3,"bla bla bla 4 ?",arrayListOf(Option(9,"option1"),Option(10,"option2"),Option(11,"option3"))))
-        questions.add(Question(4,"bla bla bla 5 ?",arrayListOf(Option(12,"option1"),Option(13,"option2"),Option(14,"option3"))))
+        questions.add(Question(0,"bla bla bla 1 ?", arrayListOf(Option(0,"option1"),Option(1,"option2"),Option(2,"option3")),1000))
+        questions.add(Question(1,"bla bla bla 2 ?",arrayListOf(Option(3,"option1"),Option(4,"option2"),Option(5,"option3")),1000))
+        questions.add(Question(2,"bla bla bla 3 ?",arrayListOf(Option(6,"option1"),Option(7,"option2"),Option(8,"option3")),1000))
+        questions.add(Question(3,"bla bla bla 4 ?",arrayListOf(Option(9,"option1"),Option(10,"option2"),Option(11,"option3")),1000))
+        questions.add(Question(4,"bla bla bla 5 ?",arrayListOf(Option(12,"option1"),Option(13,"option2"),Option(14,"option3")),1000))
         val detailles = ChalengeDetailles(0,120,res,questions)
 
         return Either.Right(detailles)

@@ -13,16 +13,17 @@ import javax.inject.Inject
  * */
 
 
-class SetUserTry @Inject constructor(dispatchers: CouroutineDispatchers , val repo:MainRepository): EitherInteractor<Int,None,Failure.UserTryFailure>{
+class SetUserTry @Inject constructor(dispatchers: CouroutineDispatchers , val repo:MainRepository)
+    : EitherInteractor<Int,Map<Long,Long>,Failure.UserTryFailure>{
     override val dispatcher =dispatchers.computaion
     override val ResultDispatcher= dispatchers.main
 
-    override suspend fun invoke(executeParams: Int): Either<Failure.UserTryFailure, None> {
+    override suspend fun invoke(executeParams: Int): Either<Failure.UserTryFailure, Map<Long,Long>> {
 
 //        //TODO don't forget this!!
 //
         delay(3000)
-        return Either.Right(None())
+        return Either.Right(mutableMapOf(0L to 1L,1L to 4L))
 //        return repo.setUserTry(executeParams)
     }
 }

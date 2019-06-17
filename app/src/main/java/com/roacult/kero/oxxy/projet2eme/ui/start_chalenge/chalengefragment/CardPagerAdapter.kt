@@ -1,10 +1,13 @@
 package com.roacult.kero.oxxy.projet2eme.ui.start_chalenge.chalengefragment
 
+import android.content.res.ColorStateList
+import android.graphics.Color
 import android.view.ViewGroup
 import androidx.cardview.widget.CardView
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.CheckBox
+import androidx.core.widget.CompoundButtonCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewpager.widget.PagerAdapter
 import com.roacult.kero.oxxy.domain.modules.Option
@@ -67,15 +70,17 @@ class CardPagerAdapter constructor(private val questions : ArrayList<Question>,
 
     private fun upDateView(view: View, question: Question) {
         view.question.text = question.question
-        view.options_recycler.adapter = OptionRecyclerAdapter(question)
+        view.options_recycler.adapter = OptionRecyclerAdapter(question,viewModel)
         view.options_recycler.layoutManager = LinearLayoutManager(view.context)
         view.options_recycler.setHasFixedSize(true)
     }
 
-    inner class OptionRecyclerAdapter(val question : Question)
+    class OptionRecyclerAdapter(val question : Question,val viewModel: StartChelngeViewModel)
         : BaseRecyclerAdapter<Option, StartChalengeFragment2CardBinding>(Option::class.java,R.layout.start_chalenge_fragment2_card) {
 
         private var lastChecked : CheckBox? = null
+        private var selectedOptionId = -1L
+        var writeAnswer = -1L
 
         init{ addAll(question.options) }
 
@@ -90,25 +95,38 @@ class CardPagerAdapter constructor(private val questions : ArrayList<Question>,
         override fun upDateView(item: Option, binding: StartChalengeFragment2CardBinding) {
             binding.checkBox.text = item.option
 
-            if(viewModel.answers[question.id] == item.id){
+            if(viewModel.userAnswers[question.id] == item.id){
                 //if user alredy select this option
                 lastChecked = binding.checkBox
                 lastChecked?.isChecked = true
             }
 
-            binding.checkBox.setOnCheckedChangeListener { _,_ ->
-                if(binding.checkBox == lastChecked){
-                    //this mean user deselct his answer
-                    //set that user didn't answer this yet
-                    viewModel.setAnswer(question.id,-1L)
-                    lastChecked = null
-                    return@setOnCheckedChangeListener
+            if (writeAnswer != -1L ){
+                lastChecked = null
+                binding.checkBox.isClickable = false
+                if( item.id == writeAnswer ){
+                    binding.checkBox.isChecked = true
+                    CompoundButtonCompat.setButtonTintList(binding.checkBox, ColorStateList.valueOf(Color.GREEN))
+                }else if(item.id == selectedOptionId ) {
+                    binding.checkBox.isChecked = true
+                    CompoundButtonCompat.setButtonTintList(binding.checkBox, ColorStateList.valueOf(Color.RED))
                 }
-                viewModel.setAnswer(question.id,item.id)
-                lastChecked?.isChecked = false
-                lastChecked = binding.checkBox
+            }else {
+                binding.checkBox.setOnCheckedChangeListener { _,_ ->
+                    if(binding.checkBox == lastChecked){
+                        //this mean user deselct his answer
+                        //set that user didn't answer this yet
+                        viewModel.setAnswer(question,-1L)
+                        lastChecked = null
+                        selectedOptionId = -1L
+                        return@setOnCheckedChangeListener
+                    }
+                    viewModel.setAnswer(question,item.id)
+                    lastChecked?.isChecked = false
+                    lastChecked = binding.checkBox
+                    selectedOptionId = item.id
+                }
             }
-
         }
 
         override fun onClickOnItem(item: Option, view: View?, binding: StartChalengeFragment2CardBinding, adapterPostion: Int) {}

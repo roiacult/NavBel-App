@@ -16,4 +16,7 @@
 
     <color name="dark_filter">#99000000</color>
     <color name="back_gray">#EBEBEB</color>
+
+    <color name = "correct"> #008000 </color>
+    <color name = "error"> #b00020 </color>
 </resources>

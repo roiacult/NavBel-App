@@ -16,10 +16,11 @@ fun List<Ressource>.fromRessourceToPair():List<Pair<String , String>> = this.map
     Pair(it.name , it.url)
 }
 fun List<QuestionReponse>.mapToQuestion():List<Question>{
+    //TODO change it and add question time
    return  this.map {
         Question(it.id.toLong(), it.question , it.options.map {
             Option(it.id.toLong() , it.trueoption)
-        })
+        },/*TODO change this*/1000)
     }
 }
 suspend  fun  <T , F: Failure, R> Call<R>.lambdaEnqueue( onFailure:(t:Throwable)->Either<F , T>
