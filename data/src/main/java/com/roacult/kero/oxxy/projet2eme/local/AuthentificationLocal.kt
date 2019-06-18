@@ -31,7 +31,7 @@ class AuthentificationLocal @Inject constructor(val preference:SharedPreferences
              putString(USER_DATE , user.date)
              putInt(USER_YEAR , user.year ?:0)
              putInt(USER_ID  , user.id ?:0)
-             putStringSet(RANK_TABLE , emptySet())
+             putStringSet(RANK_TABLE , listOf(51,22 , 33 , 40 ).map { toString() }.toSet())
              putBoolean(IS_PUBLIC , true)
             commit()
          }
@@ -77,8 +77,9 @@ class AuthentificationLocal @Inject constructor(val preference:SharedPreferences
             putString(USER_DATE , info.date)
             putInt(USER_ID , info.id ?:0)
             putInt(USER_YEAR , info.year ?:0)
-            putBoolean(IS_PUBLIC , info.ispublic)
-            putStringSet(RANK_TABLE , info.ranks?.map { it.toString() }?.toSet() ?: emptyArray<String>().toSet())
+            putBoolean(IS_PUBLIC , info.ispublic==1)
+            putStringSet(RANK_TABLE , listOf(20,22 , 33 , 14 ).map { toString() }.toSet())
+//            putStringSet(RANK_TABLE , info.ranks?.map { it.toString() }?.toSet() ?: emptyArray<String>().toSet())
             commit()
         }
     }

@@ -142,6 +142,7 @@ class AuthertificationRemote @Inject constructor( val service: AuthentificationS
     suspend fun logUserIn(user:LoginParam):Either<Failure.LoginFaillure , LoginResult> = suspendCoroutine {
         service.logUserIn(LoginParame(0 , "", user.email , user.password), token()).enqueue(object :Callback<LoginResult>{
             override fun onFailure(call: Call<LoginResult>, t: Throwable) {
+                Log.e("errr", t.localizedMessage)
                 it.resume(Either.Left(Failure.LoginFaillure.AutherFaillure(t)))
             }
 

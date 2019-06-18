@@ -5,6 +5,7 @@ import android.graphics.Bitmap
 import android.net.Uri
 import android.provider.MediaStore
 import android.util.Base64
+import android.util.Log
 import com.roacult.kero.oxxy.domain.exception.Failure
 import com.roacult.kero.oxxy.domain.functional.Either
 import com.roacult.kero.oxxy.domain.interactors.*
@@ -139,12 +140,13 @@ open class MainRemote @Inject constructor(private val service :MainService , pri
     suspend fun setUserTry(userId :Int , challengeId:Int ):Either<Failure.UserTryFailure,Map<Long , Long >> = suspendCoroutine{
         service.setTryChallenge(SetUserTry(userId , challengeId), token()).enqueue(object :Callback<SetUserResponse>{
             override fun onFailure(call: Call<SetUserResponse>, t: Throwable) {
+                Log.e("errr", t.localizedMessage)
                 it.resume(Either.Left(Failure.UserTryFailure.OtherFailure(t))) }
 
             override fun onResponse(call: Call<SetUserResponse>, response: Response<SetUserResponse>) {
                 val reponse = response.body()
            if(reponse?.reponse==1){
-               it.resume(Either.Right(reponse.answers.mapRemoteAnswersToDomain()))
+               it.resume(Either.Right(reponse.data.mapRemoteAnswersToDomain()))
            }else{
                it.resume(Either.Left(Failure.UserTryFailure.ChallengeAlreadySolved))
            }
@@ -155,7 +157,7 @@ open class MainRemote @Inject constructor(private val service :MainService , pri
 
     /**
      *sending request to correct challenges
-     * @param submitionResult will hold the challengeId  and the user answers of the challenge questions
+     * @param submitionResult will hold the challengeId  and the user data of the challenge questions
      * @param userId the userId that refer to the user who has solved this challenge
      * @author akram09
      */
@@ -193,7 +195,7 @@ open class MainRemote @Inject constructor(private val service :MainService , pri
     private fun mapCorrResToSubmitRes(correctionResult: CorrectionResult):Either<Failure.SubmitionFailure , SubmitionResult>{
        return when(correctionResult.reponse){
             0-> Either.Left(Failure.SubmitionFailure.CheaterFailure)
-            1->Either.Right(SubmitionResult(correctionResult.playerPoint!=0L ,correctionResult.playerPoint))
+            1->Either.Right(SubmitionResult(correctionResult.totalwin!=0L ,correctionResult.totalwin))
             -1->Either.Left(Failure.SubmitionFailure.GetTrueOptionOperationFailure)
             else->Either.Left(Failure.SubmitionFailure.UknownFailure(Throwable("Invalid response")))
         }

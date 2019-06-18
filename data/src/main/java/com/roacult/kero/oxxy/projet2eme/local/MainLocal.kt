@@ -17,7 +17,8 @@ open class MainLocal @Inject constructor( private val preferences: SharedPrefere
             getString(USER_PRENAME , "") , getBoolean(IS_PUBLIC , true) , getString(USER_IMAGEURL ,""),
             getInt(USER_YEAR , 0), getString(USER_DATE, "") , getInt(NQSOLVED , 0), getInt(USER_POINT , 0)
         ,
-        getInt(USER_RANK , 0) , ArrayList(getStringSet(RANK_TABLE , emptySet()).map { it.toInt() }.toList()))
+        getInt(USER_RANK , 0) , arrayListOf(20,22 , 33 , 14 )
+        )
     }
     fun updateUserData(lname:String , fname:String , ispublic:Boolean , imageUrl:String? ){
         preferences.edit().apply{
@@ -44,7 +45,7 @@ open class MainLocal @Inject constructor( private val preferences: SharedPrefere
             remove(USER_IMAGEURL)
             remove(USER_CONNECTED)
             remove(IS_PUBLIC)
-        }
+        }.apply()
     }
     fun getMail():String  = preferences.getString(USER_EMAIL , "")
     fun remove() {

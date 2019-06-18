@@ -93,7 +93,7 @@ return remote.getChallengeDetaille(challengeId)
         if(gettingUserInfoFromRemote is Either.Right){
              val list = emptyList<Int>().toMutableList()
             for (i in 0..15 ) list += Random.nextInt(0,50)
-              authLocal.saveUserLogged(gettingUserInfoFromRemote.b.copy(ranks = list.toTypedArray()))
+              authLocal.saveUserLogged(gettingUserInfoFromRemote.b)
         }
         return local.getUser()
     }
@@ -121,7 +121,7 @@ return remote.getChallengeDetaille(challengeId)
 //             return gettingTrueOptionOperation as Either.Left<Failure.SubmitionFailure>
 //        }else{
 //            //if there are no error we correct the answer
-//           val result = correctChallenge(answer = answer.answers, timeTakenPercent =answer.timeTakenPercentage
+//           val result = correctChallenge(answer = answer.data, timeTakenPercent =answer.timeTakenPercentage
 //                   , bareme =
 //                   (gettingTrueOptionOperation as Either.Right<TrueOptions>).b.options!!)
 //            return if(result.success){
@@ -145,8 +145,8 @@ return remote.getChallengeDetaille(challengeId)
 //    /**
 //     * a fair correctio function that will decide if the challenge was solved and how many point thes user will get
 //     * from solving the challenge
-//     * @param answer the user answers of the challenge
-//     * @param bareme the correct answers and the timeTakenPercentage of the challenge
+//     * @param answer the user data of the challenge
+//     * @param bareme the correct data and the timeTakenPercentage of the challenge
 //     * @return  the result of the correction
 //     */
 //    fun correctChallenge(answer:Map<Long , Long> , timeTakenPercent:Float  , bareme:List<TrueOption>):SubmitionResult{

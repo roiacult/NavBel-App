@@ -118,7 +118,7 @@ class ResourceFragment : BaseFragment(){
         binding.start.isClickable = true
         binding.start.setOnClickListener{ showStartDialogue() }
         adapter.addAll(chalengeDetailles.resources.map { Resource(it)})
-        binding.time.text = (chalengeDetailles.questions.sumBy { it.time.toInt() }/60).toString()
+        binding.time.text = (chalengeDetailles.questions.sumBy { it.time.toInt() }).toString()
         binding.shimmer.loadingShimmer.animate().apply {
             duration = 300
             alpha(0f)

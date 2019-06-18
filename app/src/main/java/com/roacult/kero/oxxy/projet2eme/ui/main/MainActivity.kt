@@ -8,6 +8,7 @@ import android.view.MenuItem
 import com.getkeepsafe.taptargetview.TapTarget
 import com.getkeepsafe.taptargetview.TapTargetSequence
 import com.iammert.library.readablebottombar.ReadableBottomBar
+import com.roacult.kero.oxxy.domain.interactors.LogeOut
 import com.roacult.kero.oxxy.projet2eme.R
 import com.roacult.kero.oxxy.projet2eme.base.BaseActivity
 import com.roacult.kero.oxxy.projet2eme.base.BaseFragment
@@ -15,9 +16,11 @@ import com.roacult.kero.oxxy.projet2eme.ui.main.fragments.award_fragment.AwardFr
 import com.roacult.kero.oxxy.projet2eme.ui.main.fragments.chalenge_fragment.ChalengeFragment
 import com.roacult.kero.oxxy.projet2eme.ui.main.fragments.forume_fragment.ForumeFragment
 import com.roacult.kero.oxxy.projet2eme.ui.main.fragments.profile_fragment.ProfileFragment
+import com.roacult.kero.oxxy.projet2eme.ui.registration_feature.RegistrationActivity
 import com.roacult.kero.oxxy.projet2eme.ui.start_chalenge.StartChalengeActivity
 import kotlinx.android.synthetic.main.main_activity.*
 import com.roacult.kero.oxxy.projet2eme.utils.extension.inTransaction
+import javax.inject.Inject
 
 const val CURENT_FRAGMET = "com.roacult.kero.oxxy.projet2eme:curent_fragment"
 
@@ -27,7 +30,8 @@ const val TAG_AWARD = "com.roacult.kero.oxxy.projet2eme:award"
 const val TAG_PROFILE = "com.roacult.kero.oxxy.projet2eme:profile"
 
 class MainActivity : BaseActivity() {
-
+    @Inject
+    lateinit var logOutUseCase :LogeOut
     companion object { fun getIntent(context : Context) = Intent(context,MainActivity::class.java) }
 
     private val chalengeFragment : ChalengeFragment by lazy {
@@ -171,6 +175,11 @@ class MainActivity : BaseActivity() {
         when(item?.itemId){
             R.id.help_menu -> showHelp()
             R.id.filter -> callback?.showFilter()
+            R.id.log_out ->{
+                logOutUseCase.invoke()
+                startActivity(RegistrationActivity.getIntent(this))
+                finish()
+            }
         }
         return true
     }

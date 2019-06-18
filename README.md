@@ -20,4 +20,5 @@
  - [Seyf Eddine Hasnaoui](https://www.facebook.com/profile.php?id=100009666612144)
  - [Sara Hasbellaoui]()
  - [Moussa Khodja](https://www.facebook.com/profile.php?id=100010133222789)
+ - [Slamat Mohamed Souhaib](https://github.com/oxxy1337)
 #### this project is still under development ...

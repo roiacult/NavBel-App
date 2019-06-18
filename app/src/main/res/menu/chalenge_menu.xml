@@ -4,4 +4,8 @@
     <item android:title="@string/filter" android:id="@+id/filter" app:showAsAction="ifRoom"
           android:icon="@drawable/filter_outline"/>
     <item android:title="help" android:id="@+id/help_menu" app:showAsAction="ifRoom" android:icon="@drawable/help_circle"/>
+    <item android:id="@+id/log_out"
+          android:title="Log out"
+          android:icon="@drawable/ic_logout"
+          app:showAsAction="always"/>
 </menu>
