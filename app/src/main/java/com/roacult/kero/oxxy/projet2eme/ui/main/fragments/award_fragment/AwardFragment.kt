@@ -7,6 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProviders
 import androidx.viewpager.widget.ViewPager
+import com.getkeepsafe.taptargetview.TapTarget
+import com.getkeepsafe.taptargetview.TapTargetSequence
 import com.roacult.kero.oxxy.domain.modules.Award
 import com.roacult.kero.oxxy.domain.modules.User
 import com.roacult.kero.oxxy.projet2eme.R
@@ -117,7 +119,12 @@ class AwardFragment  : BaseFragment() , CallbackFromActivity {
     }
 
     override fun showHelp(){
-
+        TapTargetSequence(activity!!).apply{
+            target(TapTarget.forView(binding.points,getString(R.string.your_points_title),getString(R.string.your_points_desc)))
+            target(TapTarget.forView(binding.rewaedTarget,"get this reward","exachenge your ponts with this reward"))
+            target(TapTarget.forView(binding.descTarget,"description","description about award"))
+            target(TapTarget.forView(binding.userPointsTarget,"your Points","see your points here"))
+        }.start()
     }
 
     override fun showFilter() {}

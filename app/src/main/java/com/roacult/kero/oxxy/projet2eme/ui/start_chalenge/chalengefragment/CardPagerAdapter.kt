@@ -117,6 +117,7 @@ class CardPagerAdapter constructor(private val questions : ArrayList<Question>,
                         //this mean user deselct his answer
                         //set that user didn't answer this yet
                         viewModel.setAnswer(question,-1L)
+                        viewModel.curentQuestion = null
                         lastChecked = null
                         selectedOptionId = -1L
                         return@setOnCheckedChangeListener
