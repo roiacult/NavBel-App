@@ -55,6 +55,7 @@ versions.circleProgress = '1.2.1'
 versions.scaleLayout = '1.2.1'
 versions.graph = '3.1.0'
 versions.indicator = '3.0.3'
+versions.gradient = "1.0.1"
 
 
 def deps = [:]
@@ -81,6 +82,7 @@ android.circleProgress ="com.github.lzyzsd:circleprogress:$versions.circleProgre
 android.scalLayout = "com.github.iammert:ScalingLayout:$versions.scaleLayout"
 android.graph = "com.github.PhilJay:MPAndroidChart:v$versions.graph"
 android.indicator ="com.tbuonomo.andrui:viewpagerdotsindicator:$versions.indicator"
+android.gradient = "co.revely:gradient:$versions.gradient"
 deps.android = android
 
 

@@ -85,7 +85,6 @@ class ProfileFragment : BaseFragment() ,CallbackFromActivity {
             when(it.itemId){
                 R.id.settings -> {
                     //TODO open settings page
-                    showMessage("//TODO open settings page")
                     viewModel.withState {
                         val user = it.userInfo
                         if(user is Success)

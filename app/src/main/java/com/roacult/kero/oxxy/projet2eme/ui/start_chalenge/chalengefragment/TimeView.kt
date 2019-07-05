@@ -74,11 +74,11 @@ class TimeView : TextView{
     fun startTimer(time : Long,onFinish : ()->Unit){
         onTimeFinishlistner = onFinish
         setTextColor(Color.BLACK)
+        timeHandler.removeCallbacks(ticker)
         if(!itsAlredyStart || pauseTime){
             pauseTime = false
             this.time = time
             itsAlredyStart = true
-            timeHandler.removeCallbacks(ticker)
             timeHandler.post(ticker)
         }
     }

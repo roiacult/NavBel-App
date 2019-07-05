@@ -108,7 +108,6 @@ class ChalengeFragment :BaseFragment() {
                 showDialogueFinish(R.string.not_answerd_title, R.string.not_answerd_msg)
                 return@setOnClickListener
             }
-//            enableDisableViewGroup(binding.root as ViewGroup,false)
             viewModel.compare()
         }
     }
