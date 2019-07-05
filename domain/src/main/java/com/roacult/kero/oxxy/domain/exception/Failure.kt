@@ -81,4 +81,8 @@ sealed class Failure {
     sealed class GetGift: Failure(){
         //TODO
     }
+
+    sealed class SolvedChalengeFailure : Failure() {
+        //TODO
+    }
 }
