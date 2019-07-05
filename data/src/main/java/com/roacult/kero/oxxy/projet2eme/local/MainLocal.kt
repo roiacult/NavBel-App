@@ -61,6 +61,6 @@ open class MainLocal @Inject constructor( private val preferences: SharedPrefere
     }
     fun getUserId():Int  = preferences.getInt(USER_ID , 0)
     fun addPointToUser(points: Long) {
-      preferences.edit().putLong(USER_POINT , preferences.getLong(USER_POINT , 0L)+points).apply()
+      preferences.edit().putInt(USER_POINT , (preferences.getInt(USER_POINT , 0)+points).toInt()).apply()
     }
 }
