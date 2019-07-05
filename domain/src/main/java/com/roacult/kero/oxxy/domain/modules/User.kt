@@ -11,4 +11,5 @@ data class User(val id :Int,
                 val nbSolved : Int,
                 val point :Int,
                 val currentRank : Int,
-                val ranks : ArrayList<Int>)
+                val ranks : ArrayList<Int>,
+                val description : String   )

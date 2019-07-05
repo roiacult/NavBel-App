@@ -17,7 +17,7 @@ open class MainLocal @Inject constructor( private val preferences: SharedPrefere
             getString(USER_PRENAME , "") , getBoolean(IS_PUBLIC , true) , getString(USER_IMAGEURL ,""),
             getInt(USER_YEAR , 0), getString(USER_DATE, "") , getInt(NQSOLVED , 0), getInt(USER_POINT , 0)
         ,
-        getInt(USER_RANK , 0) , arrayListOf(20,22 , 33 , 14 )
+        getInt(USER_RANK , 0) , arrayListOf(20,22 , 33 , 14 ),"User description" //TODO change this
         )
     }
     fun updateUserData(lname:String , fname:String , ispublic:Boolean , imageUrl:String? ){

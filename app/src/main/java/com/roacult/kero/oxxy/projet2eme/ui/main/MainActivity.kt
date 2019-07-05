@@ -184,7 +184,7 @@ class MainActivity : BaseActivity() {
         return true
     }
 
-    private fun showHelp() {
+    fun showHelp() {
         TapTargetSequence(this).apply {
             val (title : String, desc :String) = when(selectedFragment){
                 0 -> Pair(getString(R.string.help_chalenge),getString(R.string.help_chalenge_des))

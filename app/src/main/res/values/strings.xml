@@ -145,4 +145,17 @@
     <string name="not_answerd_msg">please answer this question befor passing to next one</string>
     <string name="your_points_desc">here you can find your points</string>
     <string name="your_points_title">Points</string>
+    <string name="you_didn_t_solve_any_challenges_yet">You didn\'t solve any challenges yet</string>
+    <string name="challenges_solved">Challenges solved</string>
+    <string name="settings_desc">you can update you profile info and change settings here</string>
+    <string name="settings_title">Settings</string>
+    <string name="rank_desc">this rank change every day you need to keep working inorder to keep your rank</string>
+    <string name="rank_title">your current rank</string>
+    <string name="avatar_title">Avatar</string>
+    <string name="avatar_desc">your profile picture</string>
+    <string name="challenges_title">number of challenges solved till now</string>
+    <string name="point_title">your points</string>
+    <string name="desc_title">profile description</string>
+    <string name="solvedChallenges_title">all challenges solved by you</string>
+    <string name="year_desc">your current year</string>
 </resources>
