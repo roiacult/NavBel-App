@@ -33,6 +33,6 @@ class ChallengeAdapter : BaseRecyclerAdapter<SolvedChalenge,MainProfileCardBindi
     }
 
     override fun onClickOnItem(item: SolvedChalenge, view: View?, binding: MainProfileCardBinding, adapterPostion: Int) {
-        //TODO show result fragment
+
     }
 }
