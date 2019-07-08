@@ -9,7 +9,7 @@ import com.roacult.kero.oxxy.projet2eme.base.BaseRecyclerAdapter
 import com.roacult.kero.oxxy.projet2eme.databinding.MainProfileCardBinding
 import com.squareup.picasso.Picasso
 
-class ChallengeAdapter : BaseRecyclerAdapter<SolvedChalenge,MainProfileCardBinding>(SolvedChalenge::class.java, R.layout.main_profile_card) {
+class ChallengeAdapter(private val startActivity : (SolvedChalenge)->Unit) : BaseRecyclerAdapter<SolvedChalenge,MainProfileCardBinding>(SolvedChalenge::class.java, R.layout.main_profile_card) {
 
     override fun areItemsTheSame(item1: SolvedChalenge, item2: SolvedChalenge) = item1.id == item2.id
 
@@ -20,9 +20,9 @@ class ChallengeAdapter : BaseRecyclerAdapter<SolvedChalenge,MainProfileCardBindi
 
     override fun upDateView(item: SolvedChalenge, binding: MainProfileCardBinding) {
         binding.moduleName.text = item.moduleName
-        binding.modulePoint.text  = item.result.toString()
+        binding.modulePoint.text  = item.resultPoints.toString()
         Picasso.get().load(item.imageUrl).into(binding.challengeImage)
-        val array = if(item.result<=0) intArrayOf(Color.parseColor("#e52d27"),Color.parseColor("#b31217"))
+        val array = if(item.resultPoints<=0) intArrayOf(Color.parseColor("#e52d27"),Color.parseColor("#b31217"))
         else intArrayOf(Color.parseColor("#11998e"),Color.parseColor("#38ef7d"))
         RevelyGradient
             .linear()
@@ -33,6 +33,6 @@ class ChallengeAdapter : BaseRecyclerAdapter<SolvedChalenge,MainProfileCardBindi
     }
 
     override fun onClickOnItem(item: SolvedChalenge, view: View?, binding: MainProfileCardBinding, adapterPostion: Int) {
-
+        startActivity(item)
     }
 }

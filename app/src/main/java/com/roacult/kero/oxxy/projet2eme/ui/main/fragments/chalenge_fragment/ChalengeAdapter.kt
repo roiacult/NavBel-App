@@ -37,7 +37,7 @@ class ChalengeAdapter(val viewModel : ChalengeViewModel,val startChalenge : (Cha
         binding.point.text = "${item.point} points"
         binding.nbQuestion.text = "${item.nbOfQuestions} questions"
         binding.arrow.rotation = 180f
-        Picasso.get().load(item.url).into(binding.chalengeImg)
+        if(item.url.isNotEmpty()) Picasso.get().load(item.url).into(binding.chalengeImg)
     }
 
     override fun addAll(items: List<ChalengeGlobale>) {

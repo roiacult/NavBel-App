@@ -16,11 +16,11 @@ class SolvedChalenges @Inject constructor(couroutineDispatchers: CouroutineDispa
     override suspend fun invoke(executeParams: None): Either<Failure.SolvedChalengeFailure, List<SolvedChalenge>> {
         delay(3000)
         val list = ArrayList<SolvedChalenge>()
-        list.add(SolvedChalenge(0L,"https://fr.myposeo.com/blog/wp-content/uploads/2016/02/analyse-visibilite-ecommerce-france.png",120,50,"Annalyse"))
-        list.add(SolvedChalenge(1L,"https://fr.myposeo.com/blog/wp-content/uploads/2016/02/analyse-visibilite-ecommerce-france.png",150,0,"Annalyse"))
-        list.add(SolvedChalenge(2L,"https://fr.myposeo.com/blog/wp-content/uploads/2016/02/analyse-visibilite-ecommerce-france.png",180,0,"Algebre"))
-        list.add(SolvedChalenge(3L,"https://fr.myposeo.com/blog/wp-content/uploads/2016/02/analyse-visibilite-ecommerce-france.png",80,70,"ISI"))
-        list.add(SolvedChalenge(4L,"https://fr.myposeo.com/blog/wp-content/uploads/2016/02/analyse-visibilite-ecommerce-france.png",110,40,"POO"))
+        list.add(SolvedChalenge(0L,"https://fr.myposeo.com/blog/wp-content/uploads/2016/02/analyse-visibilite-ecommerce-france.png",120,0.6F,0.8F,"Annalyse"))
+        list.add(SolvedChalenge(1L,"https://fr.myposeo.com/blog/wp-content/uploads/2016/02/analyse-visibilite-ecommerce-france.png",150,0F,0.5F,"Annalyse"))
+        list.add(SolvedChalenge(2L,"https://fr.myposeo.com/blog/wp-content/uploads/2016/02/analyse-visibilite-ecommerce-france.png",0,0F,0F,"Algebre"))
+        list.add(SolvedChalenge(3L,"https://fr.myposeo.com/blog/wp-content/uploads/2016/02/analyse-visibilite-ecommerce-france.png",80,0F,0.9F,"ISI"))
+        list.add(SolvedChalenge(4L,"https://fr.myposeo.com/blog/wp-content/uploads/2016/02/analyse-visibilite-ecommerce-france.png",0,0F,0F,"POO"))
         return Either.Right(list)
     }
 }

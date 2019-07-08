@@ -59,16 +59,20 @@ class ChalengeFragment :BaseFragment() {
 
     private fun handleComparison(answer: Long) {
         if(answer == -1L ) return
+
         binding.time.pauseTime = true
         viewModel.withState {
             val adapter = pagerAdapter.getCardViewAt(it.page.peekContent())?.options_recycler?.adapter as? CardPagerAdapter.OptionRecyclerAdapter
             adapter?.writeAnswer = answer
             adapter?.notifyDataSetChanged()
             viewModel.curentQuestion = null
+            val submit = (binding.questionsContainer.currentItem -1 ) == viewModel.size
             ValueAnimator.ofInt(0,1).apply{
                 duration = TIME_FOR_QUESTION
                 addUpdateListener {
-                    if(it.animatedValue as Int == 1){
+                    if(submit) {
+                        performSubmition()
+                    } else if(it.animatedValue as Int == 1){
                         binding.questionsContainer.setCurrentItem(binding.questionsContainer.currentItem+1,true)
                         startTimer()
                     }
@@ -104,7 +108,6 @@ class ChalengeFragment :BaseFragment() {
         startTimer()
         binding.next.setOnClickListener {
             if ( viewModel.curentQuestion == null ) {
-                //TODO
                 showDialogueFinish(R.string.not_answerd_title, R.string.not_answerd_msg)
                 return@setOnClickListener
             }
@@ -122,7 +125,6 @@ class ChalengeFragment :BaseFragment() {
     private fun setUpPage(page: Int) {
         if(page == viewModel.size-1) {
             binding.next.setText(R.string.submit)
-            binding.next.setOnClickListener { performSubmition() }
         }
     }
 

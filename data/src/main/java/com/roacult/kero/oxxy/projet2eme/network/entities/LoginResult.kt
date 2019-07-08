@@ -44,7 +44,7 @@ data class  LoginResult(val reponse:Int, val email :String?, val fname:String?, 
         result = 31 * result + (nbsolved ?: 0)
         result = 31 * result + (date?.hashCode() ?: 0)
         result = 31 * result + (point ?: 0)
-//        result = 31 * result + (ranks?.contentHashCode() ?: 0)
+//        resultPoints = 31 * resultPoints + (ranks?.contentHashCode() ?: 0)
         return result
     }
 }

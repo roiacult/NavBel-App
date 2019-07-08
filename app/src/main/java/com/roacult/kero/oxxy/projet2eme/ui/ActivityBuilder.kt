@@ -2,12 +2,13 @@ package com.roacult.kero.oxxy.projet2eme.ui
 
 import com.roacult.kero.oxxy.projet2eme.ui.main.MainActivity
 import com.roacult.kero.oxxy.projet2eme.ui.main.fragments.MainFragmentBuilder
+import com.roacult.kero.oxxy.projet2eme.ui.solvedchallenge.SolvedChallengeActivity
+import com.roacult.kero.oxxy.projet2eme.ui.solvedchallenge.SolvedChallengeBuilder
 import com.roacult.kero.oxxy.projet2eme.ui.registration_feature.RegistrationFragmentBuilder
 import com.roacult.kero.oxxy.projet2eme.ui.registration_feature.RegistrationActivity
 import com.roacult.kero.oxxy.projet2eme.ui.setting.SettingActivity
 import com.roacult.kero.oxxy.projet2eme.ui.setting.SettingBuilder
 import com.roacult.kero.oxxy.projet2eme.ui.splash.SplashActivity
-import com.roacult.kero.oxxy.projet2eme.ui.splash.SplashFragment
 import com.roacult.kero.oxxy.projet2eme.ui.splash.SplashFragmentBuilder
 import com.roacult.kero.oxxy.projet2eme.ui.start_chalenge.StartChalengeActivity
 import com.roacult.kero.oxxy.projet2eme.ui.start_chalenge.StartChalengeFragmentBuilder
@@ -31,5 +32,8 @@ abstract class ActivityBuilder {
 
     @ContributesAndroidInjector(modules = [SettingBuilder::class])
     abstract  fun provideSettings() : SettingActivity
+
+    @ContributesAndroidInjector(modules = [SolvedChallengeBuilder::class])
+    abstract  fun provideSolvedChallengeActivity() : SolvedChallengeActivity
 
 }

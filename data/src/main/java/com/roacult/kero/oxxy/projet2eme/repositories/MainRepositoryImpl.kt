@@ -121,22 +121,22 @@ return remote.getChallengeDetaille(challengeId)
 //             return gettingTrueOptionOperation as Either.Left<Failure.SubmitionFailure>
 //        }else{
 //            //if there are no error we correct the answer
-//           val result = correctChallenge(answer = answer.data, timeTakenPercent =answer.timeTakenPercentage
+//           val resultPoints = correctChallenge(answer = answer.data, timeTakenPercent =answer.timeTakenPercentage
 //                   , bareme =
 //                   (gettingTrueOptionOperation as Either.Right<TrueOptions>).b.options!!)
-//            return if(result.success){
+//            return if(resultPoints.success){
 //                //if he succed we add the number he got
-//                val addingPointToUser =  remote.addPointToUser(local.getUserId() , result.points)
+//                val addingPointToUser =  remote.addPointToUser(local.getUserId() , resultPoints.points)
 //                if(addingPointToUser.isLeft){
 //                    addingPointToUser as Either.Left<Failure.SubmitionFailure >
 //                }else{
-//                    local.addPointToUser(result.points)
+//                    local.addPointToUser(resultPoints.points)
 //
-//                    Either.Right(result)
+//                    Either.Right(resultPoints)
 //                }
 //            }else{
 //                //if not we return directly
-//                Either.Right(result)
+//                Either.Right(resultPoints)
 //            }
 //
 //        }
@@ -147,7 +147,7 @@ return remote.getChallengeDetaille(challengeId)
 //     * from solving the challenge
 //     * @param answer the user data of the challenge
 //     * @param bareme the correct data and the timeTakenPercentage of the challenge
-//     * @return  the result of the correction
+//     * @return  the resultPoints of the correction
 //     */
 //    fun correctChallenge(answer:Map<Long , Long> , timeTakenPercent:Float  , bareme:List<TrueOption>):SubmitionResult{
 //       val userErrorNummbers = checkUserErrors(answer,bareme.associate {

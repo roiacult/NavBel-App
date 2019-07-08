@@ -50,6 +50,8 @@
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
+
+        <activity android:name="com.roacult.kero.oxxy.projet2eme.ui.solvedchallenge.SolvedChallengeActivity"/>
     </application>
 
 </manifest>

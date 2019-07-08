@@ -1,5 +1,7 @@
 package com.roacult.kero.oxxy.projet2eme.ui.main.fragments.profile_fragment
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -19,13 +21,17 @@ import com.roacult.kero.oxxy.projet2eme.base.BaseFragment
 import com.roacult.kero.oxxy.projet2eme.databinding.MainProfileBinding
 import com.roacult.kero.oxxy.projet2eme.ui.main.CallbackFromActivity
 import com.roacult.kero.oxxy.projet2eme.ui.main.MainActivity
+import com.roacult.kero.oxxy.projet2eme.ui.solvedchallenge.SolvedChallengeActivity
 import com.roacult.kero.oxxy.projet2eme.ui.setting.SettingActivity
 import com.roacult.kero.oxxy.projet2eme.utils.*
 import com.roacult.kero.oxxy.projet2eme.utils.extension.visible
 import com.squareup.picasso.Picasso
 
 class ProfileFragment : BaseFragment() ,CallbackFromActivity {
-    companion object { fun getInstance() = ProfileFragment() }
+    companion object {
+        fun getInstance() = ProfileFragment()
+        const val REQUEST_CODE = 16553
+    }
 
     private val viewModel by lazy{ViewModelProviders.of(this,viewModelFactory)[ProfileViewModel::class.java]}
     private lateinit var binding : MainProfileBinding
@@ -45,7 +51,21 @@ class ProfileFragment : BaseFragment() ,CallbackFromActivity {
         }
     }
 
-    private val adapter = ChallengeAdapter()
+    private val adapter = ChallengeAdapter(::startSolvedChallenge)
+
+    private fun startSolvedChallenge(solvedChalenge: SolvedChalenge) {
+        startActivityForResult(SolvedChallengeActivity.getIntent(context!!,solvedChalenge), REQUEST_CODE )
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if(requestCode == REQUEST_CODE){
+            if(resultCode == Activity.RESULT_OK){
+                //go to reward fragments
+                (activity as? MainActivity)?.setSelectedItem(2)
+            }
+        }
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = MainProfileBinding.inflate(inflater,container,false)
