@@ -5,10 +5,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.ViewModelProviders
 import androidx.viewpager.widget.ViewPager
 import com.getkeepsafe.taptargetview.TapTarget
 import com.getkeepsafe.taptargetview.TapTargetSequence
+import com.roacult.kero.oxxy.domain.exception.Failure
 import com.roacult.kero.oxxy.domain.modules.Award
 import com.roacult.kero.oxxy.domain.modules.User
 import com.roacult.kero.oxxy.projet2eme.R
@@ -47,9 +49,12 @@ class AwardFragment  : BaseFragment() , CallbackFromActivity {
     private fun handleUserInfo(userInfo: Async<User>) {
         when(userInfo){
             is Fail<*,*>->{
-                //TODO handle errors
+                when(userInfo.error){
+                    Failure.GetUserInfoFailure.OperationFailed -> onError(getString(R.string.user_info_failue))
+                }
             }
             is Success -> {
+                val user = userInfo()
                 binding.indicator.setViewPager(binding.awards)
                 binding.awards.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
                     override fun onPageScrollStateChanged(state: Int) {}
@@ -62,7 +67,12 @@ class AwardFragment  : BaseFragment() , CallbackFromActivity {
                     }
                 })
                 binding.userPoints.setOnClickListener {
-                    //TODO show user info
+                    AlertDialog.Builder(context!!).apply{
+                        setTitle(user.fname + ", "+user.lName)
+                        setMessage("your point are  ${user.point} \n" +
+                                "your curent rank  ${user.currentRank} \n" +
+                                "you solved ${user.nbSolved} challenge")
+                    }
                 }
             }
         }
@@ -74,6 +84,9 @@ class AwardFragment  : BaseFragment() , CallbackFromActivity {
             is Fail<*,*> ->{
                 showLoading(false)
                 //TODO handle failures
+//                when(awards.error){
+//                    Failure.GetAwardsFailure.
+//                }
             }
             is Success ->{
                 showLoading(false)
@@ -101,13 +114,16 @@ class AwardFragment  : BaseFragment() , CallbackFromActivity {
             val userInfo = (it.userInfo as? Success)?.invoke() ?: return@withState
             binding.points.setTextColor(if(userInfo.point >= award.points) Color.GREEN else Color.RED)
             binding.getreward.setOnClickListener {
-                //TODO show alert dialogue to get rewards
                 if(userInfo.point>=award.points)
                     GetGiftFragment.getInstance(award).show(activity?.supportFragmentManager, GetGiftFragment.GET_GIFT_TAG)
                 else onError(R.string.no_enough_points)
             }
             binding.description.setOnClickListener {
-                //TODO show description
+                AlertDialog.Builder(context!!).apply{
+                    setTitle("Award Description")
+                    setMessage(award.description)
+                    show()
+                }
             }
 
         }

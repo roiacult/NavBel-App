@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.annotation.RawRes
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.Fragment
@@ -78,8 +79,8 @@ class GetGiftFragment : BottomSheetDialogFragment() , HasSupportFragmentInjector
             is Loading -> showLoading(true)
             is Fail<*,*> -> {
                 showLoading(false)
-                //TODO handle Errors
                 playAnimation(R.raw.failed)
+                Toast.makeText(context,R.string.error,Toast.LENGTH_SHORT).show()
             }
             is Success -> {
                 showLoading(false)

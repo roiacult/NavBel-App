@@ -4,7 +4,6 @@ import android.animation.ValueAnimator
 import android.app.ProgressDialog
 import android.content.res.Configuration
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,6 +11,7 @@ import androidx.annotation.StringRes
 import androidx.appcompat.app.AlertDialog
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProviders
+import com.roacult.kero.oxxy.domain.exception.Failure
 import com.roacult.kero.oxxy.domain.interactors.SubmitionResult
 import com.roacult.kero.oxxy.projet2eme.R
 import com.roacult.kero.oxxy.projet2eme.base.BaseFragment
@@ -59,7 +59,6 @@ class ChalengeFragment :BaseFragment() {
     }
 
     private fun handleComparison(answer: Long) {
-        Log.e("fefefe","answer == $answer")
         if(answer == -1L ) return
         binding.time.pauseTime = true
         viewModel.withState {
@@ -67,20 +66,14 @@ class ChalengeFragment :BaseFragment() {
             adapter?.writeAnswer = answer
             adapter?.notifyDataSetChanged()
             viewModel.curentQuestion = null
-            //TODO fix this later
             val submit = (binding.questionsContainer.currentItem+1)  == viewModel.size
-            showMessage("submition : $submit")
-            Log.e("fefefe","start animator")
             ValueAnimator.ofInt(0,1).apply{
                 duration = TIME_FOR_QUESTION
                 addUpdateListener {
                     if(it.animatedValue as Int ==1 ) {
-                        Log.e("fefefe","animatedValue == 1")
                         if (submit) {
                             performSubmition()
-                            Log.e("fefefe", "performing submition ")
                         } else {
-                            Log.e("fefefe", "move  to next question ")
                             binding.questionsContainer.setCurrentItem(binding.questionsContainer.currentItem + 1, true)
                             startTimer()
                         }
@@ -100,7 +93,11 @@ class ChalengeFragment :BaseFragment() {
             }
             is Fail<*,*>->{
                 progressDialogue.hide()
-                //TODO handle different fails
+                when(submition.error) {
+                    Failure.SubmitionFailure.CheaterFailure -> onError(R.string.cheater_failure)
+                    Failure.SubmitionFailure.GetTrueOptionOperationFailure -> onError(R.string.get_true_op_failure)
+                    is Failure.SubmitionFailure.UknownFailure -> onError(R.string.error)
+                }
             }
         }
     }

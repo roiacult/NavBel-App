@@ -93,8 +93,8 @@ class ResetPasswordFragment : BaseFragment() , RegistrationActivity.CallbackToFr
             is Fail<*,*> ->  {
                 showLoading(false)
                 when(op.error){
-                    //TODO handle auther failure
-                    is Failure.ResendConfirmationFailure-> onError(R.string.resend_failled)
+                    is Failure.ResendConfirmationFailure.CodeError-> onError(R.string.error)
+                    is Failure.ResendConfirmationFailure.OtherFailure-> onError(getString(R.string.send_code_error))
                 }
             }
             is Success -> showLoading(false)

@@ -11,6 +11,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProviders
+import com.roacult.kero.oxxy.domain.exception.Failure
 import com.roacult.kero.oxxy.domain.interactors.None
 import com.roacult.kero.oxxy.projet2eme.base.BaseFragment
 import com.roacult.kero.oxxy.projet2eme.databinding.SettingsBinding
@@ -51,7 +52,9 @@ class SettingFragment : BaseFragment(){
             is Loading ->showLoading(true)
             is Fail<*,*> ->{
                 showLoading(false)
-                //TODO handle errors
+                when(saveOp.error) {
+                    Failure.UpDateUserInfo.OperationFailed ->  onError(R.string.error)
+                }
             }
             is Success -> {
                 showLoading(false)

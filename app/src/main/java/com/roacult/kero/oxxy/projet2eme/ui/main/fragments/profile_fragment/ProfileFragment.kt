@@ -14,6 +14,7 @@ import com.github.mikephil.charting.data.BarData
 import com.github.mikephil.charting.data.BarDataSet
 import com.github.mikephil.charting.data.BarEntry
 import com.google.android.material.appbar.AppBarLayout
+import com.roacult.kero.oxxy.domain.exception.Failure
 import com.roacult.kero.oxxy.domain.modules.SolvedChalenge
 import com.roacult.kero.oxxy.domain.modules.User
 import com.roacult.kero.oxxy.projet2eme.R
@@ -89,6 +90,9 @@ class ProfileFragment : BaseFragment() ,CallbackFromActivity {
             is Fail<*,*> ->{
                 showLoadingInChalenges(false)
                 //TODO handle failures later
+//                when(challenges.error){
+//                    Failure.SolvedChalengeFailure
+//                }
             }
             is Success -> {
                 showLoadingInChalenges(false)
@@ -117,7 +121,11 @@ class ProfileFragment : BaseFragment() ,CallbackFromActivity {
             is Loading -> showLoadingInGraphView(true)
             is Fail<*, *> -> {
                 showLoadingInGraphView(false)
-                //TODO handle errors
+                when(userInfo.error) {
+                    Failure.GetUserInfoFailure.OperationFailed -> {
+                        onError(R.string.user_info_failue)
+                    }
+                }
             }
             is Success -> {
                 showLoadingInGraphView(false)
@@ -162,7 +170,6 @@ class ProfileFragment : BaseFragment() ,CallbackFromActivity {
         binding.toolbar.setOnMenuItemClickListener {
             when(it.itemId){
                 R.id.settings -> {
-                    //TODO open settings page
                     viewModel.withState {
                         val user = it.userInfo
                         if(user is Success)
