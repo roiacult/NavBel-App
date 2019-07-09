@@ -4,6 +4,7 @@ import android.animation.ValueAnimator
 import android.app.ProgressDialog
 import android.content.res.Configuration
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -58,23 +59,31 @@ class ChalengeFragment :BaseFragment() {
     }
 
     private fun handleComparison(answer: Long) {
+        Log.e("fefefe","answer == $answer")
         if(answer == -1L ) return
-
         binding.time.pauseTime = true
         viewModel.withState {
             val adapter = pagerAdapter.getCardViewAt(it.page.peekContent())?.options_recycler?.adapter as? CardPagerAdapter.OptionRecyclerAdapter
             adapter?.writeAnswer = answer
             adapter?.notifyDataSetChanged()
             viewModel.curentQuestion = null
-            val submit = (binding.questionsContainer.currentItem -1 ) == viewModel.size
+            //TODO fix this later
+            val submit = (binding.questionsContainer.currentItem+1)  == viewModel.size
+            showMessage("submition : $submit")
+            Log.e("fefefe","start animator")
             ValueAnimator.ofInt(0,1).apply{
                 duration = TIME_FOR_QUESTION
                 addUpdateListener {
-                    if(submit) {
-                        performSubmition()
-                    } else if(it.animatedValue as Int == 1){
-                        binding.questionsContainer.setCurrentItem(binding.questionsContainer.currentItem+1,true)
-                        startTimer()
+                    if(it.animatedValue as Int ==1 ) {
+                        Log.e("fefefe","animatedValue == 1")
+                        if (submit) {
+                            performSubmition()
+                            Log.e("fefefe", "performing submition ")
+                        } else {
+                            Log.e("fefefe", "move  to next question ")
+                            binding.questionsContainer.setCurrentItem(binding.questionsContainer.currentItem + 1, true)
+                            startTimer()
+                        }
                     }
                 }
                 start()

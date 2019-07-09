@@ -158,4 +158,5 @@
     <string name="desc_title">profile description</string>
     <string name="solvedChallenges_title">all challenges solved by you</string>
     <string name="year_desc">your current year</string>
+    <string name="no_chalenges_left">no chalenges left ,please comme back later</string>
 </resources>
