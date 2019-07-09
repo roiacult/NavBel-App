@@ -61,7 +61,7 @@ class ChalengeFragment : BaseFragment() , CallbackFromActivity {
             is Loading -> showLoading()
             is Fail<*,*> ->{
                 when(async.error){
-                    is Failure.GetAllChalengesFailure.OperationFailed -> showError(R.string.chalenge_cnx_prblm)
+                    is Failure.GetAllChalengesFailure.OperationFailed -> showError(R.string.no_chalenges_left)
                     is Failure.GetAllChalengesFailure.OtherFailrue -> showError(R.string.chalenge_cnx_prblm)
                     is Failure.GetAllChalengesFailure.UserBannedTemp -> showError(R.string.banne_tmp)
                     is Failure.GetAllChalengesFailure.UserBannedForever -> showBannedDialogue(context!!)
@@ -70,7 +70,7 @@ class ChalengeFragment : BaseFragment() , CallbackFromActivity {
             }
             is Success ->{
                 val list  = async()
-                if(list.size !=0 ) setInRecycler(list)
+                if(list.isNotEmpty()) setInRecycler(list)
                 else showError(R.string.no_chalenge)
             }
         }
