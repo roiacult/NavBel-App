@@ -7,6 +7,7 @@ import com.roacult.kero.oxxy.domain.interactors.None
 import com.roacult.kero.oxxy.domain.interactors.SubmitionParam
 import com.roacult.kero.oxxy.domain.interactors.SubmitionResult
 import com.roacult.kero.oxxy.domain.interactors.UpdateUserInfoParam
+import com.roacult.kero.oxxy.domain.modules.Award
 import com.roacult.kero.oxxy.domain.modules.ChalengeDetailles
 import com.roacult.kero.oxxy.domain.modules.ChalengeGlobale
 import com.roacult.kero.oxxy.domain.modules.User
@@ -111,8 +112,14 @@ return remote.getChallengeDetaille(challengeId)
           }
     }
 
+    override suspend fun getAwards(): Either<Failure.GetAwardsFailure, List<Award>> {
+          return remote.getRewards()
+    }
 
-//    override suspend fun checkSubmit(answer: SubmitionParam): Either<Failure.SubmitionFailure, SubmitionResult> {
+    override suspend fun getAward(giftId: Int): Either<Failure.GetGift, None> {
+        return remote.getAward(local.getUserId() , giftId)
+    }
+    //    override suspend fun checkSubmit(answer: SubmitionParam): Either<Failure.SubmitionFailure, SubmitionResult> {
 //        //getting all true options for the challenge
 //             val gettingTrueOptionOperation = remote.getTrueOptionOfChallenge(answer.chalengeId)
 //        //checking for errors

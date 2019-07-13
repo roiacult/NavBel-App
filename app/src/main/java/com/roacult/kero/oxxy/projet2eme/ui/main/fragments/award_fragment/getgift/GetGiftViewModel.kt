@@ -14,7 +14,7 @@ import javax.inject.Inject
 class GetGiftViewModel @Inject constructor(val getGift: GetGift) : BaseViewModel<GetGiftState>(GetGiftState()){
 
 
-    fun getGift(awardId : String){
+    fun getGift(awardId : Int){
         setState { copy(getGiftOp = Loading()) }
         scope.launchInteractor(getGift,awardId){
             it.either({

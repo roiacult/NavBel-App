@@ -14,6 +14,7 @@ class SolvedChalenges @Inject constructor(couroutineDispatchers: CouroutineDispa
     override val ResultDispatcher= couroutineDispatchers.main
 
     override suspend fun invoke(executeParams: None): Either<Failure.SolvedChalengeFailure, List<SolvedChalenge>> {
+        //TODO
         delay(3000)
         val list = ArrayList<SolvedChalenge>()
         list.add(SolvedChalenge(0L,"https://fr.myposeo.com/blog/wp-content/uploads/2016/02/analyse-visibilite-ecommerce-france.png",120,0.6F,0.8F,"Annalyse"))

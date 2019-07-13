@@ -40,7 +40,7 @@ class GetGiftFragment : BottomSheetDialogFragment() , HasSupportFragmentInjector
         fun getInstance(award : Award) :GetGiftFragment{
             val fragment = GetGiftFragment()
             val bundle = Bundle()
-            bundle.putString(GIFT_ID,award.aid)
+            bundle.putInt(GIFT_ID,award.aid)
             bundle.putInt(GIFT_POINTS,award.points)
             fragment.arguments = bundle
             return fragment
@@ -64,7 +64,7 @@ class GetGiftFragment : BottomSheetDialogFragment() , HasSupportFragmentInjector
         binding.textView23.text = arguments!!.getInt(GIFT_POINTS).toString()
 
         binding.button.setOnClickListener{
-            viewModel.getGift(arguments!!.getString(GIFT_ID)!!)
+            viewModel.getGift(arguments!!.getInt(GIFT_ID)!!)
         }
 
         viewModel.observe(this){
