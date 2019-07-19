@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.annotation.RawRes
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.Fragment
@@ -39,7 +40,7 @@ class GetGiftFragment : BottomSheetDialogFragment() , HasSupportFragmentInjector
         fun getInstance(award : Award) :GetGiftFragment{
             val fragment = GetGiftFragment()
             val bundle = Bundle()
-            bundle.putString(GIFT_ID,award.aid)
+            bundle.putInt(GIFT_ID,award.aid)
             bundle.putInt(GIFT_POINTS,award.points)
             fragment.arguments = bundle
             return fragment
@@ -63,7 +64,7 @@ class GetGiftFragment : BottomSheetDialogFragment() , HasSupportFragmentInjector
         binding.textView23.text = arguments!!.getInt(GIFT_POINTS).toString()
 
         binding.button.setOnClickListener{
-            viewModel.getGift(arguments!!.getString(GIFT_ID)!!)
+            viewModel.getGift(arguments!!.getInt(GIFT_ID)!!)
         }
 
         viewModel.observe(this){
@@ -78,8 +79,8 @@ class GetGiftFragment : BottomSheetDialogFragment() , HasSupportFragmentInjector
             is Loading -> showLoading(true)
             is Fail<*,*> -> {
                 showLoading(false)
-                //TODO handle Errors
                 playAnimation(R.raw.failed)
+                Toast.makeText(context,R.string.error,Toast.LENGTH_SHORT).show()
             }
             is Success -> {
                 showLoading(false)

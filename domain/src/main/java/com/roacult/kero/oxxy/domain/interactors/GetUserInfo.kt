@@ -19,6 +19,6 @@ class GetUserInfo @Inject constructor( private val repository: MainRepository , 
 //        for (i in 0..15 ) list.add(Random.nextInt(0,50))
 //
 //        delay(3000)
-//        return User(1,"bla@email.com","djawed","benahmed",true,null,1,"2014",6,1200,14,list)
+//        return User(1,"bla@email.com","djawed","benahmed",true,null,1,"2014",6,1200,14,list,"User description bbla bla")
     }
 }

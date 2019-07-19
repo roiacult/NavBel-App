@@ -11,6 +11,7 @@ import androidx.annotation.StringRes
 import androidx.appcompat.app.AlertDialog
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProviders
+import com.roacult.kero.oxxy.domain.exception.Failure
 import com.roacult.kero.oxxy.domain.interactors.SubmitionResult
 import com.roacult.kero.oxxy.projet2eme.R
 import com.roacult.kero.oxxy.projet2eme.base.BaseFragment
@@ -65,12 +66,17 @@ class ChalengeFragment :BaseFragment() {
             adapter?.writeAnswer = answer
             adapter?.notifyDataSetChanged()
             viewModel.curentQuestion = null
+            val submit = (binding.questionsContainer.currentItem+1)  == viewModel.size
             ValueAnimator.ofInt(0,1).apply{
                 duration = TIME_FOR_QUESTION
                 addUpdateListener {
-                    if(it.animatedValue as Int == 1){
-                        binding.questionsContainer.setCurrentItem(binding.questionsContainer.currentItem+1,true)
-                        startTimer()
+                    if(it.animatedValue as Int ==1 ) {
+                        if (submit) {
+                            performSubmition()
+                        } else {
+                            binding.questionsContainer.setCurrentItem(binding.questionsContainer.currentItem + 1, true)
+                            startTimer()
+                        }
                     }
                 }
                 start()
@@ -87,7 +93,11 @@ class ChalengeFragment :BaseFragment() {
             }
             is Fail<*,*>->{
                 progressDialogue.hide()
-                //TODO handle different fails
+                when(submition.error) {
+                    Failure.SubmitionFailure.CheaterFailure -> onError(R.string.cheater_failure)
+                    Failure.SubmitionFailure.GetTrueOptionOperationFailure -> onError(R.string.get_true_op_failure)
+                    is Failure.SubmitionFailure.UknownFailure -> onError(R.string.error)
+                }
             }
         }
     }
@@ -104,11 +114,9 @@ class ChalengeFragment :BaseFragment() {
         startTimer()
         binding.next.setOnClickListener {
             if ( viewModel.curentQuestion == null ) {
-                //TODO
                 showDialogueFinish(R.string.not_answerd_title, R.string.not_answerd_msg)
                 return@setOnClickListener
             }
-//            enableDisableViewGroup(binding.root as ViewGroup,false)
             viewModel.compare()
         }
     }
@@ -123,7 +131,6 @@ class ChalengeFragment :BaseFragment() {
     private fun setUpPage(page: Int) {
         if(page == viewModel.size-1) {
             binding.next.setText(R.string.submit)
-            binding.next.setOnClickListener { performSubmition() }
         }
     }
 

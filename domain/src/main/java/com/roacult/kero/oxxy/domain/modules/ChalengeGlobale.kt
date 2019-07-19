@@ -7,5 +7,6 @@ data class ChalengeGlobale(
     val url : String,
     val point : Int,
     val nbPersonSolved : Int,
-    val nbOfQuestions : Int
+    val nbOfQuestions : Int ,
+    val createdby:String
 )

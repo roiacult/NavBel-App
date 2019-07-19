@@ -68,6 +68,7 @@ dependencies {
     implementation deps.android.scalLayout
     implementation deps.android.graph
     implementation deps.android.indicator
+    implementation deps.android.gradient
 
     implementation deps.dagger.core
     implementation deps.dagger.support

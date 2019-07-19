@@ -4,4 +4,9 @@
           android:icon="@drawable/ic_settings_black_24dp"
           android:title="@string/settings"
           app:showAsAction="ifRoom"/>
+
+    <item android:id="@+id/help"
+          android:icon="@drawable/help_circle"
+          android:title="help"
+          app:showAsAction="ifRoom"/>
 </menu>

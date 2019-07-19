@@ -16,4 +16,8 @@
     <style name="AppTheme.Launcher">
         <item name="android:windowBackground">@drawable/splash</item>
     </style>
+
+    <style name="toolbarStyle" parent="@android:style/TextAppearance.Medium">
+        <item name="android:textColor">#fff</item>
+    </style>
 </resources>

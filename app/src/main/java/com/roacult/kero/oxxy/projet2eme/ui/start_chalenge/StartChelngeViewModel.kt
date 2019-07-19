@@ -137,9 +137,10 @@ class StartChelngeViewModel @Inject constructor(
         dispos?.dispose()
     }
 
-    fun compare() {
+    fun compare( ) {
         val questions = (state.value!!.getChalengeDetailles as Success).invoke().questions
-        lastTime = questions.getOrNull((state.value!!.page.peekContent()+1))?.time ?: 0L
+        val nextQuestion = questions.getOrNull((state.value!!.page.peekContent() + 1))
+        if ( nextQuestion != null ) lastTime = nextQuestion.time
         val writeAnswer = writeAnswers.getOrElse(curentQuestion!!.id) { -1 }
         setState { copy(writeAnswer = Event(writeAnswer))}
     }

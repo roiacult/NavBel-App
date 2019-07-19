@@ -7,6 +7,7 @@ import com.roacult.kero.oxxy.domain.interactors.None
 import com.roacult.kero.oxxy.domain.interactors.SubmitionParam
 import com.roacult.kero.oxxy.domain.interactors.SubmitionResult
 import com.roacult.kero.oxxy.domain.interactors.UpdateUserInfoParam
+import com.roacult.kero.oxxy.domain.modules.Award
 import com.roacult.kero.oxxy.domain.modules.ChalengeDetailles
 import com.roacult.kero.oxxy.domain.modules.ChalengeGlobale
 import com.roacult.kero.oxxy.domain.modules.User
@@ -32,7 +33,7 @@ class MainRepositoryImpl @Inject constructor( private val remote :MainRemote  ,p
      * this function will logout the user
      *
      */
-    override fun logOut() {
+    override  fun logOut() {
         local.logOut()
     }
 
@@ -91,8 +92,6 @@ return remote.getChallengeDetaille(challengeId)
     override suspend fun getUserInfo(): User {
           val gettingUserInfoFromRemote = remote.getUserInfoFromRemote(local.getUserId())
         if(gettingUserInfoFromRemote is Either.Right){
-             val list = emptyList<Int>().toMutableList()
-            for (i in 0..15 ) list += Random.nextInt(0,50)
               authLocal.saveUserLogged(gettingUserInfoFromRemote.b)
         }
         return local.getUser()
@@ -111,8 +110,14 @@ return remote.getChallengeDetaille(challengeId)
           }
     }
 
+    override suspend fun getAwards(): Either<Failure.GetAwardsFailure, List<Award>> {
+          return remote.getRewards()
+    }
 
-//    override suspend fun checkSubmit(answer: SubmitionParam): Either<Failure.SubmitionFailure, SubmitionResult> {
+    override suspend fun getAward(giftId: Int): Either<Failure.GetGift, None> {
+        return remote.getAward(local.getUserId() , giftId)
+    }
+    //    override suspend fun checkSubmit(answer: SubmitionParam): Either<Failure.SubmitionFailure, SubmitionResult> {
 //        //getting all true options for the challenge
 //             val gettingTrueOptionOperation = remote.getTrueOptionOfChallenge(answer.chalengeId)
 //        //checking for errors
@@ -121,22 +126,22 @@ return remote.getChallengeDetaille(challengeId)
 //             return gettingTrueOptionOperation as Either.Left<Failure.SubmitionFailure>
 //        }else{
 //            //if there are no error we correct the answer
-//           val result = correctChallenge(answer = answer.data, timeTakenPercent =answer.timeTakenPercentage
+//           val resultPoints = correctChallenge(answer = answer.data, timeTakenPercent =answer.timeTakenPercentage
 //                   , bareme =
 //                   (gettingTrueOptionOperation as Either.Right<TrueOptions>).b.options!!)
-//            return if(result.success){
+//            return if(resultPoints.success){
 //                //if he succed we add the number he got
-//                val addingPointToUser =  remote.addPointToUser(local.getUserId() , result.points)
+//                val addingPointToUser =  remote.addPointToUser(local.getUserId() , resultPoints.points)
 //                if(addingPointToUser.isLeft){
 //                    addingPointToUser as Either.Left<Failure.SubmitionFailure >
 //                }else{
-//                    local.addPointToUser(result.points)
+//                    local.addPointToUser(resultPoints.points)
 //
-//                    Either.Right(result)
+//                    Either.Right(resultPoints)
 //                }
 //            }else{
 //                //if not we return directly
-//                Either.Right(result)
+//                Either.Right(resultPoints)
 //            }
 //
 //        }
@@ -147,7 +152,7 @@ return remote.getChallengeDetaille(challengeId)
 //     * from solving the challenge
 //     * @param answer the user data of the challenge
 //     * @param bareme the correct data and the timeTakenPercentage of the challenge
-//     * @return  the result of the correction
+//     * @return  the resultPoints of the correction
 //     */
 //    fun correctChallenge(answer:Map<Long , Long> , timeTakenPercent:Float  , bareme:List<TrueOption>):SubmitionResult{
 //       val userErrorNummbers = checkUserErrors(answer,bareme.associate {

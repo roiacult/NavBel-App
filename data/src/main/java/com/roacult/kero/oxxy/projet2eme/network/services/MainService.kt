@@ -27,4 +27,10 @@ interface MainService {
 
     @POST("?op=update")
     fun updateUserInfo(@Body userInfo :UpdateUserParam , @Query("tooken") token: String):Call<UpdateUserResult>
+
+    @POST("?op=getReward")
+    fun getAwards(@Query("tooken") token:String):Call<AwardsRemote>
+
+    @POST("?op=sendReward")
+    fun getAward(@Query("tooken")  token: String ,@Body data:GetAwardRemote):Call<GetAwardResponse>
 }
