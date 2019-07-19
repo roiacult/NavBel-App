@@ -33,7 +33,7 @@ class MainRepositoryImpl @Inject constructor( private val remote :MainRemote  ,p
      * this function will logout the user
      *
      */
-    override fun logOut() {
+    override  fun logOut() {
         local.logOut()
     }
 
@@ -92,8 +92,6 @@ return remote.getChallengeDetaille(challengeId)
     override suspend fun getUserInfo(): User {
           val gettingUserInfoFromRemote = remote.getUserInfoFromRemote(local.getUserId())
         if(gettingUserInfoFromRemote is Either.Right){
-             val list = emptyList<Int>().toMutableList()
-            for (i in 0..15 ) list += Random.nextInt(0,50)
               authLocal.saveUserLogged(gettingUserInfoFromRemote.b)
         }
         return local.getUser()

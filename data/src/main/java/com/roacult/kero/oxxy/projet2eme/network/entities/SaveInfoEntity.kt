@@ -7,4 +7,5 @@ data class SaveInfoResult(val email: String? ,val fname:String? , val lname:Stri
                           val year :Int? ,
                           val date:String?,
                           val id:Int?,
+                          val bio:String? ,
                           val reponse:Int)

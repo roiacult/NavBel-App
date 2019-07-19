@@ -39,7 +39,7 @@ class AutherntificationRepositoryImpl
     }
 
     /**
-     * this function will the userInfo in the server so it will compress the url and convert it to base64 then
+     * this function willpost  the userInfo in the server by compressing the image  and converting it to base64 then
      * it will send the info to the server then if it goes well he will save it locally
      */
     override suspend fun saveUserInfo(user: UserInfo): Either<Failure.SaveInfoFaillure, None> {
@@ -56,11 +56,10 @@ class AutherntificationRepositoryImpl
     /**
      * this function will check the code that a user enter
      * and return if the code is correct or a failure
-     * todo dont forget to verify the timing
+     *
      */
 
-    override fun checkCodeCorrect(code:String ):Either<Failure.ConfirmEmailFaillure , None>{
-        //if we use rxjava it wil be awesssooommm
+    override suspend fun checkCodeCorrect(code:String ):Either<Failure.ConfirmEmailFaillure , None>{
         return if(local.getCounter()==5){
             remote.banneUser("user tried 5 times the confirmation code")
             Either.Left(Failure.ConfirmEmailFaillure.MaximumNumbreOfTry())

@@ -6,32 +6,30 @@ import com.roacult.kero.oxxy.projet2eme.network.entities.Request
 import com.roacult.kero.oxxy.projet2eme.utils.*
 import javax.inject.Inject
 
-open class MainLocal @Inject constructor( private val preferences: SharedPreferences){
-    fun getChallengeRequest():Request{
-       return Request( year =  preferences.getInt(USER_YEAR, 0) ,
-           id = preferences.getInt(
+open class MainLocal @Inject constructor(preferences: SharedPreferences):LocalStorage(preferences){
+    suspend fun getChallengeRequest():Request = get{
+        Request( year =  preference.getInt(USER_YEAR, 0) ,
+           id = preference.getInt(
            USER_ID , 0))
     }
-    fun getUser() = preferences.run {
+
+    suspend fun getUser() = get {
         User(getInt(USER_ID  , 0) ,getString(USER_EMAIL, "") , getString(USER_NAME , "") ,
             getString(USER_PRENAME , "") , getBoolean(IS_PUBLIC , true) , getString(USER_IMAGEURL ,""),
             getInt(USER_YEAR , 0), getString(USER_DATE, "") , getInt(NQSOLVED , 0), getInt(USER_POINT , 0)
         ,
-        getInt(USER_RANK , 0) , arrayListOf(20,22 , 33 , 14 ),"User description" //TODO change this
+        getInt(USER_RANK , 0) , getStringSet(RANK_TABLE, emptySet()).map { Integer.valueOf(it) },getString(
+                USER_DESCRIPTION,"")
         )
     }
-    fun updateUserData(lname:String , fname:String , ispublic:Boolean , imageUrl:String? ){
-        preferences.edit().apply{
+    suspend fun updateUserData(lname:String , fname:String , ispublic:Boolean , imageUrl:String? )= modify{
             putString(USER_NAME , fname)
             putString(USER_PRENAME , lname)
-            putBoolean(IS_PUBLIC, ispublic)
             if(imageUrl !=null) putString(USER_IMAGEURL , imageUrl)
-            commit()
-        }
+            putBoolean(IS_PUBLIC, ispublic)
     }
 
-    fun logOut(){
-        preferences.edit().apply{
+     fun logOut()= preference.edit().apply(){
             remove(USER_ID)
             remove(USER_YEAR)
             remove(USER_EMAIL)
@@ -45,22 +43,25 @@ open class MainLocal @Inject constructor( private val preferences: SharedPrefere
             remove(USER_IMAGEURL)
             remove(USER_CONNECTED)
             remove(IS_PUBLIC)
-        }.apply()
+            remove(RANK_TABLE)
+            remove(USER_DESCRIPTION)
+            commit()
     }
-    fun getMail():String  = preferences.getString(USER_EMAIL , "")
-    fun remove() {
-      preferences.edit().remove(CHALLENGE_NSOLVED)
+    suspend fun getMail():String  = get{ getString(USER_EMAIL , "")}
+     fun remove() {
+      preference.edit().remove(CHALLENGE_NSOLVED).apply()
     }
 
     fun checkNumber(it: Int): Boolean
-    = preferences.getInt(CHALLENGE_NSOLVED , 0) !=it
+    = preference.getInt(CHALLENGE_NSOLVED , 0) !=it
 
 
     fun save(it: Int?) {
-    preferences.edit().putInt(CHALLENGE_NSOLVED, it?:0).commit()
+    preference.edit().putInt(CHALLENGE_NSOLVED, it?:0).commit()
     }
-    fun getUserId():Int  = preferences.getInt(USER_ID , 0)
-    fun addPointToUser(points: Long) {
-        preferences.edit().putInt(USER_POINT , (preferences.getInt(USER_POINT , 0)+points).toInt()).apply()
+    fun getUserId():Int  = preference.getInt(USER_ID , 0)
+    suspend fun addPointToUser(points: Long) {
+        val currentPoint =get{getInt(USER_POINT , 0)}
+        modify {  putInt(USER_POINT , ( currentPoint+points).toInt())}
     }
 }
