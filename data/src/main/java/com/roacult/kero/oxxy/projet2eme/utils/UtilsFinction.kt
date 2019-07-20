@@ -22,6 +22,11 @@ fun List<QuestionReponse>.mapToQuestion():List<Question>{
         },it.time)
     }
 }
+fun <L , R , NR>Either<L , R>.mapRight(fnR:(R)->NR):Either<L , NR>
+        =  when(this){
+    is Either.Left-> this
+    is Either.Right ->  Either.Right(fnR(b))
+}
 suspend  fun  <T , F: Failure, R> Call<R>.lambdaEnqueue( onFailure:(t:Throwable)->Either<F , T>
                                                         , onSuccess:(response:Response<R>)->Either<F , T>
                                        ):Either<F , T> =

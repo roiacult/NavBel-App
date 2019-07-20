@@ -177,7 +177,8 @@ class ResourceFragment : BaseFragment(){
         val point = arguments.getInt(CHALENGE_POINT)
         val question = arguments.getInt(CHALENGE_QUESTION)
         val solved = arguments.getInt(CHALENGE_SOLVED)
-        callback.saveData(ChalengeGlobale(id,module,story,image,point,solved,question))
+        //todo  dont forget to add created by
+        callback.saveData(ChalengeGlobale(id,module,story,image,point,solved,question , ""))
         setGlobalDate()
     }
 

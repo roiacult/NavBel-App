@@ -79,7 +79,5 @@ sealed class Failure {
 
     object GetGift: Failure()
 
-    sealed class SolvedChalengeFailure : Failure() {
-        //TODO
-    }
+    object  SolvedChalengeFailure : Failure()
 }
