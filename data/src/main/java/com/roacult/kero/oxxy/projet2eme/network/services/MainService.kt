@@ -33,6 +33,6 @@ interface MainService {
 
     @POST("?op=sendReward")
     fun getAward(@Query("tooken")  token: String ,@Body data:GetAwardRemote):Call<GetAwardResponse>
-    @POST("?op=solved")
+    @POST("?op=solvedChallenge")
     fun getSolvedChallenge(@Query("tooken") token: String  ,@Body data :UserId):Call<SolvedChallengesResult>
 }

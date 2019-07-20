@@ -122,7 +122,7 @@ return remote.getChallengeDetaille(challengeId)
         return remote.getSolvedChallengeFromRemote(local.getUserId()).run {
           this.mapRight {
               it.map {
-                  SolvedChalenge(it.id.toLong() , it.imageUrl , it.resultpts , 0.5f,it.resultpts.toFloat()/it.challengepts.toFloat(), it.module)
+                  SolvedChalenge(it.id.toLong() , it.image , it.resultpts , 0.5f,it.resultpts.toFloat()/it.challengepts.toFloat(), it.module)
               }
           }
         }
