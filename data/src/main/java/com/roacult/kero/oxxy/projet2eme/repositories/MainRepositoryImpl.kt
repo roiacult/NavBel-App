@@ -3,17 +3,17 @@ package com.roacult.kero.oxxy.projet2eme.repositories
 import com.roacult.kero.oxxy.domain.MainRepository
 import com.roacult.kero.oxxy.domain.exception.Failure
 import com.roacult.kero.oxxy.domain.functional.Either
+import com.roacult.kero.oxxy.domain.functional.map
 import com.roacult.kero.oxxy.domain.interactors.None
 import com.roacult.kero.oxxy.domain.interactors.SubmitionParam
 import com.roacult.kero.oxxy.domain.interactors.SubmitionResult
 import com.roacult.kero.oxxy.domain.interactors.UpdateUserInfoParam
-import com.roacult.kero.oxxy.domain.modules.Award
-import com.roacult.kero.oxxy.domain.modules.ChalengeDetailles
-import com.roacult.kero.oxxy.domain.modules.ChalengeGlobale
-import com.roacult.kero.oxxy.domain.modules.User
+import com.roacult.kero.oxxy.domain.modules.*
 import com.roacult.kero.oxxy.projet2eme.local.AuthentificationLocal
 import com.roacult.kero.oxxy.projet2eme.local.MainLocal
 import com.roacult.kero.oxxy.projet2eme.network.MainRemote
+import com.roacult.kero.oxxy.projet2eme.network.entities.SolvedChallengeResult
+import com.roacult.kero.oxxy.projet2eme.utils.mapRight
 
 import io.reactivex.Observable
 import javax.inject.Inject
@@ -117,6 +117,17 @@ return remote.getChallengeDetaille(challengeId)
     override suspend fun getAward(giftId: Int): Either<Failure.GetGift, None> {
         return remote.getAward(local.getUserId() , giftId)
     }
+
+    override suspend fun getSolvedChallenge(): Either<Failure.SolvedChalengeFailure, List<SolvedChalenge>> {
+        return remote.getSolvedChallengeFromRemote(local.getUserId()).run {
+          this.mapRight {
+              it.map {
+                  SolvedChalenge(it.id.toLong() , it.imageUrl , it.resultpts , 0.5f,it.resultpts.toFloat()/it.challengepts.toFloat(), it.module)
+              }
+          }
+        }
+    }
+
     //    override suspend fun checkSubmit(answer: SubmitionParam): Either<Failure.SubmitionFailure, SubmitionResult> {
 //        //getting all true options for the challenge
 //             val gettingTrueOptionOperation = remote.getTrueOptionOfChallenge(answer.chalengeId)

@@ -64,5 +64,6 @@ open class MainLocal @Inject constructor(preferences: SharedPreferences):LocalSt
     suspend fun addPointToUser(points: Long) {
         val currentPoint =get{getInt(USER_POINT , 0)}
         modify {  putInt(USER_POINT , ( currentPoint+points).toInt())}
+
     }
 }

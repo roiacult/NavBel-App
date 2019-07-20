@@ -309,4 +309,17 @@ open class MainRemote @Inject constructor(private val service :MainService , pri
             return@lambdaEnqueue Either.Left(Failure.GetGift)
         }
     }
+    suspend fun getSolvedChallengeFromRemote(userId: Int):Either<Failure.SolvedChalengeFailure ,List<SolvedChallengeResult>>
+        = service.getSolvedChallenge(token(),UserId(userId)).lambdaEnqueue({
+            Log.e("errr", it.localizedMessage)
+             Either.Left(Failure.SolvedChalengeFailure) as Either<Failure.SolvedChalengeFailure, List<SolvedChallengeResult>>
+        },{
+        val body = it.body()
+        body?.apply {
+            if(this.response==1){
+                return@lambdaEnqueue Either.Right(data)
+            }
+        }
+        return@lambdaEnqueue Either.Left(Failure.SolvedChalengeFailure)
+    })
 }
