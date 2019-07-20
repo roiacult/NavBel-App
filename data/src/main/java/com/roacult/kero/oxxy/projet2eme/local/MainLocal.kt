@@ -59,9 +59,11 @@ open class MainLocal @Inject constructor(preferences: SharedPreferences):LocalSt
     fun save(it: Int?) {
     preference.edit().putInt(CHALLENGE_NSOLVED, it?:0).commit()
     }
+
     fun getUserId():Int  = preference.getInt(USER_ID , 0)
     suspend fun addPointToUser(points: Long) {
         val currentPoint =get{getInt(USER_POINT , 0)}
         modify {  putInt(USER_POINT , ( currentPoint+points).toInt())}
+
     }
 }
