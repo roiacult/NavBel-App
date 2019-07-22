@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
-        <com.tbuonomo.creativeviewpager.CreativeViewPager
-                android:id="@+id/viewPager"
+
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
+                android:layout_height="match_parent">
+                <com.tbuonomo.creativeviewpager.CreativeViewPager
+                        android:id="@+id/viewPager"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"/>
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 </layout>
