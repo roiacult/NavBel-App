@@ -74,7 +74,7 @@ class AuthentificationLocal @Inject constructor(preference:SharedPreferences):Lo
                putInt(USER_YEAR, info.year ?: 0)
                putBoolean(IS_PUBLIC, info.ispublic == 1)
                putString(USER_DESCRIPTION , info.bio)
-               putStringSet(RANK_TABLE, info.ranks?.map { toString() }?.toSet())
+               putStringSet(RANK_TABLE, info.ranks?.map { it.toString() }?.toSet())
     }
 
     suspend fun isUserConnected():Boolean = get{

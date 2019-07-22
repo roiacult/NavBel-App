@@ -1,6 +1,7 @@
 package com.roacult.kero.oxxy.projet2eme.local
 
 import android.content.SharedPreferences
+import android.util.Log
 import com.roacult.kero.oxxy.domain.modules.User
 import com.roacult.kero.oxxy.projet2eme.network.entities.Request
 import com.roacult.kero.oxxy.projet2eme.utils.*
@@ -14,13 +15,15 @@ open class MainLocal @Inject constructor(preferences: SharedPreferences):LocalSt
     }
 
     suspend fun getUser() = get {
+
         User(getInt(USER_ID  , 0) ,getString(USER_EMAIL, "") , getString(USER_NAME , "") ,
             getString(USER_PRENAME , "") , getBoolean(IS_PUBLIC , true) , getString(USER_IMAGEURL ,""),
             getInt(USER_YEAR , 0), getString(USER_DATE, "") , getInt(NQSOLVED , 0), getInt(USER_POINT , 0)
         ,
-        getInt(USER_RANK , 0) , getStringSet(RANK_TABLE, emptySet()).map { Integer.valueOf(it) },getString(
+        getInt(USER_RANK , 0) ,  getStringSet(RANK_TABLE, emptySet()).map {it.toInt()} ,getString(
                 USER_DESCRIPTION,"")
         )
+
     }
     suspend fun updateUserData(lname:String , fname:String , ispublic:Boolean , imageUrl:String? )= modify{
             putString(USER_NAME , fname)
