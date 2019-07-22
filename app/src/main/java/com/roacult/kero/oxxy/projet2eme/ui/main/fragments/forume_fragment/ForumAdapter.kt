@@ -11,22 +11,20 @@ import com.roacult.kero.oxxy.projet2eme.databinding.MainForumPostBinding
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.main_forum_post_header.view.*
 
-class ForumAdapter()  : CreativePagerAdapter {
-
-    private val posts : ArrayList<Post> = ArrayList()
+class ForumAdapter(private val posts : List<Post>)  : CreativePagerAdapter {
 
     override fun getCount() = posts.size
 
     override fun instantiateContentItem(inflater: LayoutInflater, container: ViewGroup, position: Int): View {
-        val binding : MainForumPostBinding = DataBindingUtil.inflate(inflater,R.layout.main_forum_post,container,false)
-        updateContentItem(binding , posts[position])
-       return binding.root
-    }
-
-    override fun instantiateHeaderItem(inflater: LayoutInflater, container: ViewGroup, position: Int): View {
         val view = inflater.inflate(R.layout.main_forum_post_header,container,false)
         updateHeaderItem(view,posts[position])
         return view
+    }
+
+    override fun instantiateHeaderItem(inflater: LayoutInflater, container: ViewGroup, position: Int): View {
+        val binding : MainForumPostBinding = DataBindingUtil.inflate(inflater,R.layout.main_forum_post,container,false)
+        updateContentItem(binding , posts[position])
+        return binding.root
     }
 
     private fun updateContentItem(binding : MainForumPostBinding , post : Post) {
@@ -44,8 +42,4 @@ class ForumAdapter()  : CreativePagerAdapter {
         else view.userImage.setImageResource(R.drawable.save_info_holder)
     }
 
-    fun submitPosts(list: ArrayList<Post>) {
-        posts.clear()
-        posts.addAll(list)
-    }
 }

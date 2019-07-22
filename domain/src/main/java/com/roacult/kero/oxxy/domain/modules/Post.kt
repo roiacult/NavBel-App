@@ -4,7 +4,7 @@ data class Post (
     val postId : Long ,
     val postImage : String? ,
     val postDesc : String ,
-    val userId : String ,
+    val userId : Long ,
     val userName : String ,
     val userYear : String ,
     val userImage : String

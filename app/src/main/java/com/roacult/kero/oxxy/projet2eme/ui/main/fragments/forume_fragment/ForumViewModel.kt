@@ -13,10 +13,11 @@ import com.roacult.kero.oxxy.projet2eme.utils.Loading
 import javax.inject.Inject
 
 class ForumViewModel @Inject constructor(
-    getPostInt : GetAllPosts
+    private val getPostInt : GetAllPosts
 ) : BaseViewModel<ForumState>(ForumState()){
 
-    init {
+    fun refresh() {
+        setState { copy(postsOp = Loading())}
         scope.launchInteractor(getPostInt, None()){
             it.either({
                 setState{copy(postsOp = Fail(it))}
