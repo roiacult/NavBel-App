@@ -17,7 +17,6 @@ class GetAllChallenges @Inject constructor(couroutineDispatchers: CouroutineDisp
 
     override val dispatcher =couroutineDispatchers.computaion
     override val ResultDispatcher= couroutineDispatchers.main
-    private var bla = false
 
     override suspend fun invoke(executeParams: None): Either<Failure.GetAllChalengesFailure, List<ChalengeGlobale>> {
 //        delay(3000)

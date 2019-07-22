@@ -85,4 +85,8 @@ sealed class Failure {
     sealed class SolvedChalengeFailure : Failure() {
         //TODO
     }
+
+    sealed class PostsFailure : Failure() {
+        //TODO
+    }
 }
