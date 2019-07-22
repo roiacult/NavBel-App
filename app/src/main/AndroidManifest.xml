@@ -10,6 +10,7 @@
     <uses-permission android:name="android.permission.RECORD_AUDIO"/>
     <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
 
+
     <application
             android:allowBackup="true"
             android:icon="@mipmap/ic_launcher"
@@ -23,6 +24,7 @@
                 android:name="io.fabric.ApiKey"
                 android:value="82a935f5dfbb0998b3430524afa9ede8a577dd4b"
         />
+
 
         <activity android:name=".ui.splash.SplashActivity"
         android:screenOrientation="portrait"
