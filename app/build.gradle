@@ -69,6 +69,7 @@ dependencies {
     implementation deps.android.graph
     implementation deps.android.indicator
     implementation deps.android.gradient
+    implementation deps.android.creative_viewpager
 
     implementation deps.dagger.core
     implementation deps.dagger.support
