@@ -152,15 +152,23 @@ class MainActivity : BaseActivity() {
         when (selectedFragment) {
             0 -> {
                 menu?.findItem(R.id.filter)?.isVisible= true
+                menu?.findItem(R.id.log_out)?.isVisible = true
+                menu?.findItem(R.id.add_post)?.isVisible = false
             }
             1 -> {
                 menu?.findItem(R.id.filter)?.isVisible= false
+                menu?.findItem(R.id.log_out)?.isVisible = false
+                menu?.findItem(R.id.add_post)?.isVisible = true
             }
             2 -> {
                 menu?.findItem(R.id.filter)?.isVisible= false
+                menu?.findItem(R.id.log_out)?.isVisible = false
+                menu?.findItem(R.id.add_post)?.isVisible = false
             }
             3 -> {
                 menu?.findItem(R.id.filter)?.isVisible= false
+                menu?.findItem(R.id.log_out)?.isVisible = false
+                menu?.findItem(R.id.add_post)?.isVisible = false
             }
         }
         return true
