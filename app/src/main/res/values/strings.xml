@@ -170,4 +170,7 @@
     <string name="profile_description">profile description</string>
     <string name="creat_post">Create Post</string>
     <string name="what_on_your_mind">What on your mind</string>
+    <string name="share">share</string>
+    <string name="post_error">please provide an image or description for this post first</string>
+    <string name="post_succ">posted Successfully</string>
 </resources>

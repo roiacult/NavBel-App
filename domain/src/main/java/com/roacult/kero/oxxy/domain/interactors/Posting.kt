@@ -9,7 +9,6 @@ import kotlinx.coroutines.delay
 import javax.inject.Inject
 
 /**
- * add user info (uid , user image , user year , user name ) in post provided in parameter
  * and store it in post table
  * */
 class Posting  @Inject constructor(
