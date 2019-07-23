@@ -2,6 +2,7 @@ package com.roacult.kero.oxxy.projet2eme.di.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.roacult.kero.oxxy.projet2eme.ui.creatpost.CreatPostViewModel
 import com.roacult.kero.oxxy.projet2eme.ui.main.fragments.award_fragment.AwardViewModel
 import com.roacult.kero.oxxy.projet2eme.ui.main.fragments.award_fragment.getgift.GetGiftViewModel
 import com.roacult.kero.oxxy.projet2eme.ui.main.fragments.chalenge_fragment.ChalengeViewModel
@@ -77,4 +78,9 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(ForumViewModel::class)
     internal abstract fun provideForumViewModel(viewModel : ForumViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(CreatPostViewModel::class)
+    internal abstract fun provideCreatPosstViewModel(viewModel : CreatPostViewModel): ViewModel
 }

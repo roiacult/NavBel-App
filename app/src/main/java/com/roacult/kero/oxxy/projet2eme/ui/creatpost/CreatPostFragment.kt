@@ -3,6 +3,7 @@ package com.roacult.kero.oxxy.projet2eme.ui.creatpost
 import android.app.Activity.RESULT_OK
 import android.content.Intent
 import android.content.res.Configuration
+import android.net.Uri
 import android.os.Bundle
 import android.view.*
 import androidx.appcompat.app.AppCompatActivity
@@ -20,6 +21,7 @@ import com.roacult.kero.oxxy.projet2eme.utils.Success
 import com.roacult.kero.oxxy.projet2eme.utils.extension.visible
 import com.squareup.picasso.Picasso
 import com.theartofdev.edmodo.cropper.CropImage
+import java.io.File
 
 
 class CreatPostFragment : BaseFragment() {
@@ -60,6 +62,7 @@ class CreatPostFragment : BaseFragment() {
             is Success -> {
                 showLoading(false)
                 showToast(getString(R.string.post_succ))
+                activity?.setResult(RESULT_OK)
                 activity?.finish()
             }
         }
@@ -86,7 +89,10 @@ class CreatPostFragment : BaseFragment() {
         act?.setSupportActionBar(binding.toolbar3)
         act?.supportActionBar?.setDisplayShowHomeEnabled(true)
         binding.uploadImage.setOnClickListener {
-            CropImage.activity().start(activity as AppCompatActivity)
+            CropImage.activity().start(context!!,this)
+        }
+        viewModel.imageUri?.apply{
+            binding.uploadImage.setImageURI(Uri.fromFile(File(this)))
         }
     }
 

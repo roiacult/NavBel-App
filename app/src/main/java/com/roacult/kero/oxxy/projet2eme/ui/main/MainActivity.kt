@@ -189,6 +189,9 @@ class MainActivity : BaseActivity() {
                 startActivity(RegistrationActivity.getIntent(this))
                 finish()
             }
+            R.id.add_post -> {
+                forumFragment.addPost()
+            }
         }
         return true
     }

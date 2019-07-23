@@ -1,5 +1,7 @@
 package com.roacult.kero.oxxy.projet2eme.ui.main.fragments.forume_fragment
 
+import android.app.Activity.RESULT_OK
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,13 +13,17 @@ import com.roacult.kero.oxxy.projet2eme.R
 import com.roacult.kero.oxxy.projet2eme.base.BaseFragment
 import com.roacult.kero.oxxy.projet2eme.ui.main.CallbackFromActivity
 import com.roacult.kero.oxxy.projet2eme.databinding.MainForumBinding
+import com.roacult.kero.oxxy.projet2eme.ui.creatpost.CreatPostActivity
 import com.roacult.kero.oxxy.projet2eme.utils.Async
 import com.roacult.kero.oxxy.projet2eme.utils.Loading
 import com.roacult.kero.oxxy.projet2eme.utils.Fail
 import com.roacult.kero.oxxy.projet2eme.utils.Success
 
 class ForumeFragment  : BaseFragment(),CallbackFromActivity{
-    companion object { fun getInstance() = ForumeFragment() }
+    companion object {
+        fun getInstance() = ForumeFragment()
+        const val REFRESH_REQUEST_CODE = 59856
+    }
 
     private lateinit var binding : MainForumBinding
     private val viewModel by lazy {ViewModelProviders.of(this,viewModelFactory)[ForumViewModel::class.java]}
@@ -76,4 +82,15 @@ class ForumeFragment  : BaseFragment(),CallbackFromActivity{
     override fun showHelp() {}
 
     override fun showFilter() {}
+
+    fun addPost() {
+        startActivityForResult(CreatPostActivity.getIntent(context!!),REFRESH_REQUEST_CODE)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if(requestCode == REFRESH_REQUEST_CODE && resultCode == RESULT_OK){
+            viewModel.refresh()
+        }
+    }
 }
