@@ -1,7 +1,9 @@
 package com.roacult.kero.oxxy.projet2eme
 
+import android.util.Log
 import com.crashlytics.android.Crashlytics
 import com.facebook.stetho.Stetho
+import com.google.firebase.messaging.FirebaseMessaging
 import dagger.android.AndroidInjector
 import dagger.android.DaggerApplication
 import com.roacult.kero.oxxy.projet2eme.di.component.DaggerAppComponent
@@ -22,5 +24,8 @@ class AndroidApplication :DaggerApplication() {
     override fun onCreate() {
         super.onCreate()
         initializers.init(this)
+        FirebaseMessaging.getInstance().subscribeToTopic("reward").addOnSuccessListener {
+            Log.e("errr", "successful")
+        }
     }
 }

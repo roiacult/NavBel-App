@@ -89,7 +89,7 @@ class AutherntificationRepositoryImpl
 
             val none = suspendCoroutine<Either<Failure.LoginFaillure , None>> {
                 continuation->
-                FirebaseMessaging.getInstance().subscribeToTopic("/topics/"+either.b.year.toString()).addOnCompleteListener {
+                FirebaseMessaging.getInstance().subscribeToTopic(either.b.year.toString()).addOnCompleteListener {
                     if(it.isSuccessful){
                         continuation.resume(Either.Right(None()))
                     }else{
