@@ -168,4 +168,6 @@
     <string name="this_user_didn_t_specifie_a_description_yet">this user didn\'t specifie a description yet</string>
     <string name="your_rank_in_last_15_days">your rank in last 15 days</string>
     <string name="profile_description">profile description</string>
+    <string name="creat_post">Create Post</string>
+    <string name="what_on_your_mind">What on your mind</string>
 </resources>
