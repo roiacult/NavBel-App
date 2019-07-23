@@ -10,6 +10,8 @@
                 <com.tbuonomo.creativeviewpager.CreativeViewPager
                         android:id="@+id/viewPager"
                         app:headerItemMargin="16dp"
+                        app:contentItemMargin="8dp"
+                        app:contentHorizontalPadding="12dp"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"/>
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
