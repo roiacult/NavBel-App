@@ -21,14 +21,14 @@
                 android:layout_width="65dp"
                 android:layout_height="65dp" android:layout_marginTop="16dp"
                 app:layout_constraintTop_toBottomOf="@+id/toolbar3" app:layout_constraintStart_toStartOf="parent"
-                android:layout_marginStart="8dp" android:id="@+id/circleImageView2"/>
+                android:layout_marginStart="8dp" android:id="@+id/userPic"/>
         <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toTopOf="@+id/circleImageView2"
-                app:layout_constraintBottom_toBottomOf="@+id/circleImageView2"
-                android:layout_marginStart="12dp" app:layout_constraintStart_toEndOf="@+id/circleImageView2">
+                app:layout_constraintTop_toTopOf="@+id/userPic"
+                app:layout_constraintBottom_toBottomOf="@+id/userPic"
+                android:layout_marginStart="12dp" app:layout_constraintStart_toEndOf="@+id/userPic">
             <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" android:id="@+id/userName" tools:text="Djawed Benahmed"
@@ -43,7 +43,7 @@
                 android:layout_height="0dp" app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="8dp"
                 app:layout_constraintBottom_toBottomOf="parent" android:layout_marginTop="8dp"
-                app:layout_constraintTop_toBottomOf="@+id/circleImageView2">
+                app:layout_constraintTop_toBottomOf="@+id/userPic">
             <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
@@ -86,6 +86,6 @@
                 app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintStart_toStartOf="parent"
                 android:layout_marginStart="8dp" app:layout_constraintEnd_toEndOf="parent"
                 android:layout_marginEnd="8dp" android:visibility="gone" android:layout_marginTop="8dp"
-                app:layout_constraintTop_toBottomOf="@+id/circleImageView2"/>
+                app:layout_constraintTop_toBottomOf="@+id/userPic"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

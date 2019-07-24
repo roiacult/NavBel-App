@@ -53,6 +53,7 @@
 
         <activity android:name="com.roacult.kero.oxxy.projet2eme.ui.solvedchallenge.SolvedChallengeActivity"/>
         <activity android:name=".ui.creatpost.CreatPostActivity"/>
+        <activity android:name=".ui.postdettailes.PostDetaillesActivity" />
     </application>
 
 </manifest>

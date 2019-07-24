@@ -173,4 +173,5 @@
     <string name="share">share</string>
     <string name="post_error">please provide an image or description for this post first</string>
     <string name="post_succ">posted Successfully</string>
+    <string name="comments">Comments</string>
 </resources>
