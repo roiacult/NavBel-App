@@ -111,7 +111,7 @@ class SettingFragment : BaseFragment(){
             if(resultCode == Activity.RESULT_OK){
                 val result = CropImage.getActivityResult(data)
                 viewModel.picture = result.uri.toString()
-                binding.circleImageView.setImageURI(result.uri)
+                binding.userImage.setImageURI(result.uri)
             }
         }
     }
