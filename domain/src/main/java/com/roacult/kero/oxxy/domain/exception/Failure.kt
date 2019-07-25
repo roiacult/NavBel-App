@@ -81,10 +81,6 @@ sealed class Failure {
 
     object  SolvedChalengeFailure : Failure()
   
-      sealed class SolvedChalengeFailure : Failure() {
-        //TODO
-    }
-
     sealed class PostsFailure : Failure() {
         //TODO
     }
