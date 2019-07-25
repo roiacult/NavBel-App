@@ -174,4 +174,8 @@
     <string name="post_error">please provide an image or description for this post first</string>
     <string name="post_succ">posted Successfully</string>
     <string name="comments">Comments</string>
+    <string name="comment_error">please write a comment first</string>
+    <string name="coment_succ">your comment saved successfully</string>
+    <string name="post_comment">Comments</string>
+    <string name="no_comments">no comments for this post</string>
 </resources>

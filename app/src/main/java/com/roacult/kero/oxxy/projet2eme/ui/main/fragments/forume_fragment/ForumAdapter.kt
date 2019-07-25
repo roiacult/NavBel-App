@@ -8,6 +8,7 @@ import com.roacult.kero.oxxy.domain.modules.Post
 import com.roacult.kero.oxxy.projet2eme.R
 import com.tbuonomo.creativeviewpager.adapter.CreativePagerAdapter
 import com.roacult.kero.oxxy.projet2eme.databinding.MainForumPostBinding
+import com.roacult.kero.oxxy.projet2eme.ui.postdettailes.PostDetaillesActivity
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.main_forum_post_header.view.*
 
@@ -35,6 +36,9 @@ class ForumAdapter(private val posts : List<Post>)  : CreativePagerAdapter {
         binding.userName.text = post.userName
         binding.userYear.text = post.userYear
         binding.postDesc.text = post.postDesc
+        binding.button2.setOnClickListener{
+            binding.root.context.startActivity(PostDetaillesActivity.getIntent(binding.root.context,post))
+        }
     }
 
     private fun updateHeaderItem(view: View, post: Post) {

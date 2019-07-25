@@ -76,7 +76,7 @@ class CreatPostFragment : BaseFragment() {
     private fun handleUserInfo(userInfoOp: Async<User>) {
         if(userInfoOp is Success) {
             val user = userInfoOp()
-            if(user.picture?.isNotEmpty() == true ) Picasso.get().load(user.picture!!).into(binding.circleImageView2)
+            if(user.picture?.isNotEmpty() == true ) Picasso.get().load(user.picture!!).into(binding.userPic)
             binding.userName.text = user.fname+" ,"+user.lName
             binding.userYear.text = if(user.year<3) user.year.toString() + " Cpi"
             else (user.year - 2 ).toString() +" Cs"

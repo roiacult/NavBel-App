@@ -65,7 +65,7 @@ class SettingFragment : BaseFragment(){
     }
 
     private fun showLoading(show: Boolean) {
-        binding.circleImageView.isClickable = !show
+        binding.userImage.isClickable = !show
         binding.linearLayout7.visible(!show)
         binding.progressBar3.visible(show)
         binding.save.alpha = if(show) 0.5F else 1F
@@ -81,7 +81,7 @@ class SettingFragment : BaseFragment(){
     }
 
     private fun initViews() {
-        if(viewModel.picture != null) Picasso.get().load(viewModel.picture!!).into(binding.circleImageView)
+        if(viewModel.picture != null) Picasso.get().load(viewModel.picture!!).into(binding.userImage)
         binding.fname.setText(viewModel.fName)
         binding.lname.setText(viewModel.lName)
         binding.desc.setText(viewModel.description)
@@ -94,7 +94,7 @@ class SettingFragment : BaseFragment(){
             saveToViewModel()
             viewModel.save()
         }
-        binding.circleImageView.setOnClickListener {
+        binding.userImage.setOnClickListener {
             CropImage.activity()
                 .setCropShape ( CropImageView.CropShape.OVAL )
                 .setAspectRatio(1,1 )

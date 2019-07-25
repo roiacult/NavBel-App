@@ -7,7 +7,10 @@ import com.roacult.kero.oxxy.domain.functional.Either
 import kotlinx.coroutines.delay
 import javax.inject.Inject
 
-class CommentOnPost  @Inject constructor(
+/**
+ * post a comment to server
+ * */
+class CommentPost  @Inject constructor(
     couroutineDispatchers: CouroutineDispatchers,
     val repo: MainRepository
 ) :EitherInteractor< String ,None , Failure.PostsFailure> {
@@ -16,7 +19,7 @@ class CommentOnPost  @Inject constructor(
     override val ResultDispatcher= couroutineDispatchers.main
 
     override suspend fun invoke(executeParams: String): Either<Failure.PostsFailure, None> {
-        delay(3000)
+        delay(300)
         return Either.Right(None())
     }
 }

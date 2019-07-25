@@ -8,6 +8,7 @@ import com.roacult.kero.oxxy.projet2eme.ui.main.fragments.award_fragment.getgift
 import com.roacult.kero.oxxy.projet2eme.ui.main.fragments.chalenge_fragment.ChalengeViewModel
 import com.roacult.kero.oxxy.projet2eme.ui.main.fragments.forume_fragment.ForumViewModel
 import com.roacult.kero.oxxy.projet2eme.ui.main.fragments.profile_fragment.ProfileViewModel
+import com.roacult.kero.oxxy.projet2eme.ui.postdettailes.PostDetailesViewModel
 import com.roacult.kero.oxxy.projet2eme.ui.registration_feature.fragment_saveinfo.SaveInfoViewModel
 import com.roacult.kero.oxxy.projet2eme.ui.registration_feature.fragment_signin_login.RegistrationViewModel
 import com.roacult.kero.oxxy.projet2eme.ui.registration_feature.reset_password.RestPasswordViewModel
@@ -83,4 +84,9 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(CreatPostViewModel::class)
     internal abstract fun provideCreatPosstViewModel(viewModel : CreatPostViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(PostDetailesViewModel::class)
+    internal abstract fun providePostDetaillesViewModel(viewModel : PostDetailesViewModel): ViewModel
 }
