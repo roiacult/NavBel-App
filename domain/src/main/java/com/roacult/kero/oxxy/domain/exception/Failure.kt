@@ -80,4 +80,12 @@ sealed class Failure {
     object GetGift: Failure()
 
     object  SolvedChalengeFailure : Failure()
+  
+      sealed class SolvedChalengeFailure : Failure() {
+        //TODO
+    }
+
+    sealed class PostsFailure : Failure() {
+        //TODO
+    }
 }

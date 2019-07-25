@@ -22,6 +22,7 @@ import com.roacult.kero.oxxy.projet2eme.utils.Success
 import com.squareup.picasso.Picasso
 import com.theartofdev.edmodo.cropper.CropImage
 import com.theartofdev.edmodo.cropper.CropImageView
+import com.roacult.kero.oxxy.projet2eme.utils.extension.visible
 
 class SettingFragment : BaseFragment(){
 
@@ -64,10 +65,9 @@ class SettingFragment : BaseFragment(){
     }
 
     private fun showLoading(show: Boolean) {
-        binding.circleImageView.isClickable = !show
-        binding.fname.isClickable = !show
-        binding.lname.isClickable = !show
-        binding.publicBtn.isClickable = !show
+        binding.userImage.isClickable = !show
+        binding.linearLayout7.visible(!show)
+        binding.progressBar3.visible(show)
         binding.save.alpha = if(show) 0.5F else 1F
     }
 
@@ -76,22 +76,25 @@ class SettingFragment : BaseFragment(){
         val lname = arguments!!.getString(SettingActivity.USER_INFO_LNAME)!!
         val picture = arguments!!.getString(SettingActivity.USER_INFO_PICTURE)
         val public = arguments!!.getBoolean(SettingActivity.USER_INFO_PUBLIC)
-        viewModel.saveInfo(fname,lname,picture,public)
+        val descri = arguments!!.getString(SettingActivity.USER_INFO_DESCRI)
+        viewModel.saveInfo(fname,lname,picture,descri,public)
     }
 
     private fun initViews() {
-        if(viewModel.picture != null) Picasso.get().load(viewModel.picture!!).into(binding.circleImageView)
+        if(viewModel.picture != null) Picasso.get().load(viewModel.picture!!).into(binding.userImage)
         binding.fname.setText(viewModel.fName)
         binding.lname.setText(viewModel.lName)
+        binding.desc.setText(viewModel.description)
         binding.switchBtn.isChecked = !viewModel.public
         binding.publicBtn.setOnClickListener{
             binding.switchBtn.isChecked = viewModel.public
             viewModel.public = !viewModel.public
         }
         binding.save.setOnClickListener {
+            saveToViewModel()
             viewModel.save()
         }
-        binding.circleImageView.setOnClickListener {
+        binding.userImage.setOnClickListener {
             CropImage.activity()
                 .setCropShape ( CropImageView.CropShape.OVAL )
                 .setAspectRatio(1,1 )
@@ -108,15 +111,20 @@ class SettingFragment : BaseFragment(){
             if(resultCode == Activity.RESULT_OK){
                 val result = CropImage.getActivityResult(data)
                 viewModel.picture = result.uri.toString()
-                binding.circleImageView.setImageURI(result.uri)
+                binding.userImage.setImageURI(result.uri)
             }
         }
     }
 
     override fun onConfigurationChanged(newConfig: Configuration?) {
         super.onConfigurationChanged(newConfig)
+        saveToViewModel()
+    }
+
+    private fun saveToViewModel(){
         viewModel.lName = binding.lname.text.toString()
         viewModel.fName = binding.fname.text.toString()
         viewModel.public = !binding.switchBtn.isChecked
+        viewModel.description  =binding.desc.text.toString()
     }
 }

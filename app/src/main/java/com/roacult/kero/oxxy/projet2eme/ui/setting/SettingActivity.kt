@@ -15,6 +15,7 @@ class SettingActivity : BaseActivity(){
         const val USER_INFO_FNAME = "com.roacult.kero.oxxy.projet2eme:FirestName"
         const val USER_INFO_LNAME = "com.roacult.kero.oxxy.projet2eme:LastName"
         const val USER_INFO_PICTURE = "com.roacult.kero.oxxy.projet2eme:Picture"
+        const val USER_INFO_DESCRI = "com.roacult.kero.oxxy.projet2eme:Public"
         const val USER_INFO_PUBLIC = "com.roacult.kero.oxxy.projet2eme:Public"
 
 
@@ -24,6 +25,7 @@ class SettingActivity : BaseActivity(){
             bundle.putString(USER_INFO_FNAME,user.fname)
             bundle.putString(USER_INFO_LNAME,user.lName)
             bundle.putBoolean(USER_INFO_PUBLIC,user.public)
+            bundle.putString(USER_INFO_DESCRI,user.description)
             putExtras(bundle)
         }
     }

@@ -19,4 +19,4 @@ class UpdateUserInfo @Inject constructor( private val repository: MainRepository
     }
 }
 
-data class UpdateUserInfoParam(val fname :String,val lName :String,val picture : String?,val public :Boolean , val password:String?)
+data class UpdateUserInfoParam(val fname :String,val lName :String,val picture : String?,val public :Boolean , val password:String?,val description : String? = null)

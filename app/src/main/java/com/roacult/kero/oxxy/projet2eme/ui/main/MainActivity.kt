@@ -120,8 +120,9 @@ class MainActivity : BaseActivity() {
             1 ->{
                 if(activeFragment is ForumeFragment) return
                 supportFragmentManager.inTransaction{
-                    hide(activeFragment!!).show(forumFragment).attach(chalengeFragment)
+                    hide(activeFragment!!).show(forumFragment).attach(forumFragment)
                 }
+                forumFragment.refresh()
                 activeFragment = forumFragment
                 callback = forumFragment
                 supportActionBar?.show()
@@ -129,7 +130,7 @@ class MainActivity : BaseActivity() {
             2 ->{
                 if(activeFragment is AwardFragment) return
                 supportFragmentManager.inTransaction{
-                    hide(activeFragment!!).show(awardFragment).attach(chalengeFragment)
+                    hide(activeFragment!!).show(awardFragment).attach(awardFragment)
                 }
                 activeFragment = awardFragment
                 callback = awardFragment
@@ -138,7 +139,7 @@ class MainActivity : BaseActivity() {
             3 ->{
                 if(activeFragment is ProfileFragment) return
                 supportFragmentManager.inTransaction{
-                    hide(activeFragment!!).show(profileFragment).attach(chalengeFragment)
+                    hide(activeFragment!!).show(profileFragment).attach(profileFragment)
                 }
                 activeFragment = profileFragment
                 callback = profileFragment
@@ -152,15 +153,23 @@ class MainActivity : BaseActivity() {
         when (selectedFragment) {
             0 -> {
                 menu?.findItem(R.id.filter)?.isVisible= true
+                menu?.findItem(R.id.log_out)?.isVisible = true
+                menu?.findItem(R.id.add_post)?.isVisible = false
             }
             1 -> {
                 menu?.findItem(R.id.filter)?.isVisible= false
+                menu?.findItem(R.id.log_out)?.isVisible = false
+                menu?.findItem(R.id.add_post)?.isVisible = true
             }
             2 -> {
                 menu?.findItem(R.id.filter)?.isVisible= false
+                menu?.findItem(R.id.log_out)?.isVisible = false
+                menu?.findItem(R.id.add_post)?.isVisible = false
             }
             3 -> {
                 menu?.findItem(R.id.filter)?.isVisible= false
+                menu?.findItem(R.id.log_out)?.isVisible = false
+                menu?.findItem(R.id.add_post)?.isVisible = false
             }
         }
         return true
@@ -179,6 +188,9 @@ class MainActivity : BaseActivity() {
                 logOutUseCase.invoke()
                 startActivity(RegistrationActivity.getIntent(this))
                 finish()
+            }
+            R.id.add_post -> {
+                forumFragment.addPost()
             }
         }
         return true

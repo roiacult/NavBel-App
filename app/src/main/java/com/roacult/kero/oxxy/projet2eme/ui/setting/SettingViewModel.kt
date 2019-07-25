@@ -22,13 +22,15 @@ class SettingViewModel @Inject constructor(val updateUserInfo: UpdateUserInfo)  
     var fName : String? = null
     var lName : String? = null
     var picture : String? = null
+    var description : String? = null
     var public : Boolean = false
 
-    fun saveInfo(fName :String,lName :String, picture :String?,public :Boolean){
+    fun saveInfo(fName :String,lName :String, picture :String?,descri : String? ,public :Boolean){
         if(firestTime) {
             this.fName = fName
             this.lName = lName
             this.picture = picture
+            this.description = descri
             this.public = public
             firestTime = false
         }
@@ -36,7 +38,7 @@ class SettingViewModel @Inject constructor(val updateUserInfo: UpdateUserInfo)  
 
     fun save() {
         setState { copy(saveOp = Loading()) }
-        scope.launchInteractor(updateUserInfo, UpdateUserInfoParam(fName!!,lName!!,newPic,public , null)){
+        scope.launchInteractor(updateUserInfo, UpdateUserInfoParam(fName!!,lName!!,newPic,public , null,description)){
             it.either({
                 setState { copy(saveOp = Fail(it)) }
             },{

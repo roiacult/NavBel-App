@@ -1,7 +1,11 @@
 package com.roacult.kero.oxxy.projet2eme.ui
 
+import com.roacult.kero.oxxy.projet2eme.ui.creatpost.CreatPostActivity
+import com.roacult.kero.oxxy.projet2eme.ui.creatpost.CreatPostBuilder
 import com.roacult.kero.oxxy.projet2eme.ui.main.MainActivity
 import com.roacult.kero.oxxy.projet2eme.ui.main.fragments.MainFragmentBuilder
+import com.roacult.kero.oxxy.projet2eme.ui.postdettailes.PostDetaillesActivity
+import com.roacult.kero.oxxy.projet2eme.ui.postdettailes.PostDetaillesBuilder
 import com.roacult.kero.oxxy.projet2eme.ui.solvedchallenge.SolvedChallengeActivity
 import com.roacult.kero.oxxy.projet2eme.ui.solvedchallenge.SolvedChallengeBuilder
 import com.roacult.kero.oxxy.projet2eme.ui.registration_feature.RegistrationFragmentBuilder
@@ -36,4 +40,9 @@ abstract class ActivityBuilder {
     @ContributesAndroidInjector(modules = [SolvedChallengeBuilder::class])
     abstract  fun provideSolvedChallengeActivity() : SolvedChallengeActivity
 
+    @ContributesAndroidInjector(modules =[CreatPostBuilder::class])
+    abstract fun provideCreatPostActivity() : CreatPostActivity
+
+    @ContributesAndroidInjector(modules =[PostDetaillesBuilder::class])
+    abstract fun providePostDetaillesActivity() : PostDetaillesActivity
 }
