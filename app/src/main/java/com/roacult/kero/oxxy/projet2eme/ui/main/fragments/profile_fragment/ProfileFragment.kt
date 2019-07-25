@@ -149,7 +149,7 @@ class ProfileFragment : BaseFragment() ,CallbackFromActivity {
         binding.graphView.invalidate()
     }
 
-    private fun getBarData(ranks: ArrayList<Int>) :BarData{
+    private fun getBarData(ranks: List<Int>) :BarData{
         val data = ArrayList<BarEntry>()
         for(rk in 0 until ranks.size){
             val rank =ranks[rk]

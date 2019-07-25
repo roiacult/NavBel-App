@@ -10,6 +10,7 @@ import com.roacult.kero.oxxy.domain.exception.Failure
 import com.roacult.kero.oxxy.domain.functional.Either
 import com.roacult.kero.oxxy.domain.interactors.*
 import com.roacult.kero.oxxy.domain.interactors.QuestionAnswer
+import com.roacult.kero.oxxy.domain.modules.Award
 import com.roacult.kero.oxxy.domain.modules.ChalengeDetailles
 import com.roacult.kero.oxxy.domain.modules.ChalengeGlobale
 import com.roacult.kero.oxxy.projet2eme.network.entities.*
@@ -274,4 +275,51 @@ open class MainRemote @Inject constructor(private val service :MainService , pri
 
 
         }
+
+    /**
+     * this fonction will get all the rewards from the remote database
+     */
+    suspend fun getRewards():Either<Failure.GetAwardsFailure , List<Award>>{
+        return service.getAwards(token()).lambdaEnqueue({
+            Log.e("errr", it.localizedMessage)
+            Either.Left(Failure.GetAwardsFailure)
+        }, {
+            val body = it.body()
+            if(body==null){
+                Either.Left(Failure.GetAwardsFailure)
+            }else{
+                 Either.Right(body.data.map {
+                     Award(it.id ,it.image , it.point , it.description)
+                 })
+            }
+        })
+    }
+
+    suspend fun getAward(userId:Int , giftId:Int):Either<Failure.GetGift , None>{
+        return service.getAward(token() , GetAwardRemote(userId , giftId)).lambdaEnqueue({
+            Log.e("errr", it.localizedMessage)
+            Either.Left(Failure.GetGift) as Either<Failure.GetGift, None>
+        }){
+            val body = it.body()
+            body?.apply {
+                if(response==1){
+                    return@lambdaEnqueue Either.Right(None())
+                }
+            }
+            return@lambdaEnqueue Either.Left(Failure.GetGift)
+        }
+    }
+    suspend fun getSolvedChallengeFromRemote(userId: Int):Either<Failure.SolvedChalengeFailure ,List<SolvedChallengeResult>>
+        = service.getSolvedChallenge(token(),UserId(userId)).lambdaEnqueue({
+            Log.e("errr", it.localizedMessage)
+             Either.Left(Failure.SolvedChalengeFailure) as Either<Failure.SolvedChalengeFailure, List<SolvedChallengeResult>>
+        },{
+        val body = it.body()
+        body?.apply {
+            if(this.response==1){
+                return@lambdaEnqueue Either.Right(data)
+            }
+        }
+        return@lambdaEnqueue Either.Left(Failure.SolvedChalengeFailure)
+    })
 }

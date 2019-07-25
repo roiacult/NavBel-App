@@ -75,14 +75,13 @@ sealed class Failure {
     sealed class UpDateUserInfo : Failure() {
         object OperationFailed:UpDateUserInfo()
     }
-    sealed class GetAwardsFailure: Failure(){
-        //TODO
-    }
-    sealed class GetGift: Failure(){
-        //TODO
-    }
+    object   GetAwardsFailure: Failure()
 
-    sealed class SolvedChalengeFailure : Failure() {
+    object GetGift: Failure()
+
+    object  SolvedChalengeFailure : Failure()
+  
+      sealed class SolvedChalengeFailure : Failure() {
         //TODO
     }
 
