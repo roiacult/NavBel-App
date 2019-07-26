@@ -89,6 +89,8 @@ dependencies {
     testImplementation deps.test.mockk
     testImplementation deps.test.mockito
     testImplementation deps.test.kotlin_junit
+    implementation 'com.google.firebase:firebase-core:17.0.1'
+    implementation 'com.google.firebase:firebase-messaging:19.0.1'
     androidTestImplementation 'junit:junit:4.12'
     testImplementation 'junit:junit:4.12'
 }

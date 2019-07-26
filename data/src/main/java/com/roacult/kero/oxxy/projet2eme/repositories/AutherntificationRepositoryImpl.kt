@@ -1,6 +1,7 @@
 package com.roacult.kero.oxxy.projet2eme.repositories
 
 import android.util.Log
+import com.google.firebase.messaging.FirebaseMessaging
 import com.roacult.kero.oxxy.domain.AuthentificationRepository
 import com.roacult.kero.oxxy.domain.exception.Failure
 import com.roacult.kero.oxxy.domain.functional.Either
@@ -11,6 +12,8 @@ import com.roacult.kero.oxxy.projet2eme.network.entities.ConfirmationState
 import com.roacult.kero.oxxy.projet2eme.network.entities.SaveInfoResult
 import io.reactivex.Observable
 import javax.inject.Inject
+import kotlin.coroutines.resume
+import kotlin.coroutines.suspendCoroutine
 
 /**
  * this class will be our repository for the authentification features it implments the interface that we have defined in the doain module
@@ -79,11 +82,28 @@ class AutherntificationRepositoryImpl
      * info in the local storage
      */
     override suspend fun logUserIn(loginParam: LoginParam): Either<Failure.LoginFaillure, None> {
-      val either = remote.logUserIn(loginParam)
+      var either = remote.logUserIn(loginParam)
         if(either.isLeft) return either as Either<Failure.LoginFaillure, None>
         else{
-            local.saveUserLogged((either as Either.Right).b)
-            return Either.Right(None())
+            either = (either as Either.Right)
+
+            val none = suspendCoroutine<Either<Failure.LoginFaillure , None>> {
+                continuation->
+                FirebaseMessaging.getInstance().subscribeToTopic(either.b.year.toString()).addOnCompleteListener {
+                    if(it.isSuccessful){
+                        continuation.resume(Either.Right(None()))
+                    }else{
+                        continuation.resume(Either.Left(Failure.LoginFaillure.AutherFaillure(it.exception)))
+                    }
+                }
+            }
+            if(none.isLeft){
+                return none
+            }else{
+                local.saveUserLogged(either.b)
+                return Either.Right(None())
+            }
+
         }
     }
 
