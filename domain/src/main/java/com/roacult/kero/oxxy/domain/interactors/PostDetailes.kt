@@ -21,6 +21,7 @@ class PostDetailes  @Inject constructor(
     override val ResultDispatcher= couroutineDispatchers.main
 
     override suspend fun invoke(executeParams: Long): Either<Failure.PostsFailure, List<Comment>> {
+        // todo
         delay(3000)
         val list = ArrayList<Comment>()
 

@@ -19,6 +19,7 @@ class CommentPost  @Inject constructor(
     override val ResultDispatcher= couroutineDispatchers.main
 
     override suspend fun invoke(executeParams: String): Either<Failure.PostsFailure, None> {
+        // todo
         delay(300)
         return Either.Right(None())
     }

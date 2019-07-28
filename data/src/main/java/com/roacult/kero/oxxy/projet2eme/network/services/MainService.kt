@@ -35,4 +35,7 @@ interface MainService {
     fun getAward(@Query("tooken")  token: String ,@Body data:GetAwardRemote):Call<GetAwardResponse>
     @POST("?op=solvedChallenge")
     fun getSolvedChallenge(@Query("tooken") token: String  ,@Body data :UserId):Call<SolvedChallengesResult>
+
+    @POST("?op=getPosts")
+    fun getAllPosts(@Query("tooken") token:String ):Call<AllPostsResponse>
 }

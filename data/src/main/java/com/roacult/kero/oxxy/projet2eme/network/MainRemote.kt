@@ -322,4 +322,20 @@ open class MainRemote @Inject constructor(private val service :MainService , pri
         }
         return@lambdaEnqueue Either.Left(Failure.SolvedChalengeFailure)
     })
+
+
+
+    suspend fun getAllPosts():Either<Failure.PostsFailure , List<PostModel>>
+        = service.getAllPosts(token()).lambdaEnqueue({
+                Log.e("errr", it.localizedMessage)
+                Either.Left(Failure.PostsFailure.UknownFailure)
+            }){
+                val  body = it.body()
+                body?.apply {
+                    if(response==1){
+                        Either.Right(data)
+                    }
+                }
+                Either.Left(Failure.PostsFailure.UknownFailure)
+            }
 }

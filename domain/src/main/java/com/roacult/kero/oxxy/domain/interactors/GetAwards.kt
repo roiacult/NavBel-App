@@ -13,7 +13,7 @@ class GetAwards @Inject constructor(dispatchers: CouroutineDispatchers , val rep
     override val ResultDispatcher= dispatchers.main
 
     override suspend fun invoke(executeParams: None): Either<Failure.GetAwardsFailure, List<Award>> {
-        //TODO
+
 //        delay(3000)
 //        val list = ArrayList<Award>()
 //        list.add(Award("001","https://i.ibb.co/34BmB25/award1.png",1200,"blabla bla bla"))

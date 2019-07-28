@@ -82,6 +82,7 @@ sealed class Failure {
     object  SolvedChalengeFailure : Failure()
   
     sealed class PostsFailure : Failure() {
+        object UknownFailure:PostsFailure()
         //TODO
     }
 }

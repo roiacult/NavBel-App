@@ -86,6 +86,18 @@ return remote.getChallengeDetaille(challengeId)
     }
 
     /**
+     * get all the posts from the remote database
+     * @return either a failure or a list of posts
+     */
+    override suspend fun getAllPosts(): Either<Failure.PostsFailure, List<Post>> {
+        return remote.getAllPosts().mapRight {
+            it.map {
+                Post(it.id , it.postimg ,it.description , it.userid , it.username , it.useryear , it.userpicture)
+            }
+        }
+    }
+
+    /**
      *  get user info we get frst from the remote if ther is error we get from local if not we update the local first before getting
      * from local
      */
