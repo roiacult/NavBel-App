@@ -338,4 +338,20 @@ open class MainRemote @Inject constructor(private val service :MainService , pri
                 }
                 Either.Left(Failure.PostsFailure.UknownFailure)
             }
+
+    suspend fun createPost(createPostModel: CreatePostModel):Either<Failure.PostsFailure , None>
+        = service.createPost(token() , createPostModel).lambdaEnqueue({
+                Log.e("errr", it.localizedMessage)
+                Either.Left(Failure.PostsFailure.UknownFailure)
+            }){
+                val body = it.body()
+                body?.apply {
+                    if(response==1){
+                     Either.Right(None())
+                    }
+                }
+        Either.Left(Failure.PostsFailure.UknownFailure)
+        }
 }
+
+

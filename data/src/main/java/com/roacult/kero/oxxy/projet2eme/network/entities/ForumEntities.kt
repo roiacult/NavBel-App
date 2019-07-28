@@ -9,4 +9,6 @@ data class PostModel (
     val useryear : String ,
     val userpicture : String
 )
+data class CreatePostModel(val postimg: String? , val description: String ,val userid: Long)
+data class CreatePostResponse(val response: Int)
 data class AllPostsResponse(val response:Int ,val data:List<PostModel> )

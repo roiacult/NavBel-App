@@ -23,4 +23,5 @@ interface MainRepository {
     suspend fun getAward(giftId:Int):Either<Failure.GetGift , None>
     suspend fun getSolvedChallenge():Either<Failure.SolvedChalengeFailure ,List<SolvedChalenge>>
     suspend fun getAllPosts():Either<Failure.PostsFailure , List<Post>>
+    suspend fun createPost(post: Post):Either<Failure.PostsFailure , None>
 }
