@@ -306,6 +306,7 @@ open class MainRemote @Inject constructor(private val service :MainService , pri
                     return@lambdaEnqueue Either.Right(None())
                 }
             }
+
             return@lambdaEnqueue Either.Left(Failure.GetGift)
         }
     }
@@ -328,29 +329,30 @@ open class MainRemote @Inject constructor(private val service :MainService , pri
     suspend fun getAllPosts():Either<Failure.PostsFailure , List<PostModel>>
         = service.getAllPosts(token()).lambdaEnqueue({
                 Log.e("errr", it.localizedMessage)
-                Either.Left(Failure.PostsFailure.UknownFailure)
+                return@lambdaEnqueue Either.Left(Failure.PostsFailure.UknownFailure) as Either<Failure.PostsFailure , List<PostModel>>
             }){
                 val  body = it.body()
                 body?.apply {
                     if(response==1){
-                        Either.Right(data)
+                       return@lambdaEnqueue Either.Right(data)
                     }
                 }
-                Either.Left(Failure.PostsFailure.UknownFailure)
+                Log.e("errr", it.body().toString())
+                return@lambdaEnqueue Either.Left(Failure.PostsFailure.UknownFailure)
             }
 
     suspend fun createPost(createPostModel: CreatePostModel):Either<Failure.PostsFailure , None>
         = service.createPost(token() , createPostModel).lambdaEnqueue({
                 Log.e("errr", it.localizedMessage)
-                Either.Left(Failure.PostsFailure.UknownFailure)
+                return@lambdaEnqueue Either.Left(Failure.PostsFailure.UknownFailure) as Either<Failure.PostsFailure , None>
             }){
                 val body = it.body()
                 body?.apply {
                     if(response==1){
-                     Either.Right(None())
+                    return@lambdaEnqueue Either.Right(None())
                     }
                 }
-        Either.Left(Failure.PostsFailure.UknownFailure)
+            return@lambdaEnqueue Either.Left(Failure.PostsFailure.UknownFailure)
         }
 }
 

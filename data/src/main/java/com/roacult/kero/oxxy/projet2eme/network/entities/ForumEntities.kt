@@ -6,7 +6,7 @@ data class PostModel (
     val description : String ,
     val userid : Long ,
     val username : String ,
-    val useryear : String ,
+    val useryear : Int ,
     val userpicture : String
 )
 data class CreatePostModel(val postimg: String? , val description: String ,val userid: Long)

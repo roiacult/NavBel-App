@@ -93,7 +93,7 @@ return remote.getChallengeDetaille(challengeId)
     override suspend fun getAllPosts(): Either<Failure.PostsFailure, List<Post>> {
         return remote.getAllPosts().mapRight {
             it.map {
-                Post(it.id , it.postimg ,it.description , it.userid , it.username , it.useryear , it.userpicture)
+                Post(it.id , it.postimg ,it.description , it.userid , it.username , it.useryear.toString() , it.userpicture)
             }
         }
     }
