@@ -1,5 +1,10 @@
 package com.roacult.kero.oxxy.projet2eme.utils
 
+import android.content.Context
+import android.graphics.Bitmap
+import android.net.Uri
+import android.provider.MediaStore
+import android.util.Base64
 import com.roacult.kero.oxxy.domain.exception.Failure
 import com.roacult.kero.oxxy.domain.functional.Either
 import com.roacult.kero.oxxy.domain.modules.Option
@@ -9,6 +14,8 @@ import com.roacult.kero.oxxy.projet2eme.network.entities.Ressource
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.io.ByteArrayOutputStream
+import java.io.File
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
@@ -22,6 +29,18 @@ fun List<QuestionReponse>.mapToQuestion():List<Question>{
         },it.time)
     }
 }
+fun String?.compressConvertBase64(context: Context):String?
+    = this?.run {
+        val baos = ByteArrayOutputStream()
+        val file = File(this)
+        val bitmap =  MediaStore.Images.Media.getBitmap(context.contentResolver , Uri.fromFile(file))
+        bitmap.compress(
+            Bitmap.CompressFormat.JPEG,
+            50, baos)
+        val b = baos.toByteArray()
+        //picture encoded to bas64
+     Base64.encodeToString(b, Base64.DEFAULT)
+    }
 fun <L , R , NR>Either<L , R>.mapRight(fnR:(R)->NR):Either<L , NR>
         =  when(this){
     is Either.Left-> this

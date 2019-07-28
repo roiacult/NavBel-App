@@ -19,6 +19,7 @@ import kotlin.coroutines.suspendCoroutine
 import android.graphics.Bitmap
 import com.roacult.kero.oxxy.domain.interactors.*
 import com.roacult.kero.oxxy.projet2eme.network.entities.*
+import com.roacult.kero.oxxy.projet2eme.utils.compressConvertBase64
 import java.io.ByteArrayOutputStream
 
 
@@ -119,15 +120,7 @@ class AuthertificationRemote @Inject constructor( val service: AuthentificationS
         if(userInfo.pictureUrl==null) picture = ""
         else{
             picture =userInfo.pictureUrl!!
-            // the picture will be compressed here
-            val baos = ByteArrayOutputStream()
-            val file = File(picture)
-           val bitmap =  MediaStore.Images.Media.getBitmap(context.contentResolver , Uri.fromFile(file))
-                bitmap.compress(Bitmap.CompressFormat.JPEG,
-                50, baos)
-            val b = baos.toByteArray()
-            //picture encoded to bas64
-            picture  = Base64.encodeToString(b, Base64.DEFAULT)
+            picture  = picture.compressConvertBase64(context) ?: ""
         }
         it.resume( SaveInfo(userInfo.email , userInfo.fName ,userInfo.lName ,userInfo.pass ,
             if(picture.isEmpty()) "" else picture

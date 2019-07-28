@@ -39,6 +39,6 @@ interface MainService {
     @POST("?op=getPosts")
     fun getAllPosts(@Query("tooken") token:String ):Call<AllPostsResponse>
 
-    @POST("?op=")
-    fun createPost(@Query("tooken")  token: String , postData :CreatePostModel):Call<CreatePostResponse>
+    @POST("?op=sndPost")
+    fun createPost(@Query("tooken")  token: String , @Body postData :CreatePostModel):Call<CreatePostResponse>
 }

@@ -1,5 +1,6 @@
 package com.roacult.kero.oxxy.projet2eme.repositories
 
+import android.content.Context
 import com.roacult.kero.oxxy.domain.MainRepository
 import com.roacult.kero.oxxy.domain.exception.Failure
 import com.roacult.kero.oxxy.domain.functional.Either
@@ -14,6 +15,7 @@ import com.roacult.kero.oxxy.projet2eme.local.MainLocal
 import com.roacult.kero.oxxy.projet2eme.network.MainRemote
 import com.roacult.kero.oxxy.projet2eme.network.entities.CreatePostModel
 import com.roacult.kero.oxxy.projet2eme.network.entities.SolvedChallengeResult
+import com.roacult.kero.oxxy.projet2eme.utils.compressConvertBase64
 import com.roacult.kero.oxxy.projet2eme.utils.mapRight
 
 import io.reactivex.Observable
@@ -25,6 +27,7 @@ import kotlin.random.Random
  * he implement the interface defined in the domaain layer
  */
 class MainRepositoryImpl @Inject constructor( private val remote :MainRemote  ,private val local :MainLocal,
+                                              private val context: Context ,
                                               private val authLocal:AuthentificationLocal):MainRepository {
     override suspend fun getAllChallenges(): Either< Failure.GetAllChalengesFailure  , List<ChalengeGlobale>> {
     return remote.getChallenges(local.getChallengeRequest())
@@ -103,7 +106,7 @@ return remote.getChallengeDetaille(challengeId)
      * @param post detaills ( image  , description)
      */
     override suspend fun createPost(post: Post): Either<Failure.PostsFailure, None> {
-        return remote.createPost(CreatePostModel(post.postImage , post.postDesc , post.userId))
+        return remote.createPost(CreatePostModel(post.postImage.compressConvertBase64(context) , post.postDesc , post.userId))
     }
 
     /**
