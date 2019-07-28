@@ -41,4 +41,11 @@ interface MainService {
 
     @POST("?op=sndPost")
     fun createPost(@Query("tooken")  token: String , @Body postData :CreatePostModel):Call<CreatePostResponse>
+
+    @POST("?op=getComments")
+    fun getComments(@Query("tooken") token:String , @Body id:PostId):Call<GetCommentsResponse>
+
+    @POST("?op=sndComment")
+    fun commentPost(@Query("tooken") token:String , @Body postCommentModel: PostCommentModel):Call<CreatePostResponse>
+
 }

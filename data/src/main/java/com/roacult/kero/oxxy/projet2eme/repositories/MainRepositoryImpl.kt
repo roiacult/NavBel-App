@@ -14,6 +14,8 @@ import com.roacult.kero.oxxy.projet2eme.local.AuthentificationLocal
 import com.roacult.kero.oxxy.projet2eme.local.MainLocal
 import com.roacult.kero.oxxy.projet2eme.network.MainRemote
 import com.roacult.kero.oxxy.projet2eme.network.entities.CreatePostModel
+import com.roacult.kero.oxxy.projet2eme.network.entities.PostCommentModel
+import com.roacult.kero.oxxy.projet2eme.network.entities.PostId
 import com.roacult.kero.oxxy.projet2eme.network.entities.SolvedChallengeResult
 import com.roacult.kero.oxxy.projet2eme.utils.compressConvertBase64
 import com.roacult.kero.oxxy.projet2eme.utils.mapRight
@@ -99,6 +101,18 @@ return remote.getChallengeDetaille(challengeId)
                 Post(it.id , it.postimg ,it.description , it.userid , it.username , it.useryear.toString() , it.userpicture)
             }
         }
+    }
+
+    override suspend fun getPostComments(postId: Long): Either<Failure.PostsFailure, List<Comment>> {
+        return remote.getComments(PostId(postId)).mapRight{
+            it.map {
+                Comment(it.userid , it.userpicture , it.username , it.useryear , it.content)
+            }
+        }
+    }
+
+    override suspend fun commentPost(comment: Pair<String, Long>): Either<Failure.PostsFailure, None> {
+        return remote.commentPost(PostCommentModel(comment.second , comment.first , local.getUserId().toLong()))
     }
 
     /**

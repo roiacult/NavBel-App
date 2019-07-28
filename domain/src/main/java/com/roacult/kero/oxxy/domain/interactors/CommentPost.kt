@@ -13,14 +13,12 @@ import javax.inject.Inject
 class CommentPost  @Inject constructor(
     couroutineDispatchers: CouroutineDispatchers,
     val repo: MainRepository
-) :EitherInteractor< String ,None , Failure.PostsFailure> {
+) :EitherInteractor< Pair<String , Long> ,None , Failure.PostsFailure> {
 
     override val dispatcher =couroutineDispatchers.computaion
     override val ResultDispatcher= couroutineDispatchers.main
 
-    override suspend fun invoke(executeParams: String): Either<Failure.PostsFailure, None> {
-        // todo
-        delay(300)
-        return Either.Right(None())
+    override suspend fun invoke(executeParams: Pair<String , Long>): Either<Failure.PostsFailure, None> {
+        return repo.commentPost(executeParams)
     }
 }

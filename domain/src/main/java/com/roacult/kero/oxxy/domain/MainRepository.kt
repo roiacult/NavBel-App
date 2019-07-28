@@ -24,4 +24,6 @@ interface MainRepository {
     suspend fun getSolvedChallenge():Either<Failure.SolvedChalengeFailure ,List<SolvedChalenge>>
     suspend fun getAllPosts():Either<Failure.PostsFailure , List<Post>>
     suspend fun createPost(post: Post):Either<Failure.PostsFailure , None>
+    suspend fun getPostComments(postId:Long):Either<Failure.PostsFailure , List<Comment>>
+    suspend fun commentPost(comment :Pair<String , Long>):Either<Failure.PostsFailure , None>
 }

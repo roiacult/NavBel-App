@@ -21,16 +21,6 @@ class PostDetailes  @Inject constructor(
     override val ResultDispatcher= couroutineDispatchers.main
 
     override suspend fun invoke(executeParams: Long): Either<Failure.PostsFailure, List<Comment>> {
-        // todo
-        delay(3000)
-        val list = ArrayList<Comment>()
-
-        for( i in 0.. 10 ) {
-            list.add(
-                Comment(i.toLong(),"","Djawed Benahmed",2,"bla bla bla  blla blaaaa jhbiud jiudcs")
-            )
-        }
-
-        return Either.Right(list)
+        return repo.getPostComments(executeParams)
     }
 }

@@ -42,7 +42,7 @@ class PostDetailesViewModel @Inject constructor(
 
     fun comment(comment: String) {
         setState { copy(commentOp = Loading()) }
-        scope.launchInteractor(postComment,comment){
+        scope.launchInteractor(postComment,Pair(comment , post.postId)){
             it.either({
                 setState { copy(commentOp = Fail(it)) }
             },{

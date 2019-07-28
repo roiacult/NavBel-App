@@ -327,33 +327,51 @@ open class MainRemote @Inject constructor(private val service :MainService , pri
 
 
     suspend fun getAllPosts():Either<Failure.PostsFailure , List<PostModel>>
-        = service.getAllPosts(token()).lambdaEnqueue({
-                Log.e("errr", it.localizedMessage)
-                return@lambdaEnqueue Either.Left(Failure.PostsFailure.UknownFailure) as Either<Failure.PostsFailure , List<PostModel>>
-            }){
-                val  body = it.body()
-                body?.apply {
-                    if(reponse==1){
-                       return@lambdaEnqueue Either.Right(data)
-                    }
-                }
-                Log.e("errr", it.body().toString())
-                return@lambdaEnqueue Either.Left(Failure.PostsFailure.UknownFailure)
-            }
+        = sendRequestWithoutParam(service::getAllPosts , Failure.PostsFailure.UknownFailure){
+        it.data
+    }
 
     suspend fun createPost(createPostModel: CreatePostModel):Either<Failure.PostsFailure , None>
-        = service.createPost(token() , createPostModel).lambdaEnqueue({
-                Log.e("errr", it.localizedMessage)
-                return@lambdaEnqueue Either.Left(Failure.PostsFailure.UknownFailure) as Either<Failure.PostsFailure , None>
-            }){
-                val body = it.body()
-                body?.apply {
-                    if(reponse==1){
-                    return@lambdaEnqueue Either.Right(None())
-                    }
-                }
-            return@lambdaEnqueue Either.Left(Failure.PostsFailure.UknownFailure)
+        = sendRequest(service::createPost , Failure.PostsFailure.UknownFailure , createPostModel){
+        None()
         }
+
+    suspend  fun commentPost(comment:PostCommentModel):Either<Failure.PostsFailure , None>
+        = sendRequest(service::commentPost ,Failure.PostsFailure.UknownFailure , comment ){
+         None()
+        }
+    suspend fun getComments(postId: PostId):Either<Failure.PostsFailure , List<CommentModel>>
+    =sendRequest(service::getComments , Failure.PostsFailure.UknownFailure , postId ){
+        it.data
+    }
+
+    private  suspend fun <P , F:Failure , R:RemoteEntity , R2> sendRequest( serviceFunction :  ( token:String, p:P)->Call< R> , defaultErrorReturn:F , param:P ,  mapToEither :(R)->R2):Either<F,R2>
+     = serviceFunction( token() , param).lambdaEnqueue({
+        Log.e("errr", it.localizedMessage)
+        return@lambdaEnqueue Either.Left(defaultErrorReturn)  as Either<F , R2>
+        }){
+          val body = it.body()
+            body?.apply{
+                if(reponse==1){
+                    return@lambdaEnqueue Either.Right(mapToEither(this))
+                }
+            }
+        return@lambdaEnqueue Either.Left(defaultErrorReturn)
+        }
+    private  suspend fun <F:Failure , R:RemoteEntity , R2> sendRequestWithoutParam( serviceFunction :  ( token:String)->Call< R> , defaultErrorReturn:F  ,  mapToEither :(R)->R2):Either<F,R2>
+            = serviceFunction( token()).lambdaEnqueue({
+        Log.e("errr", it.localizedMessage)
+        return@lambdaEnqueue Either.Left(defaultErrorReturn)  as Either<F , R2>
+    }){
+        val body = it.body()
+        body?.apply{
+            if(reponse==1){
+                return@lambdaEnqueue Either.Right(mapToEither(this))
+            }
+        }
+        return@lambdaEnqueue Either.Left(defaultErrorReturn)
+    }
+
 }
 
 
