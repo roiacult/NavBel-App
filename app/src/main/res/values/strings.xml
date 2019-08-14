@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Projet2eme</string>
+    <string name="app_name">NavBel</string>
     <string name="some_error">Some thing went wrong!!</string>
     <string name="login">Login</string>
     <string name="signin">signin</string>

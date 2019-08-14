@@ -102,10 +102,12 @@ class MainActivity : BaseActivity() {
         bottom_nav.setOnItemSelectListener ( object : ReadableBottomBar.ItemSelectListener{
             override fun onItemSelected(index: Int) {setFragment(index)}
         })
-        bottom_nav.setSelectedItem(selectedFragment)
+        bottom_nav.post {
+            bottom_nav.setSelectedItem(selectedFragment)
+        }
     }
 
-    private fun setFragment(position: Int)  {
+     fun setFragment(position: Int)  {
         selectedFragment = position
         when(position){
             0 -> {

@@ -17,6 +17,7 @@ import com.roacult.kero.oxxy.projet2eme.R
 import com.roacult.kero.oxxy.projet2eme.base.BaseFragment
 import com.roacult.kero.oxxy.projet2eme.databinding.MainAwardPageBinding
 import com.roacult.kero.oxxy.projet2eme.ui.main.CallbackFromActivity
+import com.roacult.kero.oxxy.projet2eme.ui.main.MainActivity
 import com.roacult.kero.oxxy.projet2eme.ui.main.fragments.award_fragment.getgift.GetGiftFragment
 import com.roacult.kero.oxxy.projet2eme.utils.Async
 import com.roacult.kero.oxxy.projet2eme.utils.Fail
@@ -67,12 +68,13 @@ class AwardFragment  : BaseFragment() , CallbackFromActivity {
                     }
                 })
                 binding.userPoints.setOnClickListener {
-                    AlertDialog.Builder(context!!).apply{
-                        setTitle(user.fname + ", "+user.lName)
-                        setMessage("your point are  ${user.point} \n" +
-                                "your curent rank  ${user.currentRank} \n" +
-                                "you solved ${user.nbSolved} challenge")
-                    }
+                    (activity as MainActivity).setSelectedItem(3)
+//                    AlertDialog.Builder(context!!).apply{
+//                        setTitle(user.fname + ", "+user.lName)
+//                        setMessage("your point are  ${user.point} \n" +
+//                                "your curent rank  ${user.currentRank} \n" +
+//                                "you solved ${user.nbSolved} challenge")
+//                    }.show()
                 }
             }
         }
