@@ -113,7 +113,7 @@ class ProfileFragment : BaseFragment() ,CallbackFromActivity {
 
     private fun showEmptyState( show : Boolean ) {
         binding.emptyState.visible(show)
-        binding.solvedChalenges.visible(!show)
+        binding.solvedChalenges.visibility = if(show )  View.VISIBLE else View.INVISIBLE
     }
 
     private fun handleUserInfo(userInfo: Async<User>) {

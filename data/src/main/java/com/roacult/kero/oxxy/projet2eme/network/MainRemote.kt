@@ -317,9 +317,11 @@ open class MainRemote @Inject constructor(private val service :MainService , pri
         },{
         val body = it.body()
         body?.apply {
-            if(this.reponse==1){
-                return@lambdaEnqueue Either.Right(data)
-            }
+            return@lambdaEnqueue Either.Right( if(this.reponse==1){
+                data
+            }else {
+                emptyList()
+            })
         }
 
         return@lambdaEnqueue Either.Left(Failure.SolvedChalengeFailure)
