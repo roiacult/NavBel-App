@@ -1,5 +1,6 @@
 package com.roacult.kero.oxxy.projet2eme.ui.main.fragments.profile_fragment
 
+import android.util.Log
 import com.roacult.kero.oxxy.domain.interactors.GetUserInfo
 import com.roacult.kero.oxxy.domain.interactors.None
 import com.roacult.kero.oxxy.domain.interactors.SolvedChalenges
@@ -26,9 +27,11 @@ class ProfileViewModel @Inject constructor(
 
         scope.launchInteractor(solvedChalenges,None()){
             it.either({
+                Log.e("errr", "failure Solved ")
                 setState{copy(challenges = Fail(it))}
             },{
                 setState{copy(challenges = Success(it))}
+                Log.e("errr", "success Solved")
             })
         }
     }

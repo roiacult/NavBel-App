@@ -317,10 +317,11 @@ open class MainRemote @Inject constructor(private val service :MainService , pri
         },{
         val body = it.body()
         body?.apply {
-            if(this.response==1){
+            if(this.reponse==1){
                 return@lambdaEnqueue Either.Right(data)
             }
         }
+
         return@lambdaEnqueue Either.Left(Failure.SolvedChalengeFailure)
     })
 
@@ -363,6 +364,7 @@ open class MainRemote @Inject constructor(private val service :MainService , pri
         Log.e("errr", it.localizedMessage)
         return@lambdaEnqueue Either.Left(defaultErrorReturn)  as Either<F , R2>
     }){
+
         val body = it.body()
         body?.apply{
             if(reponse==1){
