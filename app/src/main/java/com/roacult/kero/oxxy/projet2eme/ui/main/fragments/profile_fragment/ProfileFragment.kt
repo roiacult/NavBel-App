@@ -34,6 +34,7 @@ class ProfileFragment : BaseFragment() ,CallbackFromActivity {
         const val REQUEST_CODE = 16553
     }
 
+
     private val viewModel by lazy{ViewModelProviders.of(this,viewModelFactory)[ProfileViewModel::class.java]}
     private lateinit var binding : MainProfileBinding
     private val appBarStateListener =object : AppBarStateChangeListener(){
@@ -68,6 +69,9 @@ class ProfileFragment : BaseFragment() ,CallbackFromActivity {
         }
     }
 
+     fun reload(){
+        viewModel.intialize()
+    }
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = MainProfileBinding.inflate(inflater,container,false)
 

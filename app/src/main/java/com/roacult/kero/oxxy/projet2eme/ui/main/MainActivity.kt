@@ -143,6 +143,7 @@ class MainActivity : BaseActivity() {
                 supportFragmentManager.inTransaction{
                     hide(activeFragment!!).show(profileFragment).attach(profileFragment)
                 }
+                profileFragment.reload()
                 activeFragment = profileFragment
                 callback = profileFragment
                 supportActionBar?.hide()

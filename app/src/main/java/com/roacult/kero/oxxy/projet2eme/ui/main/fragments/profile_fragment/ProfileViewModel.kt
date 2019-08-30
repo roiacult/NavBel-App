@@ -16,11 +16,15 @@ import com.roacult.kero.oxxy.projet2eme.utils.Success
 import javax.inject.Inject
 
 class ProfileViewModel @Inject constructor(
-    userInfo : GetUserInfo ,
-    solvedChalenges : SolvedChalenges
+   private val userInfo : GetUserInfo ,
+    private val solvedChalenges : SolvedChalenges
 ) :BaseViewModel<ProfileState>(ProfileState()){
 
+
     init {
+      intialize()
+    }
+    fun intialize(){
         scope.launchInteractor(userInfo, None()){
             setState { copy(userInfo = Success(it)) }
         }
