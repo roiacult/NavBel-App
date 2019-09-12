@@ -134,6 +134,7 @@ class MainActivity : BaseActivity() {
                 supportFragmentManager.inTransaction{
                     hide(activeFragment!!).show(awardFragment).attach(awardFragment)
                 }
+                awardFragment.refresh()
                 activeFragment = awardFragment
                 callback = awardFragment
                 supportActionBar?.show()

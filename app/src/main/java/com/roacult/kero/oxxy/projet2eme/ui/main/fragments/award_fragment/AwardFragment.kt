@@ -136,6 +136,10 @@ class AwardFragment  : BaseFragment() , CallbackFromActivity {
         binding.loading.visible(show)
     }
 
+    fun refresh() {
+        viewModel.getRewards()
+    }
+
     override fun showHelp(){
         TapTargetSequence(activity!!).apply{
             target(TapTarget.forView(binding.points,getString(R.string.your_points_title),getString(R.string.your_points_desc)))

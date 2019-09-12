@@ -3,7 +3,7 @@ package com.roacult.kero.oxxy.projet2eme.ui.setting
 import android.app.Activity
 import android.content.Intent
 import android.content.res.Configuration
-import android.graphics.Picture
+import android.net.Uri
 import com.roacult.kero.oxxy.projet2eme.R
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -23,6 +23,7 @@ import com.squareup.picasso.Picasso
 import com.theartofdev.edmodo.cropper.CropImage
 import com.theartofdev.edmodo.cropper.CropImageView
 import com.roacult.kero.oxxy.projet2eme.utils.extension.visible
+import java.io.File
 
 class SettingFragment : BaseFragment(){
 
@@ -82,7 +83,8 @@ class SettingFragment : BaseFragment(){
 
     private fun initViews() {
         val pic = viewModel.picture
-        if(pic != null && pic.isNotEmpty()) Picasso.get().load(pic).into(binding.userImage)
+        if(viewModel.newPic != null ) binding.userImage.setImageURI(Uri.fromFile(File(viewModel.newPic!!)))
+        else if(pic != null && pic.isNotEmpty()) Picasso.get().load(pic).into(binding.userImage)
         binding.fname.setText(viewModel.fName)
         binding.lname.setText(viewModel.lName)
         binding.desc.setText(viewModel.description)
@@ -111,7 +113,7 @@ class SettingFragment : BaseFragment(){
         if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
             if(resultCode == Activity.RESULT_OK){
                 val result = CropImage.getActivityResult(data)
-                viewModel.picture = result.uri.toString()
+                viewModel.newPic = result.uri.path
                 binding.userImage.setImageURI(result.uri)
             }
         }

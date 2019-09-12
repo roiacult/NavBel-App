@@ -247,17 +247,7 @@ open class MainRemote @Inject constructor(private val service :MainService , pri
        = service.updateUserInfo(
         UpdateUserParam(userId , updateUserInfoParam.fname , updateUserInfoParam.lName
         ,  //  if the user hasnt changed his image then  the picture will be null
-             updateUserInfoParam.picture?.run {
-                val baos = ByteArrayOutputStream()
-                val file = File(this)
-                val bitmap =  MediaStore.Images.Media.getBitmap(context.contentResolver , Uri.fromFile(file))
-                bitmap.compress(
-                    Bitmap.CompressFormat.JPEG,
-                    50, baos)
-                val b = baos.toByteArray()
-                //picture encoded to bas64
-                Base64.encodeToString(b, Base64.DEFAULT)
-            }   ?: "" , updateUserInfoParam.public , updateUserInfoParam.password), token())
+            updateUserInfoParam.picture?.compressConvertBase64(context)   ?: "" , updateUserInfoParam.public , updateUserInfoParam.password), token())
         .lambdaEnqueue({
             it.printStackTrace()
             return@lambdaEnqueue  Either.Left(Failure.UpDateUserInfo.OperationFailed)
