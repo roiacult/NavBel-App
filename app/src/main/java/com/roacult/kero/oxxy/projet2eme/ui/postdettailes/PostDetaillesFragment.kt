@@ -27,6 +27,7 @@ class PostDetaillesFragment : BaseFragment() {
         }
     }
 
+    private var needToRefresh = false
     private lateinit var binding : PostDetaillesBinding
     private val viewModel by lazy{ ViewModelProviders.of(this,viewModelFactory)[PostDetailesViewModel::class.java] }
     private val adapter = PostDetaillesAdapter()
@@ -69,10 +70,17 @@ class PostDetaillesFragment : BaseFragment() {
             is Fail<*,*> -> {
                 commentOpLoading(false)
                 onError("some thing went wrong")
+                viewModel.deleteFailureInCommentOp()
+                needToRefresh = false
             }
             is Success -> {
                 commentOpLoading(false)
                 showMessage(R.string.coment_succ)
+                binding.newComment.setText("")
+                if(needToRefresh){
+                    viewModel.refresh()
+                    needToRefresh = false
+                }
             }
         }
     }
@@ -89,8 +97,8 @@ class PostDetaillesFragment : BaseFragment() {
             }
             is Fail<*,*> -> {
                 showCommentsLoading(false)
-                //TODO handle failures
                 onError("some thing went wrong")
+                viewModel.deleteFailureInAllComment()
             }
             is Success -> {
                 showCommentsLoading(false)
@@ -154,6 +162,7 @@ class PostDetaillesFragment : BaseFragment() {
             return
         }
 
+        needToRefresh = true
         viewModel.comment(comment)
     }
 

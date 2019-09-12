@@ -12,6 +12,7 @@ import com.roacult.kero.oxxy.projet2eme.utils.Async
 import com.roacult.kero.oxxy.projet2eme.utils.Loading
 import com.roacult.kero.oxxy.projet2eme.utils.Success
 import com.roacult.kero.oxxy.projet2eme.utils.Fail
+import com.roacult.kero.oxxy.projet2eme.utils.Uninitialized
 import javax.inject.Inject
 
 class PostDetailesViewModel @Inject constructor(
@@ -49,6 +50,14 @@ class PostDetailesViewModel @Inject constructor(
                 setState { copy(commentOp = Success(it)) }
             })
         }
+    }
+
+    fun deleteFailureInCommentOp() {
+        setState{ copy(commentOp = null) }
+    }
+
+    fun deleteFailureInAllComment() {
+        setState{ copy(allCommentsOp = Uninitialized) }
     }
 
 }
