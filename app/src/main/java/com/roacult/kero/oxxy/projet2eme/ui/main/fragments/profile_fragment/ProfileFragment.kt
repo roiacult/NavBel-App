@@ -3,6 +3,7 @@ package com.roacult.kero.oxxy.projet2eme.ui.main.fragments.profile_fragment
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -149,15 +150,28 @@ class ProfileFragment : BaseFragment() ,CallbackFromActivity {
         binding.rank.text = userInfo.currentRank.toString()
         binding.aboutUserName.text = "About ${userInfo.fname}"
         binding.userDesc.text = userInfo.description
+        Log.v("user_rank"," : ${userInfo.ranks}")
         binding.graphView.data = getBarData(userInfo.ranks)
         binding.graphView.invalidate()
     }
 
-    private fun getBarData(ranks: List<Int>) :BarData{
+    private fun getBarData(rk: List<Int>) :BarData{
+        val ranks = ArrayList<Int>()
+        val size = rk.size
+        if( size <15 ) {
+            for(i in 0 until (15 -size) )
+                ranks.add(0)
+            ranks.addAll(rk)
+        }else {
+            ranks.addAll(
+                rk.subList(size-15 , size)
+            )
+        }
+
         val data = ArrayList<BarEntry>()
-        for(rk in 0 until ranks.size){
-            val rank =ranks[rk]
-            data.add(BarEntry(rk.toFloat(),rank.toFloat()))
+        for(i in 0 until ranks.size){
+            val rank =ranks[i]
+            data.add(BarEntry(i.toFloat(),rank.toFloat()))
         }
         val barData = BarData(BarDataSet(data,null))
         barData.barWidth = 0.7f
