@@ -141,8 +141,8 @@ class ProfileFragment : BaseFragment() ,CallbackFromActivity {
         if(userInfo.picture != null && userInfo.picture!!.isNotEmpty())
             Picasso.get().load(userInfo.picture).into(binding.image)
         binding.name.text = userInfo.fname + ", "+userInfo.lName
-        binding.year.text = if(userInfo.year<2) (userInfo.year+1).toString()+" CPI"
-        else (userInfo.year-1).toString()+" CS"
+        binding.year.text = if(userInfo.year<=2) userInfo.year.toString()+" CPI"
+        else (userInfo.year-2).toString()+" CS"
         binding.challenges.text = userInfo.nbSolved.toString()
         binding.points.text = userInfo.point.toString()
         binding.rank.text = userInfo.currentRank.toString()
