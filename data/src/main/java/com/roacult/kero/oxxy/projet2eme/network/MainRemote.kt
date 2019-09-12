@@ -292,7 +292,7 @@ open class MainRemote @Inject constructor(private val service :MainService , pri
         }){
             val body = it.body()
             body?.apply {
-                if(response==1){
+                if(reponse==1){
                     return@lambdaEnqueue Either.Right(None())
                 }
             }
