@@ -81,7 +81,8 @@ class SettingFragment : BaseFragment(){
     }
 
     private fun initViews() {
-        if(viewModel.picture != null) Picasso.get().load(viewModel.picture!!).into(binding.userImage)
+        val pic = viewModel.picture
+        if(pic != null && pic.isNotEmpty()) Picasso.get().load(pic).into(binding.userImage)
         binding.fname.setText(viewModel.fName)
         binding.lname.setText(viewModel.lName)
         binding.desc.setText(viewModel.description)
