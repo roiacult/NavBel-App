@@ -95,13 +95,11 @@ class ProfileFragment : BaseFragment() ,CallbackFromActivity {
             is Fail<*,*> ->{
                 showLoadingInChalenges(false)
                 //TODO handle failures later
-//                when(challenges.error){
-//                    Failure.SolvedChalengeFailure
-//                }
             }
             is Success -> {
                 showLoadingInChalenges(false)
                 val list = challenges()
+                Log.v("solved_ch","solved : $list")
                 if(list.isEmpty()) showEmptyState(true)
                 else {
                     showEmptyState(false)
@@ -118,7 +116,7 @@ class ProfileFragment : BaseFragment() ,CallbackFromActivity {
 
     private fun showEmptyState( show : Boolean ) {
         binding.emptyState.visible(show)
-        binding.solvedChalenges.visibility = if(show )  View.VISIBLE else View.INVISIBLE
+        binding.solvedChalenges.visibility = if(show )  View.INVISIBLE else View.VISIBLE
     }
 
     private fun handleUserInfo(userInfo: Async<User>) {
@@ -208,10 +206,10 @@ class ProfileFragment : BaseFragment() ,CallbackFromActivity {
         binding.graphView.axisLeft.axisMinimum = 0f
         binding.graphView.axisRight.axisMinimum = 0f
 
-        binding.solvedChalenges.adapter = adapter
         val manager = LinearLayoutManager(context)
         manager.orientation = LinearLayoutManager.HORIZONTAL
         binding.solvedChalenges.layoutManager = manager
+        binding.solvedChalenges.adapter = adapter
 
         binding.appbar.addOnOffsetChangedListener(appBarStateListener)
     }
