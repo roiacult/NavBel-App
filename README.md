@@ -14,6 +14,8 @@ this is the mobile application part of the project that containt a rest api , a 
 <img src="https://raw.githubusercontent.com/roiacult/NavBel-App/master/art/Screenshot_20190915-073824.png" alt="Main Screen"  width="200" height="400"/>
 </p>
 
+### please watch this video to see how this application looks and how it works
+
 [![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/EOmfyIatDX8/0.jpg)](https://www.youtube.com/watch?v=EOmfyIatDX8)
 
 ## App Architecture
