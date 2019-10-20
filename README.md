@@ -14,9 +14,11 @@ this is the mobile application part of the project that containt a rest api , a 
 <img src="https://raw.githubusercontent.com/roiacult/NavBel-App/master/art/Screenshot_20190915-073824.png" alt="Main Screen"  width="200" height="400"/>
 </p>
 
+[![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/EOmfyIatDX8/0.jpg)](https://www.youtube.com/watch?v=EOmfyIatDX8)
+
 ## App Architecture
- * Clean architecture 
- * Mvi architecture (modified version of Mvrx)
+ * Clean architecture (uncle bob)
+ * Mvvm architecture (modified version of Mvrx)
 
 ## Base libraries used
 * RxAndroid
