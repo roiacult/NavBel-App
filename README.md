@@ -5,7 +5,7 @@ Its an application that is created for student to provide another way of learnin
 has a number of question (QCM type) , after answering the challenge student will receive a number of points and can use them to 
 obtain the recompense provided by the company 
 this is the mobile application part of the project that containt a rest api , a dashboard website and a website this can be seen at 
-[Mohamed Slamat](https://github.com/oxxy1337) 
+[NavBel-backend](https://github.com/roiacult/NavBel-backend) 
 
 <p float="left">
 <img src="https://raw.githubusercontent.com/roiacult/NavBel-App/master/art/Screenshot_20190915-073611.png" alt="Splash Screen"  width="200" height="400" />
@@ -30,6 +30,8 @@ this is the mobile application part of the project that containt a rest api , a 
 * Dagger (dependency injection)
 * Retrofit (Type-safe HTTP client)
 
+## download 
+You can download this app from google play store via this [link](https://play.google.com/store/apps/details?id=com.roacult.kero.oxxy.projet2eme)
 ## developed by
  - [Djawed Benahmed](https://github.com/roiacult)
  - [Boutouchent Akram](https://github.com/akram09)
